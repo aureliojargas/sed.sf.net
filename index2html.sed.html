@@ -22,11 +22,28 @@
 <font color="#ff6060"><b>\</b></font><font color="#ff6060"><b>!</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[[:blank:]]*\)\<font color="#ff00ff"><b>(</b></font>/\)\<font color="#ff00ff"><b>(</b></font>.*\)\<font color="#ff00ff"><b>(</b></font>/[[:blank:]]*b[[:blank:]]\{1,\}\)</b></font><font color="#ff6060"><b>!</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#ff6060"><b>,</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font>&lt;font size=6&gt;&lt;b&gt;<font color="#00ff00"><b>\3</b></font>&lt;/b&gt;&lt;/font&gt;<font color="#00ff00"><b>\4</b></font><font color="#ff6060"><b>,</b></font>
 
 
-<font color="#00ffff"><b># HTMLize @[name|label]@ links</b></font>
-<font color="#00ffff"><b>#   @[-|linkname]@  =&gt;  &lt;a href="http://bla.com"&gt;linkname&lt;/a&gt;</b></font>
-<font color="#00ffff"><b>#   @[=|linkname]@  =&gt;  &lt;a href="http://bla.com"&gt;http://bla.com&lt;/a&gt;</b></font>
-<font color="#00ffff"><b># @[bla|linkname]@  =&gt;  &lt;a href="http://bla.com"&gt;bla&lt;/a&gt;</b></font>
-
+<font color="#00ffff"><b>### HTMLize links:</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># The link format is @[name|id]@, which converts to &lt;a href="URL"&gt;name&lt;/a&gt;.</b></font>
+<font color="#00ffff"><b># The id points to the link URL, the "database" is at the end of this file.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># If name is '-', the id string will be used as the name.</b></font>
+<font color="#00ffff"><b># If name is '=', the URL will be used as the name.</b></font>
+<font color="#00ffff"><b># If id starts with @, the id (except the @) will be considered a URL.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Examples:</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#     @[click here|example]@         =&gt;  &lt;a href="http://example.com"&gt;click here&lt;/a&gt;</b></font>
+<font color="#00ffff"><b>#     @[click here|@local/foo.sed]@  =&gt;  &lt;a href="local/foo.sed"&gt;click here&lt;/a&gt;</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#     The first link will get its URL from the 'example' id in the database.</b></font>
+<font color="#00ffff"><b>#     The second link informs a relative URL: local/foo.sed.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#     @[-|example]@  =&gt;  &lt;a href="http://example.com"&gt;example&lt;/a&gt;</b></font>
+<font color="#00ffff"><b>#     @[=|example]@  =&gt;  &lt;a href="http://example.com"&gt;http://example.com&lt;/a&gt;</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#     The difference of using - or = as the link name.</b></font>
+<font color="#00ffff"><b>#</b></font>
 <font color="#ff6060"><b>\</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>@\[.*]@</b></font><font color="#ff6060"><b>,</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#00ffff"><b># link name == link label</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>@\[-|\<font color="#ff00ff"><b>(</b></font>[^]]*\)]@</b></font><font color="#ff6060"><b>,</b></font>@[<font color="#00ff00"><b>\1</b></font>|<font color="#00ff00"><b>\1</b></font>]@<font color="#ff6060"><b>,</b></font><font color="#00ff00"><b>g</b></font>
@@ -172,15 +189,17 @@
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sed-HOWTO (in portuguese)$</b></font><font color="#ff6060"><b>|</b></font>http://aurelio.net/sed/sed-HOWTO/<font color="#ff6060"><b>|</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
 <font color="#00ffff"><b>#books</b></font>
-<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Sed &amp; Awk, 2nd ed.$</b></font><font color="#ff6060"><b>|</b></font>http://www.oreilly.com/catalog/sed2/noframes.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Sed &amp; Awk, 2nd ed.$</b></font><font color="#ff6060"><b>|</b></font>http://shop.oreilly.com/product/9781565922259.do<font color="#ff6060"><b>|</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
-<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Sed &amp; Awk Pocket Reference$</b></font><font color="#ff6060"><b>|</b></font>http://www.ora.com/catalog/sedawkrepr/<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Sed &amp; Awk Pocket Reference$</b></font><font color="#ff6060"><b>|</b></font>http://shop.oreilly.com/product/9781565927292.do<font color="#ff6060"><b>|</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
-<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Unix Awk and Sed Programmer's Interactive Workbook$</b></font><font color="#ff6060"><b>|</b></font>http://www.briansbooks.com/catalog/books/0130826758<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Unix Awk and Sed Programmer's Interactive Workbook$</b></font><font color="#ff6060"><b>|</b></font>http://cwx.prenhall.com/patsis/<font color="#ff6060"><b>|</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
-<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Awk und Sed$</b></font><font color="#ff6060"><b>|</b></font>http://www.addison-wesley.de/main/main.asp?page=home/bookdetails<font color="#00ff00"><b>&amp;</b></font>ProductID=37214<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Awk und Sed$</b></font><font color="#ff6060"><b>|</b></font>http://www.addison-wesley.de/main/main.asp?page=home/bookdetails\<font color="#00ff00"><b>&amp;</b></font>ProductID=37214<font color="#ff6060"><b>|</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
-<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Mastering Regular Expressions, 2nd ed.$</b></font><font color="#ff6060"><b>|</b></font>http://www.oreilly.com/catalog/regex2/<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Mastering Regular Expressions, 3rd ed.$</b></font><font color="#ff6060"><b>|</b></font>http://regex.info/book.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Definitive Guide to sed$</b></font><font color="#ff6060"><b>|</b></font>http://www.sed-book.com/<font color="#ff6060"><b>|</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
 <font color="#00ffff"><b>#scripts</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^add_decs.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/add_decs.sed<font color="#ff6060"><b>|</b></font>
@@ -401,6 +420,8 @@
 <font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
 <font color="#00ffff"><b>#end</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sedindex2html$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/index2html.sed.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^github$</b></font><font color="#ff6060"><b>|</b></font>https://github.com/aureliojargas/sed-website<font color="#ff6060"><b>|</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
 
 <font color="#ffff00"><b>b</b></font> <a href="#url">url</a>
