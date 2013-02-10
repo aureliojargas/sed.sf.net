@@ -74,6 +74,8 @@
 <font color="#00ffff"><b>#\|\&lt;\(\(https\{0,1\}\|ftp\|news\|telnet\|gopher\|wais\)://\|\(www[23]\{0,1\}\.\|ftp\.\)\)[A-Za-z0-9%._/~:,-]\{1,\}\(#[A-Za-z0-9%.-]\{1,\}\|?[A-Za-z0-9%&amp;=+.@*_-]\{1,\}\)\{0,1\}\&gt;| s,,&lt;a href="&amp;"&gt;&amp;&lt;/a&gt;,g</b></font>
 <font color="#00ffff"><b>#\|&lt;\?\&lt;[A-Za-z0-9_.-]\{1,\}@\([A-Za-z0-9_-]\{1,\}\.\)\{1,\}[A-Za-z]\{1,\}\&gt;&gt;\?| s,,&lt;a href="mailto:&amp;"&gt;&amp;&lt;/a&gt;,g</b></font>
 
+<font color="#00ffff"><b># escape &amp; in book names</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> &amp; </b></font><font color="#ff6060"><b>/</b></font> \<font color="#00ff00"><b>&amp;</b></font>amp; <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="end">end</a></b></font>
 <font color="#8080ff"><b>$</b></font> <font color="#ffff00"><b>a</b></font><font color="#00ff00"><b>\
@@ -365,7 +367,7 @@
 <font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sdk$</b></font><font color="#ff6060"><b>|</b></font>http://www.student.northpark.edu/pemente/sed/sd.ksh.txt<font color="#ff6060"><b>|</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
-<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sedsed$</b></font><font color="#ff6060"><b>|</b></font>http://sedsed.sourceforge.net<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sedsed$</b></font><font color="#ff6060"><b>|</b></font>http://aurelio.net/projects/sedsed/<font color="#ff6060"><b>|</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sedcheck$</b></font><font color="#ff6060"><b>|</b></font>http://lvogel.free.fr/sed/sedcheck.sed<font color="#ff6060"><b>|</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#url">url</a>

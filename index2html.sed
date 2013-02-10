@@ -225,7 +225,7 @@ s|^connect4$|http://laurent.le-brun.eu/pub/connect4.sed|; t url
 #tools
 s|^sd$|http://sed.sf.net/grabbag/scripts/sd.sh.txt|; t url
 s|^sdk$|http://www.student.northpark.edu/pemente/sed/sd.ksh.txt|; t url
-s|^sedsed$|http://sedsed.sourceforge.net|; t url
+s|^sedsed$|http://aurelio.net/projects/sedsed/|; t url
 s|^sedcheck$|http://lvogel.free.fr/sed/sedcheck.sed|; t url
 s|^bsed$|http://www.cskk.ezoshosting.com/cs/css/bin/bsed|; t url
 s|^mod_sed$|http://www.happygiraffe.net/mod_sed.html|; t url
