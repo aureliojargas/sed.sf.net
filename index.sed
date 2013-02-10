@@ -3,7 +3,7 @@
 1 i\
                                                                        \
                       (( Welcome to sed.sf.net ))                      \
-                           - the SED $HOME -                           \
+                           - the sed $HOME -                           \
                                                                        \
        BEWARE! Boring man page description on the way:                 \
                                                                        \
