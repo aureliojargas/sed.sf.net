@@ -1,6 +1,6 @@
 ## The sed.sf.net website
 
-Since 2002, <http://sed.sf.net> is the main portal for sed information and community scripts. Created and maintained by Aurelio Jargas.
+Since 2002, <http://sed.sf.net> is the main portal for sed information and community scripts. Created and maintained by [Aurelio Jargas][].
 
 
 ## Nerdgasm
@@ -19,6 +19,7 @@ To update the HTML version of the generator script:
 
 
 
-[when rendered by the browser]: http://sed.sf.net
 [index.sed]:      https://github.com/aureliojargas/sed-website/blob/master/index.sed
 [index2html.sed]: https://github.com/aureliojargas/sed-website/blob/master/index2html.sed
+[Aurelio Jargas]: http://aurelio.net/about.html
+[when rendered by the browser]: http://sed.sf.net
