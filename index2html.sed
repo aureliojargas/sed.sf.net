@@ -241,6 +241,6 @@ s|^Felix von Leitner$|http://www.math.fu-berlin.de/~leitner/sed/|; t url
 s|^Yiorgos Adamopoulos$|http://www.dbnet.ece.ntua.gr/~george/sed/OLD/|; t url
 s|^Yao-Jen Chang$|http://main.rtfiber.com.tw/~changyj/sed/|; t url
 #end
-s|^sedindex2html$|http://sed.sf.net/local/scripts/sedindex2html.sed.html|; t url
+s|^sedindex2html$|http://sed.sf.net/index2html.sed.html|; t url
 
 b url

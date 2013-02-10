@@ -1,1 +1,3 @@
 Options Indexes
+
+Redirect permanent /local/scripts/sedindex2html.sed.html /index2html.sed.html
