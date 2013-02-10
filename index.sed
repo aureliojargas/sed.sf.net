@@ -37,18 +37,18 @@
 
 /  sed is available for various systems  /{
 
-r  + @[-|GNU sed v4.x source code]@ by Paolo Bonzini
-r  + @[-|GNU sed v3.02.80 source code]@ by Ken Pizzini
-r  + @[-|GNU sed v3.02.80 for Linux (RPM)]@
-r  + @[-|GNU sed v3.02.80 for OS2]@
-r  + @[-|GNU sed v3.02.80 for Windows (3x, 9x, NT, 2K)]@
-r  + @[-|GNU sed v3.02 for HPUX]@
-r  + @[-|HHsed v1.5 source code (Turbo C)]@ by Howard Helman
-r  + @[-|HHsed v1.5 for MS-DOS]@ by Howard Helman
-r  + @[-|HHsed v1.5 for Windows]@ by Howard Helman
-r  + @[-|super sed v3.60 source code]@ by Paolo Bonzini
-r  + @[-|super sed v3.59 for Windows]@ by Paolo Bonzini
-r  + @[-|Complete list of available versions]@ by Eric Pement
+r  @[-|GNU sed v4.x source code]@ by Paolo Bonzini
+r  @[-|GNU sed v3.02.80 source code]@ by Ken Pizzini
+r  @[-|GNU sed v3.02.80 for Linux (RPM)]@
+r  @[-|GNU sed v3.02.80 for OS2]@
+r  @[-|GNU sed v3.02.80 for Windows (3x, 9x, NT, 2K)]@
+r  @[-|GNU sed v3.02 for HPUX]@
+r  @[-|HHsed v1.5 source code (Turbo C)]@ by Howard Helman
+r  @[-|HHsed v1.5 for MS-DOS]@ by Howard Helman
+r  @[-|HHsed v1.5 for Windows]@ by Howard Helman
+r  @[-|super sed v3.60 source code]@ by Paolo Bonzini
+r  @[-|super sed v3.59 for Windows]@ by Paolo Bonzini
+r  @[-|Complete list of available versions]@ by Eric Pement
 }
 
 ########################################################################
