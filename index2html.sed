@@ -126,7 +126,7 @@ s|^Netscape frame-free with sed$|ftp://ftp.sgi.com/sgi/graphics/grafica/framefre
 s|^SED emulating UNIX commands$|http://sed.sf.net/local/docs/emulating_unix.txt|; t url
 s|^sed-HOWTO (in portuguese)$|http://aurelio.net/sed/sed-HOWTO/|; t url
 #books
-s|^Sed & Awk, 2nd ed.$|http://www.oreilly.com/catalog/sed2/noframes.html|; t url
+s|^Sed & Awk, 2nd ed.$|http://shop.oreilly.com/product/9781565922259.do|; t url
 s|^Sed & Awk Pocket Reference$|http://www.ora.com/catalog/sedawkrepr/|; t url
 s|^Unix Awk and Sed Programmer's Interactive Workbook$|http://www.briansbooks.com/catalog/books/0130826758|; t url
 s|^Awk und Sed$|http://www.addison-wesley.de/main/main.asp?page=home/bookdetails&ProductID=37214|; t url
