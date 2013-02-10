@@ -6,7 +6,6 @@
 1i\
 <html><head><title>sed.sf.net - The SED $HOME</title></head>\
 <meta http-equiv="content-type" content="text/html; charset=utf-8">\
-<!-- <body bgcolor="navy" text="yellow" link="white"> -->\
 <body bgcolor="#ffffbb" text="black">\
 <pre>
 
