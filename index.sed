@@ -18,7 +18,7 @@
                                                                        \
        See all the links below or browse the @[local mirror|@local/]@.             \
                                                                        \
-       Please report broken links to: verde (a) aurelio net.           \
+       Please report (or fix) broken links in @[our GitHub project|github]@.      \
 
 
 / DOWNLOAD      / b download

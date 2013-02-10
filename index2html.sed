@@ -262,5 +262,6 @@ s|^Yiorgos Adamopoulos$|http://www.dbnet.ece.ntua.gr/~george/sed/OLD/|; t url
 s|^Yao-Jen Chang$|http://main.rtfiber.com.tw/~changyj/sed/|; t url
 #end
 s|^sedindex2html$|http://sed.sf.net/index2html.sed.html|; t url
+s|^github$|https://github.com/aureliojargas/sed-website|; t url
 
 b url
