@@ -104,9 +104,9 @@ r      from Prentice Hall Computer Books, ISBN 0130826758
 r   @[-|Awk und Sed]@
 r      by Helumt Herold
 r      from Addison-Wesley (written in german), ISBN 3-8273-2094-1
-r   @[-|Mastering Regular Expressions, 2nd ed.]@
+r   @[-|Mastering Regular Expressions, 3rd ed.]@
 r      by Jeffrey E. F. Friedl
-r      from O'Reilly, ISBN 0-596-00289-0
+r      from O'Reilly, ISBN 978-0-596-52812-6
 }
 
 ########################################################################
