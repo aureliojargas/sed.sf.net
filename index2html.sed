@@ -16,11 +16,28 @@ $b end
 \!^\([[:blank:]]*\)\(/\)\(.*\)\(/[[:blank:]]*b[[:blank:]]\{1,\}\)! s,,\1\2<font size=6><b>\3</b></font>\4,
 
 
-# HTMLize @[name|label]@ links
-#   @[-|linkname]@  =>  <a href="http://bla.com">linkname</a>
-#   @[=|linkname]@  =>  <a href="http://bla.com">http://bla.com</a>
-# @[bla|linkname]@  =>  <a href="http://bla.com">bla</a>
-
+### HTMLize links:
+#
+# The link format is @[name|id]@, which converts to <a href="URL">name</a>.
+# The id points to the link URL, the "database" is at the end of this file.
+#
+# If name is '-', the id string will be used as the name.
+# If name is '=', the URL will be used as the name.
+# If id starts with @, the id (except the @) will be considered a URL.
+#
+# Examples:
+#
+#     @[click here|example]@         =>  <a href="http://example.com">click here</a>
+#     @[click here|@local/foo.sed]@  =>  <a href="local/foo.sed">click here</a>
+#
+#     The first link will get its URL from the 'example' id in the database.
+#     The second link informs a relative URL: local/foo.sed.
+#
+#     @[-|example]@  =>  <a href="http://example.com">example</a>
+#     @[=|example]@  =>  <a href="http://example.com">http://example.com</a>
+#
+#     The difference of using - or = as the link name.
+#
 \,@\[.*]@,{
   # link name == link label
   s,@\[-|\([^]]*\)]@,@[\1|\1]@,g
