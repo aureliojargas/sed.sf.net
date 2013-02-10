@@ -17,12 +17,14 @@
 #   if you want to run it.
 
 G
-1s/\n/&&	 !"#$%\&'()*+,-.\/0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~/
-s/\([	 -~]*\)\(\n\)/\2\1/
-s/^\(.[	 -~]*\)\([	 -~]\)\([	 -~]*\)\(.*\1\)\([	 -~]\)\([	 -~]*\)\(.*\n.*\5[	 -~]*\2[ -~]*\)$/\4\5\6\1\2\3\7/
+1s/\n/&&^A^I 
+!"#$%\&'()*+,-.\/0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~/
+s/\([^I -~]*\)\(\n\)/\2\1^A/
+s/^\(.[^I -~]*\)\([^I -~]\)\([^A^I -~]*\)\(.*\1\)\([^A^I -~]\)\([^A^I 
+-~]*\)\(.*\n.*\5[^I -~]*\2[ -~]*\)$/\4\5\6\1\2\3\7/
 h
 $!d
-s///g
+s/^A//g
 s/\(.*\)\n.*/\1/
 
 #  Output, adding a blank line between sections and numbering each section.
