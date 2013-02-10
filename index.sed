@@ -227,7 +227,7 @@ r      written in Korn Shell
 r   @[sedsed - Sed Debugger/Indenter/HTMLizer|sedsed]@    by Aurelio Jargas
 r      written in Python
 r   @[sedcheck - POSIX compatibility checker|sedcheck]@     by Laurent Vogel
-r      written in Sed!  [@[colored|local/debug/sedcheck.sed.html]@]
+r      written in Sed!  [@[colored|local/tools/sedcheck.sed.html]@]
 r   @[bsed - Batch edit with Sed|bsed]@                 by Cameron Simpson
 r      written in Bourne Shell
 r   @[mod_sed - Sed Apache module|mod_sed]@                by Dom Mitchell
