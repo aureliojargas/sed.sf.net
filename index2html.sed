@@ -245,4 +245,3 @@ s|^Yao-Jen Chang$|http://main.rtfiber.com.tw/~changyj/sed/|; t url
 s|^sedindex2html$|http://sed.sf.net/local/scripts/sedindex2html.sed.html|; t url
 
 b url
-# vim: tw=0 
