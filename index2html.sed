@@ -131,6 +131,7 @@ s|^Sed & Awk Pocket Reference$|http://www.ora.com/catalog/sedawkrepr/|; t url
 s|^Unix Awk and Sed Programmer's Interactive Workbook$|http://www.briansbooks.com/catalog/books/0130826758|; t url
 s|^Awk und Sed$|http://www.addison-wesley.de/main/main.asp?page=home/bookdetails&ProductID=37214|; t url
 s|^Mastering Regular Expressions, 3rd ed.$|http://regex.info/book.html|; t url
+s|^Definitive Guide to sed$|http://www.sed-book.com/|; t url
 #scripts
 s|^add_decs.sed$|http://sed.sf.net/grabbag/scripts/add_decs.sed|; t url
 s|^anagrams.sed$|http://sed.sf.net/grabbag/scripts/anagrams.sed|; t url

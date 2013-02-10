@@ -107,6 +107,9 @@ r      from Addison-Wesley (written in german), ISBN 3-8273-2094-1
 r   @[-|Mastering Regular Expressions, 3rd ed.]@
 r      by Jeffrey E. F. Friedl
 r      from O'Reilly, ISBN 978-0-596-52812-6
+r   @[-|Definitive Guide to sed]@
+r      by Daniel Goldman
+r      published as e-book in Kindle and ePub formats
 }
 
 ########################################################################
