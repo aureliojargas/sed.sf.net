@@ -129,7 +129,7 @@ s|^sed-HOWTO (in portuguese)$|http://aurelio.net/sed/sed-HOWTO/|; t url
 s|^Sed & Awk, 2nd ed.$|http://shop.oreilly.com/product/9781565922259.do|; t url
 s|^Sed & Awk Pocket Reference$|http://shop.oreilly.com/product/9781565927292.do|; t url
 s|^Unix Awk and Sed Programmer's Interactive Workbook$|http://cwx.prenhall.com/patsis/|; t url
-s|^Awk und Sed$|http://www.addison-wesley.de/main/main.asp?page=home/bookdetails&ProductID=37214|; t url
+s|^Awk und Sed$|http://www.addison-wesley.de/main/main.asp?page=home/bookdetails\&ProductID=37214|; t url
 s|^Mastering Regular Expressions, 3rd ed.$|http://regex.info/book.html|; t url
 s|^Definitive Guide to sed$|http://www.sed-book.com/|; t url
 #scripts
