@@ -94,16 +94,16 @@ r         @[-|sed-HOWTO (in portuguese)]@ by Aurelio Jargas
 
 r   @[-|Sed & Awk, 2nd ed.]@
 r      by Dale Dougherty and Arnold Robbins
-r      from O'Reilly, ISBN 1-56592-225-5
+r      from O'Reilly, ISBN 978-1-56592-225-9
 r   @[-|Sed & Awk Pocket Reference]@
 r      by Arnold Robbins
-r      from O'Reilly, ISBN 1-56592-729-X
+r      from O'Reilly, ISBN 978-1-56592-729-2
 r   @[-|Unix Awk and Sed Programmer's Interactive Workbook]@
 r      by Peter Patsis
-r      from Prentice Hall Computer Books, ISBN 0130826758
+r      from Prentice Hall Computer Books, ISBN 978-0130826756
 r   @[-|Awk und Sed]@
 r      by Helumt Herold
-r      from Addison-Wesley, ISBN 3-8273-2094-1
+r      from Addison-Wesley, ISBN 978-3-8273-2094-0
 r      (written in german)
 r   @[-|Mastering Regular Expressions, 3rd ed.]@
 r      by Jeffrey E. F. Friedl
