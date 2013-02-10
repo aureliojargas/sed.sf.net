@@ -1,5 +1,5 @@
 #!/usr/bin/sed -f
-# sedindex2html.sed - by Aurelio Jargas
+# index2html.sed - by Aurelio Jargas
 #   Get index.sed file and converts it to the main http://sed.sf.net page
 #
 
