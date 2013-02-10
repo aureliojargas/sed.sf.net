@@ -1,0 +1,412 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized sedindex2html.sed</title></head>
+<body bgcolor="#000000" text="#ffffff"
+      link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b>#!/usr/bin/sed -f</b></font>
+<font color="#00ffff"><b># sedindex2html.sed - by Aurelio Marinho Jargas</b></font>
+<font color="#00ffff"><b>#   Get index.sed file and converts it to the main http://sed.sf.net page</b></font>
+<font color="#00ffff"><b>#</b></font>
+
+<font color="#8080ff"><b>1</b></font> <font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
+</b></font>&lt;html&gt;&lt;head&gt;&lt;title&gt;sed.sf.net - The SED $HOME&lt;/title&gt;&lt;/head&gt;<font color="#00ff00"><b>\
+</b></font>&lt;meta http-equiv="content-type" content="text/html; charset=utf-8"&gt;<font color="#00ff00"><b>\
+</b></font>&lt;!-- &lt;body bgcolor="navy" text="yellow" link="white"&gt; --&gt;<font color="#00ff00"><b>\
+</b></font>&lt;body bgcolor="#ffffbb" text="black"&gt;<font color="#00ff00"><b>\
+</b></font>&lt;pre&gt;
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="ini">ini</a></b></font>
+<font color="#00ffff"><b># remove vim settings line</b></font>
+<font color="#8080ff"><b>$</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#8080ff"><b>$</b></font> <font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
+
+<font color="#00ffff"><b># /.../ b address -&gt; title big bold</b></font>
+<font color="#ff6060"><b>\</b></font><font color="#ff6060"><b>!</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[[:blank:]]*\)\<font color="#ff00ff"><b>(</b></font>/\)\<font color="#ff00ff"><b>(</b></font>.*\)\<font color="#ff00ff"><b>(</b></font>/[[:blank:]]*b[[:blank:]]\{1,\}\)</b></font><font color="#ff6060"><b>!</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#ff6060"><b>,</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font>&lt;font size=6&gt;&lt;b&gt;<font color="#00ff00"><b>\3</b></font>&lt;/b&gt;&lt;/font&gt;<font color="#00ff00"><b>\4</b></font><font color="#ff6060"><b>,</b></font>
+
+
+<font color="#00ffff"><b># HTMLize @[name|label]@ links</b></font>
+<font color="#00ffff"><b>#   @[-|linkname]@  =&gt;  &lt;a href="http://bla.com"&gt;linkname&lt;/a&gt;</b></font>
+<font color="#00ffff"><b>#   @[=|linkname]@  =&gt;  &lt;a href="http://bla.com"&gt;http://bla.com&lt;/a&gt;</b></font>
+<font color="#00ffff"><b># @[bla|linkname]@  =&gt;  &lt;a href="http://bla.com"&gt;bla&lt;/a&gt;</b></font>
+
+<font color="#ff6060"><b>\</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>@\[.*]@</b></font><font color="#ff6060"><b>,</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#00ffff"><b># link name == link label</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>@\[-|\<font color="#ff00ff"><b>(</b></font>[^]]*\)]@</b></font><font color="#ff6060"><b>,</b></font>@[<font color="#00ff00"><b>\1</b></font>|<font color="#00ff00"><b>\1</b></font>]@<font color="#ff6060"><b>,</b></font><font color="#00ff00"><b>g</b></font>
+
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="link">link</a></b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@\[[^|]*|[^@]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#00ffff"><b># get the label of the last @[...]@</b></font>
+        <font color="#ffff00"><b>h</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>.*@\[[^|]*|\<font color="#ff00ff"><b>(</b></font>[^@][^]]*\)]@.*</b></font><font color="#ff6060"><b>,</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>,</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#getlink">getlink</a>
+
+        <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="url">url</a></b></font>
+        <font color="#00ffff"><b># put the url of the last @[...]@ on it's place</b></font>
+        <font color="#ffff00"><b>G</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.*\)\n\<font color="#ff00ff"><b>(</b></font>.*\)\<font color="#ff00ff"><b>(</b></font>@\[[^|]*|\)[^@][^]]*]@</b></font><font color="#ff6060"><b>,</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font>@<font color="#00ff00"><b>\1</b></font>]@<font color="#ff6060"><b>,</b></font>
+
+        <font color="#00ffff"><b># there is more?</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#link">link</a>
+    <font color="#ff6060"><b>}</b></font>
+
+    <font color="#00ffff"><b># convert all @[=|http:...]@ to @[http:...|http:...]@</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>@\[=|@\<font color="#ff00ff"><b>(</b></font>[^]]*\)]@</b></font><font color="#ff6060"><b>,</b></font>@[<font color="#00ff00"><b>\1</b></font>|@<font color="#00ff00"><b>\1</b></font>]@<font color="#ff6060"><b>,</b></font><font color="#00ff00"><b>g</b></font>
+
+    <font color="#00ffff"><b># make html tags for all</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>@\[\<font color="#ff00ff"><b>(</b></font>[^|]*\)|@\<font color="#ff00ff"><b>(</b></font>[^]]*\)]@</b></font><font color="#ff6060"><b>,</b></font>&lt;a href="<font color="#00ff00"><b>\2</b></font>"&gt;<font color="#00ff00"><b>\1</b></font>&lt;/a&gt;<font color="#ff6060"><b>,</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b># // address -&gt; bold</b></font>
+<font color="#ff6060"><b>\</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>^[[:blank:]]*/[^/].*/</b></font><font color="#ff6060"><b>,</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#00ffff"><b># author!</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>=</b></font><font color="#8080ff"><b> by [[:alpha:]][^/]\{1,\}</b></font><font color="#ff6060"><b>=</b></font>&lt;i&gt;<font color="#00ff00"><b>&amp;</b></font>&lt;/i&gt;<font color="#ff6060"><b>=</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>=</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[[:blank:]]*\)/\<font color="#ff00ff"><b>(</b></font>[^/&lt;]*\)</b></font><font color="#ff6060"><b>=</b></font><font color="#00ff00"><b>\1</b></font>/&lt;b&gt;<font color="#00ff00"><b>\2</b></font>&lt;/b&gt;<font color="#ff6060"><b>=</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b># author!</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b> by [[:alpha:]é,. ?-]\{1,\}$</b></font><font color="#ff6060"><b>|</b></font>&lt;i&gt;<font color="#00ff00"><b>&amp;</b></font>&lt;/i&gt;<font color="#ff6060"><b>|</b></font>
+
+<font color="#00ffff"><b># branch -&gt; anchor link</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font> b[[:blank:]]\)\<font color="#ff00ff"><b>(</b></font>[^[:blank:]]\{1,\}\)</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#ff6060"><b>,</b></font><font color="#00ff00"><b>\1</b></font>&lt;a href="#<font color="#00ff00"><b>\2</b></font>"&gt;<font color="#00ff00"><b>\2</b></font>&lt;/a&gt;<font color="#ff6060"><b>,</b></font>
+
+<font color="#00ffff"><b># label -&gt; subtitle</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[[:blank:]]*\):[[:blank:]]*\<font color="#ff00ff"><b>(</b></font>[^[:blank:]]\{1,\}\)</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#ff6060"><b>,</b></font>&lt;a name="<font color="#00ff00"><b>\2</b></font>"&gt;&lt;font size=4&gt;&lt;b&gt;&lt;i&gt;<font color="#00ff00"><b>&amp;</b></font>&lt;/i&gt;&lt;/b&gt;&lt;/font&gt;&lt;/a&gt;<font color="#ff6060"><b>,</b></font>
+
+<font color="#00ffff"><b># link it!</b></font>
+<font color="#00ffff"><b>#\|\&lt;\(\(https\{0,1\}\|ftp\|news\|telnet\|gopher\|wais\)://\|\(www[23]\{0,1\}\.\|ftp\.\)\)[A-Za-z0-9%._/~:,-]\{1,\}\(#[A-Za-z0-9%.-]\{1,\}\|?[A-Za-z0-9%&amp;=+.@*_-]\{1,\}\)\{0,1\}\&gt;| s,,&lt;a href="&amp;"&gt;&amp;&lt;/a&gt;,g</b></font>
+<font color="#00ffff"><b>#\|&lt;\?\&lt;[A-Za-z0-9_.-]\{1,\}@\([A-Za-z0-9_-]\{1,\}\.\)\{1,\}[A-Za-z]\{1,\}\&gt;&gt;\?| s,,&lt;a href="mailto:&amp;"&gt;&amp;&lt;/a&gt;,g</b></font>
+
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="end">end</a></b></font>
+<font color="#8080ff"><b>$</b></font> <font color="#ffff00"><b>a</b></font><font color="#00ff00"><b>\
+</b></font>&lt;/pre&gt;&lt;/body&gt;&lt;/html&gt;
+<font color="#8080ff"><b>$</b></font> <font color="#ffff00"><b>q</b></font>
+
+<font color="#ffff00"><b>n</b></font>  
+<font color="#ffff00"><b>b</b></font> <a href="#ini">ini</a>
+
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="getlink">getlink</a></b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#resett">resett</a>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="resett">resett</a></b></font>
+<font color="#00ffff"><b>#download</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^GNU sed v3.02.80 source code$</b></font><font color="#ff6060"><b>|</b></font>ftp://alpha.gnu.org/pub/gnu/sed/sed-3.02.80.tar.gz<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^GNU sed v3.02.80 for Linux (RPM)$</b></font><font color="#ff6060"><b>|</b></font>http://aurelio.net/sed/sed-3.02.80-4cl.i386.rpm<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^GNU sed v3.02.80 for OS2$</b></font><font color="#ff6060"><b>|</b></font>http://www2s.biglobe.ne.jp/~vtgf3mpr/gnu/sed.htm<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^GNU sed v3.02.80 for Windows (3x, 9x, NT, 2K)$</b></font><font color="#ff6060"><b>|</b></font>http://www.student.northpark.edu/pemente/sed/sed3028a.zip<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^GNU sed v3.02 for HPUX$</b></font><font color="#ff6060"><b>|</b></font>http://hpux.connect.org.uk/hppd/hpux/Gnu/sed-3.02<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^GNU sed v4.x source code$</b></font><font color="#ff6060"><b>|</b></font>ftp://ftp.gnu.org/gnu/sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^HHsed v1.5 source code (Turbo C)$</b></font><font color="#ff6060"><b>|</b></font>http://www.student.northpark.edu/pemente/sed/sed15.zip<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^HHsed v1.5 for MS-DOS$</b></font><font color="#ff6060"><b>|</b></font>http://www.student.northpark.edu/pemente/sed/sed15x.zip<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^HHsed v1.5 for Windows$</b></font><font color="#ff6060"><b>|</b></font>http://www.student.northpark.edu/pemente/sed/sed15exe.zip<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^super sed v3.60 source code$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/ssed/sed-3.60.tar.gz<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^super sed v3.59 for Windows$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/ssed/sed-3.59.zip<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Complete list of available versions$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sourceforge.net/sedfaq2.html#s2.2<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#00ffff"><b>#doc</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^THE SED FAQ$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/sedfaq.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^SED FAQ$</b></font><font color="#ff6060"><b>|</b></font>http://www.dreamwvr.com/sed-info/sed-faq.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^The sed one-liners$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/sed1line.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^GNU sed info$</b></font><font color="#ff6060"><b>|</b></font>http://directory.fsf.org/sed.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^The sed man page$</b></font><font color="#ff6060"><b>|</b></font>http://www.opengroup.org/onlinepubs/7908799/xcu/sed.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sed, a stream editor$</b></font><font color="#ff6060"><b>|</b></font>http://www.gnu.org/software/sed/manual/html_mono/sed.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Sed by example, Part 1$</b></font><font color="#ff6060"><b>|</b></font>http://www-106.ibm.com/developerworks/linux/library/l-sed1.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Do it with sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/tutorials/do_it_with_sed.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^A small tutorial about sed$</b></font><font color="#ff6060"><b>|</b></font>http://www.math.fu-berlin.de/~leitner/sed/tutorial.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^An introduction to sed$</b></font><font color="#ff6060"><b>|</b></font>http://www.cs.hmc.edu/tech_docs/qref/sed.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^A Non-interactive Text Editor$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/tutorials/sed_mcmahon.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Introduction to Unix's SED editor$</b></font><font color="#ff6060"><b>|</b></font>http://psr.rice.edu/sed.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Tips on using sed on MS-DOS$</b></font><font color="#ff6060"><b>|</b></font>http://users.cybercity.dk/~bse26236/batutil/help/SED.HTM#sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Using sed to create a book index$</b></font><font color="#ff6060"><b>|</b></font>http://www.student.northpark.edu/pemente/sed/bookindx.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Doing if/elseif/else with sed$</b></font><font color="#ff6060"><b>|</b></font>http://www.student.northpark.edu/pemente/sed/ifelse.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Example of state machine in sed$</b></font><font color="#ff6060"><b>|</b></font>http://aurelio.net/sed/programas/sm.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Program state in sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/tutorials/sed_state.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Using lookup tables with s///$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/tutorials/lookup_tables.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^A lookup-table counter$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/tutorials/lookup_table_counter.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^How to count words$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/tutorials/greg_wc.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^How add numbers$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/tutorials/greg_add.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Analyzing a sed SQL interpreter$</b></font><font color="#ff6060"><b>|</b></font>http://www.dbnet.ece.ntua.gr/~george/sed/OLD/sedql.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Graphical sed (state diagram)$</b></font><font color="#ff6060"><b>|</b></font>http://www.dbnet.ece.ntua.gr/~george/sed/OLD/sed.logic.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Sed in (pseudo) microcode$</b></font><font color="#ff6060"><b>|</b></font>http://www.dbnet.ece.ntua.gr/~george/sed/OLD/sed-microcode.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Proposal of a custom sed$</b></font><font color="#ff6060"><b>|</b></font>http://www.ptug.org/sed/custom_sed.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Netscape frame-free with sed$</b></font><font color="#ff6060"><b>|</b></font>ftp://ftp.sgi.com/sgi/graphics/grafica/framefree/sed.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^SED emulating UNIX commands$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/local/docs/emulating_unix.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sed-HOWTO (in portuguese)$</b></font><font color="#ff6060"><b>|</b></font>http://aurelio.net/sed/sed-HOWTO/<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#00ffff"><b>#books</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Sed &amp; Awk, 2nd ed.$</b></font><font color="#ff6060"><b>|</b></font>http://www.oreilly.com/catalog/sed2/noframes.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Sed &amp; Awk Pocket Reference$</b></font><font color="#ff6060"><b>|</b></font>http://www.ora.com/catalog/sedawkrepr/<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Unix Awk and Sed Programmer's Interactive Workbook$</b></font><font color="#ff6060"><b>|</b></font>http://www.briansbooks.com/catalog/books/0130826758<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Awk und Sed$</b></font><font color="#ff6060"><b>|</b></font>http://www.addison-wesley.de/main/main.asp?page=home/bookdetails<font color="#00ff00"><b>&amp;</b></font>ProductID=37214<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Mastering Regular Expressions, 2nd ed.$</b></font><font color="#ff6060"><b>|</b></font>http://www.oreilly.com/catalog/regex2/<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#00ffff"><b>#scripts</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^add_decs.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/add_decs.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^anagrams.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/anagrams.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^bf2c.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/bf2c.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^brainf__k.sed$</b></font><font color="#ff6060"><b>|</b></font>http://www2.eng.cam.ac.uk/~er258/code/sed/brainf__k.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^bre2ere.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/local/scripts/bre2ere.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^cal.sh.txt$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/cal.sh.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^cal-year.sh.txt$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/cal-year.sh.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^cat-b.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/cat-b.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^cat-b.sh.txt$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/cat-b.sh.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^cat-n.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/cat-n.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^cat-n.sh.txt$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/cat-n.sh.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^cat-s.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/cat-s.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^centre_1.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/centre_1.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^centre_2.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/centre_2.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^cflword1.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/cflword1.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^cflword2.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/cflword2.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^cflword3.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/cflword3.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^cflword4.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/cflword4.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^cflword5.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/cflword5.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^cgrep.sh.txt$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/cgrep.sh.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^commify1.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/commify1.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^commify2.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/commify2.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^commify3.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/commify3.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^config.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/config.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^crlf.tar.gz$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/crlf.tar.gz<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^dc.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/dc.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^diffhtml.sed$</b></font><font color="#ff6060"><b>|</b></font>http://www.bitterberg.de/tilmann/diffhtml.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^dtree.sh.txt$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/dtree.sh.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^expand.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/expand.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^fbasename.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/fbasename.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^fdirname.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/fdirname.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^fmt.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/fmt.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^get_html_title.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/get_html_title.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^hbanner.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/hbanner.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^head.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/head.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^html2iso.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/html2iso.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^html_lc.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/html_lc.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^html_uc.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/html_uc.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^impossible.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/local/scripts/impossible.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^incr_num.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/incr_num.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^indentls.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/indentls.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^indexer.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/indexer.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^indexhtml.sed$</b></font><font color="#ff6060"><b>|</b></font>http://www.bitterberg.de/tilmann/indexhtml.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^iso2html.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/iso2html.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^italbold.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/italbold.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^joinfile.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/joinfile.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^justify.sed$</b></font><font color="#ff6060"><b>|</b></font>http://aurelio.net/sed/programas/justify.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^list_urls.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/list_urls.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^mail-iso2txt.sed$</b></font><font color="#ff6060"><b>|</b></font>http://aurelio.net/sed/programas/mail-iso2txt.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^maketarg.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/maketarg.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^masm2gas.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/masm2gas.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^overstrk.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/local/scripts/overstrk.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^palindrome.sed$</b></font><font color="#ff6060"><b>|</b></font>http://laurent.le-brun.eu/pub/palindrome.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^pine_addr_2_vim_ab.sed$</b></font><font color="#ff6060"><b>|</b></font>http://www.bitterberg.de/tilmann/pine_addr_2_vim_ab.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^polish.html$</b></font><font color="#ff6060"><b>|</b></font>http://www.agsm.unsw.edu.au/~bobm/odds+ends/scripts/polish.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^remccoms1.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/remccoms1.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^remccoms2.sh.txt$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/remccoms2.sh.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^remccoms3.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/remccoms3.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^revchr_1.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/revchr_1.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^revchr_2.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/revchr_2.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^revlines.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/revlines.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^rot13.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/rot13.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sedhttpd.sed$</b></font><font color="#ff6060"><b>|</b></font>http://awk.geht.net:8080/contrib/sedhttpd/sedhttpd0.2.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sm.sed$</b></font><font color="#ff6060"><b>|</b></font>http://aurelio.net/sed/programas/sm.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sodelnum.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/sodelnum.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^splitdig.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/splitdig.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^strip_html_comments.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/strip_html_comments.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^subwords.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/subwords.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^tex2xml.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/tex2xml.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^tolower2.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/tolower2.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^tolower.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/tolower.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^toupper2.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/toupper2.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^turing.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/turing.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^txt2html.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/txt2html.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^undblspc.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/undblspc.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^unlambda.sed$</b></font><font color="#ff6060"><b>|</b></font>ftp://quatramaran.ens.fr/pub/madore/unlambda/contrib/unlambda.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^untroff.sed$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/untroff.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^yahoogroups-kill-sig.sed$</b></font><font color="#ff6060"><b>|</b></font>http://aurelio.net/sed/programas/yahoogroups-kill-sig.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#00ffff"><b>#games</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^99 green bottles$</b></font><font color="#ff6060"><b>|</b></font>http://www2.eng.cam.ac.uk/~er258/code/sed/99-green-bottles.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^tic tac toe$</b></font><font color="#ff6060"><b>|</b></font>http://www-jcsu.jesus.cam.ac.uk/~gsb29/sedgames.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^pong (1 player)$</b></font><font color="#ff6060"><b>|</b></font>http://www-jcsu.jesus.cam.ac.uk/~gsb29/sedgames.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^pong (2 players)$</b></font><font color="#ff6060"><b>|</b></font>http://www-jcsu.jesus.cam.ac.uk/~gsb29/sedgames.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sokoban$</b></font><font color="#ff6060"><b>|</b></font>http://aurelio.net/sed/sokoban/sokoban.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^arkanoid$</b></font><font color="#ff6060"><b>|</b></font>http://aurelio.net/bin/sed/arkanoid/arkanoid.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^towers of hanoi$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/tutorials/hanoi.htm<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^my mastermind$</b></font><font color="#ff6060"><b>|</b></font>http://laurent.le-brun.eu/pub/sedermind.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^puzzle$</b></font><font color="#ff6060"><b>|</b></font>http://laurent.le-brun.eu/pub/puzzle.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^path solver$</b></font><font color="#ff6060"><b>|</b></font>http://laurent.le-brun.eu/pub/path.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^connect4$</b></font><font color="#ff6060"><b>|</b></font>http://laurent.le-brun.eu/pub/connect4.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#00ffff"><b>#tools</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sd$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/scripts/sd.sh.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sdk$</b></font><font color="#ff6060"><b>|</b></font>http://www.student.northpark.edu/pemente/sed/sd.ksh.txt<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sedsed$</b></font><font color="#ff6060"><b>|</b></font>http://sedsed.sourceforge.net<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sedcheck$</b></font><font color="#ff6060"><b>|</b></font>http://lvogel.free.fr/sed/sedcheck.sed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^bsed$</b></font><font color="#ff6060"><b>|</b></font>http://www.cskk.ezoshosting.com/cs/css/bin/bsed<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^mod_sed$</b></font><font color="#ff6060"><b>|</b></font>http://www.happygiraffe.net/mod_sed.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^csed$</b></font><font color="#ff6060"><b>|</b></font>http://colorifer.sourceforge.net<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#00ffff"><b>#ml</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sed-users$</b></font><font color="#ff6060"><b>|</b></font>http://groups.yahoo.com/group/sed-users/<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sed-br$</b></font><font color="#ff6060"><b>|</b></font>http://br.groups.yahoo.com/group/sed-br/<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#00ffff"><b>#users</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Aurelio Jargas$</b></font><font color="#ff6060"><b>|</b></font>http://aurelio.net/sed/<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Eric Pement$</b></font><font color="#ff6060"><b>|</b></font>http://www.student.northpark.edu/pemente/sed/<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Laurent Le Brun$</b></font><font color="#ff6060"><b>|</b></font>http://laurent.le-brun.eu/geek<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Tilmann Bitterberg$</b></font><font color="#ff6060"><b>|</b></font>http://www.bitterberg.de/tilmann/sed-en.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Paolo Bonzini$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/grabbag/<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Felix von Leitner$</b></font><font color="#ff6060"><b>|</b></font>http://www.math.fu-berlin.de/~leitner/sed/<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Yiorgos Adamopoulos$</b></font><font color="#ff6060"><b>|</b></font>http://www.dbnet.ece.ntua.gr/~george/sed/OLD/<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Yao-Jen Chang$</b></font><font color="#ff6060"><b>|</b></font>http://main.rtfiber.com.tw/~changyj/sed/<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+<font color="#00ffff"><b>#end</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^sedindex2html$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/local/scripts/sedindex2html.sed.html<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
+
+<font color="#ffff00"><b>b</b></font> <a href="#url">url</a>
+<font color="#00ffff"><b># vim: tw=0 </b></font>
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer</b></font>
+
+</pre></body></html>

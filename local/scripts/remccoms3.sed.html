@@ -1,0 +1,104 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized remccoms3.sed</title></head><body bgcolor="#000000" text="#ffffff"
+link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b>#! /bin/sed -nf</b></font>
+
+<font color="#00ffff"><b># Remove C and C++ comments, by Brian Hiles (brian_hiles@rocketmail.com)</b></font>
+
+<font color="#00ffff"><b># Sped up (and bugfixed to some extent) by Paolo Bonzini (bonzini@gnu.org)</b></font>
+<font color="#00ffff"><b># Works its way through the line, copying to hold space the text up to the</b></font>
+<font color="#00ffff"><b># first special character (/, ", ').  The original version went exactly a</b></font>
+<font color="#00ffff"><b># character at a time, hence the greater speed of this one.  But the concept</b></font>
+<font color="#00ffff"><b># and especially the trick of building the line in hold space are entirely</b></font>
+<font color="#00ffff"><b># merit of Brian.</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="loop">loop</a></b></font>
+
+<font color="#00ffff"><b># This line is sufficient to remove C++ comments!</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\/\/</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>,</b></font><font color="#ff6060"><b>,</b></font>
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>x</b></font>
+  <font color="#ffff00"><b>p</b></font>
+  <font color="#ffff00"><b>n</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#loop">loop</a>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^"</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="double">double</a></b></font>
+  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ffff00"><b>p</b></font>
+    <font color="#ffff00"><b>n</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^"</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#break">break</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#double">double</a>
+  <font color="#ff6060"><b>}</b></font>
+
+  <font color="#ffff00"><b>H</b></font>
+  <font color="#ffff00"><b>x</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>\n\<font color="#ff00ff"><b>(</b></font>.[^\"]*\).*</b></font><font color="#ff6060"><b>,</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>,</b></font>
+  <font color="#ffff00"><b>x</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>.[^\"]*</b></font><font color="#ff6060"><b>,</b></font><font color="#ff6060"><b>,</b></font>
+
+  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^"</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#break">break</a>
+  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\\</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>H</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>\n\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>,</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>,</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ff6060"><b>}</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#double">double</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^'</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="single">single</a></b></font>
+  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ffff00"><b>p</b></font>
+    <font color="#ffff00"><b>n</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^'</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#break">break</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#single">single</a>
+  <font color="#ff6060"><b>}</b></font>
+  <font color="#ffff00"><b>H</b></font>
+  <font color="#ffff00"><b>x</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>\n\<font color="#ff00ff"><b>(</b></font>.[^\']*\).*</b></font><font color="#ff6060"><b>,</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>,</b></font>
+  <font color="#ffff00"><b>x</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>.[^\']*</b></font><font color="#ff6060"><b>,</b></font><font color="#ff6060"><b>,</b></font>
+
+  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^'</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#break">break</a>
+  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\\</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>H</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>\n\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>,</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>,</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ff6060"><b>}</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#single">single</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\/\*</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="ccom">ccom</a></b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>^.[^*]*</b></font><font color="#ff6060"><b>,</b></font><font color="#ff6060"><b>,</b></font>
+  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>n</b></font>
+  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\*\/</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>..</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#loop">loop</a>
+  <font color="#ff6060"><b>}</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#ccom">ccom</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="break">break</a></b></font>
+<font color="#ffff00"><b>H</b></font>  
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>\n\<font color="#ff00ff"><b>(</b></font>.[^"'/]*\).*</b></font><font color="#ff6060"><b>,</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>,</b></font>
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.[^"'/]*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>b</b></font> <a href="#loop">loop</a>
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/remccoms3.sed">http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/remccoms3.sed</a></b></font>
+
+</pre></body></html>

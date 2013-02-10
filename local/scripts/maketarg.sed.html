@@ -1,0 +1,83 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized maketarg.sed</title></head><body bgcolor="#000000" text="#ffffff"
+link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b>#!/usr/bin/sed -nf</b></font>
+
+<font color="#00ffff"><b># make-targets</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># tries to catch all targets on a Makefile</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># the purpose of this is to be used on the complete [make] feature</b></font>
+<font color="#00ffff"><b># of tcsh... so it should be simple and fast</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># this is not a shell script, exactly for that reason... hopefully</b></font>
+<font color="#00ffff"><b># the kernel will interpret this executable as a sed script and</b></font>
+<font color="#00ffff"><b># feed it directly to it</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># the name of the makefile, unfortunelly, must be hard coded on the</b></font>
+<font color="#00ffff"><b># complete code, and it is "Makefile"</b></font>
+
+<font color="#00ffff"><b># take care of \ ended lines</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="n">n</a></b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\\$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>N</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\\\n</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#n">n</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># delete all comments</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^ *#</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>d</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[^\\]#.*$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># register variables, the only ones in here are the ones of form</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#       VAR = one_word_def</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># in that way, most vars will be skipped, and things like</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#       SED_TARGET = sed</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># will still work</b></font>
+<font color="#00ffff"><b>#</b></font>
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>[A-Za-z_0-9-]\+\) *= *\<font color="#ff00ff"><b>(</b></font>[A-Za-z_0-9./-]\+\) *$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> </b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>H</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#"></a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b># now, perform the substitution</b></font>
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\$[({][A-Za-z_0-9-]\+[)}]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>##<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>G</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>\$[{(]\)\<font color="#ff00ff"><b>(</b></font>[A-Za-z_0-9-]\+\)\<font color="#ff00ff"><b>(</b></font>[)}]\)\<font color="#ff00ff"><b>(</b></font>.*\)##.*\2=\<font color="#ff00ff"><b>(</b></font>[A-Za-z_0-9./-]\+\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\5</b></font><font color="#00ff00"><b>\4</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b># finally, print the targets</b></font>
+
+<font color="#ffff00"><b>t</b></font> <a href="#t">t</a>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="t">t</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[A-Za-z_0-9./-]\+\)\<font color="#ff00ff"><b>(</b></font>\<font color="#ff00ff"><b>(</b></font> \+[A-Za-z_0-9./-]\+\)*\) *:\<font color="#ff00ff"><b>(</b></font>[^=].*\)\?$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+
+<font color="#ffff00"><b>d</b></font>  
+
+<font color="#00ffff"><b># now, this a final selection of targets to be print</b></font>
+<font color="#00ffff"><b># kind of 'prog | grep -v ...'</b></font>
+
+<font color="#00ffff"><b># don't print *.[hco] targets cause in most cases that makes very long output</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="x">x</a></b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.[och]$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>p</b></font>
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/maketarg.sed">http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/maketarg.sed</a></b></font>
+
+</pre></body></html>

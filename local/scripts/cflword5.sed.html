@@ -1,0 +1,36 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized cflword5.sed</title></head><body bgcolor="#000000" text="#ffffff"
+link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b>#! /bin/sed -f</b></font>
+
+<font color="#00ffff"><b># capit.sed -- capitalize words </b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># $Id: capit.sed,v 1.4 1998/07/06 20:32:46 cdua Exp $</b></font>
+<font color="#00ffff"><b># Carlos Duarte, 970519</b></font>
+
+<font color="#00ffff"><b># split words into \n word</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[a-zA-Z][a-zA-Z]\+</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#00ffff"><b># add conversion table: \n\n table</b></font>
+<font color="#00ffff"><b># table format: &lt;to-char&gt; &lt;from-char&gt;</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font><font color="#00ff00"><b>\
+</b></font>AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz<font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># subs every lower case first char</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#a">a</a>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="a">a</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.*\n\n.*\)\<font color="#ff00ff"><b>(</b></font>[A-Z]\)\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#a">a</a>
+
+<font color="#00ffff"><b># cleanup...</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n\n.*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/cflword5.sed">http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/cflword5.sed</a></b></font>
+
+</pre></body></html>

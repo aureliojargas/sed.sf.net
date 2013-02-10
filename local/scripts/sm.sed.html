@@ -1,0 +1,137 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized sm.sed</title></head><body bgcolor="#000000" text="#ffffff"
+link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b>#! /bin/sed -f</b></font>
+
+<font color="#00ffff"><b># sed-sm -- template for a state machine with sed</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># $Id$</b></font>
+<font color="#00ffff"><b># Carlos Duarte, 980525/980531</b></font>
+
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># How to use the state machine</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># There are five places to place code (marked through the script): </b></font>
+<font color="#00ffff"><b># 1. before :main, to run only once, at start</b></font>
+<font color="#00ffff"><b># 2. after :main, to run on each line, after it has been load</b></font>
+<font color="#00ffff"><b># 3. code for states, to run on each state</b></font>
+<font color="#00ffff"><b># 4. after :pnext, to run on each line, after it has been processed per states</b></font>
+<font color="#00ffff"><b># 5. after :end, to run only once, at end of everything</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># 1 and 5, should be used to insert or append some text, or perhaps to</b></font>
+<font color="#00ffff"><b># read some file into script, etc..</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># 2,3,4 run on a pattern space, of format ^.*\n.*$</b></font>
+<font color="#00ffff"><b># First .* is the current line </b></font>
+<font color="#00ffff"><b># Other .* is the state information</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># 2,4, may be used to do some refinements in addition to state's work,</b></font>
+<font color="#00ffff"><b># or, to do some common work to all states</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># State</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># A state can have one or more chars, and with fixed or variable dimension</b></font>
+<font color="#00ffff"><b># (of chars per state).</b></font>
+<font color="#00ffff"><b># Usually, a one char state is used (or at least, with fixed length),</b></font>
+<font color="#00ffff"><b># to easy things. If so, one can </b></font>
+<font color="#00ffff"><b># . test current state 		/0$/b s0</b></font>
+<font color="#00ffff"><b># . change current state	s/.$/1/</b></font>
+<font color="#00ffff"><b># . push another state		s/$/1/</b></font>
+<font color="#00ffff"><b># . pop to previous state	s/.$//</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># At main, there are listed all possible states, jumping to their associate</b></font>
+<font color="#00ffff"><b># labels.</b></font>
+<font color="#00ffff"><b># Usually, each state should have a distinct label, perhaps named like</b></font>
+<font color="#00ffff"><b># "s&lt;state&gt;".</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># At each state code (code after its label), a pattern space like</b></font>
+<font color="#00ffff"><b># ^.*\n.*$ is received, where the first .* is line to process, and</b></font>
+<font color="#00ffff"><b># the last .* is the state information. Also, each state should exit</b></font>
+<font color="#00ffff"><b># by branching to one of these:</b></font>
+<font color="#00ffff"><b># . :pnext		print current line, and load next</b></font>
+<font color="#00ffff"><b># . :next			dont print, just collect next line</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># Hold buffer is kept untouch, so, it is freely available for specific use.</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># 20000720 aurelio's note: if speed is a problem, s/.*/[\n]*/ at the</b></font>
+<font color="#00ffff"><b>#                          script. i've changed the filename to sm.sed</b></font>
+
+
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># the implemented example, understands blocks of text, as non</b></font>
+<font color="#00ffff"><b># empty lines separated by blank ones, then delete them all (the blanks), </b></font>
+<font color="#00ffff"><b># and quote 1st block with &gt;, 2nd with :, 3r with |,</b></font>
+<font color="#00ffff"><b># at 4th turns to &gt; again, on 5th :, etc... </b></font>
+<font color="#00ffff"><b># </b></font>
+
+<font color="#00ffff"><b># first state : 0</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font>0<font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># code to be ran only once, at start</b></font>
+<font color="#00ffff"><b># </b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="main">main</a></b></font>
+
+<font color="#00ffff"><b># common init processing may come here, and operate on /^.*\n/</b></font>
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>0$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#s0">s0</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>1$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#s1">s1</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>2$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#s2">s2</a>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^.*\n</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>error: "<font color="#00ff00"><b>&amp;</b></font>" is an invalid state<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>q</b></font>  
+
+<font color="#00ffff"><b>##########</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="s0">s0</a></b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\n</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font>1<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#next">next</a>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>&gt;<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>b</b></font> <a href="#pnext">pnext</a>
+
+<font color="#00ffff"><b>##########</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="s1">s1</a></b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\n</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font>2<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#next">next</a>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>:<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>b</b></font> <a href="#pnext">pnext</a>
+
+<font color="#00ffff"><b>##########</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="s2">s2</a></b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\n</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font>0<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#next">next</a>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>|<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>b</b></font> <a href="#pnext">pnext</a>
+
+<font color="#00ffff"><b>##########</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="pnext">pnext</a></b></font>
+<font color="#00ffff"><b># common late processing may come here, and operate on /^.*\n/</b></font>
+<font color="#ffff00"><b>P</b></font>  
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="next">next</a></b></font>
+<font color="#8080ff"><b>$</b></font> <font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
+<font color="#ffff00"><b>N</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.*\)\<font color="#ff00ff"><b>(</b></font>\n.*\)\n\<font color="#ff00ff"><b>(</b></font>.*\)$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>b</b></font> <a href="#main">main</a>
+
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># code to be ran at end, only once. </b></font>
+<font color="#00ffff"><b># d must be the last, if dont want to output last line (pattern space)</b></font>
+<font color="#00ffff"><b>#</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="end">end</a></b></font>
+<font color="#ffff00"><b>d</b></font>  
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://verde666.org/sed/programas/sm.sed">http://verde666.org/sed/programas/sm.sed</a></b></font>
+
+</pre></body></html>

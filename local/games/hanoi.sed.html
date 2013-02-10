@@ -1,0 +1,150 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized hanoi.sed</title></head><body bgcolor="#000000" text="#ffffff"
+link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b>#!/bin/sed -f</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#                   sed can do Towers of Hanoi</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># Article 3064 of net.unix: </b></font>
+<font color="#00ffff"><b># ion: version B 2.10.2 9/18/84; site masscomp.UUCP</b></font>
+<font color="#00ffff"><b># From: gbergman@ucbtopaz.CC.Berkeley.ARPA</b></font>
+<font color="#00ffff"><b># Newsgroups: net.unix</b></font>
+<font color="#00ffff"><b># Subject: sed can do Towers of Hanoi</b></font>
+<font color="#00ffff"><b># Date: 21 Nov 84 04:20:04 GMT</b></font>
+<font color="#00ffff"><b># Organization: Univ. of Calif., Berkeley CA USA</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># If you put the 60-line sed script near the end of this message</b></font>
+<font color="#00ffff"><b># in a file, e.g. sed.hanoi, and then do</b></font>
+<font color="#00ffff"><b>#     sed -f sed.hanoi</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># and type in, say</b></font>
+<font color="#00ffff"><b>#     :abcd: : :&lt;CR&gt;&lt;CR&gt;</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># (notice-- TWO carriage returns-- a peculiarity of sed), then</b></font>
+<font color="#00ffff"><b># it will output the sequence of states involved in moving 4 rings,</b></font>
+<font color="#00ffff"><b># the largest called "a" and the smallest called "d", from the</b></font>
+<font color="#00ffff"><b># first to the second of three towers, so that the rings on any</b></font>
+<font color="#00ffff"><b># tower at any time are in descending order of size.  You can start with</b></font>
+<font color="#00ffff"><b># a different arrangement and a different number of rings, say</b></font>
+<font color="#00ffff"><b># :ce:b:ax: and it will still give the shortest procedure for</b></font>
+<font color="#00ffff"><b># moving them all to the middle tower.  The rules are: the names</b></font>
+<font color="#00ffff"><b># of the rings must all be lower-case letters, they must be input within</b></font>
+<font color="#00ffff"><b># 3 fields (representing the towers) delimited by 4 colons, such that</b></font>
+<font color="#00ffff"><b># the letters within each field are in alphabetical order (= rings in</b></font>
+<font color="#00ffff"><b># descending order of size).</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># For the benefit of anyone who wants to figure out the script,</b></font>
+<font color="#00ffff"><b># I will explain that an "internal" line of the form</b></font>
+<font color="#00ffff"><b>#     b:0abx:1a2b3 :2   :3x2     </b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># has the following meaning: the material after the three markers :1 :2</b></font>
+<font color="#00ffff"><b># :3 represents the three towers; in this case the current set-up is</b></font>
+<font color="#00ffff"><b># :ab :   :x  :.  The numbers after a, b and x in these fields indicate</b></font>
+<font color="#00ffff"><b># that the next time it gets a chance, it will move a to tower 2, move b</b></font>
+<font color="#00ffff"><b># to tower 3, and move x to tower 2.  The string after :0 just keeps</b></font>
+<font color="#00ffff"><b># track of the alphabetical order of the names of the rings.  The b at the</b></font>
+<font color="#00ffff"><b># beginning means that it is now dealing with ring  b  (either about to</b></font>
+<font color="#00ffff"><b># move it, or re-evaluating where it should next be moved to).</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># Although this version is "limited" to 26 rings because of the size</b></font>
+<font color="#00ffff"><b># of the alphabet, one could write a script using the same idea in which</b></font>
+<font color="#00ffff"><b># the rings were represented by arbitrary [strings][within][brackets], and</b></font>
+<font color="#00ffff"><b># in place of the built-in line of the script giving the order of the</b></font>
+<font color="#00ffff"><b># letters of the alphabet, it would accept from the user a line giving the</b></font>
+<font color="#00ffff"><b># ordering to be assumed, e.g. [ucbvax][decvax][hplabs][foo][bar].</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># While on the subject, I will repeat at the very end of this note</b></font>
+<font color="#00ffff"><b># a much shorter file to do Towers of Hanoi using troff that a friend</b></font>
+<font color="#00ffff"><b># posted for me a year or so ago, before I was on a machine that</b></font>
+<font color="#00ffff"><b># subscribed to the net.  If you put it in a file "troff.hanoi", and</b></font>
+<font color="#00ffff"><b># do  nroff -rr5 troff.hanoi,  it will output instructions for moving 5</b></font>
+<font color="#00ffff"><b># rings from tower 1 to tower 2; generally, just put the desired number</b></font>
+<font color="#00ffff"><b># of rings after the -rr on the command line.  In this case, you don't</b></font>
+<font color="#00ffff"><b># have a choice of initial state, aside from choosing the number of rings.</b></font>
+<font color="#00ffff"><b>#     Have fun!</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b>#     George Bergman</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b>#     Math, UC Berkeley 94720 USA</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b>#     ucbvax!ucbcartan!gbergman (if your mailer can</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b>#     digest a 9-letter name; if not maybe:)</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b>#     ucbvax!cartan:gbergman  or</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b>#     gbergman%cartan@berkeley</b></font>
+
+
+<font color="#00ffff"><b># cleaning, diagnostics</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>  *</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>d</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[^a-z:]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>a</b></font> <font color="#00ff00"><b>\
+</b></font>Impermissible characters: use only a-z and ":".  Try again.
+  <font color="#ffff00"><b>d</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^:[a-z]*:[a-z]*:[a-z]*:$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>a</b></font> <font color="#00ff00"><b>\
+</b></font>incorrect format: use<font color="#00ff00"><b>\
+</b></font>\       : string1 : string2 : string3 :&lt;CR&gt;&lt;CR&gt;<font color="#00ff00"><b>\
+</b></font>Try again.
+  <font color="#ffff00"><b>d</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>[a-z]\).*\1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>a</b></font> <font color="#00ff00"><b>\
+</b></font>Repeated letters not allowed.  Try again.
+  <font color="#ffff00"><b>d</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#00ffff"><b># initial formatting</b></font>
+<font color="#ffff00"><b>h</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[a-z]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>G</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^:\<font color="#ff00ff"><b>(</b></font> *\):\<font color="#ff00ff"><b>(</b></font> *\):\<font color="#ff00ff"><b>(</b></font> *\):\n:\<font color="#ff00ff"><b>(</b></font>[a-z]*\):\<font color="#ff00ff"><b>(</b></font>[a-z]*\):\<font color="#ff00ff"><b>(</b></font>[a-z]*\):$</b></font><font color="#ff6060"><b>/</b></font>:1<font color="#00ff00"><b>\4</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font>:2<font color="#00ff00"><b>\5</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\3</b></font>:3<font color="#00ff00"><b>\6</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font>:0<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[a-z]</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font>2<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>abcdefghijklmnopqrstuvwxyz<font color="#ff6060"><b>/</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="a">a</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\).*\1.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[^:]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#a">a</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>[^0]*\)\<font color="#ff00ff"><b>(</b></font>:0.*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font>:<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[^0]*0\<font color="#ff00ff"><b>(</b></font>.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="b">b</a></b></font>
+<font color="#00ffff"><b># outputting current state without markers</b></font>
+<font color="#ffff00"><b>h</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*:1</b></font><font color="#ff6060"><b>/</b></font>:<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[123]</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>gp</b></font>
+<font color="#ffff00"><b>g</b></font>  
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="c">c</a></b></font>
+<font color="#00ffff"><b># establishing destinations</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\).*\1:1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>t</b></font> <a href="#d">d</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\).*:1[^:]*\11</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.*\1\<font color="#ff00ff"><b>(</b></font>[a-z]\).*\)\3.</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font>1<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\).*:1[^:]*\12</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.*\1\<font color="#ff00ff"><b>(</b></font>[a-z]\).*\)\3.</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font>3<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\).*:1[^:]*\13</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.*\1\<font color="#ff00ff"><b>(</b></font>[a-z]\).*\)\3.</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font>2<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\).*:2[^:]*\11</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.*\1\<font color="#ff00ff"><b>(</b></font>[a-z]\).*\)\3.</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font>3<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\).*:2[^:]*\12</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.*\1\<font color="#ff00ff"><b>(</b></font>[a-z]\).*\)\3.</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font>2<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\).*:2[^:]*\13</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.*\1\<font color="#ff00ff"><b>(</b></font>[a-z]\).*\)\3.</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font>1<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\).*:3[^:]*\11</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.*\1\<font color="#ff00ff"><b>(</b></font>[a-z]\).*\)\3.</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font>2<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\).*:3[^:]*\12</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.*\1\<font color="#ff00ff"><b>(</b></font>[a-z]\).*\)\3.</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font>1<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\).*:3[^:]*\13</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.*\1\<font color="#ff00ff"><b>(</b></font>[a-z]\).*\)\3.</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font>3<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>b</b></font> <a href="#c">c</a>
+<font color="#00ffff"><b># iterate back to find smallest out-of-place ring</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="d">d</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>:0[^:]*\<font color="#ff00ff"><b>(</b></font>[^:]\)\1.*:\<font color="#ff00ff"><b>(</b></font>[123]\)[^:]*\1\)\4</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\4</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#d">d</a>
+<font color="#00ffff"><b># move said ring (right, resp. left)</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.*\)\1\<font color="#ff00ff"><b>(</b></font>[23]\)\<font color="#ff00ff"><b>(</b></font>.*:\3[^ ]*\) </b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font> <font color="#00ff00"><b>\4</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\3</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.*:\<font color="#ff00ff"><b>(</b></font>[12]\)[^ ]*\) \<font color="#ff00ff"><b>(</b></font>.*\)\1\3</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\4</b></font> <font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#b">b</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>Done!  Try another, or end with ^D.<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>p</b></font>
+<font color="#ffff00"><b>d</b></font>  
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://pcsiwa.rett.polimi.it/~paolob/seders/tutorials/hanoi.htm">http://pcsiwa.rett.polimi.it/~paolob/seders/tutorials/hanoi.htm</a></b></font>
+
+</pre></body></html>

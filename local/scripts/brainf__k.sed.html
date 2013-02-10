@@ -1,0 +1,472 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized brainf__k.sed</title></head><body bgcolor="#000000" text="#ffffff"
+link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b># BrainF*#&amp; interpreter in sed V1.0</b></font>
+<font color="#00ffff"><b>#     Edward Rosten 2001</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># The BF code is read as the first input line.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Brainf*!@# is a very simple structured language. </b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># It consists of a data space with a data pointer p, and a program containing</b></font>
+<font color="#00ffff"><b># a selection of the 8 commands avaliable. The data space consists of a linear</b></font>
+<font color="#00ffff"><b># set of bytes. In the original implementation there were 30,000 of these. In</b></font>
+<font color="#00ffff"><b># this implementation, they are added as needed. the commands are:</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># + 	increment the byte at location p</b></font>
+<font color="#00ffff"><b># -		decrement the byte at location p</b></font>
+<font color="#00ffff"><b># &gt; 	increment p</b></font>
+<font color="#00ffff"><b># &lt;		decrement p</b></font>
+<font color="#00ffff"><b># .		Output p</b></font>
+<font color="#00ffff"><b># ,		read input in to p</b></font>
+<font color="#00ffff"><b># [		start a loop if trhe value at p is nonzero</b></font>
+<font color="#00ffff"><b># ]		jump back to the corresponding [</b></font>
+
+<font color="#00ffff"><b># The following description was extracted from </b></font>
+<font color="#00ffff"><b># http://www.muppetlabs.com/~breadbox/bf/</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># If p is of type char**, BF translates in to C thus:</b></font>
+
+<font color="#00ffff"><b># &gt; becomes ++p;</b></font>
+<font color="#00ffff"><b># &lt; becomes --p;</b></font>
+<font color="#00ffff"><b># + becomes ++*p;</b></font>
+<font color="#00ffff"><b># - becomes --*p;</b></font>
+<font color="#00ffff"><b># .  becomes putchar(*p);</b></font>
+<font color="#00ffff"><b># , becomes *p = getchar();</b></font>
+<font color="#00ffff"><b># [ becomes while (*p) {</b></font>
+<font color="#00ffff"><b># ] becomes }</b></font>
+
+
+<font color="#00ffff"><b># This interpreter has several limitations:</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># The I/O commands . and , can not output or input bytes directly as in genuine</b></font>
+<font color="#00ffff"><b># BF. They output or input bytes as a pair of hex digits, one pair per line.</b></font>
+<font color="#00ffff"><b># This doesn't mean it isn't turing-complete any more, it just means it is even</b></font>
+<font color="#00ffff"><b># useful.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># To keep track of loops, it preprocesses the program and puts a numeric tag at</b></font>
+<font color="#00ffff"><b># the beginning and end of each loop. Currently, this is a 1 byte tag, so the</b></font>
+<font color="#00ffff"><b># interpreter can have a maximum of 256 loops in any one program. </b></font>
+
+
+
+<font color="#00ffff"><b>################################################################################</b></font>
+<font color="#00ffff"><b>################################################################################</b></font>
+<font color="#00ffff"><b>################################################################################</b></font>
+<font color="#00ffff"><b>################################################################################</b></font>
+
+
+
+
+
+
+
+<font color="#00ffff"><b># The interpreter can deal with loops nested up to 255 deep. It keeps track</b></font>
+<font color="#00ffff"><b># of the loops by appending a unique number after corresponding [ and ]</b></font>
+<font color="#00ffff"><b># Commands. This is performed in the preprocessing stage.</b></font>
+
+<font color="#00ffff"><b>#Since (for speed in processing) each [ has a unique number, the interpreter can</b></font>
+<font color="#00ffff"><b>#only deal with a total of 255 ['s in a program. This can easily(?) be inceased</b></font>
+<font color="#00ffff"><b>#by making the [ counter have 4 digits instead of 2.</b></font>
+
+<font color="#00ffff"><b>#During preprocessing, the program takes the following format:</b></font>
+
+
+<font color="#00ffff"><b>#ln{...#...}stack</b></font>
+
+<font color="#00ffff"><b>#The loop number is incremented each time a [ is encountered.</b></font>
+<font color="#00ffff"><b>#The stack contains a list of loop numbers. The top of the stack (the leftmost</b></font>
+<font color="#00ffff"><b>#item) refers to the innermost loop.</b></font>
+
+
+<font color="#00ffff"><b>#In the preprocessor, the current item is the one after the `#'</b></font>
+
+
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>00{#<font color="#00ff00"><b>&amp;</b></font>}<font color="#ff6060"><b>/</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="preprocessor">preprocessor</a></b></font>
+
+<font color="#00ffff"><b>#Check for garbage:</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#[][+&lt;&gt;,.-]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>p</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*#\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font>Error: Spurious character `<font color="#00ff00"><b>\1</b></font>' found in input!<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>q</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+
+
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#\[</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#found_open">found_open</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#found_close">found_close</a>
+
+
+<font color="#00ffff"><b>#If nothing of interest was found, then step through the loop:</b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>#<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+
+
+<font color="#00ffff"><b>#if we're not at the end, continue the loop...</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="end_prep_loop">end_prep_loop</a></b></font>
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#}</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#preprocessor">preprocessor</a>
+
+<font color="#00ffff"><b># Remove the accounting information:</b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*{\<font color="#ff00ff"><b>(</b></font>.*\)#}.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+
+<font color="#ffff00"><b>b</b></font> <a href="#interpreter">interpreter</a>
+
+
+<font color="#00ffff"><b>################################################################################</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Preprocessor functions</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>################################################################################</b></font>
+
+<font color="#00ffff"><b>################################################################################</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Implement found_open. This appends the counter to the stack and increments the</b></font>
+<font color="#00ffff"><b># counter</b></font>
+<font color="#00ffff"><b>#</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="found_open">found_open</a></b></font>
+
+<font color="#00ffff"><b>#Append the counter to the stack:</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>..\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>#Append the counter just after #[, also move the # on.</b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>..\)\<font color="#ff00ff"><b>(</b></font>.*\)#\[\<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font>[<font color="#00ff00"><b>\1</b></font>#<font color="#00ff00"><b>\3</b></font><font color="#ff6060"><b>/</b></font>
+
+
+<font color="#00ffff"><b># Add 1 to the lowest digit of the counter.</b></font>
+<font color="#ffff00"><b>h</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>0123456789ABCDEF</b></font><font color="#ff6060"><b>/</b></font>123456789ABCDEF0<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>G</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.\).\<font color="#ff00ff"><b>(</b></font>.*\)\n\<font color="#ff00ff"><b>(</b></font>.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+
+
+<font color="#00ffff"><b>#If this digit is zero, add one to the next digit</b></font>
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^.0</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#end_prep_loop">end_prep_loop</a>
+<font color="#ffff00"><b>h</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>0123456789ABCDEF</b></font><font color="#ff6060"><b>/</b></font>123456789ABCDEF0<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>G</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^.\<font color="#ff00ff"><b>(</b></font>.*\)\n\<font color="#ff00ff"><b>(</b></font>.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#ffff00"><b>b</b></font> <a href="#end_prep_loop">end_prep_loop</a>
+
+
+<font color="#00ffff"><b>################################################################################</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># implement found_close. This apends the last value on the stack to after the </b></font>
+<font color="#00ffff"><b># current ] and removes the top (leftmost item) from the stack. It also moves</b></font>
+<font color="#00ffff"><b># the # onwards.</b></font>
+<font color="#00ffff"><b>#</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="found_close">found_close</a></b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.*\)#]\<font color="#ff00ff"><b>(</b></font>.*\)\<font color="#ff00ff"><b>(</b></font>..\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>]<font color="#00ff00"><b>\3</b></font>#<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#ffff00"><b>b</b></font> <a href="#end_prep_loop">end_prep_loop</a>
+
+
+
+
+
+
+<font color="#00ffff"><b>################################################################################</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># The following is the main program interpreter loop</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>################################################################################</b></font>
+
+
+
+
+
+<font color="#00ffff"><b># The # indicates the pointer in the program.</b></font>
+<font color="#00ffff"><b># The @ seperates the program from the data</b></font>
+<font color="#00ffff"><b># The ! indicates the pointer in the data</b></font>
+<font color="#00ffff"><b># The + indicates the end of the data</b></font>
+
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="interpreter">interpreter</a></b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>#<font color="#00ff00"><b>&amp;</b></font>@!00%<font color="#ff6060"><b>/</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="main">main</a></b></font>
+
+<font color="#00ffff"><b>#Split apart the program and extract the command and put it at the end.</b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*#\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>+$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#add">add</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>-$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#sub">sub</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#right">right</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&lt;$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#left">left</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#print">print</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>,$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#read">read</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#start_while">start_while</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>]$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#end_while">end_while</a>
+
+
+
+
+
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="done">done</a></b></font>
+
+
+<font color="#00ffff"><b>#Increment the program pointer.</b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>#<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>#This is to jump past numbers put after ['s and ]'s to keep track of them. </b></font>
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[][]#[A-Z0-9][A-Z0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#\<font color="#ff00ff"><b>(</b></font>..\)\<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>#<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="more_done">more_done</a></b></font>
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#@</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#main">main</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>q</b></font>  
+
+<font color="#00ffff"><b>#################################################################################</b></font>
+<font color="#00ffff"><b># The commands are implemented below</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>################################################################################</b></font>
+
+
+<font color="#00ffff"><b>#################################################################################</b></font>
+<font color="#00ffff"><b># Add 1 to the value at the byte pointer</b></font>
+<font color="#00ffff"><b>#</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="add">add</a></b></font>
+<font color="#00ffff"><b>#Remove the command</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>#Extract the number and put it at the end.</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*!\<font color="#ff00ff"><b>(</b></font>..\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>#Copy the last digit to the hold space</b></font>
+<font color="#ffff00"><b>h</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*\<font color="#ff00ff"><b>(</b></font>.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>#`Add' 1 to the digit</b></font>
+<font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>0123456789ABCDEF</b></font><font color="#ff6060"><b>/</b></font>123456789ABCDEF0<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>G</b></font>  
+
+<font color="#00ffff"><b>#We now have ...+XX\nX</b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.\n\<font color="#ff00ff"><b>(</b></font>.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+
+<font color="#00ffff"><b>#If the last digit is a zero, we have an overflow, so add to the next digit.</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>0$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#nearly_finished_adding">nearly_finished_adding</a>
+
+<font color="#00ffff"><b>#Extract the second to last digit to the hold space</b></font>
+<font color="#ffff00"><b>h</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*\<font color="#ff00ff"><b>(</b></font>.\).</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>0123456789ABCDEF</b></font><font color="#ff6060"><b>/</b></font>123456789ABCDEF0<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>G</b></font>  
+
+<font color="#00ffff"><b>#We now have the second to last digit's new value appended at the end.</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.\<font color="#ff00ff"><b>(</b></font>.\)\n\<font color="#ff00ff"><b>(</b></font>.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+
+<font color="#00ffff"><b>#Paste the added number back in.</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="nearly_finished_adding">nearly_finished_adding</a></b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!..\<font color="#ff00ff"><b>(</b></font>.*\)%\<font color="#ff00ff"><b>(</b></font>..\)</b></font><font color="#ff6060"><b>/</b></font>!<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font>%<font color="#ff6060"><b>/</b></font>
+
+<font color="#ffff00"><b>b</b></font> <a href="#done">done</a>
+
+
+
+<font color="#00ffff"><b>################################################################################</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Subtract 1 from the value at the byte pointer</b></font>
+<font color="#00ffff"><b>#</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="sub">sub</a></b></font>
+<font color="#00ffff"><b>#Remove the command</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>#Extract the number and put it at the end.</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*!\<font color="#ff00ff"><b>(</b></font>..\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>#Copy the last digit to the hold space</b></font>
+<font color="#ffff00"><b>h</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*\<font color="#ff00ff"><b>(</b></font>.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>#`Sub' 1 from the digit</b></font>
+<font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>123456789ABCDEF0</b></font><font color="#ff6060"><b>/</b></font>0123456789ABCDEF<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>G</b></font>  
+
+<font color="#00ffff"><b>#We now have ...+XX\nX</b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.\n\<font color="#ff00ff"><b>(</b></font>.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+
+<font color="#00ffff"><b>#If the last digit is an `F', we have an underflow, so sub from the next digit.</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>F$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#nearly_finished_subbing">nearly_finished_subbing</a>
+
+<font color="#00ffff"><b>#Extract the second to last digit to the hold space</b></font>
+<font color="#ffff00"><b>h</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*\<font color="#ff00ff"><b>(</b></font>.\).</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>123456789ABCDEF0</b></font><font color="#ff6060"><b>/</b></font>0123456789ABCDEF<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>G</b></font>  
+
+<font color="#00ffff"><b>#We now have the second to last digit's new value appended at the end.</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.\<font color="#ff00ff"><b>(</b></font>.\)\n\<font color="#ff00ff"><b>(</b></font>.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+
+<font color="#00ffff"><b>#Paste the added number back in.</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="nearly_finished_subbing">nearly_finished_subbing</a></b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!..\<font color="#ff00ff"><b>(</b></font>.*\)%\<font color="#ff00ff"><b>(</b></font>..\)</b></font><font color="#ff6060"><b>/</b></font>!<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font>%<font color="#ff6060"><b>/</b></font>
+
+<font color="#ffff00"><b>b</b></font> <a href="#done">done</a>
+
+
+
+
+<font color="#00ffff"><b>################################################################################</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Implement the `&gt;' command: ie move the pointer to the right</b></font>
+<font color="#00ffff"><b>#</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="right">right</a></b></font>
+
+<font color="#00ffff"><b>#Remove the command</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+
+
+<font color="#00ffff"><b># If we're at the end, then create more space...</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!..%</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>%</b></font><font color="#ff6060"><b>/</b></font>00%<font color="#ff6060"><b>/</b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!\<font color="#ff00ff"><b>(</b></font>..\)\<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>!<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#ffff00"><b>b</b></font> <a href="#done">done</a>
+
+
+<font color="#00ffff"><b>################################################################################</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Implement the `&lt;' command: ie move the pointer to the left</b></font>
+<font color="#00ffff"><b>#</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="left">left</a></b></font>
+
+<font color="#00ffff"><b>#Remove the command</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>#If we're at the beginning then add some more space...</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@!</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@</b></font><font color="#ff6060"><b>/</b></font>@00<font color="#ff6060"><b>/</b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>..\)!\<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font>!<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#ffff00"><b>b</b></font> <a href="#done">done</a>
+
+
+<font color="#00ffff"><b>################################################################################</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Implement the `.' command, ie, print the current value at the pointer.</b></font>
+<font color="#00ffff"><b>#</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="print">print</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>h</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*!\<font color="#ff00ff"><b>(</b></font>..\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#ffff00"><b>p</b></font>  
+<font color="#ffff00"><b>x</b></font>  
+
+<font color="#ffff00"><b>b</b></font> <a href="#done">done</a>
+
+
+
+<font color="#00ffff"><b>################################################################################</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Implement the `,' command. This reads a byte from the keyboard. The input is</b></font>
+<font color="#00ffff"><b># assumed to be in the style of 1 byte per line, 2 hex digits per byte.</b></font>
+<font color="#00ffff"><b>#</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="read">read</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>N</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!..\<font color="#ff00ff"><b>(</b></font>.*\)\n\<font color="#ff00ff"><b>(</b></font>..\)</b></font><font color="#ff6060"><b>/</b></font>!<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#ffff00"><b>b</b></font> <a href="#done">done</a>
+
+
+
+
+<font color="#00ffff"><b>################################################################################</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Implement the [ command. This jumps to the corresponding ] if the value at the</b></font>
+<font color="#00ffff"><b># pointer is zero or continues straight on otherwise.</b></font>
+<font color="#00ffff"><b>#</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="start_while">start_while</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+
+
+<font color="#00ffff"><b>#If the value is not 00, then return:</b></font>
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!00</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#done">done</a>
+
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.*\)#\[\<font color="#ff00ff"><b>(</b></font>..\)\<font color="#ff00ff"><b>(</b></font>.*\)]\2\<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>[<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font>#]<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\4</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#ffff00"><b>b</b></font> <a href="#done">done</a>
+
+
+<font color="#00ffff"><b>################################################################################</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Implement the ] commend. this jumps unconditionally back to the matching [</b></font>
+<font color="#00ffff"><b># This function leaves the # in the right place for a new loop</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="end_while">end_while</a></b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>#Duplicate the loop number to the beginning of the line and remove the # marker:</b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.*\)#]\<font color="#ff00ff"><b>(</b></font>..\)\<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font>]<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>#Now put in the new # marker:</b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>..\)\<font color="#ff00ff"><b>(</b></font>.*\)\[\1\<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>#[<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\3</b></font><font color="#ff6060"><b>/</b></font>
+
+
+<font color="#ffff00"><b>b</b></font> <a href="#more_done">more_done</a>
+
+
+
+
+
+
+
+
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://users.ox.ac.uk/~scat1148/code/programs_best_written_in_another_language/brainf__k.sed">http://users.ox.ac.uk/~scat1148/code/programs_best_written_in_another_language/brainf__k.sed</a></b></font>
+
+</pre></body></html>

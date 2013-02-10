@@ -1,0 +1,583 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized unlambda.sed</title></head><body bgcolor="#000000" text="#ffffff"
+link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b># unlambda v1 interpreter in sed </b></font>
+<font color="#00ffff"><b># 2003-02-19 - Laurent Vogel - http://lvogel/free.fr</b></font>
+<font color="#00ffff"><b># GPL version 2 or later (see http://www.gnu.org/copyleft/gpl.html)</b></font>
+
+<font color="#00ffff"><b># This is an interpreter for unlambda version 1. </b></font>
+<font color="#00ffff"><b># Unlambda is an esoteric language invented by David Madore in 1999.</b></font>
+<font color="#00ffff"><b># You should really refer to the unlambda page for the complete description,</b></font>
+<font color="#00ffff"><b># of the language, including a tutorial and other things:</b></font>
+<font color="#00ffff"><b># http://www.eleves.ens.fr:8080/home/madore/programs/unlambda/unlambda.html</b></font>
+<font color="#00ffff"><b># but nevertheless here is a sketchy description of unlambda:</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># The only data type in unlambda are functions. A function, when applied</b></font>
+<font color="#00ffff"><b># to another function, yields a third function, and so on: </b></font>
+<font color="#00ffff"><b># `&lt;f&gt;&lt;g&gt; is the notation for the application of &lt;f&gt; to &lt;g&gt;. </b></font>
+<font color="#00ffff"><b># When evaluating `&lt;f&gt;&lt;g&gt;, &lt;f&gt; is first evaluated, then &lt;g&gt; </b></font>
+<font color="#00ffff"><b># (unless &lt;f&gt; did evaluate to the builtin d) then &lt;f&gt; is applied to &lt;g&gt;.</b></font>
+<font color="#00ffff"><b># The unlambda builtin functions are:</b></font>
+<font color="#00ffff"><b>#  i  the identity function: `i&lt;a&gt; returns &lt;a&gt;</b></font>
+<font color="#00ffff"><b>#  k  the constant generator function: `k&lt;a&gt; returns a function &lt;f&gt;</b></font>
+<font color="#00ffff"><b>#     such as `&lt;f&gt;&lt;b&gt; returns &lt;a&gt;. In short: ``k&lt;a&gt;&lt;b&gt; returns &lt;a&gt;</b></font>
+<font color="#00ffff"><b>#  s  the substitution function: ```s&lt;a&gt;&lt;b&gt;&lt;c&gt; returns ``&lt;a&gt;&lt;c&gt;`&lt;b&gt;&lt;c&gt;</b></font>
+<font color="#00ffff"><b>#  v  a shortcut for ```s``s`kskk``s``s`kskk: `v&lt;a&gt; returns v</b></font>
+<font color="#00ffff"><b>#  .x (for any ASCII char x): `.x&lt;a&gt; outputs x then returns &lt;a&gt;</b></font>
+<font color="#00ffff"><b>#  r  another notation for .&lt;newline&gt;</b></font>
+<font color="#00ffff"><b>#  d  `d&lt;a&gt; does not evaluate &lt;a&gt;, but ``d&lt;a&gt;&lt;b&gt; evaluates `&lt;a&gt;&lt;b&gt;</b></font>
+<font color="#00ffff"><b>#  c  ("call with current continuation") is difficult to explain: </b></font>
+<font color="#00ffff"><b>#     `c&lt;a&gt; returns `&lt;a&gt;&lt;cont&gt; for a new function &lt;cont&gt; called a </b></font>
+<font color="#00ffff"><b>#     continuation; if later `&lt;cont&gt;&lt;b&gt; is evaluated, then it is as if at </b></font>
+<font color="#00ffff"><b>#     the time `c&lt;a&gt; was evaluated &lt;b&gt; was returned instead of `&lt;a&gt;&lt;cont&gt;.</b></font>
+<font color="#00ffff"><b># An unlambda program consists of one expression. Spaces and comments</b></font>
+<font color="#00ffff"><b># (everything between a sharp sign '#' and the end of line) are allowed</b></font>
+<font color="#00ffff"><b># and ignored.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># This version of the interpreter does not implement the unlambda v2 </b></font>
+<font color="#00ffff"><b># builtins. There are no unlambda v2 programs small enough anyway.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># The following Programs from the CUAN (Comprehensive Unlambda Archive </b></font>
+<font color="#00ffff"><b># Network) run successfully:</b></font>
+<font color="#00ffff"><b>#   Hello, Square, power2, count, count2, trivial, trivial2, trivial3,</b></font>
+<font color="#00ffff"><b>#   fibo, Triangle, pattern(*)</b></font>
+<font color="#00ffff"><b>#   Jean.Marot/Quine, Quine2</b></font>
+<font color="#00ffff"><b>#   Denis.Auroux/q2, q3, q5</b></font>
+<font color="#00ffff"><b>#   Panu.Kalliokoski/Quine2</b></font>
+<font color="#00ffff"><b># (*) modified to print stars and newlines. </b></font>
+<font color="#00ffff"><b># Bigger programs were not tested.</b></font>
+
+<font color="#00ffff"><b># Sed note</b></font>
+<font color="#00ffff"><b># --------</b></font>
+<font color="#00ffff"><b># Some attempt has been made to make this script portable. It is known to</b></font>
+<font color="#00ffff"><b># run on the following sed interpreters:</b></font>
+<font color="#00ffff"><b># GNU sed 3.02 and newer: if the last line of the unlambda program does </b></font>
+<font color="#00ffff"><b>#   not end with a newline, then no newlines are ever printed. I consider </b></font>
+<font color="#00ffff"><b>#   this to be a bug in GNU sed.</b></font>
+<font color="#00ffff"><b># HHsed: runs up to seven times faster than GNU sed-4.0.5 on my machine, </b></font>
+<font color="#00ffff"><b>#   once the following two lines are commented out in sedexec.c:</b></font>
+<font color="#00ffff"><b>#     if (++jumpcnt &gt;= JUMPLIMIT)</b></font>
+<font color="#00ffff"><b>#       ABORT2(INFLOOP, lnum);</b></font>
+<font color="#00ffff"><b>#   You will also need to increase MAXBUF for some programs.</b></font>
+
+<font color="#00ffff"><b># When parsing the program, the hold buffer contains: </b></font>
+<font color="#00ffff"><b># the line number, then a space, then the program parsed up to now</b></font>
+<font color="#ffff00"><b>x</b></font>  
+
+<font color="#00ffff"><b># Initialize the hold buffer</b></font>
+<font color="#8080ff"><b>1</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>0 <font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># Increment line number</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> </b></font><font color="#ff6060"><b>/</b></font>i <font color="#ff6060"><b>/</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="inc">inc</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[^ ]*.i</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font>0123456789i0_<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^i</b></font><font color="#ff6060"><b>/</b></font>1<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.\)i[^_]*\1\<font color="#ff00ff"><b>(</b></font>i*.\)[^_]*_</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[^ ]*i</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#inc">inc</a>
+
+<font color="#00ffff"><b># Back to the pattern space</b></font>
+<font color="#ffff00"><b>x</b></font>  
+
+<font color="#00ffff"><b># Obtain a newline at the beginning of the pattern space. Successfully</b></font>
+<font color="#00ffff"><b># parsed input will go left of the newline. A space is added first for</b></font>
+<font color="#00ffff"><b># buggy sed whose G does not add a newline over an empty pattern space.</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>G</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^\n]*\)\<font color="#ff00ff"><b>(</b></font>\n\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="parse">parse</a></b></font>
+<font color="#00ffff"><b># Remove space and TABs</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>\n\)[ 	]*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b># Remove comments</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n#.*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b># Rename '.x' for some special chars x into ',y', y being a letter. </b></font>
+<font color="#00ffff"><b># Special chars, and reason why:</b></font>
+<font color="#00ffff"><b># - ':@();|&lt;&gt;_':!#{} used as special markers in [^x]* sed patterns</b></font>
+<font color="#00ffff"><b># - '`': made special to allow s/`i//g</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n\.[:@();|&lt;&gt;_`!#{}]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font>:a@b(c)d;e|f&lt;g&gt;h_i`j!k#l{m}n~<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>\n\)\.\<font color="#ff00ff"><b>(</b></font>.\)[^~]*\2\<font color="#ff00ff"><b>(</b></font>[^~]\)[^~]*~</b></font><font color="#ff6060"><b>/</b></font>,<font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#00ffff"><b># .&lt;newline&gt;</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n\.$</b></font><font color="#ff6060"><b>/</b></font>r<font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b># .x in the default case </b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>\n\)\<font color="#ff00ff"><b>(</b></font>\..\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b># Plain tokens</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>\n\)\<font color="#ff00ff"><b>(</b></font>[cdikrsv`]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b># Illegal input</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n[^cdikrsv.`# 	]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#00ffff"><b># remove anything before the first offending char </b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*\n</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#00ffff"><b># print an error message including the line number</b></font>
+  <font color="#ffff00"><b>x</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[0-9]*\).*</b></font><font color="#ff6060"><b>/</b></font>Syntax error line <font color="#00ff00"><b>\1</b></font>:<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>p</b></font>
+  <font color="#ffff00"><b>x</b></font>
+  <font color="#ffff00"><b>q</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#00ffff"><b># Continue while not at the end of this line</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n.</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#parse">parse</a>
+
+<font color="#00ffff"><b># Accumulate to the hold buffer</b></font>
+<font color="#ffff00"><b>H</b></font>  
+
+<font color="#00ffff"><b># Go on parsing while the last line is not reached</b></font>
+<font color="#8080ff"><b>$</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>d</b></font>
+
+<font color="#00ffff"><b># Get back program from the hold buffer, and remove the line number.</b></font>
+<font color="#00ffff"><b># The hold buffer will now contain pending output. Since some sed</b></font>
+<font color="#00ffff"><b># interpreters have weird behaviour when the hold buffer is empty, </b></font>
+<font color="#00ffff"><b># make sure there is always a space in it.</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[^ ]* </b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#00ffff"><b># Verify that the program contains one, and only one, expression.</b></font>
+<font color="#00ffff"><b># This is done by skipping one expression to the right. After skipping</b></font>
+<font color="#00ffff"><b># error messages are printed if the program is too short or too long,</b></font>
+<font color="#00ffff"><b># else we come back at :valid</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>?&gt;<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>|##a<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>b</b></font> <a href="#skip">skip</a>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="valid">valid</a></b></font>
+
+<font color="#00ffff"><b># Initialize the continuation database.</b></font>
+<font color="#00ffff"><b># A continuation is represented in the pattern space as</b></font>
+<font color="#00ffff"><b>#   |[I];[N];{A};{B}</b></font>
+<font color="#00ffff"><b># [I] is the continuation unique identifier ([I] matches /^aa*$/);</b></font>
+<font color="#00ffff"><b># [N] is the reference counter of the continuation (matches /^a*$/);</b></font>
+<font color="#00ffff"><b>#    [N] is '' when only one continuation reference exists, and it</b></font>
+<font color="#00ffff"><b>#    is increased by one 'a' per additional reference. The refcounts</b></font>
+<font color="#00ffff"><b>#    are updated when copying or deleting parts of the pattern space.</b></font>
+<font color="#00ffff"><b># {A} and {B} are the 'before' and 'after' part of the unlambda</b></font>
+<font color="#00ffff"><b>#    state at the time c was applied (i.e. the unlambda state was</b></font>
+<font color="#00ffff"><b>#    {A}`c{expr}{B})</b></font>
+<font color="#00ffff"><b># Continuations are deleted when no longer referenced, but the </b></font>
+<font color="#00ffff"><b># unique identifier remains in the base in the form  |[i] ready</b></font>
+<font color="#00ffff"><b># to be re-used to serve as the unique identifier of another </b></font>
+<font color="#00ffff"><b># continuation. For instance, after evaluating `cc</b></font>
+<font color="#00ffff"><b>#  `cc -&gt; `c&lt;c1&gt; -&gt; `&lt;c1&gt;&lt;c2&gt; -&gt; &lt;c2&gt;</b></font>
+<font color="#00ffff"><b># we obtain the following pattern space:</b></font>
+<font color="#00ffff"><b>#   &lt;%aa%|aa;;;|a|</b></font>
+<font color="#00ffff"><b># where 'aa' is the ID of a continuation referenced once (%aa%) </b></font>
+<font color="#00ffff"><b># and 'a' is a free ID.</b></font>
+<font color="#00ffff"><b># (see also the explanation on continuations below)</b></font>
+
+<font color="#00ffff"><b># Position the evaluation cursor at the beginning of the unlambda program.</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>_<font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># Meaning of special chars:</b></font>
+<font color="#00ffff"><b># Evaluation steps</b></font>
+<font color="#00ffff"><b># ----------------</b></font>
+<font color="#00ffff"><b># '_' is the evaluation cursor, at the left of the expression to evaluate. </b></font>
+<font color="#00ffff"><b># 'x&gt;' is the skip right operator (x is any char except @).</b></font>
+<font color="#00ffff"><b>#     branching to :skip will drop '&gt;x' to the right skipping exactly </b></font>
+<font color="#00ffff"><b>#     one (balanced) unlambda expression. </b></font>
+<font color="#00ffff"><b># '&lt;' is the move left operator. Branching to :left will move '&lt;' to the</b></font>
+<font color="#00ffff"><b>#     left until ':' is reached</b></font>
+<font color="#00ffff"><b># ':' is used to block &lt;</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># They are used as follows: '_' first before the expression to eval.</b></font>
+<font color="#00ffff"><b># during eval it may be necessary to leave a token 'x:' and skip right over</b></font>
+<font color="#00ffff"><b># expressions. We then use 'y&gt;' and branch to :skip which moves '&gt;y'</b></font>
+<font color="#00ffff"><b># farther to the right. '&gt;y' proceeds and ultimately should return with a</b></font>
+<font color="#00ffff"><b># '&lt;' which goes back to some 'z:' yielding 'z:&lt;' which itself eventually:</b></font>
+<font color="#00ffff"><b># - either drops a '_' and branches to :eval</b></font>
+<font color="#00ffff"><b># - or keeps a '&lt;' and branches to :left</b></font>
+<font color="#00ffff"><b># - or goes right by dropping a 't&gt;' and branching to :skip</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Because of this, treatment of builtin 'x' will typically involve code</b></font>
+<font color="#00ffff"><b># fragments in different places:</b></font>
+<font color="#00ffff"><b># - handling '_`x' located after :eval</b></font>
+<font color="#00ffff"><b># - handling '&gt;x' located after :skip</b></font>
+<font color="#00ffff"><b># - handling 'x:&lt;' located after :left</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># At any time there is at most one of '_', '&lt;' and '&gt;' in the pattern space</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># other special chars</b></font>
+<font color="#00ffff"><b># -------------------</b></font>
+<font color="#00ffff"><b># '(...)' are used to delimit zones to delete (by branching to :delete) or</b></font>
+<font color="#00ffff"><b>#     to scan after copy to increase the refcount of any continuation</b></font>
+<font color="#00ffff"><b>#     references found in them (by branching to :incref). </b></font>
+<font color="#00ffff"><b>#     A '&lt;' must be present somewhere in the data outside '(...)', as </b></font>
+<font color="#00ffff"><b>#     both :delete and :incref will branch to :left when done.</b></font>
+<font color="#00ffff"><b># '|' is used to delimit continuations in the continuation database.</b></font>
+<font color="#00ffff"><b># ';' is used to delimit fields in the continuation database, and to</b></font>
+<font color="#00ffff"><b>#     serve as marker for copies during the execution of complex builtins.</b></font>
+<font color="#00ffff"><b># '#' is used to delimit the skip reference free IDs</b></font>
+<font color="#00ffff"><b># '!' is used by :skip internally</b></font>
+<font color="#00ffff"><b># '{}' are used to note 'skip references', a way of caching the execution</b></font>
+<font color="#00ffff"><b>#     of skip to speed things up (three times faster under HHsed)</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Encoding of unlambda expressions</b></font>
+<font color="#00ffff"><b># --------------------------------</b></font>
+<font color="#00ffff"><b># '`'            is the apply operator</b></font>
+<font color="#00ffff"><b># cdikrsv        are builtins</b></font>
+<font color="#00ffff"><b># '.x' and ',x'  are the printing builtins</b></font>
+<font color="#00ffff"><b># 'D&lt;expr&gt;'      is the promise `d&lt;expr&gt;</b></font>
+<font color="#00ffff"><b># 'K&lt;expr&gt;'      is the result of evaluating `k&lt;expr&gt;</b></font>
+<font color="#00ffff"><b># 'S&lt;expr&gt;'      is the result of evaluating `s&lt;expr&gt;</b></font>
+<font color="#00ffff"><b># 'T&lt;e1&gt;&lt;e2&gt;'    is the result of evaluating ``s&lt;e1&gt;&lt;e2&gt;</b></font>
+<font color="#00ffff"><b># '%aaa%'        is a continuation reference</b></font>
+
+<font color="#00ffff"><b># eval/apply</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="eval">eval</a></b></font>
+
+<font color="#00ffff"><b># `i is a no-op</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>`i</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#00ffff"><b># Uncomment the following line when debugging to print the state from </b></font>
+<font color="#00ffff"><b># time to time (the state is not printed after each eval, because </b></font>
+<font color="#00ffff"><b># several evaluations might occur between two jumps to :eval)</b></font>
+<font color="#00ffff"><b>#p</b></font>
+
+<font color="#00ffff"><b># Expressions other than apply evaluate to themselves, with or without</b></font>
+<font color="#00ffff"><b># skip reference</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>[^{`]\)</b></font><font color="#ff6060"><b>/</b></font>&lt;<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>{[^,]*,[^`]\)</b></font><font color="#ff6060"><b>/</b></font>&lt;<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># kill the skip reference</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>`*\){\<font color="#ff00ff"><b>(</b></font>[^,]*,\)\<font color="#ff00ff"><b>(</b></font>.*\)}\2\<font color="#ff00ff"><b>(</b></font>[^#]*#\)</b></font><font color="#ff6060"><b>/</b></font>_<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\4</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># &lt;expr&gt; is not evaluated when evaluating `d&lt;expr&gt;</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_`d</b></font><font color="#ff6060"><b>/</b></font>&lt;D<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&lt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#left">left</a>
+
+<font color="#00ffff"><b># ``dAB - go evaluate B with 'e&gt;', leaving '`:' to evaluate `AB</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_`D</b></font><font color="#ff6060"><b>/</b></font>`:e&gt;<font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b># ``kAB - leave A, go delete B with 'K&gt;'</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_`K</b></font><font color="#ff6060"><b>/</b></font>K&gt;<font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b># ``sAB - replace S with T, go evaluate B with 'e&gt;'</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_`S</b></font><font color="#ff6060"><b>/</b></font>Te&gt;<font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b># ```sABC - leave '`:`' behind to form the first ``A of ``AC`BC,</b></font>
+<font color="#00ffff"><b># and go over A activate 'f&gt;' that will transform BC in C`BC</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_`T</b></font><font color="#ff6060"><b>/</b></font>`:`f&gt;<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#skip">skip</a>
+
+<font color="#00ffff"><b># `k and `s just eval their argument and store it in K&lt;expr&gt; or S&lt;expr&gt;.</b></font>
+<font color="#00ffff"><b># the '&lt;' ultimately resulting from evaluating the argument will move</b></font>
+<font color="#00ffff"><b># through 'K' or 'S', giving 'K&lt;expr&gt;' or 'S&lt;expr&gt;' as return value.</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_`k</b></font><font color="#ff6060"><b>/</b></font>K_<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_`s</b></font><font color="#ff6060"><b>/</b></font>S_<font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># These evaluate their argument, leaving an 'x:' token to do the proper </b></font>
+<font color="#00ffff"><b># job after '&lt;' returns. See at the bottom of the file, after :left,</b></font>
+<font color="#00ffff"><b># what is done then.</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_``</b></font><font color="#ff6060"><b>/</b></font>`:_`<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_`\<font color="#ff00ff"><b>(</b></font>[rc]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>:_<font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b># .x becomes x.: to distinguish easily z.:&lt; (.z) from z:&lt; (delete)</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_`\<font color="#ff00ff"><b>(</b></font>[.,]\)\<font color="#ff00ff"><b>(</b></font>.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font>:_<font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b># Prepare leaving 'v', evaluate expr, then delete it using 'z:&lt;'</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_`v</b></font><font color="#ff6060"><b>/</b></font>vz:_<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_`\<font color="#ff00ff"><b>(</b></font>%a*%\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>:_<font color="#ff6060"><b>/</b></font>
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#eval">eval</a>
+
+<font color="#00ffff"><b># Skip right 1 expression. Starting with '&gt;@' we move this token to</b></font>
+<font color="#00ffff"><b># the right, adding one '@' per '`' or 'T', going over any number of</b></font>
+<font color="#00ffff"><b># 'S', 'D', 'K', and removing one @ per builtin, until no more @ is left. </b></font>
+<font color="#00ffff"><b># Note: since ',' is always followed by a lowercase letter, any number of</b></font>
+<font color="#00ffff"><b># ',' can also be skipped together with 'S', 'D', 'K' (because one cannot</b></font>
+<font color="#00ffff"><b># encounter ',`', ',T' ...)</b></font>
+<font color="#00ffff"><b># Some caching is implemented: long expressions are surrounded by opening</b></font>
+<font color="#00ffff"><b># and closing "skip references": {ab, ... }ab, . At any time, for each </b></font>
+<font color="#00ffff"><b># skip-ref ID "ab", either there is exactly one opening and one closing</b></font>
+<font color="#00ffff"><b># skip-ref with this ID in the entire pattern space, or there are no </b></font>
+<font color="#00ffff"><b># skip-refs with this ID and this ID is in the free-skip-ref-ID-list.</b></font>
+<font color="#00ffff"><b># skip-refs are mutated when copying (see :incref below) and go to the</b></font>
+<font color="#00ffff"><b># free list when deleted (see :delete)</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="skip">skip</a></b></font>
+<font color="#00ffff"><b># remember the start of the skip</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;</b></font><font color="#ff6060"><b>/</b></font>!&gt;@<font color="#ff6060"><b>/</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="skiploop">skiploop</a></b></font>
+
+<font color="#00ffff"><b># increase depth for each '`' or 'T'</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;\<font color="#ff00ff"><b>(</b></font>&gt;*@@*\)\<font color="#ff00ff"><b>(</b></font>[SDK]*[`T]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&gt;&gt;<font color="#00ff00"><b>\1</b></font>@<font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b># decrease depth for each builtin</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;\<font color="#ff00ff"><b>(</b></font>&gt;*@*\)@\<font color="#ff00ff"><b>(</b></font>[SDK,]*[a-z]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&gt;&gt;<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;\<font color="#ff00ff"><b>(</b></font>&gt;*@*\)@\<font color="#ff00ff"><b>(</b></font>[SDK]*\..\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&gt;&gt;<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;\<font color="#ff00ff"><b>(</b></font>&gt;*@*\)@\<font color="#ff00ff"><b>(</b></font>[SDK]*%a*%\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&gt;&gt;<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># jump over a skip ref</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;\<font color="#ff00ff"><b>(</b></font>&gt;*@*\)@\<font color="#ff00ff"><b>(</b></font>[SDK]*\){\<font color="#ff00ff"><b>(</b></font>[^,]*,\)\<font color="#ff00ff"><b>(</b></font>.*\)}\3</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>{<font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\4</b></font>}<font color="#00ff00"><b>\3</b></font>&gt;<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># if the overall number of skip steps done this time is big, recurse.</b></font>
+<font color="#00ffff"><b># There is a tradeof here between doing the least steps in :skip</b></font>
+<font color="#00ffff"><b># but increasing the number of skiprefs makes it slower to match</b></font>
+<font color="#00ffff"><b># them in pairs, and also increases the size of the pattern space,</b></font>
+<font color="#00ffff"><b># thus making *all* failing pattern matching slower.</b></font>
+<font color="#00ffff"><b># the number of '&gt;' below can be changed. The optimum value probably </b></font>
+<font color="#00ffff"><b># depends on the sed interpreter and the machine.</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;*@</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;&gt;*\<font color="#ff00ff"><b>(</b></font>@@*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>!&gt;@<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#skiploop">skiploop</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b># If we haven't finished skipping one expression at the end of the </b></font>
+<font color="#00ffff"><b># pattern space, either there is a bug in this script, or the program </b></font>
+<font color="#00ffff"><b># does not start with a complete unlambda expression.</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@|</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>Syntax error: unexpected end of file<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>q</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;&gt;*@@*[^@]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#skiploop">skiploop</a>
+
+<font color="#00ffff"><b># end of recurse</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@!</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#00ffff"><b># we need a new skip ref. </b></font>
+  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>##</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="newskref">newskref</a></b></font>
+    <font color="#00ffff"><b># copy the next one in place</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#\<font color="#ff00ff"><b>(</b></font>[^#][^;]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>,<font color="#00ff00"><b>&amp;</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># generate the next one</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>;<font color="#ff6060"><b>/</b></font>
+    <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="inca">inca</a></b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#;</b></font><font color="#ff6060"><b>/</b></font>#a<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#[^#;]*[^#;];</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ;a~<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#\<font color="#ff00ff"><b>(</b></font>[^#;]*\)\<font color="#ff00ff"><b>(</b></font>[^#;]\);[^~]*\2\<font color="#ff00ff"><b>(</b></font>;*[^~]\)[^~]*~</b></font><font color="#ff6060"><b>/</b></font>#<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\3</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#[^;]*;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#inca">inca</a>
+    <font color="#00ffff"><b># if coming from incref, go back there</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^&lt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#mutate">mutate</a>
+  <font color="#ff6060"><b>}</b></font>
+  <font color="#00ffff"><b># get a skip ref among the free skip ref list and replace the !</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@\<font color="#ff00ff"><b>(</b></font>@*\)!\<font color="#ff00ff"><b>(</b></font>[^@!&gt;]*\)&gt;&gt;*\<font color="#ff00ff"><b>(</b></font>[^#]*#\)\<font color="#ff00ff"><b>(</b></font>[^,]*,\)</b></font><font color="#ff6060"><b>/</b></font>{<font color="#00ff00"><b>\4</b></font><font color="#00ff00"><b>\2</b></font>}<font color="#00ff00"><b>\4</b></font>&gt;<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\3</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#skiploop">skiploop</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b># end of skip - get the action char from last !</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.\)!\<font color="#ff00ff"><b>(</b></font>[^&gt;]*\)&gt;*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&gt;<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># After :skip</b></font>
+
+<font color="#00ffff"><b># '&gt;e' for eval</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;e</b></font><font color="#ff6060"><b>/</b></font>_<font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b># Evaluate the expression, then delete it with 'z:&lt;'</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;K</b></font><font color="#ff6060"><b>/</b></font>z:_<font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># &gt;f, &gt;g, &gt;h are part of the ```s[A][B][C] evaluation explained below. </b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;g</b></font><font color="#ff6060"><b>/</b></font>g:_<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#eval">eval</a>
+
+<font color="#00ffff"><b># ```s[A][B][C] evaluation </b></font>
+<font color="#00ffff"><b># ------------------------</b></font>
+<font color="#00ffff"><b>#    _`T[A][B][C] -&gt; `:`f&gt;[A][B][C] -&gt; `:`[A]&gt;f[B][C]</b></font>
+<font color="#00ffff"><b># the remaining task is to evaluate [C] and replace [B][C] by [C]`[B][C]. </b></font>
+<font color="#00ffff"><b>#    &gt;f[B][C] -&gt; f:g&gt;[B][C] -&gt; f:[B]&gt;g[C] -&gt; (eval C) f:[B]g:&lt;[C]</b></font>
+<font color="#00ffff"><b># -&gt; f:[B];h&gt;[C] -&gt; f:[B];[C]&gt;h -&gt; &lt;[C]`[B]([C]) -&gt; (incref) &lt;[C]`[B][C]</b></font>
+<font color="#00ffff"><b># Note that ';' can only be inserted after [C] was evaluated, because </b></font>
+<font color="#00ffff"><b># evaluating [C] can need ';' too.</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;f</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>f:g&gt;<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#skip">skip</a>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;h</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>;<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>f:\<font color="#ff00ff"><b>(</b></font>[^;:]*\);\<font color="#ff00ff"><b>(</b></font>[^;:]*\);</b></font><font color="#ff6060"><b>/</b></font>&lt;<font color="#00ff00"><b>\2</b></font>`<font color="#00ff00"><b>\1</b></font>(<font color="#00ff00"><b>\2</b></font>)<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#incref">incref</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b># delete</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;z</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>)&lt;<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#delete">delete</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b># Continuation (1) - `c&lt;expr&gt;</b></font>
+<font color="#00ffff"><b># ---------------------------</b></font>
+<font color="#00ffff"><b># `c&lt;expr&gt; first evaluates the expression, then surrounds it with ';'</b></font>
+<font color="#00ffff"><b># _`c[E] -&gt; c:_[E] -&gt; (eval E) c:&lt;[E] -&gt; ;[E]c&gt; -&gt; ;[E];</b></font>
+<font color="#00ffff"><b># At this stage the pattern space is either:</b></font>
+<font color="#00ffff"><b>#   {A};[E];{B}|...|[I]|...    </b></font>
+<font color="#00ffff"><b># if there is a free ID [I], or:</b></font>
+<font color="#00ffff"><b>#   {A};[E];{B}|[I-1];...</b></font>
+<font color="#00ffff"><b># if all IDs from 1 to I-1 are taken.</b></font>
+<font color="#00ffff"><b># {A} and {B} denote the before and after parts of the unlambda state.</b></font>
+<font color="#00ffff"><b># The unlambda state will then become</b></font>
+<font color="#00ffff"><b>#   ({A})`:&lt;[E]%[I]%({B})|...</b></font>
+<font color="#00ffff"><b># with a new continuation (added, or replacing the free ID) being:</b></font>
+<font color="#00ffff"><b>#   |[I];;{A};{B}</b></font>
+<font color="#00ffff"><b># Finally we jump to incref over ({A}) and ({B}) as they have been copied.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;c</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>;<font color="#ff6060"><b>/</b></font>
+  <font color="#00ffff"><b># try reusing a free ID </b></font>
+  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^;]*\);\<font color="#ff00ff"><b>(</b></font>[^;]*\);\<font color="#ff00ff"><b>(</b></font>[^|]*\)\<font color="#ff00ff"><b>(</b></font>.*\)|\<font color="#ff00ff"><b>(</b></font>a*\)|</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>(<font color="#00ff00"><b>\1</b></font>)`:&lt;<font color="#00ff00"><b>\2</b></font>%<font color="#00ff00"><b>\5</b></font>%(<font color="#00ff00"><b>\3</b></font>)<font color="#00ff00"><b>\4</b></font>|<font color="#00ff00"><b>\5</b></font>;;<font color="#00ff00"><b>\1</b></font>;<font color="#00ff00"><b>\3</b></font>|<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#incref">incref</a>
+  <font color="#ff6060"><b>}</b></font>
+  <font color="#00ffff"><b># else create our ID as being 1 plus the biggest (leftmost) ID</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^;]*\);\<font color="#ff00ff"><b>(</b></font>[^;]*\);\<font color="#ff00ff"><b>(</b></font>[^|]*\)|\<font color="#ff00ff"><b>(</b></font>a*\)</b></font><font color="#ff6060"><b>/</b></font>(<font color="#00ff00"><b>\1</b></font>)`:&lt;<font color="#00ff00"><b>\2</b></font>%<font color="#00ff00"><b>\4</b></font>a%(<font color="#00ff00"><b>\3</b></font>)|<font color="#00ff00"><b>\4</b></font>a;;<font color="#00ff00"><b>\1</b></font>;<font color="#00ff00"><b>\3</b></font>|<font color="#00ff00"><b>\4</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#incref">incref</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b># Continuation (2) - `&lt;cont&gt;&lt;expr&gt;</b></font>
+<font color="#00ffff"><b># --------------------------------</b></font>
+<font color="#00ffff"><b># _`%[I]%[E] -&gt; %[I]%_[E] -&gt; (eval E) %[I]%&lt;[E] -&gt; ;[I];C&gt;[E] -&gt; ;[I];[E];</b></font>
+<font color="#00ffff"><b># At this stage the pattern space is:</b></font>
+<font color="#00ffff"><b>#     {a};[I];[E];{b}|...|[I];[N];{A};{B}|...</b></font>
+<font color="#00ffff"><b># where {a} and {b} represent parts of the current unlambda state,</b></font>
+<font color="#00ffff"><b># We first erase {a} and {b}, so that the refcount [N] of continuation [I] </b></font>
+<font color="#00ffff"><b># has the right value: </b></font>
+<font color="#00ffff"><b>#  -&gt; C:&lt;[I];[E]({a}{b})|...|[I];[N];{A};{B}|...</b></font>
+<font color="#00ffff"><b>#  -&gt; C:&lt;[I];[E]|...|[I];[N];{A};{B}|...</b></font>
+<font color="#00ffff"><b># Now, if '[N]' equals '', we will remove the continuation from the base,</b></font>
+<font color="#00ffff"><b># keeping [I] as a free identifier.</b></font>
+<font color="#00ffff"><b>#  -&gt; [I];[E]|...|[I];;{A};{B}|...</b></font>
+<font color="#00ffff"><b>#  -&gt; {A}&lt;[E]{B}|...|[I]|...</b></font>
+<font color="#00ffff"><b># else if '[N]' is '[n]a', the continuation stays, so me must incref over</b></font>
+<font color="#00ffff"><b># the copied {A} and {B}:</b></font>
+<font color="#00ffff"><b>#  -&gt; [I];[E]|...|[I];[n]a;{A};{B}|...</b></font>
+<font color="#00ffff"><b>#  -&gt; ({A})&lt;[E]({B})|...|[I];[n];{A};{B}|... </b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;C</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>;<font color="#ff6060"><b>/</b></font>
+  <font color="#00ffff"><b># first erase current state</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>[^;]*\);\<font color="#ff00ff"><b>(</b></font>a*;[^;]*\);\<font color="#ff00ff"><b>(</b></font>[^|]*\)</b></font><font color="#ff6060"><b>/</b></font>C:&lt;<font color="#00ff00"><b>\2</b></font>(<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\3</b></font>)<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#delete">delete</a>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#00ffff"><b># Called before running to check that the program contains exactly one</b></font>
+<font color="#00ffff"><b># expression</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;?</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;?|</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;?</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#valid">valid</a>
+  <font color="#ff6060"><b>}</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*&gt;?</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>|.*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#00ffff"><b># revert ',y' into '.x'</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>,[a-n]</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font>:a@b(c)d;e|f&lt;g&gt;h_i`j!k#l{m}n~<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>,\<font color="#ff00ff"><b>(</b></font>[a-n]\)[^~]*\<font color="#ff00ff"><b>(</b></font>[^~]\)\1[^~]*~</b></font><font color="#ff6060"><b>/</b></font>.<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+  <font color="#00ffff"><b># exit with error message</b></font>
+  <font color="#ffff00"><b>i</b></font> <font color="#00ff00"><b>\
+</b></font>Syntax error: trailing garbage
+  <font color="#ffff00"><b>q</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ffff00"><b>b</b></font> <a href="#done">done</a>
+
+<font color="#00ffff"><b># Increment the refcount of any continuation whose reference lays </b></font>
+<font color="#00ffff"><b># between ( ). Called for each copied zone after copy. Remove ( )</b></font>
+<font color="#00ffff"><b># and branch to :left when done.</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="incref">incref</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(\<font color="#ff00ff"><b>(</b></font>[^{%)]*%\<font color="#ff00ff"><b>(</b></font>a*\)%[^%)]*\)\<font color="#ff00ff"><b>(</b></font>.*|\2;\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>(<font color="#00ff00"><b>\3</b></font>a<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(\<font color="#ff00ff"><b>(</b></font>[^{%)]*\))</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># skip-ref mutation: {ab,...}ab, -&gt; {cd,...}cd,</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>([^{%)]*{</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#00ffff"><b># generate a new skip-ref if needed</b></font>
+  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>##</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>&lt;<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#newskref">newskref</a>
+    <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="mutate">mutate</a></b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^&lt;</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ff6060"><b>}</b></font>
+  <font color="#00ffff"><b># replace current skip ref by a new one for the copy</b></font>
+  <font color="#00ffff"><b># the [^)]* is essential here, in case the original is still </b></font>
+  <font color="#00ffff"><b># on the right from here (needed when copying continuation</b></font>
+  <font color="#00ffff"><b># parts as the continuation refcounts are only updated to</b></font>
+  <font color="#00ffff"><b># the right).</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(\<font color="#ff00ff"><b>(</b></font>[^{%)]*{\)\<font color="#ff00ff"><b>(</b></font>[^,]*,\)\<font color="#ff00ff"><b>(</b></font>[^)]*}\)\2\<font color="#ff00ff"><b>(</b></font>[^#]*#\)\<font color="#ff00ff"><b>(</b></font>[^,]*,\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\5</b></font>(<font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\5</b></font><font color="#00ff00"><b>\4</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#incref">incref</a>
+<font color="#ffff00"><b>b</b></font> <a href="#left">left</a>
+
+<font color="#00ffff"><b># Delete between ( and ) included. If continuation references are found, </b></font>
+<font color="#00ffff"><b># decrement their refcount and mark them for deletion too (but keeping</b></font>
+<font color="#00ffff"><b># the free ID) if it goes below zero; branch to :left when done</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="delete">delete</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>([^}%)]*%\<font color="#ff00ff"><b>(</b></font>a*\)%[^%)]*\<font color="#ff00ff"><b>(</b></font>.*|\1;\)a</b></font><font color="#ff6060"><b>/</b></font>(<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>([^}%)]*%\<font color="#ff00ff"><b>(</b></font>a*\)%[^%)]*\<font color="#ff00ff"><b>(</b></font>.*\)|\1;;\<font color="#ff00ff"><b>(</b></font>[^|]*\)|</b></font><font color="#ff6060"><b>/</b></font>(<font color="#00ff00"><b>\2</b></font>|<font color="#00ff00"><b>\1</b></font>(<font color="#00ff00"><b>\3</b></font>)|<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>([^}%)]*)</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>([^}%)]*}\<font color="#ff00ff"><b>(</b></font>[^,]*,\)\<font color="#ff00ff"><b>(</b></font>[^#]*#\)</b></font><font color="#ff6060"><b>/</b></font>(<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#delete">delete</a>
+
+<font color="#00ffff"><b># &lt; moves left over commands.</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="left">left</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>:\<font color="#ff00ff"><b>(</b></font>[^:]*\)&lt;</b></font><font color="#ff6060"><b>/</b></font>:&lt;<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>:&lt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#done">done</a>
+
+<font color="#00ffff"><b># After left</b></font>
+<font color="#00ffff"><b># Delete one expression: </b></font>
+<font color="#00ffff"><b># z:&lt;[A] -&gt; (z&gt;[A] -&gt; ([A]&gt;z -&gt; ([A])&lt; -&gt; (delete) &lt;</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>z:&lt;</b></font><font color="#ff6060"><b>/</b></font>(z&gt;<font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># Part of ```s[A][B][C] handling, see explanation above.</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>g:&lt;</b></font><font color="#ff6060"><b>/</b></font>;h&gt;<font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># Continuation handling</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>c:&lt;</b></font><font color="#ff6060"><b>/</b></font>;c&gt;<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>%\<font color="#ff00ff"><b>(</b></font>a*\)%:&lt;</b></font><font color="#ff6060"><b>/</b></font>;<font color="#00ff00"><b>\1</b></font>;C&gt;<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#skip">skip</a>
+
+<font color="#00ffff"><b># `: means re-eval ` when next eval is done</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>`:&lt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>_`<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#eval">eval</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b># Output functions all leave a '&lt;'</b></font>
+<font color="#00ffff"><b># Print the hold buffer and empty it.</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r:&lt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>&lt;<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>x</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>p</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>x</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#00ffff"><b># Append the char to the hold buffer</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.\)\.:&lt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>&lt;<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>H</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&lt;.</b></font><font color="#ff6060"><b>/</b></font>&lt;<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>x</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n[^&lt;]*&lt;\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>x</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#00ffff"><b># Append the converted char to the hold buffer</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.\),:&lt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>&lt;<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>H</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&lt;.</b></font><font color="#ff6060"><b>/</b></font>&lt;<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>x</b></font>
+  <font color="#00ffff"><b># handle ',y' -&gt; x conversion</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>\n\)[^&lt;]*&lt;\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font>:a@b(c)d;e|f&lt;g&gt;h_i`j!k#l{m}n<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n\<font color="#ff00ff"><b>(</b></font>.\).*\<font color="#ff00ff"><b>(</b></font>.\)\1.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>x</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b># Part of `&lt;cont&gt;&lt;expr&gt; handling - see explanation above</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>C:&lt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#00ffff"><b># if the reference count does not goes below zero, keep the continuation</b></font>
+  <font color="#00ffff"><b># and incref over the duplicated parts.</b></font>
+  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>C:&lt;\<font color="#ff00ff"><b>(</b></font>a*;\)\<font color="#ff00ff"><b>(</b></font>[^|]*\)\<font color="#ff00ff"><b>(</b></font>.*\)|\1a\<font color="#ff00ff"><b>(</b></font>a*;\)\<font color="#ff00ff"><b>(</b></font>[^;]*\);\<font color="#ff00ff"><b>(</b></font>[^|]*\)</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>(<font color="#00ff00"><b>\5</b></font>)&lt;<font color="#00ff00"><b>\2</b></font>(<font color="#00ff00"><b>\6</b></font>)<font color="#00ff00"><b>\3</b></font>|<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\4</b></font><font color="#00ff00"><b>\5</b></font>;<font color="#00ff00"><b>\6</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#incref">incref</a>
+  <font color="#ff6060"><b>}</b></font>
+  <font color="#00ffff"><b># else remove the continuation but keep the free ID.</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>C:&lt;\<font color="#ff00ff"><b>(</b></font>a*\);\<font color="#ff00ff"><b>(</b></font>[^|]*\)\<font color="#ff00ff"><b>(</b></font>.*\)|\1;;\<font color="#ff00ff"><b>(</b></font>[^;]*\);\<font color="#ff00ff"><b>(</b></font>[^|]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\4</b></font>&lt;<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\5</b></font><font color="#00ff00"><b>\3</b></font>|<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&lt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#left">left</a>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="done">done</a></b></font>
+
+<font color="#00ffff"><b># flush output if pending</b></font>
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>..</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#00ffff"><b># remove the dumb first char</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^ </b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>p</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b># quit </b></font>
+<font color="#ffff00"><b>d</b></font>  
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="ftp://quatramaran.ens.fr/pub/madore/unlambda/contrib/unlambda.sed">ftp://quatramaran.ens.fr/pub/madore/unlambda/contrib/unlambda.sed</a></b></font>
+
+</pre></body></html>

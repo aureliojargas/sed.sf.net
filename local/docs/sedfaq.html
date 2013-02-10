@@ -1,0 +1,3124 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.2//EN">
+<html>
+  <head>
+    <title>Frequently-Asked Questions about SED, the stream editor</title>
+    <META http-equiv="content-type" content="text/html;charset=iso-8859-1">
+    <META name="KEYWORDS" content="sed, stream editor, Unix, DOS, MS-DOS,
+    Windows, Win95, Win98, WinNT, NT, CP/M, Linux, GNU, shareware, freeware,
+    find-and-replace, search-and-replace, find/replace, search/replace,
+    grep, editing, FAQ, faq, frequently asked questions, frequently-asked
+    questions, text, utility, program, noninteractive, scripting, language">
+    <META name="DESCRIPTION" content="Frequently-Asked Questions about SED,
+    the stream editor">
+  </head>
+  <body bgcolor="#FFFFFF"><pre>
+  <font face="Letter Gothic,Courier New,Terminal" size=3>
+
+From: <a href="mailto:epement@jpusa.chi.il.us">epement@jpusa.chi.il.us</a>
+Newsgroups: alt.comp.editors.batch,comp.editors,alt.answers,comp.answers,news.answers
+Subject: sed FAQ, version 014
+Followup-To: poster
+Summary: Frequently Asked Questions about sed, the stream editor
+X-Disclaimer: Approval for *.answers is based on form, not content
+
+Archive-name: editor-faq/sed
+Posting-Frequency: bimonthly
+Last-modified: 2000/04/28
+Version: 014
+URL: <a href="http://www.cornerstonemag.com/sed/sedfaq.html">http://www.cornerstonemag.com/sed/sedfaq.html</a>
+Maintainer: Eric Pement &lt;<a href="mailto:epement@jpusa.chi.il.us">epement@jpusa.chi.il.us</a>&gt;
+
+
+                             THE SED FAQ
+
+                  Frequently Asked Questions about
+                       sed, the stream editor
+
+CONTENTS:
+
+1. GENERAL INFORMATION
+1.1. Introduction - How this FAQ is organized
+1.2. Latest version of the sed FAQ
+1.3. FAQ revision information
+1.4. How do I add a question/answer to the sed FAQ?
+1.5. FAQ abbreviations
+1.6. Credits and acknowledgements
+1.7. Standard disclaimers
+
+2. BASIC SED
+2.1. What is sed?
+2.2. What versions of sed are there, and where can I get them?
+
+2.2.1. Free versions
+
+ 2.2.1.1. Unix platforms
+ 2.2.1.2. OS/2
+ 2.2.1.3. Microsoft Windows (Win3x, Win9x, WinNT, Win2K)
+ 2.2.1.4. MS-DOS
+ 2.2.1.5. CP/M
+
+2.2.2. Shareware and Commercial versions
+
+ 2.2.2.1. Unix platforms
+ 2.2.2.2. OS/2
+ 2.2.2.3. Windows 95/98, Windows NT, Windows 2000
+ 2.2.2.4. MS-DOS
+
+2.3. Where can I learn to use sed?
+
+ 2.3.1. Books
+ 2.3.2. Mailing list
+ 2.3.3. Tutorials, electronic text
+ 2.3.4. General web and ftp sites
+
+3. TECHNICAL
+3.1. More detailed explanation of basic sed
+3.2. Common one-line sed scripts. How do I . . . ?
+
+      - double/triple-space a file?
+      - convert DOS/Unix newlines?
+      - delete leading/trailing spaces?
+      - do substitutions on all/certain lines?
+      - delete consecutive blank lines?
+      - delete blank lines at the top/end of the file?
+
+3.3. Addressing and address ranges
+3.4. [reserved]
+3.5. [reserved]
+3.6. Notes about s2p, the sed-to-perl translator
+3.7. GNU/POSIX extensions to regular expressions
+
+4. EXAMPLES
+4.1. How do I perform a case-insensitive search?
+4.2. How do I make changes in only part of a file?
+4.3. How do I change only the first occurrence of a pattern?
+4.4. How do I make substitutions in every file in a directory, or in a
+     complete directory tree?
+
+ 4.4.1 - Perl solution
+ 4.4.2 - Unix solution
+ 4.4.3 - DOS solution
+
+4.5. How do I parse a comma-delimited data file?
+4.6. How do I insert a newline into the RHS of a substitution?
+4.7. How do I represent control-codes or non-printable characters?
+4.8. How do I read environment variables with sed?
+
+ 4.8.1. - on Unix platforms
+ 4.8.2. - on MS-DOS or 4DOS platforms
+
+4.9. How do I export or pass variables back into the environment?
+
+ 4.9.1. - on Unix platforms
+ 4.9.2. - on MS-DOS or 4DOS platforms
+
+4.10. How do I handle shell quoting in sed?
+4.11. How do I delete a block of text if the block contains a certain
+      regular expression?
+4.12. How do I locate/print a paragraph of text if the paragraph
+      contains a certain regular expression?
+4.13. How do I delete a block of <i>specific</i> consecutive lines?
+4.14. How do I read (insert/add) a file at the top of a textfile?
+4.15. How do I address all the lines between RE1 and RE2, excluding
+      the lines themselves?
+4.16. How do I replace "/some/UNIX/path" in a substitution?
+4.17. How do I replace "C:\SOME\DOS\PATH" in a substitution?
+4.18. How do I convert files with toggle characters, like +this+, to
+      look like [i]this[/i]?
+4.19. How do I delete only the first occurrence of a pattern?
+4.20. How do I commify a string of numbers?
+
+5. WHY ISN'T THIS WORKING?
+5.1. Why don't my variables like $var get expanded in my sed script?
+5.2. I'm using 'p' to print, but I have duplicate lines sometimes.
+5.3. Why does my DOS version of sed process a file part-way through
+     and then quit?
+5.4. My RE isn't matching/deleting what I want it to. (Or, "Greedy vs.
+     stingy pattern matching")
+5.5. What is CSDPMI*B.ZIP and why do I need it?
+5.6. Where are the man pages for GNU sed?
+5.7. How do I tell what version of sed I am using?
+5.8. Does sed issue an exit code?
+5.9. The 'r' command isn't inserting the file into the text.
+<font color="#333399">5.10. Why can't I match or delete a newline using the \n escape</font>
+<font color="#333399">      sequence? Why can't I match 2 or more lines using \n?</font>
+<font color="#333399">5.11. My script aborts with an error message, "event not found".</font>
+
+6. OTHER ISSUES
+6.1. I have a problem that stumps me. Where can I get help?
+6.2. How does sed compare with awk, perl, and other utilities?
+6.3. When should I use sed?
+6.4. When should I NOT use sed?
+6.5. When should I ignore sed and use Awk or Perl instead?
+6.6. Known limitations among sed versions
+6.7. Known bugs among sed versions
+6.8. Known incompatibilities between sed versions
+
+ 6.8.1. Issuing commands from the command line
+ 6.8.2. Using comments (prefixed by the '#' sign)
+ 6.8.3. Special syntax in REs
+ 6.8.4. Word boundaries
+ 6.8.5. Range addressing with GNU sed and HHsed
+<font color="#333399"> 6.8.6. Commands which operate differently</font>
+
+<HR width="100%">
+
+1. GENERAL INFORMATION
+
+1.1. Introduction - How this FAQ is organized
+
+   This FAQ is organized to answer common (and some uncommon)
+   questions about sed, quickly. If you see a term or abbreviation in
+   the examples that seems unclear, see if the term is defined in
+   section 1.5. If not, write us and we'll try to clarify it for the
+   next version of the FAQ.
+
+1.2. Latest version of the sed FAQ
+
+   The newest version of the sed FAQ is usually here:
+
+      <a href="http://www.cornerstonemag.com/sed/sedfaq.html">http://www.cornerstonemag.com/sed/sedfaq.html</a>
+      <a href="http://www.cornerstonemag.com/sed/sedfaq.txt">http://www.cornerstonemag.com/sed/sedfaq.txt</a>
+      <a href="http://www.dbnet.ece.ntua.gr/~george/sed/sedfaq.html">http://www.dbnet.ece.ntua.gr/~george/sed/sedfaq.html</a>
+      <a href="http://www.dbnet.ece.ntua.gr/~george/sed/sedfaq.txt">http://www.dbnet.ece.ntua.gr/~george/sed/sedfaq.txt</a>
+      <a href="http://www.ptug.org/sed/sedfaq.html">http://www.ptug.org/sed/sedfaq.html</a>
+      <a href="http://www.faqs.org/faqs/editor-faq/sed">http://www.faqs.org/faqs/editor-faq/sed</a>
+      <a href="ftp://rtfm.mit.edu/pub/faqs/editor-faq/sed">ftp://rtfm.mit.edu/pub/faqs/editor-faq/sed</a>
+
+   Another FAQ file on sed by a different author can be found here:
+
+      <a href="http://www.dreamwvr.com/sed-info/sed-faq.html">http://www.dreamwvr.com/sed-info/sed-faq.html</a>
+
+1.3. FAQ revision information
+
+   Changes to this FAQ since the last version are indicated by a
+   vertical bar (|) placed in column 78 of the affected lines. To
+   remove the vertical bars (use double quotes for MS-DOS):
+
+      sed 's/  *|$//' sedfaq.txt &gt; sedfaq2.txt
+
+   In the HTML version, vertical bars do not appear. New or altered
+   portions of the FAQ are indicated by printing in dark blue type.
+
+   In the text version, words needing emphasis may be surrounded by
+   the underscore '_' or the asterisk '*'. In the HTML version, these
+   are changed to italics and boldface, respectively.
+
+1.4. How do I add a question/answer to the sed FAQ?
+
+   Word your question succinctly and clearly, and e-mail it Eric
+   Pement &lt;<a href="mailto:epement@jpusa.org">epement@jpusa.org</a>&gt;, indicating your proposed addition to
+   the FAQ. We'll post it on the sed-users mailing list (see section
+   2.3.2, below) and discuss it there. If some agreement, your
+   contribution will be included in the next edition of the FAQ.
+
+1.5. FAQ abbreviations:
+
+   files = one or more filenames, separated by whitespace
+   RE  = Regular Expressions supported by sed
+   LHS = the left-hand side ("find" part) of "s/find/repl/" command
+   RHS = the right-hand side ("replace" part) of "s/find/repl/" cmd.
+
+   files: "files" stands for one or more filenames entered on the
+   command line. The names may include any wildcards your shell
+   understands (such as ``zork*'' or ``Aug[4-9].let''). Sed will
+   process each filename passed to it by the shell.
+
+   RE: For the syntax of Basic Regular Expressions (BREs), type "man
+   ed" and read the documentation for regular expressions. A technical
+   description of BREs from the Single UNIX Specification, Version 2,
+   by The Open Group (joint committee on Unix) is available online at
+<font color="#333399">   &lt;<a href="http://www.opengroup.org/onlinepubs/7908799/xbd/re.html#tag_007_003"><a href="http://www.opengroup.org/onlinepubs/7908799/xbd/re.html#tag_007_003">http://www.opengroup.org/onlinepubs/7908799/xbd/re.html#tag_007_003</a></a>&gt;.</font>
+   Sed normally supports BREs plus '\n' to match a newline in the
+   pattern space and '\xREx' as equivalent to '/RE/', where 'x' is any
+   character other than another backslash.
+
+   Some versions of sed support supersets of BREs, or "extended
+   regular expressions", which offer additional metacharacters for
+   increased flexibility. For additional information on extended REs
+   in GNU sed, see sections 3.7 ("GNU/POSIX extensions to regular
+   expressions") and 6.8.3 ("Special syntax in REs"), below.
+
+   LHS: In sed, the LHS may be a string literal (e.g., "foo") or any
+   valid regular expression supported by your version of sed. Some
+   versions of sed support things like \t for TAB, \r for carriage
+   return, \xNN for direct entry of hex codes, etc. Other versions of
+   sed do not support this syntax.
+
+   RHS: The right-hand side (the replacement part in s/find/replace/)
+   is almost always a string literal, with no interpolation of the
+   metacharacters (.), (^), ($), ([), or \(...\) -- with the following
+   exceptions:  \1 through \9 are replaced by the corresponding group,
+   if grouping \(...\) was used in the LHS.  If no grouping was used
+   in the LHS, then \1 through \9 are replaced by literal digits. '&amp;'
+   is replaced by the entire expression matched on the LHS. To enter a
+   literal ampersand or backslash in the RHS, type '\&amp;' or '\\'.
+
+1.6. Credits and acknowledgements
+
+   My time spent messing with sed, composing this FAQ, and generally
+   doing text manipulation which is unrelated to my job description is
+   due to the kind tolerance of the Christian magazine I work for,
+   Cornerstone. So, let me say thanks to the mag staff for indulging
+   this somewhat unusual "ministry." Please visit this site:
+
+      <a href="http://www.cornerstonemag.com">http://www.cornerstonemag.com</a>
+
+   Many of the ideas for this FAQ were taken from the Awk FAQ
+      <a href="http://www.faqs.org/faqs/computer-lang/awk/faq/">http://www.faqs.org/faqs/computer-lang/awk/faq/</a>
+      <a href="ftp://rtfm.mit.edu/pub/usenet/comp.lang.awk/faq">ftp://rtfm.mit.edu/pub/usenet/comp.lang.awk/faq</a>
+
+   and from the Perl FAQ
+      <a href="http://www.perl.com/perl/FAQ">http://www.perl.com/perl/FAQ</a>
+      <a href="http://www.perl.com/CPAN/doc/FAQs/FAQ/html/index.html">http://www.perl.com/CPAN/doc/FAQs/FAQ/html/index.html</a>
+      <a href="ftp://ftp.cdrom.com/pub/perl/CPAN/doc/FAQs/FAQ">ftp://ftp.cdrom.com/pub/perl/CPAN/doc/FAQs/FAQ</a>
+
+   The following individuals have contributed significantly to this
+   document, and have provided input and wording suggestions for
+   questions, answers, and script examples. Credit goes to these
+   contributors (in alphabetical order by last name):
+
+      Al Aab &lt;af137@freenet*toronto*on*ca&gt;
+      Yiorgos Adamopoulos &lt;adamo@softlab*ece*ntua*gr&gt;
+      Walter Briscoe &lt;walter@wbriscoe*demon*co*uk&gt;
+      Jim Dennis &lt;jadestar@rahul*net&gt;
+      Carlos Duarte &lt;cdua@algos*inesc*pt&gt;
+      Otavio Exel &lt;oexel@economatica*com*br&gt;
+      Mark Katz &lt;mark@ispc001*demon*co*uk&gt;
+<font color="#333399">      Eric Pement &lt;epement@jpusa*org&gt;</font>
+      Greg Pfeiffer &lt;gpfeiffe@yahoo*com&gt;
+      Ken Pizzini &lt;ken@halcyon*com&gt;
+      Niall Smart &lt;nialls@euristix*ie&gt;
+      Simon Taylor &lt;staylor@unisolve*com*au&gt;
+      Greg Ubben &lt;gsu@romulus*ncsc*mil&gt;
+
+   Note: Periods (.) are replaced with asterisks (*) to foil e-mail
+   harvesting and spam-bots.
+
+1.7. Standard disclaimers
+
+   While a serious attempt has been made to ensure the accuracy of the
+   information presented herein, the contributors and maintainers of
+   this document do not claim the absence of errors and make no
+   warranties on the information provided. If you notice any errors or
+   ambiguous wording, please notify the FAQ maintainer so it can be
+   fixed for the next edition.
+
+<HR width="100%">
+
+2. BASIC SED
+
+2.1. What is sed?
+
+   "sed" stands for Stream EDitor. Sed is a non-interactive editor,
+   written by the late Lee E. McMahon in 1973 or 1974. A brief history
+   of sed's origins may be found in an early history of the Unix
+   tools, at &lt;<a href="http://www.columbia.edu/~rh120/ch106.x09"><a href="http://www.columbia.edu/~rh120/ch106.x09">http://www.columbia.edu/~rh120/ch106.x09</a></a>&gt;.
+
+   Instead of the user altering a file interactively by moving the
+   cursor on the screen (like with Word Perfect), the user sends a
+   script of editing instructions to sed, plus the name of the file to
+   edit (or the text to be edited may come as output from a pipe). In
+   this sense, sed works like a filter -- deleting, inserting and
+   changing characters, words, and lines of text. Its range of
+   activity goes from small, simple changes to very complex ones.
+
+   Sed reads its input from stdin (Unix shorthand for "standard
+   input," i.e., the console) or from files (or both), and sends the
+   results to stdout ("standard output," normally the console or
+   screen). Most people use sed first for its substitution features.
+   Sed is often used as a find-and-replace tool.
+
+      sed 's/Glenn/Harold/g' oldfile &gt;newfile
+
+   will replace every occurrence of "Glenn" with the word "Harold",
+   wherever it occurs in the file. The "find" portion is a regular
+   expression ("RE"), which can be a simple word or may contain
+   special characters to allow greater flexibility (for example, to
+   prevent "Glenn" from also matching "Glennon").
+
+   My very first use of sed was to add 8 spaces to the left side of a
+   file, so when I printed it, the printing wouldn't begin at the
+   absolute left edge of a piece of paper.
+
+      sed 's/^/        /' myfile &gt;newfile   # my first sed script
+      sed 's/^/        /' myfile | lp       # my next sed script
+
+   Then I learned that sed could display only one paragraph of a file,
+   beginning at the phrase "and where it came" and ending at the
+   phrase "for all people". My script looked like this:
+
+      sed -n '/and where it came/,/for all people/p' myfile
+
+   Sed's normal behavior is to print (i.e., display or show on screen)
+   the entire file, including the parts that haven't been altered,
+   unless you use the -n switch. The "-n" stands for "no output". This
+   switch is almost always used in conjunction with a 'p' command
+   somewhere, which says to print only the sections of the file that
+   have been specified. The -n switch with the 'p' command allow for
+   parts of a file to be printed (i.e., sent to the console).
+
+   Next, I found that sed could show me only (say) lines 12-18 of a
+   file and not show me the rest. This was very handy when I needed to
+   review only part of a long file and I didn't want to alter it.
+
+      sed -n 12,18p myfile   # the 'p' stands for print
+
+   Likewise, sed could show me everything else BUT those particular
+   lines, without physically changing the file on the disk:
+
+      sed 12,18d myfile      # the 'd' stands for delete
+
+   Sed could also double-space my single-spaced file when it came time
+   to print it:
+
+      sed G myfile &gt;newfile
+
+   If you have many editing commands (for deleting, adding,
+   substituting, etc.) which might take up several lines, those
+   commands can be put into a separate file and all of the commands in
+   the file applied to file being edited:
+
+      sed -f script.sed myfile  # 'script.sed' is the file of commands
+                                # 'myfile' is the file being changed
+
+   It is not our intention to convert this FAQ file into a full-blown
+   sed tutorial (for good tutorials, see section 2.3). Rather, we hope
+   this gives the complete novice a few ideas of how sed can be used.
+
+2.2. What versions of sed are there, and where can I get them?
+
+2.2.1. Free versions
+
+   Note: "Free" does not mean "public domain" nor does it necessarily
+   mean you will never be charged for it. All versions of sed in this
+   section except the CP/M versions are based on the GNU general
+   public license and are "free software" by that standard (for
+   details, see <a href="http://www.gnu.org/philosophy/free-sw.html).">http://www.gnu.org/philosophy/free-sw.html).</a> This
+   means you can get the source code and develop it further.
+
+   At the URLs listed in this category, sed binaries or source code
+   can be downloaded and used without fees or license payments.
+
+2.2.1.1. Unix platforms
+
+   GNU sed v3.02.80
+   Now a,i,c commands can accept a string after them. Range syntax now
+   supports "/RE/,+n" (next n lines) or "/RE/,~n" (till the next line
+   which is a multiple of n). NULs permitted in regexes; \n, \t, \a,
+   \f, \xHH hex codes supported on LHS and RHS; more changes. An alpha
+   test release which (if found bug-free) will become GNU sed version
+   3.03. Supersedes GNU sed-3.02a.
+      <a href="ftp://alpha.gnu.org/pub/gnu/sed/sed-3.02.80.tar.gz">ftp://alpha.gnu.org/pub/gnu/sed/sed-3.02.80.tar.gz</a>
+
+   GNU sed v3.02a
+   Interim version with most of what is now gsed-3.02.80 (above),
+   which supersedes it.
+
+   GNU sed v3.02
+   This is the latest official version of GNU sed
+      <a href="ftp://ftp.gnu.org/pub/gnu/sed/sed-3.02.tar.gz">ftp://ftp.gnu.org/pub/gnu/sed/sed-3.02.tar.gz</a>
+
+   GNU sed v2.05
+   This version is superseded by v3.02 and v3.02.80, above.
+
+   GNU mirror sites. A list of mirror sites is at:
+      <a href="http://www.ensta.fr/internet/unix/GNU-archives.html">http://www.ensta.fr/internet/unix/GNU-archives.html</a>
+
+   Precompiled versions:
+
+   GNU sed v3.02-4
+   source code and binaries for Debian GNU/Linux
+      <a href="http://www.debian.org/Packages/unstable/base/sed.html">http://www.debian.org/Packages/unstable/base/sed.html</a>
+
+   GNU sed v3.02-1
+   source code and binaries for Debian GNU/Linux
+      <a href="http://www.debian.org/Packages/stable/base/sed.html">http://www.debian.org/Packages/stable/base/sed.html</a>
+
+   The 4.4BSD version of sed is available from any 4.4BSD-Lite2 mirror
+   site:
+      <a href="ftp://ftp.ntua.gr/pub/bsd/4.4BSD/usr/src/usr.bin/sed/">ftp://ftp.ntua.gr/pub/bsd/4.4BSD/usr/src/usr.bin/sed/</a>
+
+   For some time, the GNU project &lt;<a href="http://www.gnu.org"><a href="http://www.gnu.org">http://www.gnu.org</a></a>&gt; used Eric S.
+   Raymond's version of sed (ESR sed v1.1), but eventually dropped it
+   because it had too many built-in limits. In 1991 Howard Helman
+   modified the GNU/ESR sed and produced a flexible version of sed
+   v1.5 available at several sites (Helman's version permitted things
+   like \&lt;...\&gt; to delimit word boundaries, \xHH to enter hex code and
+   \n to indicate newlines in the replace string). This version did
+   not catch on with the GNU project and their version of sed has
+   moved in a similar but different direction.
+
+   sed v1.3, by Eric Steven Raymond (released 4 June 1998)
+      <a href="http://earthspace.net/~esr/sed-1.3.tar.gz">http://earthspace.net/~esr/sed-1.3.tar.gz</a>
+
+   Eric Raymond &lt;<a href="mailto:esr@snark.thyrsus.com">esr@snark.thyrsus.com</a>&gt; wrote one of the earliest
+   versions of sed. On his website &lt;<a href="http://www.tuxedo.org/~esr/"><a href="http://www.tuxedo.org/~esr/">http://www.tuxedo.org/~esr/</a></a>&gt; which
+   also distributes many freeware utilities he has written or worked
+   on, he describes sed v1.1 this way:
+
+   "This is the fast, small sed originally distributed in the GNU
+   toolkit and still distributed with Minix. The GNU people ditched it
+   when they built their own sed around an enhanced regex package --
+   but it's still better for some uses (in particular, faster and less
+   memory-intensive)." (Version 1.3 fixes an unidentified bug and adds
+   the L command to hexdump the current pattern space.)
+
+2.2.1.2. OS/2
+
+<font color="#333399">   GNU sed v3.02.80</font>
+<font color="#333399">      <a href="http://www2s.biglobe.ne.jp/~vtgf3mpr/gnu/sed.htm">http://www2s.biglobe.ne.jp/~vtgf3mpr/gnu/sed.htm</a></font>
+
+   GNU sed v2.05 (requires 'emxrt.zip', below)
+      <a href="http://oak.oakland.edu/pub/os2/editors/gnused.zip">http://oak.oakland.edu/pub/os2/editors/gnused.zip</a>
+      <a href="http://oak.oakland.edu/pub/os2/emx09c/emxrt.zip">http://oak.oakland.edu/pub/os2/emx09c/emxrt.zip</a>
+
+   GNU sed v1.06
+      <a href="http://oak.oakland.edu/pub/os2/editors/sed106.zip">http://oak.oakland.edu/pub/os2/editors/sed106.zip</a>
+
+2.2.1.3. Microsoft Windows (Win3x, Win9x, WinNT, Win2K)
+
+   GNU sed v3.02.80
+   32-bit binaries and docs, using DJGPP compiler. For details on new
+   features, see Unix section, above.
+      <a href="http://www.cornerstonemag.com/sed/sed3028a.zip">http://www.cornerstonemag.com/sed/sed3028a.zip</a>     # DOS binaries
+      <a href="ftp://alpha.gnu.org/pub/gnu/sed/sed-3.02.80.tar.gz">ftp://alpha.gnu.org/pub/gnu/sed/sed-3.02.80.tar.gz</a> # source
+
+   GNU sed v3.02
+   32-bit binaries and source, using DJGPP compiler. Requires 80386 SX
+   or better. Also requires 3 CWS*.EXE extenders if run under MS-DOS.
+   See section 5.5 ("What is CSDPMI*B.ZIP and why do I need it?"),
+   below. This version will run under Windows or under MS-DOS.
+
+   The binary archive (sed302b.zip) contains 2 executables, sed.exe
+   and gsed.exe.  sed.exe was compiled with the DJGPP regex library,
+   which is POSIX.2-compliant and usually runs faster; gsed.exe was
+   compiled with the GNU regex library, which though it runs slower
+   and is almost POSIX.2-compliant, it has a richer set of regexs and
+   will run faster on certain complex regexs which cause the DJGPP
+   sed.exe to run extremely slowly.
+      <a href="ftp://ftp.simtel.net/pub/simtelnet/gnu/djgpp/v2gnu/sed302b.zip">ftp://ftp.simtel.net/pub/simtelnet/gnu/djgpp/v2gnu/sed302b.zip</a>
+      <a href="ftp://ftp.cdrom.com/.27/simtelnet/gnu/djgpp/v2gnu/sed302b.zip">ftp://ftp.cdrom.com/.27/simtelnet/gnu/djgpp/v2gnu/sed302b.zip</a>
+      <a href="ftp://ftp.simtel.net/pub/simtelnet/gnu/djgpp/v2gnu/sed302s.zip">ftp://ftp.simtel.net/pub/simtelnet/gnu/djgpp/v2gnu/sed302s.zip</a>
+      <a href="ftp://ftp.cdrom.com/.27/simtelnet/gnu/djgpp/v2gnu/sed302s.zip">ftp://ftp.cdrom.com/.27/simtelnet/gnu/djgpp/v2gnu/sed302s.zip</a>
+
+   GNU sed v2.05
+   32-bit binaries, no docs. Requires 80386 DX (SX will not run) and
+   must be run in a DOS window or in a full screen DOS session under
+   Microsoft Windows. Will not run in MS-DOS mode (outside Win/Win95).
+   We recommend using GNU sed v3.02 (above) instead.
+      <a href="http://www.simtel.net/pub/simtelnet/win95/prog/gsed205b.zip">http://www.simtel.net/pub/simtelnet/win95/prog/gsed205b.zip</a>
+      <a href="ftp://ftp.cdrom.com/.27/simtelnet/win95/prog/gsed205b.zip">ftp://ftp.cdrom.com/.27/simtelnet/win95/prog/gsed205b.zip</a>
+
+   GNU sed v1.03
+   modified by Frank Whaley.
+      <a href="ftp://ftp.itribe.net/pub/virtunix/gnused.zip">ftp://ftp.itribe.net/pub/virtunix/gnused.zip</a>
+
+   Again, we recommend avoiding versions of GNU sed other than version
+   3.02 or 3.02.80. However, this version appears to be built on gsed
+   v1.03 beta as a base and then augmented farther. The authors did
+   not give this sed its own version number or name. Gsed v1.03 is
+   offered in the "Virtually UN*X" set of Win32 utilities at
+   &lt;<a href="http://www.itribe.net/virtunix/"><a href="http://www.itribe.net/virtunix/">http://www.itribe.net/virtunix/</a></a>&gt;. It supports Win 95/98/NT long
+   filenames, and runs in a DOS session or DOS window under Microsoft
+   Windows, but does not run in DOS mode. This version of sed supports
+   hex, decimal, binary, and octal representation in expressions.
+
+   The Cygwin toolkit:
+      <a href="http://sourceware.cygnus.com/cygwin/">http://sourceware.cygnus.com/cygwin/</a>
+
+   Formerly know as "GNU-Win32 tools." According to their home page,
+   "The Cygwin tools are Win32 ports of the popular GNU development
+   tools for Windows NT, 95 and 98. They function through the use of
+   the Cygwin library which provides a UNIX-like API on top of the
+   Win32 API." The version of sed used is GNU sed v3.02.
+
+   Minimalist GNU-Win32 (Mingw32):
+      <a href="ftp://agnes.dida.physik.uni-essen.de/home/janjaap/mingw32/binaries/sed-2.05.zip">ftp://agnes.dida.physik.uni-essen.de/home/janjaap/mingw32/binaries/sed-2.05.zip</a>
+      <a href="http://agnes.dida.physik.uni-essen.de/~janjaap/mingw32/download.html">http://agnes.dida.physik.uni-essen.de/~janjaap/mingw32/download.html</a>
+
+   According to their home page, "The Minimalist GNU-Win32 Package (or
+   Mingw32) is simply a set of header files and initialization code
+   which allows a GNU compiler to link programs with one of the C
+   run-time libraries provided by Microsoft. By default it uses
+   CRTDLL, which is built into all Win32 operating systems." The
+   download page says Mingw32 programs "behave like you would expect
+   from a Windows application. They support drive letters, for
+   example. A side effect of using CRTDLL is that Mingw32 is
+   thread-safe, while Cygwin32 is not." The version of sed used is GNU
+   sed v2.05.
+
+   sed v1.5 (a/k/a HHsed), by Howard Helman
+   Compiled with Mingw32 for 32-bit environments described above. This
+   version should support Win95 long filenames.
+      <a href="http://www.dbnet.ece.ntua.gr/~george/sed/sed15.exe">http://www.dbnet.ece.ntua.gr/~george/sed/sed15.exe</a>
+      <a href="http://www.cornerstonemag.com/sed/sed15exe.zip">http://www.cornerstonemag.com/sed/sed15exe.zip</a>
+
+2.2.1.4. MS-DOS
+
+   sed v1.5 (a/k/a HHsed), by Howard Helman
+   uncompiled source code (Turbo C)
+      <a href="ftp://ftp.simtel.net/pub/simtelnet/msdos/txtutl/sed15.zip">ftp://ftp.simtel.net/pub/simtelnet/msdos/txtutl/sed15.zip</a>
+      <a href="ftp://ftp.cdrom.com/pub/simtelnet/msdos/txtutl/sed15.zip">ftp://ftp.cdrom.com/pub/simtelnet/msdos/txtutl/sed15.zip</a>
+      <a href="ftp://oak.oakland.edu/pub/simtelnet/msdos/txtutl/sed15.zip">ftp://oak.oakland.edu/pub/simtelnet/msdos/txtutl/sed15.zip</a>
+      <a href="ftp://uiarchive.uiuc.edu/pub/systems/pc/simtelnet/msdos/txtutl/sed15.zip">ftp://uiarchive.uiuc.edu/pub/systems/pc/simtelnet/msdos/txtutl/sed15.zip</a>
+
+   DOS executable and documentation
+      <a href="ftp://ftp.simtel.net/pub/simtelnet/msdos/txtutl/sed15x.zip">ftp://ftp.simtel.net/pub/simtelnet/msdos/txtutl/sed15x.zip</a>
+      <a href="ftp://ftp.cdrom.com/pub/simtelnet/msdos/txtutl/sed15x.zip">ftp://ftp.cdrom.com/pub/simtelnet/msdos/txtutl/sed15x.zip</a>
+      <a href="ftp://oak.oakland.edu/pub/simtelnet/msdos/txtutl/sed15x.zip">ftp://oak.oakland.edu/pub/simtelnet/msdos/txtutl/sed15x.zip</a>
+      <a href="ftp://uiarchive.uiuc.edu/pub/systems/pc/simtelnet/msdos/txtutl/sed15x.zip">ftp://uiarchive.uiuc.edu/pub/systems/pc/simtelnet/msdos/txtutl/sed15x.zip</a>
+
+   sedmod v1.0, by Hern Chen
+      <a href="http://www.ptug.org/sed/SEDMOD10.ZIP">http://www.ptug.org/sed/SEDMOD10.ZIP</a>
+      <a href="http://www.cornerstonemag.com/sed/sedmod10.zip">http://www.cornerstonemag.com/sed/sedmod10.zip</a>
+      <a href="ftp://garbo.uwasa.fi/pc/unix/sedmod10.zip">ftp://garbo.uwasa.fi/pc/unix/sedmod10.zip</a>
+      CompuServe DTPFORUM, "PC DTP Tools" library, file SEDMOD.ZIP
+
+   GNU sed v3.02.80
+   See section 2.2.1.3 ("Microsoft Windows"), above.
+
+   GNU sed v3.02
+   See section 2.2.1.3 ("Microsoft Windows"), above.
+
+   GNU sed v2.05
+   Does not run under MS-DOS.
+
+   GNU sed v1.18
+   32-bit binaries and source, using DJGPP compiler. Requires 80386 SX
+   or better. Also requires 3 CWS*.EXE extenders on the path. See
+   section 5.5 ("What is CSDPMI*B.ZIP and why do I need it?"), below.
+   We recommend using GNU sed v3.02 (above) instead.
+      <a href="http://www.simtel.net/pub/simtelnet/gnu/djgpp/v2gnu/sed118b.zip">http://www.simtel.net/pub/simtelnet/gnu/djgpp/v2gnu/sed118b.zip</a>
+      <a href="ftp://ftp.cdrom.com/pub/simtelnet/gnu/djgpp/v2gnu/sed118b.zip">ftp://ftp.cdrom.com/pub/simtelnet/gnu/djgpp/v2gnu/sed118b.zip</a>
+      <a href="http://www.simtel.net/pub/simtelnet/gnu/djgpp/v2gnu/sed118s.zip">http://www.simtel.net/pub/simtelnet/gnu/djgpp/v2gnu/sed118s.zip</a>
+      <a href="ftp://ftp.cdrom.com/pub/simtelnet/gnu/djgpp/v2gnu/sed118s.zip">ftp://ftp.cdrom.com/pub/simtelnet/gnu/djgpp/v2gnu/sed118s.zip</a>
+
+   GNU sed v1.06
+   16-bit binaries and source. Should run under any MS-DOS system.
+      <a href="http://www.simtel.net/pub/simtelnet/gnu/gnuish/sed106.zip">http://www.simtel.net/pub/simtelnet/gnu/gnuish/sed106.zip</a>
+      <a href="ftp://ftp.cdrom.com/pub/simtelnet/gnu/gnuish/sed106.zip">ftp://ftp.cdrom.com/pub/simtelnet/gnu/gnuish/sed106.zip</a>
+
+2.2.1.5. CP/M
+
+   ssed v2.2, by Chuck A. Forsberg
+      <a href="http://oak.oakland.edu/pub/cpm/txtutl/ssed22.lbr">http://oak.oakland.edu/pub/cpm/txtutl/ssed22.lbr</a>
+
+   Written for CP/M, ssed (for "small/stupid stream editor) supports
+   only the a(ppend), c(hange), d(elete) and i(nsert) options, and
+   apparently doesn't support regular expressions. It does have a -u
+   option to "unsqueeze" compressed files and was used mainly in
+   conjunction with dif.com for source code maintenance.
+
+   change, by Michael M. Rubenstein
+      <a href="http://oak.oakland.edu/pub/cpm/txtutl/ttools.lbr">http://oak.oakland.edu/pub/cpm/txtutl/ttools.lbr</a>
+
+   Rubenstein probably felt that "sed" was an obscure name, so he
+   renamed it CHANGE.COM (the TTOOLS.LBR archive member CHANGE.CZM is
+   a "crunched" file). Unlike ssed, change supports full RE's except
+   for grouping and backreferences, and its only function is for
+   global substitution.
+
+2.2.2. Shareware and Commercial versions
+
+2.2.2.1. Unix platforms
+
+      ** Information needed **
+
+2.2.2.2. OS/2
+
+   Hamilton Labs:
+      <a href="http://www.hamiltonlabs.com/cshell.htm">http://www.hamiltonlabs.com/cshell.htm</a>
+
+   A sizable set of Unix/C shell utilities designed for OS/2. Price is
+   $350 in the US, $395 elsewhere, with FedEx shipping, unconditional
+   guarantee, unlimited support and free updates. A demo version of
+   the suite can be downloaded from this site, but a stand-alone copy
+   of sed is not available.
+
+2.2.2.3. Windows 95/98, Windows NT, Windows 2000
+
+   Hamilton Labs:
+      <a href="http://www.hamiltonlabs.com/cshell.htm">http://www.hamiltonlabs.com/cshell.htm</a>
+
+   A sizable set of Unix/C shell utilities designed for Win9x, WinNT,
+   and Win2K. Price is $350 in the US, $395 elsewhere, with FedEx
+   shipping, unconditional guarantee, unlimited support and free
+   updates. A demo version of the suite can be downloaded from this
+   site, but a stand-alone copy of sed is not available.
+
+   Interix:
+      <a href="http://www.interix.com">http://www.interix.com</a>
+
+   Interix (formerly known as OpenNT) is advertised as "a complete
+   UNIX system environment running natively on Microsoft Windows NT",
+   and is licensed and supported by Softway Systems. It offers over
+   200 Unix utilities, and supports Unix shells, sockets, networking,
+   and more. A single-user edition runs about $200. A free demo or
+   evaluation copy will run for 31 days and then quit; to continue
+   using it, you must purchase the commercial version.
+
+   MKS NuTCRACKER Professional
+      <a href="http://www.datafocus.com/products/nutc/">http://www.datafocus.com/products/nutc/</a>
+
+   A different, yet related product line offered by MKS (Mortice Kern
+   Systems, below); the awkward spelling "NuTCRACKER" is intentional.
+   Various packages offer hundreds of Unix utilities for Win32
+   environments. Sed is not available as a separate product.
+
+   UnixDos:
+      <a href="http://www.unixdos.com">http://www.unixdos.com</a>
+
+   UnixDos is a suite of 82 Unix utilities ported over to the Windows
+   environments. There are 16-bit versions for Win 3.1 and 32-bit
+   versions for WinNT/Win95. It is distributed as uncrippled shareware
+   for the first 30 days. After the test period, the utilities will
+   not run and you must pay the registration fee of $50.
+
+   Their version of sed supports "\n" in the RHS of expressions, and
+   increases the length of input lines to 10,000 characters. By
+   special arrangement with the owners, persons who want a licensed
+   version of sed <b>only</b> (without the other utilities) may pay a
+   license fee of $10.
+
+   U/WIN:
+      <a href="http://www.research.att.com/sw/tools/uwin/">http://www.research.att.com/sw/tools/uwin/</a>
+
+   U/WIN is a suite of Unix utilities created for WinNT and Win95
+   systems. It is owned by AT&amp;T, created by David Korn (author of the
+   Unix korn shell), and is freely distributed only to educational
+   institutions, AT&amp;T employees, or certain researchers; all others
+   must pay a fee after a 90-day evaluation period expires. U/WIN
+   operates best with the NTFS (WinNT file system) but will run in
+   degraded mode with the FAT file system and in further degraded mode
+   under Win95. A minimal installation takes about 25 to 30 megs of
+   disk space. Sed is not available as a separate file for download,
+   but comes with the suite.
+
+2.2.2.4. MS-DOS
+
+<font color="#333399">   Mix C/Utilities Toolchest</font>
+<font color="#333399">      <a href="http://www.mixsoftware.com/product/utility.htm">http://www.mixsoftware.com/product/utility.htm</a></font>
+
+<font color="#333399">   According to their web page, "The C/Utilities Toolchest adds over</font>
+<font color="#333399">   40 powerful UNIX utilities to your MS-DOS operating system. The</font>
+<font color="#333399">   result is an environment very similar to UNIX operating systems,</font>
+<font color="#333399">   yet 100% compatible with MS-DOS programs and commands." The</font>
+<font color="#333399">   toolchest costs $19.95, with source code available for an</font>
+<font color="#333399">   additional fee. Mix C's version of sed is not available separately.</font>
+
+   MKS (Mortice Kern Systems) Toolkit
+      <a href="http://www.mks.com">http://www.mks.com</a>
+
+   Sed comes bundled with the MKS Toolkit, which is distributed only
+   as commercial software; it is not available separately.
+
+   Thompson Automation Software
+      <a href="http://www.teleport.com/~thompson/">http://www.teleport.com/~thompson/</a>
+
+   The Thompson Toolkit contains over 100 familiar Unix utilities,
+   including a version of the Unix Korn shell. It runs under MS-DOS,
+   OS/2, Win 3.0/3.1, Win95, and WinNT. Sed is one of the utilities,
+   though Thompson is better known for its version of awk for DOS,
+   TAWK. The toolkit runs about $150; sed is not available separately.
+
+2.3. Where can I learn to use sed?
+
+2.3.1. Books
+
+   <i>Sed &amp; Awk, 2d edition</i>, by Dale Dougherty &amp; Arnold Robbins
+   (Sebastopol, Calif: O'Reilly and Associates, 1997)
+   ISBN 1-56592-225-5
+      <a href="http://www.oreilly.com/catalog/sed2/noframes.html">http://www.oreilly.com/catalog/sed2/noframes.html</a>
+
+   About 40 percent of this book is devoted to sed, and maybe 50
+   percent is devoted to awk. The other 10 percent is given to regular
+   expressions and concepts which are common to both tools. If you
+   prefer hard copy, this is definitely the best single place to learn
+   to use sed, including its advanced features.
+
+   The first edition is also very useful. Several typos crept into the
+   first printing of the first edition (though if you follow the
+   tutorials closely, you'll recognize them right away). A list of
+   errors from the first printing of <i>sed &amp; awk</i> is available at
+   &lt;<a href="http://www.cs.colostate.edu/~dzubera/sedawk.txt"><a href="http://www.cs.colostate.edu/~dzubera/sedawk.txt">http://www.cs.colostate.edu/~dzubera/sedawk.txt</a></a>&gt;, and errors in
+   the 2nd are at &lt;<a href="http://www.cs.colostate.edu/~dzubera/sedawk2.txt"><a href="http://www.cs.colostate.edu/~dzubera/sedawk2.txt">http://www.cs.colostate.edu/~dzubera/sedawk2.txt</a></a>&gt;,
+   though most of these were corrected in later printings. The second
+   edition tells how POSIX standards have affected these tools and
+   covers the popular GNU versions of sed and awk. Price is about (US)
+   $30.00
+
+<HR width="20%">
+
+   <i>Mastering Regular Expressions</i>, by Jeffrey E. F. Friedl
+   (Sebastopol, Calif: O'Reilly and Associates, 1997)
+   ISBN 1-56592-257-3
+      <a href="http://www.oreilly.com/catalog/regex/">http://www.oreilly.com/catalog/regex/</a>
+      <a href="http://enterprise.ic.gc.ca/~jfriedl/regex/index.html">http://enterprise.ic.gc.ca/~jfriedl/regex/index.html</a>
+
+   Knowing how to use "regular expressions" is essential to effective
+   use of most Unix tools. This book focuses on how regular
+   expressions can be best implemented in utilities such as perl, vi,
+   emacs, and awk, but also touches on sed as well. Friedl's home page
+   (above) gives links to other sites which help students learn to
+   master regular expressions. His site also gives a Perl script for
+   determining a syntactically valid e-mail address, using regexes:
+      <a href="http://enterprise.ic.gc.ca/~jfriedl/regex/email-opt.pl">http://enterprise.ic.gc.ca/~jfriedl/regex/email-opt.pl</a>
+
+<HR width="20%">
+
+   <i>Awk und Sed</i>, by Helmut Herold. (Bonn: Addison-Wesley, 1994)
+   ISBN 3-89319-685-4
+   VVA-Nr. 563-00685-8
+
+   The text of this book is in German. Now out of print.
+
+<HR width="20%">
+
+   <i>Linux-Unix-Profitools: awk, sed, lex, yacc und make</i>, by Helumt
+   Herold. (Bonn: Addison-Wesley, 1998)
+   ISBN 3-8273-1448-8
+
+      <a href="http://www.addison-wesley.de:80/katalog/item.ppml?id=00262">http://www.addison-wesley.de:80/katalog/item.ppml?id=00262</a>
+
+   The text of this book is in German. (Comments from German-speaking
+   reviewers appreciated!)
+
+2.3.2. Mailing list
+
+   The informal "seders" mailing list has changed to a Majordomo
+   mailing list called "sed-users". Regular and digest versions are
+   available. Average mail volume is 12-25 messages per week. For more
+<font color="#333399">   information, address mail to "<a href="mailto:majordomo@jpusa.org">majordomo@jpusa.org</a>" with any subject</font>
+<font color="#333399">   line and the following in the message body:</font>
+
+<font color="#333399">      info sed-users <a href="mailto:yourname@your.site">yourname@your.site</a></font>
+
+<font color="#333399">   To subscribe, mail to "<a href="mailto:majordomo@jpusa.org">majordomo@jpusa.org</a>" with any subject line</font>
+<font color="#333399">   and one of the following in the message body:</font>
+
+      subscribe sed-users <a href="mailto:yourname@your.site">yourname@your.site</a>
+      subscribe sed-users-digest <a href="mailto:yourname@your.site">yourname@your.site</a>
+
+2.3.3. Tutorials, electronic text
+
+   The original users manual for sed, by Lee E. McMahon, from the
+   7th edition UNIX Manual (1978), with the classic "Kubla Khan"
+   example and tutorial, in formatted text format:
+      <a href="http://www.urc.bl.ac.yu/manuals/progunix/sed.txt">http://www.urc.bl.ac.yu/manuals/progunix/sed.txt</a>
+      <a href="http://www.softlab.ntua.gr/unix/docs/sed.txt">http://www.softlab.ntua.gr/unix/docs/sed.txt</a>
+
+   The source code to the preceding manual. Use "troff -ms sed" to
+   print this file properly:
+      <a href="http://plan9.bell-labs.com/7thEdMan/vol2/sed">http://plan9.bell-labs.com/7thEdMan/vol2/sed</a>
+      <a href="http://cm.bell-labs.com/7thEdMan/vol2/sed">http://cm.bell-labs.com/7thEdMan/vol2/sed</a>
+
+   "Do It With Sed", by Carlos Duarte
+      <a href="http://www.dbnet.ece.ntua.gr/~george/sed/sedtut_1.html">http://www.dbnet.ece.ntua.gr/~george/sed/sedtut_1.html</a>
+
+   U-SEDIT2.ZIP, by Mike Arst (16 June 1990)
+      <a href="http://wuarchive.wustl.edu/systems/ibmpc/garbo.uwasa.fi/editor/u-sedit2.zip">http://wuarchive.wustl.edu/systems/ibmpc/garbo.uwasa.fi/editor/u-sedit2.zip</a>
+      <a href="ftp://ftp.cs.umu.se/pub/pc/u-sedit2.zip">ftp://ftp.cs.umu.se/pub/pc/u-sedit2.zip</a>
+      <a href="ftp://ftp.uni-stuttgart.de/pub/systems/msdos/util/unixlike/u-sedit2.zip">ftp://ftp.uni-stuttgart.de/pub/systems/msdos/util/unixlike/u-sedit2.zip</a>
+      <a href="ftp://sunsite.icm.edu.pl/vol/d2/garbo/pc/editor/u-sedit2.zip">ftp://sunsite.icm.edu.pl/vol/d2/garbo/pc/editor/u-sedit2.zip</a>
+      <a href="ftp://ftp.sogang.ac.kr/.1/msdos_garbo/editor/u-sedit2.zip">ftp://ftp.sogang.ac.kr/.1/msdos_garbo/editor/u-sedit2.zip</a>
+
+   U-SEDIT3.ZIP, by Mike Arst (24 Jan. 1992)
+      <a href="http://www.cornerstonemag.com/sed/u-sedit3.zip">http://www.cornerstonemag.com/sed/u-sedit3.zip</a>
+      CompuServe DTPFORUM, "PC DTP Utilities" library, file SEDDOC.ZIP
+
+   Another sed FAQ
+      <a href="http://www.dreamwvr.com/sed-info/sed-faq.html">http://www.dreamwvr.com/sed-info/sed-faq.html</a>
+
+   sed-tutorial, by Felix von Leitner
+      <a href="http://www.math.fu-berlin.de/~leitner/sed/tutorial.html">http://www.math.fu-berlin.de/~leitner/sed/tutorial.html</a>
+
+   "Manipulating text with sed," chapter 14 of the SCO OpenServer
+   "Operating System Users Guide"
+      <a href="http://dontask.caltech.edu:457/cgi-bin/printchapter/OSUserG/BOOKCHAPTER-14.html">http://dontask.caltech.edu:457/cgi-bin/printchapter/OSUserG/BOOKCHAPTER-14.html</a>
+      <a href="http://www.multisoft.it:457/OSUserG/_Manipulating_text_with_sed.html">http://www.multisoft.it:457/OSUserG/_Manipulating_text_with_sed.html</a>
+
+   "Combining the Bourne-shell, sed and awk in the UNIX environment
+   for language analysis," by Lothar M. Schmitt and Kiel T.
+   Christianson. This basic tutorial on the Bourne shell, sed and awk
+   downloads as a 71-page PostScript file (compressed to 290K with
+   gzip). You may need to navigate down from the root to get the file.
+      <a href="ftp://ftp.u-aizu.ac.jp/u-aizu/doc/Tech-Report/1997/97-2-007.tar.gz">ftp://ftp.u-aizu.ac.jp/u-aizu/doc/Tech-Report/1997/97-2-007.tar.gz</a>
+      available upon request from Lothar Schmitt &lt;<a href="mailto:lothar@u-aizu.ac.jp">lothar@u-aizu.ac.jp</a>&gt;
+
+2.3.4. General web and ftp sites
+
+<font color="#333399">   <a href="http://seders.icheme.org/">http://seders.icheme.org/</a>                     # Casper Boden-Cummins</font>
+   <a href="http://www.cis.nctu.edu.tw/~gis84806/sed/">http://www.cis.nctu.edu.tw/~gis84806/sed/</a>     # Yao-Jen Chang
+   <a href="http://www.math.fu-berlin.de/~guckes/sed/">http://www.math.fu-berlin.de/~guckes/sed/</a>     # Sven Guckes
+   <a href="http://www.math.fu-berlin.de/~leitner/sed/">http://www.math.fu-berlin.de/~leitner/sed/</a>    # Felix von Leitner
+   <a href="http://www.dbnet.ece.ntua.gr/~george/sed/">http://www.dbnet.ece.ntua.gr/~george/sed/</a>     # Yiorgos Adamopoulos
+   <a href="http://www.cornerstonemag.com/sed/">http://www.cornerstonemag.com/sed/</a>            # Eric Pement
+
+   <a href="http://spacsun.rice.edu/FAQ/sed.html">http://spacsun.rice.edu/FAQ/sed.html</a>
+
+   <a href="ftp://algos.inesc.pt/pub/users/cdua/scripts/sed">ftp://algos.inesc.pt/pub/users/cdua/scripts/sed</a> (Carlos Duarte)
+   <a href="ftp://algos.inesc.pt/pub/users/cdua/scripts/sh">ftp://algos.inesc.pt/pub/users/cdua/scripts/sh</a>  (sed &amp; shell script)
+
+   "Handy One-Liners For Sed", compiled by Eric Pement. A large list
+   of 1-line sed commands which can be executed from the command line.
+   <a href="http://www.cornerstonemag.com/sed/sed1line.txt">http://www.cornerstonemag.com/sed/sed1line.txt</a>
+   <a href="http://www.dbnet.ece.ntua.gr/~george/sed/1liners.html">http://www.dbnet.ece.ntua.gr/~george/sed/1liners.html</a>
+
+   The Single UNIX Specification, Version 2 (technical man page)
+<font color="#333399">   <a href="http://www.opengroup.org/onlinepubs/7908799/xcu/sed.html">http://www.opengroup.org/onlinepubs/7908799/xcu/sed.html</a></font>
+
+   Getting started with sed
+   <a href="http://ftp.uni-klu.ac.at/sed/sed.html">http://ftp.uni-klu.ac.at/sed/sed.html</a>
+
+   Comments in sed
+   <a href="http://www.bluesky.com.au:457/OSUserG/_Comments_in_sed.html">http://www.bluesky.com.au:457/OSUserG/_Comments_in_sed.html</a>
+
+   "Using sed"
+   <a href="http://www.multisoft.it:457/OSUserG/_Using_sed_main.html">http://www.multisoft.it:457/OSUserG/_Using_sed_main.html</a>
+
+   masm to gas converter
+   <a href="http://www.delorie.com/djgpp/faq/converting/asm2s-sed.html">http://www.delorie.com/djgpp/faq/converting/asm2s-sed.html</a>
+
+   AltaVista results: "sed script" (744+)
+   <a href="http://www.altavista.com/cgi-bin/query?pg=q&amp;kl=XX&amp;stype=stext&amp;q=%22sed+script%22">http://www.altavista.com/cgi-bin/query?pg=q&amp;kl=XX&amp;stype=stext&amp;q=%22sed+script%22</a>
+
+   Google results: "sed script" (668+)
+   <a href="http://www.google.com/search?q=%22sed+script%22">http://www.google.com/search?q=%22sed+script%22</a>
+
+   HotBot results: "sed script" (190+)
+   <a href="http://www.hotbot.com/?MT=%22sed+script%22&amp;SM=MC&amp;DV=0&amp;LG=any&amp;DC=10&amp;DE=2">http://www.hotbot.com/?MT=%22sed+script%22&amp;SM=MC&amp;DV=0&amp;LG=any&amp;DC=10&amp;DE=2</a>
+
+   mail2html.zip
+   <a href="http://hiwaay.net/~crispen/src/mail2html.zip">http://hiwaay.net/~crispen/src/mail2html.zip</a>
+
+   customize VIM to aid writing sed scripts
+   <a href="http://www.fys.uio.no/~hakonrk/vim/syntax/sed.vim">http://www.fys.uio.no/~hakonrk/vim/syntax/sed.vim</a>
+
+   sample uses of sed in batch files and scripts (Benny Pederson)
+   <a href="http://users.cybercity.dk/~bse26236/batutil/help/SED.HTM">http://users.cybercity.dk/~bse26236/batutil/help/SED.HTM</a>
+
+<HR width="100%">
+
+3. TECHNICAL
+
+3.1. More detailed explanation of basic sed
+
+   Sed takes a script of editing commands and applies each command, in
+   order, to each line of input. After all the commands have been
+   applied to the first line of input, that line is output. A second
+   input line is taken for processing, and the cycle repeats. Sed
+   scripts can address a single line by line number or by matching a
+   /RE pattern/ on the line. An exclamation mark '!' after a regex
+   ('/RE/!') or line number will select all lines that do NOT match
+   that address. Sed can also address a range of lines in the same
+   manner, using a comma to separate the 2 addresses.
+
+      $d               # delete the last line of the file
+      /[0-9]\{3\}/p    # print lines with 3 consecutive digits
+      5!s/ham/cheese/  # except on line 5, replace 'ham' with 'cheese'
+      /awk/!s/aaa/bb/  # unless 'awk' is found, replace 'aaa' with 'bb'
+      17,/foo/d        # delete all lines from line 17 up to 'foo'
+
+   Following an address or address range, sed accepts curly braces
+   '{...}' so several commands may be applied to that line or to the
+   lines matched by the address range. On the command line, semicolons
+   ';' separate each instruction and must precede the closing brace.
+
+      sed '/Owner:/{s/yours/mine/g;s/your/my/g;s/you/me/g;}' file
+
+   Range addresses operate differently depending on which version of
+   sed is used (see section 6.8.5, below). For further information on
+   using sed, consult the references in section 2.3, above. The online
+   manual ("man pages") on Unix/Linux systems may be helpful (try "man
+   sed"), but man pages are notoriously obscure for first-time users.
+
+3.2. Common one-line sed scripts
+
+   A separate document of over 70 handy "one-line" sed commands is
+   available at &lt;<a href="http://www.cornerstonemag.com/sed/sed1line.txt"><a href="http://www.cornerstonemag.com/sed/sed1line.txt">http://www.cornerstonemag.com/sed/sed1line.txt</a></a>&gt;. Here
+   are fourteen of the most common sed commands for one-line use.
+   MS-DOS users should replace single quotes ('...') with double
+   quotes ("...") in these examples. A specific filename ("file")
+   usually follows the script, though the input may also come via
+   piping ("sort somefile | sed 'somescript'").
+
+   # 1. Double space a file
+   sed G file
+
+   # 2. Triple space a file
+   sed 'G;G' file
+
+   # 3. Under UNIX: convert DOS newlines (CR/LF) to Unix format
+   sed 's/.$//' file    # assumes that all lines end with CR/LF
+   sed 's/^M$// file    # in bash/tcsh, press Ctrl-V then Ctrl-M
+
+   # 4. Under DOS: convert Unix newlines (LF) to DOS format
+   sed 's/$//' file                     # method 1
+   sed -n p file                        # method 2
+
+   # 5. Delete leading whitespace (spaces/tabs) from front of each line
+   # (this aligns all text flush left). '^t' represents a true tab
+   # character. Under bash or tcsh, press Ctrl-V then Ctrl-I.
+   sed 's/^[ ^t]*//' file
+
+   # 6. Delete trailing whitespace (spaces/tabs) from end of each line
+   sed 's/[ ^t]*$//' file               # see note on '^t', above
+
+   # 7. Delete BOTH leading and trailing whitespace from each line
+   sed 's/^[ ^t]*//;s/[ ^]*$//' file    # see note on '^t', above
+
+   # 8. Substitute "foo" with "bar" on each line
+   sed 's/foo/bar/' file        # replaces only 1st instance in a line
+   sed 's/foo/bar/4' file       # replaces only 4th instance in a line
+   sed 's/foo/bar/g' file       # replaces ALL instances within a line
+
+   # 9. Substitute "foo" with "bar" ONLY for lines which contain "baz"
+   sed '/baz/s/foo/bar/g' file
+
+   # 10. Delete all CONSECUTIVE blank lines from file except the first.
+   # This method also deletes all blank lines from top and end of file.
+   # (emulates "cat -s")
+   sed '/./,/^$/!d' file       # this allows 0 blanks at top, 1 at EOF
+   sed '/^$/N;/\n$/D' file     # this allows 1 blank at top, 0 at EOF
+
+   # 11. Delete all leading blank lines at top of file (only).
+   sed '/./,$!d' file
+
+   # 12. Delete all trailing blank lines at end of file (only).
+<font color="#333399">   sed -e :a -e '/^\n*$/{$d;N;};/\n$/ba' file</font>
+
+   # 13. If a line ends with a backslash, join the next line to it.
+   sed -e :a -e '/\\$/N; s/\\\n//; ta' file
+
+   # 14. If a line begins with an equal sign, append it to the
+   # previous line (and replace the "=" with a single space).
+   sed -e :a -e '$!N;s/\n=/ /;ta' -e 'P;D' file
+
+3.3. Addressing and address ranges
+
+   Sed commands may have an optional "address" or "address range"
+   prefix. If there is no address or address range given, then the
+   command is applied to all the lines of the input file or text
+   stream. Three commands cannot take an address prefix:
+
+   - labels, used to branch or jump within the script
+   - the close brace, '}', which ends the '{' "command"
+   - the '#' comment character, also technically a "command"
+
+   An address can be a line number (such as 1, 5, 37, etc.), a regular
+   expression (written in the form /RE/ or \xREx where 'x' is any
+   character other than '\' and RE is the regular expression), or the
+   dollar sign ($), representing the last line of the file. An
+   exclamation mark (!) after an address or address range will apply
+   the command to every line EXCEPT the ones named by the address. A
+   null regex ("//") will be replaced by the last regex which was
+   used. Also, some seds do not support \xREx as regex delimiters.
+
+      5d               # delete line 5 only
+      5!d              # delete every line except line 5
+      /RE/s/LHS/RHS/g  # substitute only if RE occurs on the line
+      /^$/b label      # if the line is blank, branch to ':label'
+      /./!b label      # ... another way to write the same command
+      \%.%!b label     # ... yet another way to write this command
+      $!N              # on all lines but the last, get the Next line
+
+   Note that an embedded newline can be represented in an address by
+   the symbol \n, but this syntax is needed only if the script puts 2
+   or more lines into the pattern space via the N, G, or other
+   commands. The \n symbol does <b>not</b> match the newline at an
+   end-of-line because when sed reads each line into the pattern space
+   for processing, it strips off the trailing newline, processes the
+   line, and adds a newline back when printing the line to standard
+   output. To match the end-of-line, use the '$' metacharacter, as
+   follows:
+
+      /tape$/       # matches the word 'tape' at the end of a line
+      /tape$deck/   # matches the word 'tape$deck' with a literal '$'
+      /tape\ndeck/  # matches 'tape' and 'deck' with a newline between
+
+   The following sed commands usually accept <b>only</b> a single address.
+   All other commands (except labels, '}', and '#') accept both single
+   addresses and address ranges.
+
+      =       print to stdout the line number of the current line
+      a       after printing the current line, append "text" to stdout
+      i       before printing the current line, insert "text" to stdout
+      q       quit after the current line is matched
+      r file  prints contents of "file" to stdout after line is matched
+
+   Note that we said "usually." If you need to apply the '=', 'a',
+   'i', or 'r' commands to each and every line within an address
+   range, this behavior can be coerced by the use of braces. Thus,
+   "1,9=" is an invalid command, but "1,9{=;}" will print each line
+   number followed by its line for the first 9 lines (and then print
+   the rest of the rest of the file normally).
+
+   Address ranges occur in the form
+
+      &lt;address1&gt;,&lt;address2&gt;    or    &lt;address1&gt;,&lt;address2&gt;!
+
+   where the address can be a line number or a standard /regex/.
+   &lt;address2&gt; can also be a dollar sign, indicating the end of file.
+   Under HHsed and gsed302a, &lt;address2&gt; may also be a notation of the
+   form +num, indicating the next <i>num</i> lines after &lt;address1&gt; is
+   matched.
+
+   Address ranges are:
+
+   (1) Inclusive. The range "/From here/,/eternity/" matches all the
+   lines containing "From here" up to and including the line
+   containing "eternity". It will not stop on the line just prior to
+   "eternity". (If you don't like this, see section 4.15.)
+
+   (2) Plenary. They always match full lines, not just parts of lines.
+   In other words, a command to change or delete an address range will
+   change or delete whole lines; it won't stop in the middle of a
+   line.
+
+   (3) Multilinear. Address ranges normally match 2 lines or more. The
+   second address will never match the same line the first address
+   did; therefore a valid address range always spans at least two
+   lines, with these exceptions which match only one line:
+
+   - if the first address matches the last line of the file
+   - if using the syntax "/RE/,3" and /RE/ occurs only once in the
+     file at line 3 or below
+   - if using HHsed v1.5. See section 6.8.5.
+
+   (4) Minimalist. In address ranges with /regex/ as &lt;address2&gt;, the
+   range "/foo/,/bar/" will stop at the first "bar" it finds, provided
+   that "bar" occurs on a line below "foo". If the word "bar" occurs
+   on several lines below the word "foo", the range will match all the
+   lines from the first "foo" up to the first "bar". It will not
+   continue hopping ahead to find more "bar"s. In other words, address
+   ranges are not "greedy," like regular expressions.
+
+   (5) Repeating. An address range will try to match more than one
+   block of lines in a file. However, the blocks cannot nest. In
+   addition, a second match will not "take" the last line of the
+   previous block.  For example, given the following text,
+
+      start
+      stop  start
+      stop
+
+   the sed command '/start/,/stop/d' will only delete the first two
+   lines. It will not delete all 3 lines.
+
+   (6) Relentless. If the address range finds a "start" match but
+   doesn't find a "stop", it will match every line from "start" to the
+   end of the file. Thus, beware of the following behaviors:
+
+      /RE1/,/RE2/  # if /RE2/ is not found, matches from /RE1/ to the
+                   # end-of-file
+
+      20,/RE/      # if /RE/ is not found, matches from line 20 to the
+                   # end-of-file
+
+      /RE/,30      # if /RE/ occurs any time after line 30, each
+                   # occurrence will be matched in HHsed, sedmod, and
+                   # gsed302. GNU sed v2.05 and 1.18 will match from
+                   # the 2nd occurrence of /RE/ to the end-of-file.
+
+   If these behaviors seem strange, remember that they occur because
+   sed does not look "ahead" in the file. Doing so would stop sed from
+   being a stream editor and have adverse effects on its efficiency.
+   If these behaviors are undesirable, they can be circumvented or
+   corrected by the use of nested testing within braces. The following
+   scripts work under GNU sed 3.02:
+
+      # Execute your_commands on range "/RE1/,/RE2/", but if /RE2/ is
+      # not found, do nothing.
+      /RE1/{:a;N;/RE2/!ba;your_commands;}
+
+      # Execute your_commands on range "20,/RE/", but if /RE/ is not
+      # found, do nothing.
+      20{:a;N;/RE/!ba;your_commands;}
+
+   As a side note, once we've used N to "slurp" lines together to test
+   for the ending expression, the pattern space will have gathered
+   many lines (possibly thousands) together and concatenated them as a
+   single expression, with the \n sequence marking line breaks. The
+   REs <b>within</b> the pattern space may have to be modified (e.g., you
+   must write '/\nStart/' instead of '/^Start/' and '/[^\n]*/' instead
+   of '/.*/') and other standard sed commands will be unavailable or
+   difficult to use.
+
+      # Execute your_commands on range "/RE/,30", but if /RE/ occurs
+      # on line 31 or later, do not match it.
+      1,30{/RE/,$ your_commands;}
+
+   For related suggestions on using address ranges, see sections 4.2,
+   4.15, and 4.19 of this FAQ. Note that HHsed contains a bug or
+   nonstandard feature in how it implements address ranges; also, GNU
+   sed 3.02a supports a zero (0) in addressing. For more details, see
+   section 6.8.5 ("Range addressing with GNU sed and HHsed").
+
+3.4. [reserved]
+
+3.5. [reserved]
+
+3.6. Notes about s2p, the sed-to-perl translator
+
+   s2p (sed to perl) is a Perl program to convert sed scripts into the
+   Perl programming language; it is included with many versions of
+   Perl. These problems have been found when using s2p:
+
+   (1) Doesn't recognize the semicolon properly after s/// commands.
+
+      s/foo/bar/g;
+
+   (2) Doesn't trim trailing whitespace after s/// commands. Even lone
+   trailing spaces, without comments, produce an error.
+
+   (3) Doesn't handle multiple commands within braces. E.g.,
+
+      1,4{=;G;}
+
+   will produce perl code with missing braces, and miss the second "G"
+   command as well. In fact, any commands after the first one are 
+   missed in the perl output script, and the output perl script will 
+   also contain mismatched braces.
+
+3.7. GNU/POSIX extensions to regular expressions
+
+   GNU sed supports "character classes" in addition to regular
+   character sets, such as [0-9A-F]. Like regular character sets,
+   character classes represent any single character within a set.
+
+   "Character classes are a new feature introduced in the POSIX
+   standard. A character class is a special notation for describing
+   lists of characters that have a specific attribute, but where the
+   actual characters themselves can vary from country to country
+   and/or from character set to character set. For example, the notion
+   of what is an alphabetic character differs in the USA and in
+   France." [quoted from the docs for GNU awk v3.0.3]
+
+   Though character classes don't generally conserve space on the
+   line, they help make scripts portable for international use. The
+   equivalent character sets *for U.S. users* follow:
+
+      [[:alnum:]]  - [A-Za-z0-9]     Alphanumeric characters
+      [[:alpha:]]  - [A-Za-z]        Alphabetic characters
+      [[:blank:]]  - [ \x09]         Space or tab characters only
+      [[:cntrl:]]  - [\x00-\x19\x7F] Control characters
+      [[:digit:]]  - [0-9]           Numeric characters
+      [[:graph:]]  - [!-~]           Printable and visible characters
+      [[:lower:]]  - [a-z]           Lower-case alphabetic characters
+      [[:print:]]  - [ -~]           Printable (non-Control) characters
+      [[:punct:]]  - [!-/:-@[-`{-~]  Punctuation characters
+      [[:space:]]  - [ \t\v\f]       All whitespace chars
+      [[:upper:]]  - [A-Z]           Upper-case alphabetic characters
+      [[:xdigit:]] - [0-9a-fA-F]     Hexadecimal digit characters
+
+   Note that [[:graph:]] does not match the space " ", but [[:print:]]
+   does. Some character classes may (or may not) match characters in
+   the high ASCII range (ASCII 128-255 or 0x80-0xFF), depending on
+   which C library was used to compile sed. For non-English languages,
+   [[:alpha:]] and other classes may also match high ASCII characters.
+
+<HR width="100%">
+
+4. EXAMPLES
+
+4.1. How do I perform a case-insensitive search?
+
+   Use GNU sed v3.02 (or higher) with the I flag ("/regex/I" or
+   "s/LHS/RHS/I"). Or use sedmod with the -i switch on the command
+   line. With other versions of sed this is not easy to do, so some
+   people use GNU awk (gawk), mawk, or perl, since these programs have
+   options for case-insensitive searches. In gawk/mawk, use "BEGIN
+   {IGNORECASE=1}" and in perl, "/regex/i". For sed, here are three
+   solutions:
+
+   Solution 1: convert everything to upper case and search normally
+
+      # sed script, solution 1
+      h;          # copy the original line to the hold space
+                  # convert the pattern space to solid caps
+      y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/
+                  # now we can search for the word "CARLOS"
+      /CARLOS/ {
+           # add or insert lines. Note: "s/.../.../" will not work
+           # here because we are searching a modified pattern
+           # space and are not printing the pattern space.
+      }
+      x;          # get back the original pattern space
+                  # the original pattern space will be printed
+
+   Solution 2: search for both cases
+
+   Often, proper names will either start with all lower-case ("unix"),
+   with an initial capital letter ("Unix") or occur in solid caps
+   ("UNIX"). There may be no need to search for every possibility.
+
+      /UNIX/b match
+      /[Uu]nix/b match
+
+   Solution 3: search for all possible cases
+
+      # If all else fails, search for any possible combination
+      /[Ca][Aa][Rr][Ll][Oo][Ss]/...
+
+   Bear in mind that as the pattern length increases, this solution
+   becomes an order of magnitude slower than the one of Solution 1, at
+   least with some implementations of sed.
+
+4.2. How do I make changes in only part of a file?
+
+   Select parts of a file for changing by naming a range of lines
+   either by number (e.g., lines 1-20), by RE (between the words "foo"
+   and "bar"), or by some combination of the two. For multiple
+   changes, put the substitution command between braces {...}.
+
+      # replace only between lines 1 and 20
+      1,20 s/Johnson/White/g
+
+      # replace everywhere EXCEPT between lines 1 and 20
+      1,20 !s/Johnson/White/g
+
+      # replace only between words "foo" and "bar"
+      /foo/,/bar/ { s/Johnson/White/g; s/Smith/Wesson/g; }
+
+      # replace only from the words "ENDNOTES:" to the end of file
+      /ENDNOTES:/,$ { s/Schaff/Herzog/g; s/Kraft/Ebbing/g; }
+
+   For technical details on using address ranges, see section 3.3
+   ("Addressing and Address ranges").
+
+4.3. How do I change only the first occurrence of a pattern?
+
+   To replace the regex "LHS" with "RHS", do this:
+
+      gsed '0,/LHS/s//RHS/'                       # GNU sed 3.02a
+      sed -e '1s/LHS/RHS/;t' -e '1,/LHS/s//RHS/'  # other seds
+
+   If you know the pattern <b>won't</b> occur on the first line, omit the
+   first -e and the statement following it.
+
+4.4. How do I make substitutions in every file in a directory, or in a
+     complete directory tree?
+
+4.4.1. - Perl solution
+
+   (Yes, we know this is a FAQ file for sed, not perl, but the
+   solution is so simple that it has to be noted. Also, perl and
+   sed share a very similar syntax here.)
+
+      perl -pi.bak -e 's|foo|bar|g' filelist     # or
+      perl -pi.bak -e 's|foo|bar|g' `find /pathname -name "filespec"`
+
+   For each file in the filelist, perl renames the source file to
+   "filename.bak"; the modified file gets the original filename.
+   Change '-pi.bak' to '-pi' if you don't need backup copies. (Note
+   the use of s||| instead of s/// here, and in the scripts below.
+   The vertical bars in the 's' command lets you replace '/some/path'
+   with '/another/path', accommodating slashes in the LHS and RHS.)
+
+4.4.2. - Unix solution
+
+   For all files in a single directory, assuming they end with *.txt
+   and you have no files named "[anything].txt.bak" already, use a
+   shell script:
+
+      #! /bin/sh
+      # Source files are saved as "filename.txt.bak" in case of error
+      # The '&amp;&amp;' after cp is an additional safety feature
+      for file in *.txt
+      do
+         cp $file $file.bak &amp;&amp;
+         sed 's|foo|bar|g' $file.bak &gt;$file
+      done
+
+   To do an entire directory tree, use the Unix utility find, like so
+   (thanks to Jim Dennis &lt;<a href="mailto:jadestar@rahul.net">jadestar@rahul.net</a>&gt; for this script):
+
+      #! /bin/sh
+      # filename: replaceall
+      find . -type f -name '*.txt' -print | while read i
+      do
+         sed 's|foo|bar|g' $i &gt; $i.tmp &amp;&amp; mv $i.tmp $i
+      done
+
+   This previous shell script recurses through the directory tree,
+   finding only files in the directory (not symbolic links, which will
+   be encountered by the shell command "for file in *.txt", above). To
+   preserve file permissions and make backup copies, use the 2-line cp
+   routine of the earlier script instead of "sed ... &amp;&amp; mv ...". By
+   replacing the sed command 's|foo|bar|g' with something like
+
+      sed "s|$1|$2|g" ${i}.bak &gt; $i
+
+   using double quotes instead of single quotes, the user can also
+   employ positional parameters on the shell script command tail, thus
+   reusing the script from time to time. For example,
+
+      replaceall East West
+
+   would modify all your *.txt files in the current directory.
+
+4.4.3. - DOS solution:
+
+   MS-DOS users should use two batch files like this:
+
+      @echo off
+      :: MS-DOS filename: REPLACE.BAT
+      ::
+      :: Create a destination directory to put the new files.
+      :: Note: The next command will fail under Novel Netware
+      :: below version 4.10 unless "SHOW DOTS=ON" is active.
+      if not exist .\NEWFILES\NUL mkdir NEWFILES
+      for %%f in (*.txt) do CALL REPL_2.BAT %%f
+      echo Done!!
+      :: =======End of the first batch file====
+
+      @echo off
+      :: MS-DOS filename: REPL_2.BAT
+      ::
+      sed "s/foo/bar/g" %1 &gt; NEWFILES\%1
+      :: =======End of the second batch file===
+
+   When finished, the current directory contains all the original
+   files, and the newly-created NEWFILES subdirectory contains the
+   modified *.TXT files. Do not attempt a command like
+
+      for %%f in (*.txt) do sed "s/foo/bar/g" %%f &gt;NEWFILES\%%f
+
+   under any version of MS-DOS because the output filename will be
+   created as a literal '%f' in the NEWFILES directory before the
+   %%f is expanded to become each filename in (*.txt). This occurs
+   because MS-DOS creates output filenames via redirection commands
+   before it expands "for..in..do" variables.
+
+   To recurse through an entire directory tree in MS-DOS requires a
+   batch file more complex than we have room to describe. Examine the
+   file SWEEP.BAT in Timo Salmi's great archive of batch tricks,
+<font color="#333399">   TSBAT61.ZIP, located at &lt;<a href="ftp://garbo.uwasa.fi/pc/ts/tsbat61.zip"><a href="ftp://garbo.uwasa.fi/pc/ts/tsbat61.zip">ftp://garbo.uwasa.fi/pc/ts/tsbat61.zip</a></a>&gt;,</font>
+<font color="#333399">   or get an external program designed for directory recursion. Here</font>
+<font color="#333399">   are some recommended programs for directory recursion. The first</font>
+<font color="#333399">   one, FORALL, runs under either OS/2 or DOS. Unfortunately, none of</font>
+<font color="#333399">   these supports Win9x long filenames.</font>
+<font color="#333399">      <a href="ftp://hobbes.nmsu.edu/pub/os2/util/disk/forall72.zip">ftp://hobbes.nmsu.edu/pub/os2/util/disk/forall72.zip</a></font>
+      <a href="http://www.geocities.com/SiliconValley/Lakes/2414/fortn711.zip">http://www.geocities.com/SiliconValley/Lakes/2414/fortn711.zip</a>
+      <a href="http://garbo.uwasa.fi/pc/filefind/target15.zip">http://garbo.uwasa.fi/pc/filefind/target15.zip</a>
+
+4.5. How do I parse a comma-delimited data file?
+
+   Comma-delimited data files can come in several forms, requiring
+   increasing levels of complexity in parsing and handling:
+
+   (a) No quotes, no internal commas
+
+      1001,John Smith,PO Box 123,Chicago,IL,60699
+      1002,Mary Jones,320 Main,Denver,CO,84100,
+
+   (b) Like (a), with quotes around each field
+
+      "1003","John Smith","PO Box 123","Chicago","IL","60699"
+      "1004","Mary Jones","320 Main","Denver","CO","84100"
+
+   (c) Like (b), with embedded commas
+
+      "1005","Tom Hall, Jr.","61 Ash Ct.","Niles","OH","44446"
+      "1006","Bob Davis","429 Pine, Apt. 5","Boston","MA","02128"
+
+   (d) Like (c), with embedded commas and quotes
+
+      "1007","Sue "Red" Smith","19 Main","Troy","MI","48055"
+      "1008","Joe "Hey, guy!" Hall","POB 44","Reno","NV","89504"
+
+   In each example above, we have 7 fields and 6 commas which function
+   as field separators. Case (c) is a very typical form of these data
+   files, with double quotes used to enclose each field and to protect
+   internal commas (such as "Tom Hall, Jr.") from interpretation as
+   field separators. However, many times the data may include both
+   embedded quotation marks as well as embedded commas, as seen by
+   case (d), above.
+
+   Before handling a comma-delimited data file, make sure that you
+   fully understand its format and check the integrity of the data.
+   Does each line contain the same number of fields? Should certain
+   fields be composed only of numbers or of two-letter state
+   abbreviations in all caps? Sed (or awk or perl) should be used to
+   validate the integrity of the data file before you attempt to alter
+   it or extract particular fields from the file.
+
+   After ensuring that each line has a valid number of fields, use sed
+   to locate and modify individual fields, using the \(...\) grouping
+   command where needed.
+
+   In case (a):
+
+      sed 's/^[^,]*,[^,]*,[^,]*,[^,]*,/.../'
+              ^     ^     ^
+              |     |     |_ 3rd field
+              |     |_______ 2nd field
+              |_____________ 1st field
+
+      # Unix script to delete the second field for case (a)
+      sed 's/^\([^,]*\),[^,]*,/\1,,/' file
+
+      # Unix script to change field 1 to 9999 for case (a)
+      sed 's/^[^,]*,/9999,/' file
+
+   In cases (b) and (c):
+
+      sed 's/^"[^"]*","[^"]*","[^"]*","[^"]*",/.../'
+               1st--   2nd--   3rd--   4th--
+
+      # Unix script to delete the second field for case (c)
+      sed 's/^\("[^"]*"\),"[^"]*",/\1,"",/' file
+
+      # Unix script to change field 1 to 9999 for case (c)
+      sed 's/^"[^"]*",/"9999",/' file
+
+   In case (d):
+
+   One way to parse such files is to replace the 3-character field
+   separator "," with an unused character like the tab or vertical
+   bar. (Technically, the field separator is only the comma while the
+   fields are surrounded by "double quotes", but the net <i>effect</i> is
+   that fields are separated by quote-comma-quote, with quote
+   characters added to the beginning and end of each record.) Search
+   your datafile <i>first</i> to make sure that your character appears
+   nowhere in it!
+
+      sed -n '/|/p' file        # search for any instance of '|'
+      # if it's not found, we can use the '|' to separate fields
+
+   Then replace the 3-character field separator and parse as before:
+
+      # sed script to delete the second field for case (d)
+      s/","/|/g;                  # global change of "," to bar
+      s/^\([^|]*\)|[^|]|/\1||/;   # delete 2nd field
+      s/|/","/g;                  # global change of bar back to ","
+
+      # sed script to change field 1 to 9999 for case (d)
+      # Remember to accommodate leading and trailing quote marks
+      s/","/|/g;
+      s/^[^|]*|/"9999|/;
+      s/|/","/g;
+
+   Note that this technique works only if <i>each</i> and <i>every</i> field is
+   surrounded with double quotes, including empty fields. If your
+   datafile does not look like case (d), above, or if it omits quote
+   marks around empty fields or numeric values, then the complexity of
+   the script would probably not be worth the effort to write it in
+   sed. For such a case, you should use perl. This question is
+   addressed in the Perl FAQ, at question 4.28: "How can I split a
+   [character] delimited string except when inside [character]?"
+
+4.6. How do I insert a newline into the RHS of a substitution?
+
+   Six versions of sed permit '\n' to be typed directly into the RHS,
+   which is then converted to a newline on output: gsed-3.02.80,
+   gsed-3.02a, gsed103 (with the -x switch), HHsed (a/k/a sed14),
+   sedmod, and UnixDOS sed. The <i>easiest</i> solution is to use one of
+   these versions.
+
+   For other versions of sed, try one of the following:
+
+   (a) Insert an unused character and pipe the output through tr:
+
+      echo twolines | sed 's/two/&amp; new=/' | tr "=" "\n"   # produces
+      two new
+      lines
+
+   (b) Use two backslashes (\\) from the shell prompt. Using bash:
+
+      [bash-prompt]$ echo twolines | sed "s/two/&amp; new\\
+      &gt;/"
+      two new
+      lines
+      [bash-prompt]$
+
+   (c) Write a multi-line script and use the backslash (\) in the
+   middle of the "replace" portion:
+
+      sed -f newline.sed files
+
+      # newline.sed
+      s/twolines/two new\
+      lines/g
+
+   Some versions of sed may not need the trailing backslash. If so,
+   remove it.
+
+   (d) Use the "G" command:
+
+   G appends a newline, plus the contents of the hold space to the end
+   of the pattern space. If the hold space is empty, a newline is
+   appended anyway. The newline is stored in the pattern space as "\n"
+   where it can be addressed by grouping "\(...\)" and moved in the
+   RHS. Thus, to change the "twolines" example used earlier, the
+   following script will work:
+
+      sed '/twolines/{G;s/\(two\)\(lines\)\(\n\)/\1\3\2/;}'
+
+   (e) Inserting full lines, not breaking lines up:
+
+   If one is not <b>changing</b> lines but only inserting complete lines
+   before or after a pattern, the procedure is much easier. Use the
+   "i" (insert) or "a" (append) command, making the alterations by an
+   external script. To insert "This line is new" BEFORE each line
+   matching a regex:
+
+      /RE/i This line is new               # HHsed, sedmod, gsed 3.02a
+      /RE/{x;s/.*/This line is new/;G;}    # other seds
+
+   To append "This line is new" AFTER each line matching a regex:
+
+      /RE/a This line is new               # HHsed, sedmod, gsed 3.02a
+      /RE/{G;s/$/This line is new/;}       # other seds
+
+   To append 2 blank lines after each line matching a regex:
+
+      /RE/{G;G;}                    # assumes the hold space is empty
+
+   To replace each line matching a regex with 5 blank lines:
+
+      /RE/{s/.*//;G;G;G;G;}         # assumes the hold space is empty
+
+   (f) Use the "y///" command if possible:
+
+   On some Unix versions of sed (not GNU sed!), though the s///
+   command won't accept '\n' in the RHS, the y/// command does. If
+   your Unix sed supports it, a newline after "aaa" can be inserted
+   this way (which is not portable to GNU sed or other seds):
+
+      s/aaa/&amp;~/; y/~/\n/;    # assuming no other '~' is on the line!
+
+4.7. How do I represent control-codes or nonprintable characters?
+
+   GNU sed v3.02.80, GNU sed v1.03, and HHsed v1.5 by Howard Helman
+   all support all support the notation \xNN, where "NN" are two valid
+   hex numbers, 00-FF.
+
+   sed is not intended to process binary or object code, and files
+   which contain nulls (0x00) will usually generate errors in most
+   versions of sed (GNU sed 3.02a is an exception; it allows nulls in
+   the input files and also in regexes).
+
+   On Unix platforms, the 'echo' command may allow insertion of octal
+   or hex values, e.g., `echo "\0nnn"` or `echo -n "\0nnn"`. The echo
+   command may also support syntax like '\\b' or '\\t' for backspace
+   or tab characters. Check the man pages to see what syntax your
+   version of echo supports. Some versions support the following:
+
+      # replace 0x1A (32 octal) with ASCII letters
+      sed 's/'`echo "\032"`'/Ctrl-Z/g'
+
+      # note the 3 backslashes in the command below
+      sed "s/.`echo \\\b`//g"
+
+4.8. How do I read environment variables with sed?
+
+4.8.1. - on Unix platforms
+
+   In Unix, environment variables are words which begin with a dollar
+   sign, such as $TERM, $HOME, $user, or $path.  In sed, the dollar
+   sign is used to indicate the last line of the input file, the end
+   of a line (in the LHS), or a literal symbol (in the RHS). Sed
+   cannot access variables directly, so one must pay attention to
+   shell quoting requirements to expand the variables properly.
+
+   To ALLOW the Unix shell to interpret the dollar sign (replacing it
+   with an environment variable), put the script in double quotes:
+
+      sed "s/_terminal-type_/$TERM/g" input.file &gt;output.file
+
+   To PREVENT the Unix shell from interpreting the dollar sign
+   (letting sed define its meaning), put the script in single quotes:
+
+      sed 's/.$//' DOS.file &gt;Unix.file
+
+   To use BOTH Unix $environment_vars and sed /end-of-line$/ pattern
+   matching, use single quotes to bracket the sed part 'like so', then
+   follow immediately with double quotes "$HERE" when you want the
+   shell to substitute the variable, and resume with single quotes
+   again where 'sed should set the meaning'. There must be NO SPACE
+   between the closing single quotes and the opening double quotes. To
+   demonstrate with the example two sentences above:
+
+      sed 'like so'"$HERE"'sed should set the meaning'  # rough idea
+      sed "s/$user"'$/root/' input.file &gt;output.file    # sample use
+
+   In the sample use above, we search for the user's name (which is
+   stored as an environment variable) when it occurs at the end of the
+   line ($), and we substitute the word "root" in all these occasions.
+
+   In writing shell scripts, we likewise begin with single quote marks
+   ('), close them upon encountering the variable, enclose the
+   variable name in double quotes ("), and resume with single quotes,
+   closing them at the end of the sed script.  Example:
+
+      #! /bin/sh
+      # lower to upper, that could be changed
+      FROM='abcdefgh'
+      TO='ABCDEFGH'
+      ... misc commands that pipe data into a longer sed script.
+      sed '
+      ...
+      # do the conversion
+      y/'"$FROM"'/'"$TO"'/
+      # some more commands go here . . .
+      # last line is a single quote mark
+      '
+
+   Thus, each variable named $FROM is replaced by $TO, and the single
+   quotes are used to glue the multiple lines together in the script.
+   (See also section 4.10, "How do I handle shell quoting in sed?")
+
+4.8.2. - on MS-DOS and 4DOS platforms
+
+   Under 4DOS and MS-DOS version 7.0 (Win95) or 7.10 (Win95 OSR2),
+   environment variables can be accessed from the command prompt.
+   Under MS-DOS 6.22 and below, environment variables can only be
+   accessed from within batch files. Environment variables should be
+   enclosed between percent signs and are case-insensitive; i.e.,
+   %USER% or %user% will display the USER variable. To generate a true
+   percent sign, just enter it twice.
+
+   DOS versions of sed require that sed scripts be enclosed by double
+   quote marks "..." (not single quotes!) if the script contains
+   embedded tabs, spaces, redirection arrows or the vertical bar. In
+   fact, if the input for sed comes from piping, a sed script should
+   not contain a vertical bar, even if it is protected by double
+   quotes (this seems to be bug in the normal MS-DOS syntax). Thus,
+
+      echo blurk | sed "s/^/ |foo /"     # will cause an error
+      sed "s/^/ |foo /" blurk.txt        # will work as expected
+
+   Using DOS environment variables which contain DOS path statements
+   (such as a TMP variable set to "C:\TEMP") within sed scripts is
+   discouraged because sed will interpret the backslash '\' as a
+   metacharacter to "quote" the next character, not as a normal
+   symbol. Thus,
+
+      sed "s/^/%TMP% /" somefile.txt
+
+   will not prefix each line with (say) "C:\TEMP ", but will prefix
+   each line with "C:TEMP "; sed will discard the backslash, which is
+   probably not what you want. Other variables such as %PATH% and
+   %COMSPEC% will also lose the backslash within sed scripts.
+
+   Environment variables which do not use backslashes are usually
+   workable. Thus, all the following should work without difficulty,
+   if they are invoked from within DOS batch files:
+
+      sed "s/=username=/%USER%/g" somefile.txt
+      echo %FILENAME% | sed "s/\.TXT/.BAK/"
+      grep -Ei "%string%" somefile.txt | sed "s/^/  /"
+
+   while from either the DOS prompt or from within a batch file,
+
+      sed "s/%%/ percent/g" input.fil &gt;output.fil
+
+   will replace each percent symbol in a file with " percent" (adding
+   the leading space for readability).
+
+4.9. How do I export or pass variables back into the environment?
+
+4.9.1. - on Unix platforms
+
+   Suppose that line #1, word #2 of the file 'terminals' contains a
+   value to be put in your TERM environment variable. Sed cannot
+   export variables directly to the shell, but it can pass strings to
+   shell commands. To set a variable in the Bourne shell:
+
+      TERM=`sed 's/^[^ ][^ ]* \([^ ][^ ]*\).*/\1/;q' terminals`;
+      export TERM
+
+   If the second word were "Wyse50", this would send the shell command
+   "TERM=Wyse50".
+
+4.9.2. - on MS-DOS or 4DOS platforms
+
+   Sed cannot directly manipulate the environment. Under DOS, only
+   batch files (.BAT) can do this, using the SET instruction, since
+   they are run directly by the command shell. Under 4DOS, special
+   4DOS commands (such as ESET) can also alter the environment.
+
+   Under DOS or 4DOS, sed can select a word and pass it to the SET
+   command. Suppose you want the 1st word of the 2nd line of MY.DAT
+   put into an environment variable named %PHONE%. You might do this:
+
+      @echo off
+      sed -n "2 s/^\([^ ][^ ]*\) .*/SET PHONE=\1/p;3q" MY.DAT &gt; GO_.BAT
+      call GO_.BAT
+      echo The environment variable for PHONE is %PHONE%
+      :: cleanup
+      del GO_.BAT
+
+   The sed script assumes that the first character on the 2nd line is
+   not a space and uses grouping \(...\) to save the first string of
+   non-space characters as \1 for the RHS. In writing any batch files,
+   make sure that output filenames such as GO_.BAT don't overwrite
+   preexisting files of the same name.
+
+4.10. How do I handle Unix shell quoting in sed?
+
+   To embed a literal single quote (') in a script, use (a) or (b):
+
+   (a) If possible, put the script in double quotes:
+
+      sed "s/cannot/can't/g" file
+
+   (b) If the script must use single quotes, then close-single-quote
+   the script just before the SPECIAL single quote, prefix the single
+   quote with a backslash, and use a 2nd pair of single quotes to
+   finish marking the script. Thus:
+
+      sed 's/cannot$/can'\''t/g' file
+
+   Though this looks hard to read, it breaks down to 3 parts:
+
+      's/cannot$/can'   \'   't/g'
+      ---------------   --   -----
+
+   To embed a literal double quote (") in a script, use (a) or (b):
+
+   (a) If possible, put the script in single quotes. You don't need to
+   prefix the double quotes with anything. Thus:
+
+      sed 's/14"/fourteen inches/g' file
+
+   (b) If the script must use double quotes, then prefix the SPECIAL
+   double quote with a backslash (\). Thus,
+
+      sed "s/$length\"/$length inches/g" file
+
+   To embed a literal backslash (\) into a script, enter it twice:
+
+      sed 's/C:\\DOS/D:\\DOS/g' config.sys
+
+4.11. How do I delete a block of text if the block contains a certain
+      regular expression?
+
+   The following deletes the block between 'start' and 'end'
+   inclusively, if and only if the block contains the string
+   (optionally a pattern) 'regex'. Written by Russell Davies
+   &lt;<a href="mailto:r@itntl.bhp.com.au">r@itntl.bhp.com.au</a>&gt;, with comments by the FAQ maintainer:
+
+      :t
+      /start/,/end/ {    # For each line between these block markers..
+         /end/!{         #   If we are not at the /end/ marker
+<font color="#333399">            $!{          #     nor the last line of the file,</font>
+               N;        #     add the Next line to the pattern space
+               bt
+            }            #   and branch (loop back) to the :t label.
+<font color="#333399">         }               # This line matches the /end/ marker.</font>
+<font color="#333399">         /regex/d;       # If /regex/ matches, delete the block.</font>
+      }                  # Otherwise, the block will be printed.
+
+4.12. How do I locate/print a paragraph of text if the paragraph
+      contains a certain regular expression?
+
+   Assume that paragraphs are separated by blank lines. For regexes
+   that are single terms, use the following script:
+
+      sed -e '/./{H;$!d;}' -e 'x;/regex/!d'
+
+   To print paragraphs only if they contain 3 specific regular
+   expressions (RE1, RE2, and RE3), in any order in the paragraph:
+
+      sed -e '/./{H;$!d;}' -e 'x;/RE1/!d;/RE2/!d;/RE3/!d'
+
+   With this solution and the preceding one, if the paragraphs are
+   excessively long (more than 4k in length), you may overflow sed's
+   internal buffers. If using HHsed, you must add a "G;" command
+   immediately after the "x;" in the scripts above to defeat a bug
+   in HHsed (see section 6.7.F(5), below, for a description).
+
+4.13. How do I delete a block of <i>specific</i> consecutive lines?
+
+   If the block of lines always looks like this (with '^' and '$'
+   representing the beginning and end of line, respectively):
+
+      ^able$
+      ^baker$
+      ^charlie$
+      ^delta$
+
+   and if there is never any deviation from this format (e.g., "able"
+   <b>always</b> is followed by "baker", etc.), this will work fine:
+
+      sed '/^able$/,/^delta$/d' files    # most seds
+      sed '/^able$/,+3d' files           # HHsed, sedmod, gsed 3.02.80
+
+   However, if the top line sometimes appears alone or is followed by
+   other lines, if the block may have additional lines in the middle,
+   or if a partial block could possibly occur somewhere in the file, a
+   more explicit script is needed.
+
+   The following scripts show how to delete blocks of specific
+   consecutive lines. Only an exact match of the block is deleted, and
+   partial matches of the block are left alone.
+
+      # sed script to delete 2 consecutive lines: /^RE1\nRE2$/
+      $b
+      /^RE1$/ {
+        $!N
+        /^RE1\nRE2$/d
+        P;D
+      }
+      #---end of script---
+
+
+      # sed script to delete 3 consecutive lines. (This script
+      # fails under GNU sed earlier than version 3.02.)
+      : more
+      $!N
+      s/\n/&amp;/2;
+      t enough
+      $!b more
+      : enough
+      /^RE1\nRE2\nRE3$/d
+      P;D
+      #---end of script---
+
+   For example, to delete a block of 5 consecutive lines, the previous
+   script must be altered in only two places:
+
+   (1) Change the 2 in "s/\n/&amp;/2;" to a 4 (the trailing semicolon is
+   needed to work around a bug in HHsed v1.5).
+
+   (2) Change the regex line to "/^RE1\nRE2\nRE3\nRE4\nRE5$/d",
+   modifying the expression as needed.
+
+   Suppose we want to delete a block of two blank lines followed by
+   the word "foo" followed by another blank line (4 lines in all).
+   Other blank lines and other instances of "foo" should be left
+   alone. After changing the '2' to a '3' (always one number less than
+   the total number of lines), the regex line would look like this:
+   "/^\n\nfoo\n$/d". (Thanks to Greg Ubben for this script.)
+
+   As an alternative for older versions of GNU sed, the following
+   script will delete 4 consecutive lines:
+
+      # sed script to delete 4 consecutive lines (gsed-2.05 and below)
+      /^RE1$/!b
+      $!N
+      $!N
+      :a
+      $b
+      N
+      /^RE1\nRE2\nRE3\nRE4$/d
+      P
+      s/^.*\n\(.*\n.*\n.*\)$/\1/
+      ba
+      #---end of script---
+
+   Its drawback is that it must be modified in 3 places instead of 2
+   to adapt it for more lines, and as additional lines are added, the
+   's' command is forced to work harder to match the regexes. On the
+   other hand, it avoids a problem with gsed-2.05 and shows another
+   way to solve the problem of deleting consecutive lines.
+
+4.14. How do I read (insert/add) a file at the top of a textfile?
+
+   Given a textfile, file1, one may wish to prepend or insert an
+   external file, fileT, to the top of it before processing the file.
+   Normally, this should be done from the Unix or DOS shell before
+   passing file1 on to sed (MS-DOS 5.0 or lower needs 3 commands to do
+   this; for DOS 6.0 or higher, the MOVE command is available):
+
+      copy fileT+file1 temp                   # MS-DOS command 1
+      echo Y | copy temp file1                # MS-DOS command 2
+      del temp                                # MS-DOS command 3
+      cat fileT file1 &gt;temp; mv temp file1    # Unix commands
+
+   However, if inserting the file must be done from within sed, there
+   is a way. The expected sed command "1 r fileT" will not work; it
+   first prints line 1 and then inserts fileT between lines 1 and 2.
+   The following two-line sed script solves this problem, although
+   there must be at least 2 lines in file1 for the script to work
+   properly:
+
+      1{ h; r fileT; D; }
+      2{ x; G; }
+
+4.15. How do I address all the lines between RE1 and RE2, excluding
+      the lines themselves?
+
+   Normally, to address the lines between two regular expressions, RE1
+   and RE2, one would do this: '/RE1/,/RE2/{commands;}'. Excluding
+   those lines takes an extra step. To put 2 arrows before each line
+   between RE1 and RE2, except for those lines:
+
+      sed '1,/RE1/!{ /RE2/,/RE1/!s/^/&gt;&gt;/; }' input.fil
+
+   The preceding script, though short, may be difficult to follow. It
+   also requires that /RE1/ cannot occur on the first line of the
+   input file. The following script, though it's not a one-liner, is
+   easier to read and it permits /RE1/ to appear on the first line:
+
+      /RE1/,/RE2/{
+        /RE1/b
+        /RE2/b
+        s/^/&gt;&gt;/
+      }
+
+   Contents of input.fil:         Output of sed script:
+      aaa                           aaa
+      bbb                           bbb
+      RE1                           RE1
+      aaa                           &gt;&gt;aaa
+      bbb                           &gt;&gt;bbb
+      ccc                           &gt;&gt;ccc
+      RE2                           RE2
+      end                           end
+
+4.16. How do I replace "/some/UNIX/path" in a substitution?
+
+   Technically, the normal meaning of the slash can be disabled by
+   prefixing it with a backslash. Thus,
+
+      sed 's/\/some\/UNIX\/path/\/a\/new\/path/g' files
+
+   But this is hard to read and write. There is a better solution.
+   The s/// substitution command allows '/' to be replaced by any
+   other character (including spaces or alphanumerics). Thus,
+
+      sed 's|/some/UNIX/path|/a/new/path|g' files
+
+   and if you are using variable names in a Unix shell script,
+
+      sed "s|$OLDPATH|$NEWPATH|g" oldfile &gt;newfile
+
+4.17. How do I replace "C:\SOME\DOS\PATH" in a substitution?
+
+   For MS-DOS users, every backslash must be doubled. Thus, to replace
+   "C:\SOME\DOS\PATH" with "D:\MY\NEW\PATH" --
+
+      sed "s|C:\\SOME\\DOS\\PATH|D:\\MY\\NEW\\PATH|g" infile &gt;outfile
+
+   Remember that DOS pathnames are not case sensitive and can appear
+   in upper or lower case in the input file. If this concerns you, use
+   gsed v3.02 with the "i" flag or sedmod with the -i switch to ignore
+   case on the LHS:
+
+      @echo off
+      :: sample MS-DOS batch file to alter path statements
+      set old=C:\\SOME\\DOS\\PATH
+      set new=D:\\MY\\NEW\\PATH
+      gsed "s|%old%|%new%|gi" infile &gt;outfile
+      :: or
+      ::     sedmod -i "s|%old%|%new%|g" infile &gt;outfile
+      set old=
+      set new=
+
+   Also, remember that under Win95 long filenames may be stored in two
+   formats: e.g., as "C:\Program Files" or as "C:\PROGRA~1".
+
+4.18. How do I convert files with toggle characters, like +this+, to
+      look like [i]this[/i]?
+
+   Input files, especially message-oriented text files, often contain
+   toggle characters for emphasis, like ~this~, *this*, or =this=. Sed
+   can make the same input pattern produce alternating output each
+   time it is encountered. Typical needs might be to generate HMTL
+   codes or print codes for boldface, italic, or underscore. This
+   script accomodates multiple occurrences of the toggle pattern on
+   the same line, as well as cases where the pattern starts on one
+   line and finishes several lines later, even at the end of the file:
+
+      # sed script to convert +this+ to [i]this[/i]
+      :a
+      /+/{ x;        # If "+" is found, switch hold and pattern space
+        /^ON/{       # If "ON" is in the (former) hold space, then ..
+          s///;      # .. delete it
+          x;         # .. switch hold space and pattern space back
+          s|+|[/i]|; # .. turn the next "+" into "[/i]"
+          ba;        # .. jump back to label :a and start over
+        }
+      s/^/ON/;       # Else, "ON" was not in the hold space; create it
+      x;             # Switch hold space and pattern space
+      s|+|[i]|;      # Turn the first "+" into "[i]"
+      ba;            # Branch to label :a to find another pattern
+      }
+      #---end of script---
+
+   This script uses the hold space to create a "flag" to indicate
+   whether the toggle is ON or not. We have added remarks to
+   illustrate the script logic, but in most versions of sed remarks
+   are not permitted after 'b'ranch commands or labels.
+
+   If you are sure that the +toggle+ characters never cross line
+   boundaries (i.e., never begin on one line and end on another), this
+   script can be reduced to one line:
+
+      s|+\([^+][^+]*\)+|[i]\1[/i]|g
+
+   If your toggle pattern contains regex metacharacters (such as * and
+   +, in the case of HHsed), remember to quote them with backslashes.
+
+4.19. How do I delete only the first occurrence of a pattern?
+
+   To delete only the first line that contains the pattern RE, where
+   "RE" is any regular expression, but leave all other lines
+   containing RE alone, do this:
+
+      gsed '0,/RE/{//d}' file                     # GNU sed 3.02.80
+      sed '/RE/{x;/Y/!{s/^/Y/;h;d;};x;}' file     # other seds
+
+   And if you <b>know</b> the pattern will not occur on line 1 and you
+   don't use GNU sed, this will work:
+
+      sed '1,/RE/{/RE/d;}' file
+
+4.20. How do I commify a string of numbers?
+
+   Use the simplest script necessary to accomplish your task. As
+   variations of the line increase, the sed script must become more
+   complex to handle additional conditions. Whole numbers are
+   simplest, followed by decimal formats, followed by embedded words.
+
+   Case 1: simple strings of whole numbers separated by spaces or
+   commas, with an optional negative sign. To convert this:
+
+      4381, -1222333, and 70000: - 44555666 1234567890 words
+      56890  -234567, and 89222  -999777  345888777666 chars
+
+   to this:
+
+      4,381, -1,222,333, and 70,000: - 44,555,666 1,234,567,890 words
+      56,890  -234,567, and 89,222  -999,777  345,888,777,666 chars
+
+   use one of these one-liners:
+
+      sed ':a;s/\B[0-9]\{3\}\&gt;/,&amp;/;ta'                      # GNU sed
+      sed -e :a -e 's/\(.*[0-9]\)\([0-9]\{3\}\)/\1,\2/;ta'  # other seds
+
+   Case 2: strings of numbers which may have an embedded decimal
+   point, separated by spaces or commas, with an optional negative
+   sign. To change this:
+
+      4381,  -6555.1212 and 70000,  7.18281828  44906982.071902
+      56890   -2345.7778 and 8.0000:  -49000000 -1234567.89012
+
+   to this:
+
+      4,381,  -6,555.1212 and 70,000,  7.18281828  44,906,982.071902
+      56,890   -2,345.7778 and 8.0000:  -49,000,000 -1,234,567.89012
+
+   use the following command for GNU sed:
+
+      sed ':a;s/\(^\|[^0-9.]\)\([0-9]\+\)\([0-9]\{3\}\)/\1\2,\3/g;ta'
+
+   and for other versions of sed:
+
+      sed -f case2.sed files
+
+      # case2.sed
+      s/^/ /;                 # add space to start of line
+      :a
+      s/\( [-0-9]\{1,\}\)\([0-9]\{3\}\)/\1,\2/g
+      ta
+      s/ //;                  # remove space from start of line
+      #---end of script---
+
+<HR width="100%">
+
+5. WHY ISN'T THIS WORKING?
+
+5.1. Why don't my variables like $var get expanded in my sed script?
+
+   Because your sed script uses 'single quotes' instead of "double
+   quotes". Unix shells never expand $variables in single quotes.
+
+   This is probably the most frequently-asked sed question. For more
+   info on using variables, see section 4.8.
+
+5.2. I'm using 'p' to print, but I have duplicate lines sometimes.
+
+   Sed prints the entire file by default, so the 'p' command might
+   cause the duplicate lines. If you want the whole file printed,
+   try removing the 'p' from commands like 's/foo/bar/p'. If you want
+   part of the file printed, run your sed script with -n flag to
+   suppress normal output, and rewrite the script to get all output
+   from the 'p' comand.
+
+   If you're still getting duplicate lines, you are probably finding
+   several matches for the same line. Suppose you want to print lines
+   with the words "Peter" or "James" or "John", but not the same line
+   twice. The following command will fail:
+
+      sed -n '/Peter/p; /James/p; /John/p' files
+
+   Since all 3 commands of the script are executed for each line,
+   you'll get extra lines. A better way is to use the 'd' (delete) or
+   'b' (branch) commands, like so (with GNU sed):
+
+      sed '/Peter/b; /James/b; /John/b; d' files          # one way
+      sed -n '/Peter/{p;d;};/James/{p;d;};/John/p' files  # a 2nd way
+      sed -n '/Peter/{p;b;};/James/{p;b;};/John/p' files  # a 3rd way
+      sed '/Peter\|James\|John/!d' files                  # best way :-)
+
+   On standard seds, these must be broken down with -e commands:
+
+      sed -e '/Peter/b' -e '/James/b' -e '/John/b' -e d files
+      sed -n -e '/Peter/{p;d;}' -e '/James/{p;d;}' -e '/John/p' files
+
+   The 3rd line would require too many -e commands to fit on one line,
+   since standard versions of sed require an -e command after each 'b'
+   and also after each closing brace '}'.
+
+5.3. Why does my DOS version of sed process a file part-way through
+     and then quit?
+
+   First, look for errors in the script. Have you used the -n switch
+   without telling sed to print anything to the console?  Have you
+   read the docs to your version of sed to see if it has switches or a
+   syntax you may have misused? If you are sure your sed script is
+   valid, a probable cause is an end-of-file (EOF) marker embedded in
+   the file. An EOF marker (a/k/a SUB) is a Control-Z character, with
+   the values of 1A hex or 026 decimal. As soon as any DOS version of
+   sed encounters a Ctrl-Z character, sed stops processing.
+
+   To locate the EOF character, use Vern Buerg's shareware file viewer
+   LIST.COM &lt;<a href="http://www.buerg.com/list.html"><a href="http://www.buerg.com/list.html">http://www.buerg.com/list.html</a></a>&gt;. In text mode, look for a
+   right-arrow symbol; in hex mode (Alt-H), look for a 1A code. With
+   Unix utilities ported to DOS, use 'od' (octal dump) to display
+   hexcodes in your file, and then use sed to locate the offending
+   character:
+
+      od -txC badfile.txt | sed -n "/ 1a /p; / 1a$/p"
+
+   Then edit the input file to remove the offending character(s).
+
+   If you would rather NOT edit the input file, there is still a fix.
+   It requires the DJGPP 32-bit port of 'tr', the Unix translate
+   program, ver 1.22. This version is included as one of the GNU text
+   utilities, available at
+      <a href="http://www.simtel.net/pub/simtelnet/gnu/djgpp/v2gnu/txt122b.zip">http://www.simtel.net/pub/simtelnet/gnu/djgpp/v2gnu/txt122b.zip</a>
+   It is important to get the DJGPP version of 'tr' because other
+   versions ported to DOS will stop processing when they encounter the
+   EOF character. Use the -d (delete) command:
+
+      tr -d \32 &lt; badfile.txt | sed -f myscript.sed
+
+5.4. My RE isn't matching/deleting what I want it to. (Or, "Greedy vs.
+     stingy pattern matching")
+
+   The two most common causes for this problem are: (1) misusing the
+   '.' metacharacter, and (2) misusing the '*' metacharacter. The RE
+   '.*' is designed to be "greedy" (i.e., matching as many characters
+   as possible). However, sometimes users need an expression which is
+   "stingy," matching the shortest possible string.
+
+   (1) On single-line patterns, the '.' metacharacter matches any
+   single character on the line. ('.' cannot match the newline at the
+   end of the line because the newline is removed when the line is put
+   into the pattern space; sed adds a newline automatically when the
+   pattern space is printed.) On multi-line patterns obtained with the
+   'N' or 'G' commands, '.' <i>will</i> match a newline in the middle of the
+   pattern space. If there are 3 lines in the pattern space, "s/.*//"
+   will delete all 3 lines, not just the first one (leaving 1 blank
+   line, since the trailing newline is added to the output).
+
+   Normal misuse of '.' occurs in trying to match a word or bounded
+   field, and forgetting that '.' will also cross the field limits.
+   Suppose you want to delete the first word in braces:
+
+      echo {one} {two} {three} | sed 's/{.*}/{}/'       # fails
+      echo {one} {two} {three} | sed 's/{[^}]*}/{}/'    # succeeds
+
+   's/{.*}/{}/' is not the solution, since the regex '.' will match
+   any character, including the close braces. Replace the '.' with
+   '[^}]', which signifies a negated character set '[^...]' containing
+   anything other than a right brace. FWIW, we know that 's/{one}/{}/'
+   would also solve our question, but we're trying to illustrate the
+   use of the negated character set: [^anything-but-this].
+
+   A negated character set should be used for matching words between
+   quote marks, for fields separated by commas, etc. See also section
+   4.5 ("How do I parse a comma-delimited data file?"), above.
+
+   (2) The '*' metacharacter represents zero or more instances of the
+   previous expression. The '*' metacharacter looks for the leftmost
+   possible match first and will match zero characters. Thus,
+
+      echo foo | sed 's/o*/EEE/'
+
+   will generate 'EEEfoo', not 'fEEE' as one might expect. This is
+   because /o*/ matches the null string at the beginning of the word.
+
+   After finding the leftmost possible match, the '*' is GREEDY; it
+   always tries to match the longest possible string. When two or
+   three instances of '.*' occur in the same RE, the leftmost instance
+   will grab the most characters. Consider this example, which uses
+   grouping '\(...\)' to save patterns:
+
+      echo bar bat bay bet bit | sed 's/^.*\(b.*\)/\1/'
+
+   What will be displayed is 'bit', never anything longer, because
+   the leftmost '.*' took the longest possible match. Remember this
+   rule: "leftmost match, longest possible string, zero also matches."
+
+5.5. What is CSDPMI*B.ZIP and why do I need it?
+
+   If you boot to MS-DOS instead of Windows and try to use GNU sed
+   v1.18 or 3.02, you may encounter the following error message:
+
+      no DPMI - Get csdpmi*b.zip
+
+   "DPMI" stands for DOS Protected Mode Interface; it's basically a
+   means of running DOS in Protected Mode (as opposed to Real Mode),
+   which allows programs to share resources in extended memory without
+   conflicting with one another. Running HIMEM.SYS and EMM386.EXE is
+   not enough. The "CSDPMI*B.ZIP" refers to files written by Charles
+   Sandmann to provide DPMI services for 32-bit computers (i.e.,
+   386SX, 386DX, 486SX, etc.). Download this file:
+
+      <a href="http://www.simtel.net/pub/simtelnet/gnu/djgpp/v2misc/csdpmi4b.zip">http://www.simtel.net/pub/simtelnet/gnu/djgpp/v2misc/csdpmi4b.zip</a>
+      <a href="ftp://ftp.cdrom.com/pub/simtelnet/gnu/djgpp/v2misc/csdpmi4b.zip">ftp://ftp.cdrom.com/pub/simtelnet/gnu/djgpp/v2misc/csdpmi4b.zip</a>
+
+   and extract CWSDPMI.EXE, CWSDPR0.EXE and CWSPARAM.EXE from the ZIP
+   file. Put all 3 CWS*.EXE files in the same directory as GSED.EXE
+   and you're all set. There are DOC files enclosed, but they're
+   nearly incomprehensible for the average computer user. (Another
+   case of user-vicious documentation.)
+
+   If you're running Windows and you normally use a DOS session to run
+   GNU sed (i.e., you get to a DOS prompt with a resizable window or
+   you press Alt-Enter to switch to full-screen mode), you don't need
+   the CWS*.EXE files at all, since Windows uses DPMI already.
+
+5.6. Where are the man pages for GNU sed?
+
+   Prior to GNU sed v3.02, there weren't any. Until recently, man
+   pages distributed with gsed were borrowed from old sources or from
+   other compilations. None of them were "official." Even the man and
+   info pages distributed with gsed 3.02 are incomplete. For example,
+   they omit special regexes recognized by GNU sed not in most seds;
+   see section 6.8.3 ("Special syntax in REs"), below.
+
+5.7. How do I tell what version of sed I am using?
+
+   Try entering "sed" all by itself on the command line, followed by
+   no arguments or parameters.  Also, try "sed --version".  In a
+   pinch, you can also try this:
+
+      strings sed | grep -i ver
+
+   Your version of 'strings' must be a version of the Unix utility of
+   this name. It should not be the DOS utility STRINGS.COM by Douglas
+   Boling.
+
+5.8. Does sed issue an exit code?
+
+   Most versions of sed do not, but check the documentation that came
+   with whichever version you are using. GNU sed issues an exit code
+   of 0 if the program terminated normally, 1 if there were errors in
+   the script, and 2 if there were errors during script execution.
+
+5.9. The 'r' command isn't inserting the file into the text.
+
+   On most versions of sed (except HHsed and gsed-3.02), the 'r'
+   (read) and 'w' (write) commands must be followed by exactly one
+   space, then the filename, and then terminated by a newline. Any
+   additional characters before or after the filename are interpreted
+   as being part of the filename. Thus "/RE/r  insert.me" would try to
+   locate a file called ' insert.me' (note the leading space!). If the
+   file was not found, sed says nothing -- not even an error message.
+
+   When sed scripts are used on the command line, every 'r' and 'w'
+   must be the last command in that part of the script. Thus,
+
+<font color="#333399">      sed -e '/regex/{r insert.file;d;}' source         # will fail</font>
+<font color="#333399">      sed -e '/regex/{r insert.file' -e 'd;}' source    # will succeed</font>
+
+<font color="#333399">5.10. Why can't I match or delete a newline using the \n escape</font>
+<font color="#333399">      sequence? Why can't I match 2 or more lines using \n?</font>
+
+<font color="#333399">   The \n will never match the newline at the end-of-line because the</font>
+<font color="#333399">   newline is always stripped off before the line is placed into the</font>
+<font color="#333399">   pattern space. To get 2 or more lines into the pattern space, use</font>
+<font color="#333399">   the 'N' command or something similar (such as 'H;...;g;').</font>
+
+<font color="#333399">   Sed works like this: sed reads one line at a time, chops off the</font>
+<font color="#333399">   terminating newline, puts what is left into the pattern space where</font>
+<font color="#333399">   the sed script can address or change it, and when the pattern space</font>
+<font color="#333399">   is printed, appends a newline to stdout (or to a file). If the</font>
+<font color="#333399">   pattern space is entirely or partially deleted with 'd' or 'D', the</font>
+<font color="#333399">   newline is <b>not</b> added in such cases. Thus, scripts like</font>
+
+<font color="#333399">      sed 's/\n//' file       # to delete newlines from each line</font>
+<font color="#333399">      sed 's/\n/foo\n/' file  # to add a word to the end of each line</font>
+
+<font color="#333399">   will NEVER work, because the trailing newline is removed <i>before</i></font>
+<font color="#333399">   the line is put into the pattern space. To perform the above tasks,</font>
+<font color="#333399">   use one of these scripts instead:</font>
+
+<font color="#333399">      tr -d '\n' &lt; file              # use tr to delete newlines</font>
+<font color="#333399">      sed ':a;N;$!ba;s/\n//g' file   # GNU sed to delete newlines</font>
+<font color="#333399">      sed 's/$/ foo/' file           # add "foo" to end of each line</font>
+
+<font color="#333399">   Since versions of sed other than GNU sed have limits to the size of</font>
+<font color="#333399">   the pattern buffer, the Unix 'tr' utility is to be preferred here.</font>
+<font color="#333399">   If the last line of the file contains a newline, GNU sed will add</font>
+<font color="#333399">   that newline to the output but delete all others, whereas tr will</font>
+<font color="#333399">   delete all newlines.</font>
+   
+<font color="#333399">   To match a block of two or more lines, there are 3 basic choices:</font>
+<font color="#333399">   (1) use the 'N' command to add the Next line to the pattern space;</font>
+<font color="#333399">   (2) use the 'H' command at least twice to append the current line</font>
+<font color="#333399">   to the Hold space, and then retrieve the lines from the hold space</font>
+<font color="#333399">   with x, g, or G; or (3) use address ranges (see section 3.3, above)</font>
+<font color="#333399">   to match lines between two specified addresses.</font>
+   
+<font color="#333399">   Choices (1) and (2) will put an \n into the pattern space, where it</font>
+<font color="#333399">   can be addressed as desired ('s/ABC\nXYZ/alphabet/g'). One example</font>
+<font color="#333399">   of using 'N' to delete a block of lines appears in section 4.13</font>
+<font color="#333399">   ("How do I delete a block of <i>specific</i> consecutive lines?"). This</font>
+<font color="#333399">   example can be modified by changing the delete command to something</font>
+<font color="#333399">   else, like 'p' (print), 'i' (insert), 'c' (change), 'a' (append),</font>
+<font color="#333399">   or 's' (substitute).</font>
+
+<font color="#333399">   Choice (3) will not put an \n into the pattern space, but it <i>does</i></font>
+<font color="#333399">   match a block of consecutive lines, so it may be that you don't</font>
+<font color="#333399">   even need the \n to find what you're looking for. Since GNU sed</font>
+<font color="#333399">   version 3.02.80 now supports this syntax:</font>
+
+<font color="#333399">      sed '/start/,+4d'  # to delete "start" plus the next 4 lines,</font>
+
+<font color="#333399">   in addition to the traditional '/from here/,/to there/{...}' range</font>
+<font color="#333399">   addresses, it may be possible to avoid the use of \n entirely.</font>
+
+<font color="#333399">5.11. My script aborts with an error message, "event not found".</font>
+
+<font color="#333399">   This error is generated by the csh or tcsh shells, not by sed. The</font>
+<font color="#333399">   exclamation mark (!) is special to csh/tcsh, and if you use it in</font>
+<font color="#333399">   command-line or shell scripts--even within single quotes--it must</font>
+<font color="#333399">   be preceded by a backslash. Thus, under the csh/tcsh shell:</font>
+
+<font color="#333399">      sed '/regex/!d'      # will fail</font>
+<font color="#333399">      sed '/regex/\!d'     # will succeed</font>
+   
+<font color="#333399">   The exclamation mark should not be prefixed with a backslash when</font>
+<font color="#333399">   the script is called from a file, as "-f script.file".</font>
+
+<HR width="100%">
+
+6. OTHER ISSUES
+
+6.1. I have a certain problem that stumps me. Where can I get help?
+
+   Newsgroups:
+
+      - alt.comp.editors.batch  (best choice)
+      - comp.editors
+      - comp.unix.questions
+      - comp.unix.shell
+
+   Send e-mail to:  <a href="mailto:owner-sed-users@jpusa.chi.il.us">owner-sed-users@jpusa.chi.il.us</a>
+
+   Your question will be posted on the "sed-users" mailing list, where
+   many sed users will be able to see your question. Sending your
+   question will not automatically subscribe you to the list.
+
+6.2. How does sed compare with awk, perl, and other utilities?
+
+   Awk is a much richer language with many features of a programming
+   language, including variable names, math functions, arrays, system
+   calls, etc. Its command structure is similar to sed:
+
+      address { command(s) }
+
+   which means that for each line or range of lines that matches the
+   address, execute the command(s). In both sed and awk, an address
+   can be a line number or a RE somewhere on the line, or both.
+
+   In program size, awk is 3-10 times larger than sed. Awk has most
+   of the functions of sed, but not all. Notably, sed supports
+   backreferences (\1, \2, ...) to previous expressions, and awk does
+   not have any comparable function or syntax.
+
+   Perl is a general-purpose programming language, with many features
+   beyond text processing and interprocess communication, taking it
+   well past awk or other scripting languages. Perl supports every
+   feature sed does and has its own set of extended regular
+   expressions, which give it extensive power in pattern matching and
+   processing. (Note: the standard perl distribution comes with 's2p',
+   a sed-to-perl conversion script. See section 3.6 for more info.)
+   Like sed and awk, perl scripts do not need to be compiled into
+   binary code. Like sed, perl can also run many useful "one-liners"
+   from the command line, though with greater flexibility; see
+   question 4.3 ("How do I make substitutions in every file in a
+   directory, or in a complete directory tree?").
+
+   On the other hand, the current version of perl is from 8 to 35
+   times larger than sed in its executables alone (perl's library
+   modules and allied files not included!). Further, for most simple
+   tasks such as substitution, sed executes more quickly than either
+   perl or awk. All these utilities serve to process input text,
+   transforming it to meet our needs . . . or our arbitrary whims.
+
+6.3. When should I use sed?
+
+   When you need a small, fast program to modify words, lines, or
+   blocks of lines in a textfile.
+
+6.4. When should I NOT use sed?
+
+   You should not use sed when you have "dedicated" tools which can do
+   the job faster or with an easier syntax. Do not use sed when you
+   only want to:
+
+   - delete individual characters. Instead of "s/[abcd]//g", use
+
+        tr -d "[a-d]"
+
+   - squeeze sequential characters. Instead of "s/ee*/e/g", use
+
+        tr -s "{character-set}"
+
+   - change individual characters. Instead of "y/abcdef/ABCDEF/", use
+
+        tr "[a-f]" "[A-F]"
+
+   - print individual lines, based on patterns within the line itself.
+     Instead, use "grep".
+
+   - print blocks of lines, with 1 or more lines of context above
+     and/or below a specific regular expression. Instead, use the GNU
+     version of grep as follows:
+
+        grep -A{number} -B{number}
+
+   - remove individual lines, based on patterns within the line
+     itself. Instead, use "grep -v".
+
+   - print line numbers.  Instead, use "nl" or "cat -n".
+
+   - reformat lines or paragraphs. Instead, use "fold", "fmt" or "par".
+
+   Though sed can perfectly emulate certain functions of cat, grep,
+   nl, rev, sort, tac, tail, tr, uniq, and other utilities, producing
+   identical output, the native utilities are usually optimized to do
+   the job more quickly than sed.
+
+6.5. When should I ignore sed and use Awk or Perl instead?
+
+   If you can write the same script in Awk or Perl and do it in less
+   time, then use Perl or Awk. There's no reason to spend an hour
+   writing and debugging a sed script if you can do it in Perl in 10
+   minutes (assuming that you know Perl already) and if the processing
+   time or memory use is not a factor. Don't hunt pheasants with a .22
+   if you have a shotgun at your side . . . unless you simply enjoy
+   the challenge!
+
+   Specifically, if you need to:
+
+   - heavily comment what your scripts do. Use GNU sed, awk, or perl.
+   - do case insensitive searching. Use gsed302, sedmod, awk or perl.
+   - count fields (words) in a line. Use awk.
+   - count lines in a block or objects in a file. Use awk.
+   - check lengths of strings or do math operations. Use awk or perl.
+   - handle very long lines or need very large buffers. Use gsed or perl.
+   - handle binary data (control characters). Use perl (binmode).
+   - loop through an array or list. Use awk or perl.
+   - test for file existence, filesize, or fileage. Use perl or shell.
+   - treat each paragraph as a line. Use awk or perl.
+   - indicate /alternate|options/ in regexes. Use gsed, awk or perl.
+   - use syntax like \xNN to match hex codes. Use gsed-3.02.80 or perl.
+   - use (nested (regexes)) with backreferences. Use perl.
+
+   Perl lovers: I know that perl can do everything awk can do, but
+   please don't write me to complain. Why heft a shotgun when a .45
+   will do? As we all know, "There is more than one way to do it."
+
+6.6. Known limitations among sed versions
+
+   Limits on distributed versions, although source code for most
+   versions of free sed allows for modification and recompilation.
+   The term "no limit" when used below means there is no "fixed"
+   limit. Limits are actually determined by one's hardware, memory,
+   operating system, and which C library is used to compile sed.
+
+6.6.1. Maximum line length
+
+      GNU sed 3.02: no limit
+      GNU sed 2.05: no limit
+      sedmod 1.0:   4096 bytes
+      HHsed:        4000 bytes
+
+6.6.2. Maximum size for all buffers (pattern space + hold space)
+
+      GNU sed 3.02: no limit
+      GNU sed 2.05: no limit
+      sedmod 1.0:   4096 bytes
+      HHsed:        4000 bytes
+
+6.6.3. Maximum number of files that can be read with read command
+
+      GNU sed 3.02: no limit
+      GNU sed 2.05: total no. of r and w commands may not exceed 32
+      sedmod 1.0:   total no. of r and w commands may not exceed 20
+
+6.6.4. Maximum number of files that can be written with 'w' command
+
+      GNU sed 3.02: no limit (but typical Unix is 253)
+      GNU sed 2.05: total no. of r and w commands may not exceed 32
+      sedmod 1.0:   10
+      HHsed:        10
+
+6.6.5. Limits on length of label names
+
+      BSD sed:      8 characters
+      GNU sed 3.02: no limit
+      GNU sed 2.05: no limit
+      HHsed:        no limit
+
+6.6.6. Limits on length of write-file names
+
+      BSD sed:      40 characters
+      GNU sed 3.02: no limit
+      GNU sed 2.05: no limit
+      HHsed:        no limit
+
+6.6.7. Limits on branch/jump commands
+
+      HHsed:        50
+
+   As a practical consequence, this means that HHsed will not read
+   more than 50 lines into the pattern space via an N command, even if
+   the pattern space is only a few hundred bytes in size. HHsed exits
+   with an error message, "infinite branch loop at line {nn}".
+
+6.7. Known bugs among sed versions
+
+A. GNU sed v3.02.80
+
+<font color="#333399">   (1) N does not discard the contents of the pattern space upon</font>
+<font color="#333399">   reaching the end of file; not a bug. See section 6.8.6, below.</font>
+
+B. GNU sed v3.02
+
+   (1) Affects only v3.02 binaries compiled with DJGPP for MS-DOS and
+   MS-Windows: 'l' (list) command does not display a lone carriage
+   return (0x0D, ^M) embedded in a line.
+
+   (2) The expression "\&lt;" causes problems when attempting the
+   following types of substitutions, which should print "+aaa +bbb":
+
+      echo aaa bbb | sed 's/\&lt;/+/g'    # prints "+a+a+a +b+b+b"
+      echo aaa bbb | sed 's/\&lt;./+&amp;/g'  # prints "+a+a+a +b+b+b"
+
+<font color="#333399">   (3) The N command no longer discards the contents of the pattern</font>
+<font color="#333399">   space upon reaching the end of file. This is not a bug, it's a</font>
+<font color="#333399">   feature. See section 6.8.6 "Commands which operate differently".</font>
+
+C. GNU sed v2.05
+
+   (1) If a number follows the substitute command (e.g., s/f/F/10) and
+   the number exceeds the possible matches on the pattern space, the
+   command 't label' <i>always</i> jumps to the specified label. 't' should
+   jump only if the substitution was successful (or returned "true").
+
+   (2) 'l' (list) command does not convert the following characters to
+   hex values, but passes them through unchanged: 0xF7, 0xFB, 0xFC,
+   0xFD, 0xFE.
+
+   (3) A range address like "/foo/,14d" should delete every line from
+   the first occurrence of "foo" until line 14, inclusive, and then if
+   /foo/ occurs thereafter, delete only those lines. In gsed 2.05, if
+   a second "foo" occurs in the file, that line and everything to the
+   end of file will be deleted (since gsed is looking for line 14 to
+   occur again!).
+
+   (4) The regex /\'/ is not interpreted as an apostrophe or a single
+   quote mark, as it should be. Instead, it is interpreted as $,
+   representing the end-of-line! This can be proven by these tests:
+
+      echo hello | gsed "/\'/d"        # entire line is deleted!
+      echo hello | gsed "s/\'/YYY/"    # 'YYY' appended to string
+
+   (5) Multiple occurrences of the 'w' command fail, as shown here,
+   given that both "aaa" and "bbb" occur within the file:
+
+      gsed -e "/aaa/w FILE" -e "/bbb/w FILE" input.txt
+
+   (6) The expression "\&lt;" causes problems when attempting the
+   following type of substitution, which should print "+aaa +bbb":
+
+      echo aaa bbb | sed 's/\&lt;/+/g'    # sed hangs up with no output
+
+   The syntax 's/\&lt;./+&amp;/g' issues the proper output.
+
+D. GNU sed v1.18
+
+   (1) same as #1 for GNU sed v2.05, above.
+
+   (2) The following command will lock the computer under Win95. Echos
+   is an echo command that does not issue a trailing newline:
+
+      echos any_word | gsed "s/[ ]*$//"
+
+   (3) same as #3 for GNU sed v2.05, above.
+
+E. GNU sed v1.03 (by Frank Whaley)
+
+   (1) The \w and \W escape sequences both match only nonword
+   characters. \w is misdefined and should match word characters.
+
+   (2) The underscore is defined as a nonword character; it should be
+   defined as a word character.
+
+   (3) same as #3 for GNU sed v2.05, above.
+
+F. HHsed v1.5 (by Howard Helman)
+
+   (1) If a number follows the substitute command (e.g., s/foo/bar/2),
+   in a sed script entered from the command line, two semicolons must
+   follow the number, or they must be separated by an -e switch.
+   Normally, only 1 semicolon is needed to separate commands.
+
+      echo bit bet | HHsed "s/b/n/2;;s/b/B/"          # solution 1
+      echo bit bet | HHsed -e "s/b/n/2" -e "s/b/B"    # solution 2
+
+   (2) If the substitute command is followed by a number and a "p"
+   flag, when the -n switch is used, the "p" flag must occur first.
+
+      echo aaa | HHsed -n "s/./B/3p"    # bug! nothing prints
+      echo aaa | HHsed -n "s/./B/p3"    # prints "aaB" as expected
+
+   (3) The following commands will cause HHsed to lock the computer
+   under MS-DOS or Win95. Note that they occur because of malformed
+   regular expressions which will match no characters.
+
+      sed -n "p;s/\&lt;//g;" file
+      sed -n "p;s/[char-set]*//g;" file
+
+   (4) The range command '/RE1/,/RE2/' in HHsed will match one line if
+   both regexes occur on the same line (see section 6.8.5, below).
+   Though this could be construed as a feature, it should probably be
+   considered a bug since its operation differs from every other
+   version of sed. For example, '/----/,/----/{s/^/&gt;&gt;/;}' should put
+   two angle brackets "&gt;&gt;" before every line which is sandwiched
+   between a row of 4 or more hyphens. With HHsed, this command will
+   only prefix the hyphens themselves with the angle brackets.
+
+   (5) If the hold space is empty, the H command copies the pattern
+   space to the hold space but fails to prepend a leading newline. The
+   H command is supposed to add a newline, followed by the contents of
+   the pattern space, to the hold space at all times. A workaround is
+   "{G;s/^\(.*\)\(\n\)$/\2\1/;H;s/\n$//;}", but it requires knowing
+   that the hold space is empty and using the command only once.
+   Another alternative is to use the G or the A command alone at key
+   points in the script.
+
+   (6) If grouping is followed by an '*' or '+' operator, HHsed does
+   not match the pattern, but issues no warning. See below:
+
+      echo aaa | HHsed "/\(a\)*/d"      # nothing is deleted
+      echo aaa | HHsed "/\(a\)+/d"      # nothing is deleted
+      echo aaa | HHsed "s/\(a\)*/\1B/"  # nothing is changed
+      echo aaa | HHsed "s/\(a\)+/\1B/"  # nothing is changed
+
+   (7) If grouping is followed by an interval expression, HHsed halts
+   with the error message "garbled command", in all of the following
+   examples:
+
+      echo aaa | HHsed "/\(a\)\{3\}/d"
+      echo aaa | HHsed "/\(a\)\{1,5\}/d"
+      echo aaa | HHsed "s/\(a\)\{3\}/\1B/"
+
+   (8) In interval expressions, 0 is not supported. E.g., \{0,3\)
+
+G. sedmod v1.0 (by Hern Chen)
+
+   Technically, the following are limits (or features?) of sedmod, not
+   bugs, since the docs for sedmod do not claim to support these
+   missing features.
+
+   (1) sedmod does not support standard range arguments \{...\}
+   present in nearly all versions of sed.
+
+   (2) If grouping is followed by an '*' or '+' operator, sedmod gives
+   a "garbled command" message. However, if the grouped expressions
+   are strings literals with no metacharacters, a partial workaround
+   can be done like so:
+
+      \(string\)\1*    # matches 1 or more instances of 'string'
+      \(string\)\1+    # matches 2 or more instances of 'string'
+
+   (3) sedmod does not support a numeric argument after the s///
+   command, as in 's/a/b/3', present in nearly all versions of sed.
+
+   The following are bugs in sedmod v1.0:
+
+   (4) When the -i (ignore case) switch is used, the '/regex/d'
+   command is not properly obeyed. Sedmod may miss one or more lines
+   matching the expression, regardless of where they occur in the
+   script. Workaround: use "/regex/{d;}" instead.
+
+H. HP-UX sed
+
+   (1) Versions of HP-UX sed up to and including version 10.20 are
+   buggy. According to the README file, which comes with the GNU cc
+   at &lt;<a href="ftp://ftp.ntua.gr/pub/gnu/sed-2.05.bin.README"><a href="ftp://ftp.ntua.gr/pub/gnu/sed-2.05.bin.README">ftp://ftp.ntua.gr/pub/gnu/sed-2.05.bin.README</a></a>&gt;:
+
+   "When building gcc on a hppa*-*-hpux10 platform, the `fixincludes'
+   step (which involves running a sed script) fails because of a bug
+   in the vendor's implementation of sed.  Currently the only known
+   workaround is to install GNU sed before building gcc.  The file
+   sed-2.05.bin.hpux10 is a precompiled binary for that platform."
+
+I. SunOS 4.1 sed
+
+   (1) Bug occurs in RE pattern matching when a non-null '[char-set]*'
+   is followed by a null '\NUM' pattern recall, illustrated here and
+   reported by Greg Ubben:
+
+      s/\(a\)\(b*\)cd\1[0-9]*\2foo/bar/  # between '[0-9]*' and '\2'
+      s/\(a\{0,1\}\).\{0,1\}\1/bar/      # between '.\{0,1\}' and '\1'
+
+   Workaround: add a do-nothing 'X*' expression which will not match
+   any characters on the line between the two components. E.g.,
+
+      s/\(a\)\(b*\)cd\1[0-9]*X*\2foo/bar/
+      s/\(a\{0,1\}\).\{0,1\}X*\1/bar/
+
+J. SunOS 5.6 sed
+
+   (1) If grouping is followed by an asterisk, SunOS sed does not match
+   the null string, which it should do. The following command:
+
+      echo foo | sed 's/f\(NO-MATCH\)*/g\1/'
+
+   should transform "foo" to "goo" under normal versions of sed.
+
+K. Ultrix 4.3 sed
+
+   (1) If grouping is followed by an asterisk, Ultrix sed replies with
+   "command garbled", as shown in the following example:
+
+      echo foo | sed 's/f\(NO-MATCH\)*/g\1/'
+
+   (2) If grouping is followed by a numeric operator such as \{0,9\},
+   Ultrix sed does not find the match.
+
+L. Digital Unix sed
+
+   (1) The following comes from the man pages for sed distributed with
+   new, 1998 versions of Digital Unix (reformatted to fit our
+   margins):
+
+   [Digital]  The h subcommand for sed does not work properly.  When
+   you use the  h subcommand to place text into the hold area, only
+   the last line of the specified text is saved.  You can use the H
+   subcommand to append text to the hold area. The H subcommand and
+   all others dealing with the hold area work correctly.
+
+   (2) "$d" command issues an error message, "cannot parse".  Reported
+   by Carlos Duarte on 8 June 1998.
+
+6.8. Known incompatibilities between sed versions
+
+6.8.1. Issuing commands from the command line
+
+   Most versions of sed permit multiple commands to issued on the
+   command line, separated by a semicolon (;). Thus,
+
+      sed 'G;G' file
+
+   should triple-space a file. However, certain commands REQUIRE
+   separate expressions on the command line. These include:
+
+      - all labels (':a', ':more', etc.)
+      - all branching instructions ('b', 't')
+      - commands to read and write files ('r' and 'w')
+      - any closing brace, '}'
+
+   If these commands are used, they must be the LAST commands of an
+   expression. Subsequent commands must use another expression
+   (another -e switch plus arguments).  E.g.,
+
+      sed  -e :a -e 's/^.\{1,77\}$/ &amp;/;ta' -e 's/\( *\)\1/\1/' files
+
+   GNU sed and HHsed v1.5 allow these commands to be followed by a
+   semicolon, and the previous script can be written like this:
+
+      sed  ':a;s/^.\{1,77\}$/ &amp;/;ta;s/\( *\)\1/\1/' files
+
+   Versions differ in implementing the 'a' (append), 'c' (change), and
+   'i' (insert) commands:
+
+      sed "/foo/i New text here"              # HHsed/sedmod/gsed-30280
+      gsed -e "/foo/i\\" -e "New text here"   # GNU sed
+      sed1 -e "/foo/i" -e "New text here"     # one version of sed
+      sed2 "/foo/i\ New text here"            # another version
+
+6.8.2. Using comments (prefixed by the '#' sign)
+
+   Most versions of sed permit comments to appear in sed scripts only
+   on the first line of the script. Comments on line 2 or thereafter
+   are not recognized and will generate an error like "unrecognized
+   command" or "command [bad-line-here] has trailing garbage".
+
+   GNU sed, HHsed, sedmod, and HP-UX sed permit comments to appear on
+   any line of the script, except after labels and branching commands
+   (b,t), <b>provided</b> that a semicolon (;) occurs after the command
+   itself. This syntax makes sed similar to awk and perl, which use a
+   similar commenting structure in their scripts.  Thus,
+
+      # GNU style sed script
+      $!N;                        # except for last line, get next line
+      s/^\([0-9]\{5\}\).*\n\1.*//;    # if first 5 digits of each line
+                                      # match, delete BOTH lines.
+      t skip
+      P;                              # print 1st line only if no match
+      :skip
+      D;                    # delete 1st line of pattern space and loop
+      #---end of script---
+
+   is a valid script for GNU sed and Helman's sed, but is unrecognized
+   for most other versions of sed.
+
+6.8.3. Special syntax in REs
+
+A. GNU sed v2.05 and higher versions
+
+   BEGIN~STEP selection: GNU sed can select a series of lines in the
+   form M~N, where M and N are integers (with gsed v2.05, M must be
+   less than N). Beginning at line M (M may equal 0), every Nth line
+   is selected. Thus,
+
+      gsed '1~3d' file    # delete every 3d line, starting with line 1
+                          # deletes lines 1, 4, 7, 10, 13, 16, ...
+
+      gsed -n '2~5p' file # print every 5th line, starting with line 2
+                          # prints lines 2, 7, 12, 17, 22, 27, ...
+
+   With gsed v3.02, M may be any valid line number. With gsed v2.05,
+   if M is greater than or equal to N (the STEP value), nothing will
+   be selected, except in one pointless case, 0~0, which selects every
+   line.
+
+   The following expressions can be used for /RE/ addresses or in the
+   LHS side of a substitution:
+
+      \`  - matches the beginning of the pattern space (same as "^")
+      \'  - matches the end of the pattern space (same as "$")
+      \?  - 0 or 1 occurrences of previous character: same as \{0,1\}
+      \+  - 1 or more occurrences of previous character: same as \{1,\}
+      \|  - matches the string on either side, e.g., foo\|bar
+      \b  - boundary between word and nonword chars (reversible)
+      \B  - boundary between 2 word or between 2 nonword chars
+      \n  - embedded newline (usable after N, G, or similar commands)
+      \w  - any word character: [A-Za-z0-9_]
+      \W  - any nonword char: [^A-Za-z0-9_]
+      \&lt;  - boundary between nonword and word character
+      \&gt;  - boundary between word and nonword character
+
+   On \b, \B, \&lt;, and \&gt;, see section 6.8.4 ("Word boundaries"),
+   below.
+
+   Beginning with version 3.02.80, the following escape sequences can
+   now be used on both sides of a "s///" substitution:
+
+      \a      "alert" beep     (BEL, Ctrl-G, 0x07)
+      \f      formfeed         (FF, Ctrl-L, 0x0C)
+      \n      newline          (LF, Ctrl-J, 0x0A)
+      \r      carriage-return  (CR, Ctrl-M, 0x0D)
+      \t      horizontal tab   (HT, Ctrl-I, 0x09)
+      \v      vertical tab     (VT, Ctrl-K, 0x0B)
+      \oNNN   a character with the octal value NNN
+      \dNNN   a character with the decimal value NNN
+      \xNN    a character with the hexadecimal value NN
+
+   Note that gsed does not have any syntax for designating characters
+   in octal or hex notation. Traditionally, \ooo or \hh or \xhh have
+   been used by the GNU project to do this, but they are not (yet)
+   implemented in gsed. Note that GNU sed also supports "character
+   classes", a POSIX extension to regexes, described in section 3.7,
+   above.
+
+B. GNU sed v1.03 (by Frank Whaley)
+
+   When used with the -x (extended) switch on the command line, or
+   when '#x' occurs as the first line of a script, Whaley's gsed103
+   supports the following expressions in both the LHS and RHS of a
+   substitution:
+
+      \|      matches the expression on either side
+      ?       0 or 1 occurrences of previous RE: same as \{0,1\}
+      +       1 or more occurrence of previous RE: same as \{1,\}
+      \a      "alert" beep     (BEL, Ctrl-G, 0x07)
+      \b      backspace        (BS, Ctrl-H, 0x08)
+      \f      formfeed         (FF, Ctrl-L, 0x0C)
+      \n      newline          (LF, Ctrl-J, 0x0A)
+      \r      carriage-return  (CR, Ctrl-M, 0x0D)
+      \t      horizontal tab   (HT, Ctrl-I, 0x09)
+      \v      vertical tab     (VT, Ctrl-K, 0x0B)
+      \bBBB   binary char, where BBB are 1-8 binary digits, [0-1]
+      \dDDD   decimal char, where DDD are 1-3 decimal digits, [0-9]
+      \oOOO   octal char, where OOO are 1-3 octal digits, [0-7]
+      \xXX    hex char, where XX are 1-2 hex digits, [0-9A-F]
+
+   In normal mode, with or without the -x switch, the following escape
+   sequences are also supported in regex addressing or in the LHS of a
+   substitution:
+
+      \`      matches beginning of pattern space: same as /^/
+      \'      matches end of pattern space: same as /$/
+      \B      boundary between 2 word or 2 nonword characters
+      \w      any nonword character [*BUG!* should be a word char]
+      \W      any nonword character: same as /[^A-Za-z0-9]/
+      \&lt;      boundary between nonword and word char
+      \&gt;      boundary between word and nonword char
+
+C. HHsed v1.5 (by Howard Helman)
+
+   The following expressions can be used for /RE/ addresses or in the
+   LHS and RHS side of a substitution:
+
+      +    - 1 or more occurrences of previous RE: same as \{1,\}
+      \a   - bell         (ASCII 07, 0x07)
+      \b   - backspace    (ASCII 08, 0x08)
+      \e   - escape       (ASCII 27, 0x1B)
+      \f   - formfeed     (ASCII 12, 0x0C)
+      \n   - newline      (printed as 2 bytes, 0D 0A or ^M^J, in DOS)
+      \r   - return       (ASCII 13, 0x0D)
+      \t   - tab          (ASCII 09, 0x09)
+      \v   - vertical tab (ASCII 11, 0x0B)
+      \xhh - the ASCII character corresponding to 2 hex digits hh.
+      \&lt;   - boundary between nonword and word character
+      \&gt;   - boundary between word and nonword character
+
+D. sedmod v1.0 (by Hern Chen)
+
+   The following expressions can be used for /RE/ addresses in the LHS
+   of a substitution:
+
+      +    - 1 or more occurrences of previous RE: same as \{1,\}
+      \a   - any alphanumeric: same as [a-zA-Z0-9]
+      \A   - 1 or more alphas: same as \a+
+      \d   - any digit: same as [0-9]
+      \D   - 1 or more digits: same as \d+
+      \h   - any hex digit: same as [0-9a-fA-F]
+      \H   - 1 or more hexdigits: same as \h+
+      \l   - any letter: same as [A-Za-z]
+      \L   - 1 or more letters: same as \l+
+      \n   - newline      (read as 2 bytes, 0D 0A or ^M^J, in DOS)
+      \s   - any whitespace character: space, tab, or vertical tab
+      \S   - 1 or more whitespace chars: same as \s+
+      \t   - tab          (ASCII 09, 0x09)
+      \&lt;   - boundary between nonword and word character
+      \&gt;   - boundary between word and nonword character
+
+   The following expressions can be used in the RHS of a substitution.
+   "Elements" refer to \1 .. \9, &amp;, $0, or $1 .. $9:
+
+      &amp;    - insert regexp defined on LHS
+      \e   - end case conversion of next element
+      \E   - end case conversion of remaining elements
+      \l   - change next element to lower case
+      \L   - change remaining elements to lower case
+      \n   - newline      (printed as 2 bytes, 0D 0A or ^M^J, in DOS)
+      \t   - tab          (ASCII 09, 0x09)
+      \u   - change next element to upper case
+      \U   - change remaining elements to upper case
+      $0   - insert pattern space BEFORE the substitution
+      $1-$9 - match Nth word on the pattern space
+
+E. UnixDos sed
+
+   The following expressions can be used in text, LHS, and RHS:
+
+      \n   - newline      (printed as 2 bytes, 0D 0A or ^M^J, in DOS)
+
+6.8.4. Word boundaries
+
+   GNU sed, HHsed, and sedmod use certain symbols to define the
+   boundary between a "word character" and a nonword character. A word
+   character fits the regex "[A-Za-z0-9_]". Note: a word character
+   includes the underscore "_" but not the hyphen, probably because
+   the underscore is permissible as a label in sed and in other
+   scripting languages. (In gsed103, a word character did NOT include
+   the underscore; it included alphanumerics only.)
+
+   These symbols include '\&lt;' and '\&gt;' (gsed, HHsed, sedmod) and '\b'
+   and '\B' (gsed only). Note that the boundary symbols do not
+   represent a character, but a position on the line. Word boundaries
+   are used with literal characters or character sets to let you match
+   (and delete or alter) whole words without affecting the spaces or
+   punctuation marks outside of those words. They can only be used in
+   a "/pattern/" address or in the LHS of a 's/LHS/RHS/' command. The
+   following table shows how these symbols may be used in HHsed and
+   GNU sed. Sedmod matches the syntax of HHsed.
+
+      Match position      Possible word boundaries   HHsed   GNU sed
+      ---------------------------------------------------------------
+      start of word    [nonword char]^[word char]      \&lt;    \&lt; or \b
+      end of word         [word char]^[nonword char]   \&gt;    \&gt; or \b
+      middle of word      [word char]^[word char]     none      \B
+      outside of word  [nonword char]^[nonword char]  none      \B
+      ---------------------------------------------------------------
+
+6.8.5. Range addressing with GNU sed and HHsed
+
+   When addressing a range of lines, as in the following example to
+   delete all lines between /RE1/ and /RE2/,
+
+      sed '/RE1/,/RE2/d' file
+
+   if /RE1/ and /RE2/ both occur on the <b>same</b> line, HHsed will delete
+   that single line and then look forward in the file for the next
+   occurrence of /RE1/ to attempt the deletion. GNU sed will match the
+   first line containing /RE1/ but will look forward to the next and
+   succeeding lines to match /RE2/. If /RE1/ and /RE2/ cannot be found
+   on two different lines, nothing will be deleted.
+
+   GNU sed v2.05 has a bug in range addressing (see section 6.7.C(3),
+   above). This was fixed in gsed v3.02.
+
+   GNU sed v3.02.80 supports 0 in range addressing, which means that
+   the range "0,/RE/" will match every line from the top of the file
+   to the first line containing /RE/, inclusive, and if /RE/ occurs on
+   the first line of the file, only line 1 will be matched.
+
+<font color="#333399">6.8.6. Commands which operate differently</font>
+
+<font color="#333399">A. GNU sed version 3.02 and 3.02.80</font>
+
+<font color="#333399">   The N command no longer discards the contents of the pattern space</font>
+<font color="#333399">   upon reaching the end of file. This is not a bug, it's a feature.</font>
+<font color="#333399">   However, it breaks certain scripts which relied on the older</font>
+<font color="#333399">   behavior of N.</font>
+
+<font color="#333399">   'N' adds the Next line to the pattern space, enabling multiple</font>
+<font color="#333399">   lines to be stored and acted upon. Upon reaching the last line of</font>
+<font color="#333399">   the file, if the N command was issued again, the contents of the</font>
+<font color="#333399">   pattern space would be silently deleted and the script would abort</font>
+<font color="#333399">   (this has been the traditional behavior). For this reason, sed</font>
+<font color="#333399">   users generally wrote:</font>
+
+<font color="#333399">      $!N;   # to add the Next line to every line but the last one.</font>
+   
+<font color="#333399">   However, certain sed scripts relied on this behavior, such as the</font>
+<font color="#333399">   script to delete trailing blank lines at the end of a file (see</font>
+<font color="#333399">   script #12 in section 3.2, "Common one-line sed scripts", above).</font>
+<font color="#333399">   Also, classic textbooks such as Dale Dougherty and Arnold Robbins'</font>
+<font color="#333399">   <i>sed &amp; awk</i> documented the older behavior.</font>
+
+<font color="#333399">   The GNU sed maintainer felt that despite the portability problems</font>
+<font color="#333399">   this would cause, changing the N command to print (rather than</font>
+<font color="#333399">   delete) the pattern space was more consistent with one's intuitions</font>
+<font color="#333399">   about how a command to "append the Next line" <i>ought</i> to behave.</font>
+<font color="#333399">   Another fact favoring the change was that "{N;command;}" will</font>
+<font color="#333399">   delete the last line if the file has an odd number of lines, but</font>
+<font color="#333399">   print the last line if the file has an even number of lines.</font>
+
+<font color="#333399">   To convert scripts which used the former behavior of N (deleting</font>
+<font color="#333399">   the pattern space upon reaching the EOF) to scripts compatible with</font>
+<font color="#333399">   all versions of sed, change a lone "N;" to "$d;N;".</font>
+   
+
+<font color="#333399">[end-of-file]</font>
+  </pre></body>
+</html>
+

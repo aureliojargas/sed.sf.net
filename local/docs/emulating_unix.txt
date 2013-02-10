@@ -1,0 +1,58 @@
+SED emulating UNIX commands      by Aurelio Jargas
+---------------------------         www.aurelio.net/en
+                                    verde at aurelio.net
+
+
+Here's the list of some UNIX commands that can be emulated
+using SED. Please, if know about others, contribute!
+
+
+ UNIX         |  SED
+ -------------+----------------------------------------------------------------
+ cat          |  sed ':'
+ cat -s       |  sed '1s/^$//p;/./,/^$/!d'
+ tac          |  sed '1!G;h;$!d'
+ grep         |  sed '/patt/!d'
+ grep -v      |  sed '/patt/d'
+ head         |  sed '10q'
+ head -1      |  sed 'q'
+ tail         |  sed -e ':a' -e '$q;N;11,$D;ba'
+ tail -1      |  sed '$!d'
+ tail -f      |  sed -u '/./!d'
+ cut -c 10    |  sed 's/\(.\)\{10\}.*/\1/'
+ cut -d: -f4  |  sed 's/\(\([^:]*\):\)\{4\}.*/\2/'
+ tr A-Z a-z   |  sed 'y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'
+ tr a-z A-Z   |  sed 'y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/'
+ tr -s ' '    |  sed 's/ \+/ /g'
+ tr -d '\012' |  sed 'H;$!d;g;s/\n//g'
+ wc -l        |  sed -n '$='
+ uniq         |  sed 'N;/^\(.*\)\n\1$/!P;D'
+ rev          |  sed '/\n/!G;s/\(.\)\(.*\n\)/&\2\1/;//D;s/.//'
+ basename     |  sed 's,.*/,,'
+ dirname      |  sed 's,[^/]*$,,'
+ xargs        |  sed -e ':a' -e '$!N;s/\n/ /;ta'
+ paste -sd:   |  sed -e ':a' -e '$!N;s/\n/:/;ta'
+ cat -n       |  sed '=' | sed '$!N;s/\n/ /'
+ grep -n      |  sed -n '/patt/{=;p;}' | sed '$!N;s/\n/:/'
+ cp orig new  |  sed 'w new' orig
+ hostname -s  |  hostname | sed 's/\..*//'
+
+
+To be reworked:
+
+ echo 'Hi!'   |  sed 's/.*/Hi!/;q' <(yes)
+
+
+NOTE: On MSDOS, use " instead '
+
+
+-------------------------------------------------------------------------------
+
+THANK YOU to:
+  - Adam Peresztegi (Hungary)
+  - Eric De Mund (USA)
+  - Eric Pement and his "Sed 1liners" document
+  - Don (Australia)
+  - Thobias Salazar Trevisan (Brazil)
+  - The sed-users@yahoogroups.com mailing list
+

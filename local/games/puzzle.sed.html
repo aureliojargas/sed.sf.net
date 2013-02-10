@@ -1,0 +1,205 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized puzzle.sed</title></head>
+<body bgcolor="#000000" text="#ffffff"
+      link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b>#!/bin/sed -nf</b></font>
+<font color="#00ffff"><b># Author: Laurent Le Brun &lt;llb [at] fr.fm&gt;</b></font>
+
+<font color="#00ffff"><b>### commands ###</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^q</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>q</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^h</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>r</b></font> <font color="#ff00ff"><b>game_readme.txt</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^v</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#v">v</a>
+
+<font color="#00ffff"><b># welcome message</b></font>
+<font color="#8080ff"><b>1</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
+</b></font>     Welcome.<font color="#00ff00"><b>\
+</b></font><font color="#00ff00"><b>\
+</b></font>  During the game, type 'h' for help.<font color="#00ff00"><b>\
+</b></font>  Level (1..5) ?
+    <font color="#ffff00"><b>d</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#8080ff"><b>2</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font>LEVEL 1<font color="#00ff00"><b>\
+</b></font><font color="#00ff00"><b>\
+</b></font>##########   <font color="#00ff00"><b>\
+</b></font>#X1111111#   <font color="#00ff00"><b>\
+</b></font>#12222221#   <font color="#00ff00"><b>\
+</b></font>#11111111#   <font color="#00ff00"><b>\
+</b></font>#11111111#   <font color="#00ff00"><b>\
+</b></font>##########   <font color="#00ff00"><b>\
+</b></font><font color="#00ff00"><b>\
+</b></font>(#)<font color="#ff6060"><b>/</b></font>
+
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^2</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font>LEVEL 2<font color="#00ff00"><b>\
+</b></font><font color="#00ff00"><b>\
+</b></font>##########   <font color="#00ff00"><b>\
+</b></font>#X1122111#   <font color="#00ff00"><b>\
+</b></font>#122221#1#   <font color="#00ff00"><b>\
+</b></font>#12211222#   <font color="#00ff00"><b>\
+</b></font>#111111#1#   <font color="#00ff00"><b>\
+</b></font>######111#   <font color="#00ff00"><b>\
+</b></font>##########   <font color="#00ff00"><b>\
+</b></font><font color="#00ff00"><b>\
+</b></font>(#)<font color="#ff6060"><b>/</b></font>
+
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^3</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font>LEVEL 3<font color="#00ff00"><b>\
+</b></font><font color="#00ff00"><b>\
+</b></font>########     <font color="#00ff00"><b>\
+</b></font>#X12122#     <font color="#00ff00"><b>\
+</b></font>###2#12#     <font color="#00ff00"><b>\
+</b></font>#113223#     <font color="#00ff00"><b>\
+</b></font>#1#32#1#     <font color="#00ff00"><b>\
+</b></font>#112111#     <font color="#00ff00"><b>\
+</b></font>########     <font color="#00ff00"><b>\
+</b></font><font color="#00ff00"><b>\
+</b></font>(#)<font color="#ff6060"><b>/</b></font>
+
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^4</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font>LEVEL 4<font color="#00ff00"><b>\
+</b></font><font color="#00ff00"><b>\
+</b></font>###########  <font color="#00ff00"><b>\
+</b></font>#X22222222#  <font color="#00ff00"><b>\
+</b></font>#111#####1#  <font color="#00ff00"><b>\
+</b></font>#1#1#####1#  <font color="#00ff00"><b>\
+</b></font>#222222222#  <font color="#00ff00"><b>\
+</b></font>###########  <font color="#00ff00"><b>\
+</b></font><font color="#00ff00"><b>\
+</b></font>(#)<font color="#ff6060"><b>/</b></font>
+
+
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^5</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font>LEVEL 5<font color="#00ff00"><b>\
+</b></font><font color="#00ff00"><b>\
+</b></font>############ <font color="#00ff00"><b>\
+</b></font>#X222222221# <font color="#00ff00"><b>\
+</b></font>##1###1##### <font color="#00ff00"><b>\
+</b></font>#1211#22222# <font color="#00ff00"><b>\
+</b></font>#1##1#11112# <font color="#00ff00"><b>\
+</b></font>#11121####1# <font color="#00ff00"><b>\
+</b></font>####1211111# <font color="#00ff00"><b>\
+</b></font>############ <font color="#00ff00"><b>\
+</b></font><font color="#00ff00"><b>\
+</b></font>(#)<font color="#ff6060"><b>/</b></font>
+
+
+    <font color="#00ffff"><b># ok, let's start</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>LEVEL</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#print">print</a>
+    <font color="#ff6060"><b>}</b></font>
+
+
+    <font color="#00ffff"><b># error (bad level)</b></font>
+    <font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
+</b></font>  Unbound level.
+    <font color="#ffff00"><b>q</b></font>
+<font color="#ff6060"><b>}</b></font>  ;#end 3
+
+<font color="#00ffff"><b>### input ###</b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="input">input</a></b></font>
+
+<font color="#00ffff"><b># arrow keys support</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[A</b></font><font color="#ff6060"><b>/</b></font>e<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[B</b></font><font color="#ff6060"><b>/</b></font>d<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[C</b></font><font color="#ff6060"><b>/</b></font>f<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[D</b></font><font color="#ff6060"><b>/</b></font>s<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#00ffff"><b># moves</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^e</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#.\{13\}X</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#collision">collision</a>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\{13\}\)X\<font color="#ff00ff"><b>(</b></font>.*\)(\<font color="#ff00ff"><b>(</b></font>.\))</b></font><font color="#ff6060"><b>/</b></font>X<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\4</b></font><font color="#00ff00"><b>\3</b></font>(<font color="#00ff00"><b>\1</b></font>)<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#turn">turn</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^s</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#X</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#collision">collision</a>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.\)X\<font color="#ff00ff"><b>(</b></font>.*\)(\<font color="#ff00ff"><b>(</b></font>.\))</b></font><font color="#ff6060"><b>/</b></font>X<font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\2</b></font>(<font color="#00ff00"><b>\1</b></font>)<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#turn">turn</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^d</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X.\{13\}#</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#collision">collision</a>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X\<font color="#ff00ff"><b>(</b></font>.\{13\}\)\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.*\)(\<font color="#ff00ff"><b>(</b></font>.\))</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\4</b></font><font color="#00ff00"><b>\1</b></font>X<font color="#00ff00"><b>\3</b></font>(<font color="#00ff00"><b>\2</b></font>)<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#turn">turn</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^f</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X#</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#collision">collision</a>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.*\)(\<font color="#ff00ff"><b>(</b></font>.\))</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\3</b></font>X<font color="#00ff00"><b>\2</b></font>(<font color="#00ff00"><b>\1</b></font>)<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#turn">turn</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
+</b></font>  Oups, bad input.
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>b</b></font> <a href="#print">print</a>
+
+<font color="#00ffff"><b>### Collision ###</b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="collision">collision</a></b></font>
+
+<font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
+</b></font>  Hey! You can't go there!
+<font color="#ffff00"><b>b</b></font> <a href="#print">print</a>
+
+<font color="#00ffff"><b>### New turn ###</b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="turn">turn</a></b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(1)</b></font><font color="#ff6060"><b>/</b></font>(#)<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(2)</b></font><font color="#ff6060"><b>/</b></font>(1)<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(3)</b></font><font color="#ff6060"><b>/</b></font>(2)<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(4)</b></font><font color="#ff6060"><b>/</b></font>(3)<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(5)</b></font><font color="#ff6060"><b>/</b></font>(4)<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(6)</b></font><font color="#ff6060"><b>/</b></font>(5)<font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>### print ###</b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="print">print</a></b></font>
+
+<font color="#00ffff"><b># sexy colors</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X</b></font><font color="#ff6060"><b>/</b></font>[31;1m<font color="#00ff00"><b>&amp;</b></font>[m<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#</b></font><font color="#ff6060"><b>/</b></font>[46;36m<font color="#00ff00"><b>&amp;</b></font>[m<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#ffff00"><b>p</b></font>  
+
+<font color="#00ffff"><b># remove sexy colors</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[[0-9;]*m</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+
+<font color="#00ffff"><b>### victory ###</b></font>
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#.*[1-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="v">v</a></b></font>
+    <font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
+</b></font>  Victory is yours!
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>q</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ffff00"><b>x</b></font>  
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="end">end</a></b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://laurent.le-brun.eu/pub/puzzle.sed">http://laurent.le-brun.eu/pub/puzzle.sed</a></b></font>
+
+</pre></body></html>

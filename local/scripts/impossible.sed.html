@@ -1,0 +1,83 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized impossible.sed</title></head><body bgcolor="#000000" text="#ffffff"
+link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b>#!/bin/sed -f</b></font>
+<font color="#00ffff"><b>#  Sort, partition, and number a list of names in only 14 sed commands.</b></font>
+<font color="#00ffff"><b>#  By Greg Ubben, 14 Nov 1996</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#  Use with -n option to prevent a trailing blank line.</b></font>
+<font color="#00ffff"><b>#  Assumes no control characters, even though the sort handles tabs.</b></font>
+
+<font color="#00ffff"><b>#  Sed insertion sort by Greg Ubben, 26 April 1989.  All rights reserved.</b></font>
+<font color="#00ffff"><b>#  Note that the code contains some unprintable Ctrl-A and Tab characters.</b></font>
+<font color="#00ffff"><b>#  The \(\(.\)\) have been unnested to allow for some brain-damaged seds.</b></font>
+<font color="#00ffff"><b>#  Some overlap with next; s:/:/.: the last command for a stand-alone sort.</b></font>
+
+<font color="#00ffff"><b># Greg's e-mail note to seders list:</b></font>
+<font color="#00ffff"><b>#   The code contains a few control characters, so I've included a</b></font>
+<font color="#00ffff"><b>#   "readable" version immediately below with the Ctrl-A's and Tabs</b></font>
+<font color="#00ffff"><b>#   changed to ^As and ^Is, followed by a uuencoded copy that you can use</b></font>
+<font color="#00ffff"><b>#   if you want to run it.</b></font>
+
+<font color="#ffff00"><b>G</b></font>  
+<font color="#8080ff"><b>1</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>&amp;</b></font>^A^I 
+!"#$%\<font color="#00ff00"><b>&amp;</b></font>'()*+,-.\/0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>[^I -~]*\)\<font color="#ff00ff"><b>(</b></font>\n\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font>^A<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.[^I -~]*\)\<font color="#ff00ff"><b>(</b></font>[^I -~]\)\<font color="#ff00ff"><b>(</b></font>[^A^I -~]*\)\<font color="#ff00ff"><b>(</b></font>.*\1\)\<font color="#ff00ff"><b>(</b></font>[^A^I -~]\)\<font color="#ff00ff"><b>(</b></font>[^A^I 
+-~]*\)\<font color="#ff00ff"><b>(</b></font>.*\n.*\5[^I -~]*\2[ -~]*\)$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\4</b></font><font color="#00ff00"><b>\5</b></font><font color="#00ff00"><b>\6</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\7</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>h</b></font>  
+<font color="#8080ff"><b>$</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>d</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^A</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.*\)\n.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>#  Output, adding a blank line between sections and numbering each section.</b></font>
+<font color="#00ffff"><b>#  The do-nothing X* below is needed on the SunOS 4.1 sed to work around a</b></font>
+<font color="#00ffff"><b>#  RE bug that occurs when a non-null c* closure precedes a null \n recall.</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="loop">loop</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>[0-9]*\)[ -~]*\n</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>;9876543210990090 <font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>[0-8]\{0,1\}\)\<font color="#ff00ff"><b>(</b></font>9*\);[^1]*\<font color="#ff00ff"><b>(</b></font>.\)\1[0-9]*X*\2\<font color="#ff00ff"><b>(</b></font>0*\)[^ ]*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\4</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>P</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[0-9]* \<font color="#ff00ff"><b>(</b></font>.\).*\n\1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[ -~]*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\n</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>P</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#loop">loop</a>
+
+
+
+<font color="#00ffff"><b># begin 755 impossible.sed</b></font>
+<font color="#00ffff"><b># M(R$O8FEN+W-E9" M9@HC("!3;W)T+"!P87)T:71I;VXL(&amp;%N9"!N=6UB97(@</b></font>
+<font color="#00ffff"><b># M82!L:7-T(&amp;]F(&amp;YA;65S(&amp;EN(&amp;]N;'D@,30@&lt;V5D(&amp;-O;6UA;F1S+@HC("!"</b></font>
+<font color="#00ffff"><b># M&gt;2!'&lt;F5G(%5B8F5N+" Q-"!.;W8@,3DY-@HC"B,@(%5S92!W:71H("UN(&amp;]P</b></font>
+<font color="#00ffff"><b># M=&amp;EO;B!T;R!P&lt;F5V96YT(&amp;$@=')A:6QI;F&lt;@8FQA;FL@;&amp;EN92X*(R @07-S</b></font>
+<font color="#00ffff"><b># M=6UE&lt;R!N;R!C;VYT&lt;F]L(&amp;-H87)A8W1E&lt;G,L(&amp;5V96X@=&amp;AO=6=H('1H92!S</b></font>
+<font color="#00ffff"><b># M;W)T(&amp;AA;F1L97,@=&amp;%B&lt;RX*"B,@(%-E9"!I;G-E&lt;G1I;VX@&lt;V]R="!B&gt;2!'</b></font>
+<font color="#00ffff"><b># M&lt;F5G(%5B8F5N+" R-B!!&lt;')I;" Q.3@Y+B @06QL(')I9VAT&lt;R!R97-E&lt;G9E</b></font>
+<font color="#00ffff"><b># M9"X*(R @3F]T92!T:&amp;%T('1H92!C;V1E(&amp;-O;G1A:6YS('-O;64@=6YP&lt;FEN</b></font>
+<font color="#00ffff"><b># M=&amp;%B;&amp;4@0W1R;"U!(&amp;%N9"!486(@8VAA&lt;F%C=&amp;5R&lt;RX*(R @5&amp;AE(%PH7"@N</b></font>
+<font color="#00ffff"><b># M7"E&lt;*2!H879E(&amp;)E96X@=6YN97-T960@=&amp;\@86QL;W&lt;@9F]R('-O;64@8G)A</b></font>
+<font color="#00ffff"><b># M:6XM9&amp;%M86=E9"!S961S+@HC("!3;VUE(&amp;]V97)L87 @=VET:"!N97AT.R!S</b></font>
+<font color="#00ffff"><b># M.B\Z+RXZ('1H92!L87-T(&amp;-O;6UA;F0@9F]R(&amp;$@&lt;W1A;F0M86QO;F4@&lt;V]R</b></font>
+<font color="#00ffff"><b># M="X*1PHQ&lt;R]&lt;;B\F)@$)("$B(R0E7"8G*"DJ*RPM+EPO,#$R,S0U-C&lt;X.3H[</b></font>
+<font color="#00ffff"><b># M/#T^/T!!0D-$149'2$E*2TQ-3D]045)35%565UA96EM&lt;7%U&gt;7V!A8F-D969G</b></font>
+<font color="#00ffff"><b># M:&amp;EJ:VQM;F]P&lt;7)S='5V=WAY&gt;GM\?7XO"G,O7"A;"2 M?ETJ7"E&lt;*%QN7"DO</b></font>
+<font color="#00ffff"><b># M7#)&lt;,0$O"G,O7EPH+EL)("U^72I&lt;*5PH6PD@+7Y=7"E&lt;*%L!"2 M?ETJ7"E&lt;</b></font>
+<font color="#00ffff"><b># M*"XJ7#%&lt;*5PH6P$)("U^75PI7"A; 0D@+7Y=*EPI7"@N*EQN+BI&lt;-5L)("U^</b></font>
+<font color="#00ffff"><b># M72I&lt;,EL@+7Y=*EPI)"]&lt;-%PU7#9&lt;,5PR7#-&lt;-R\*: HD(60*&lt;R\!+R]G"G,O</b></font>
+<font color="#00ffff"><b># M7"@N*EPI7&amp;XN*B]&lt;,2\*"B,@($]U='!U="P@861D:6YG(&amp;$@8FQA;FL@;&amp;EN</b></font>
+<font color="#00ffff"><b># M92!B971W965N('-E8W1I;VYS(&amp;%N9"!N=6UB97)I;F&lt;@96%C:"!S96-T:6]N</b></font>
+<font color="#00ffff"><b># M+@HC("!4:&amp;4@9&amp;\M;F]T:&amp;EN9R!8*B!B96QO=R!I&lt;R!N965D960@;VX@=&amp;AE</b></font>
+<font color="#00ffff"><b># M(%-U;D]3(#0N,2!S960@=&amp;\@=V]R:R!A&lt;F]U;F0@80HC("!212!B=6&lt;@=&amp;AA</b></font>
+<font color="#00ffff"><b># M="!O8V-U&lt;G,@=VAE;B!A(&amp;YO;BUN=6QL(&amp;,J(&amp;-L;W-U&lt;F4@&lt;')E8V5D97,@</b></font>
+<font color="#00ffff"><b># M82!N=6QL(%QN(')E8V%L;"X*"CH@;&amp;]O&lt; H)&lt;R]&lt;*%LP+3E=*EPI6R M?ETJ</b></font>
+<font color="#00ffff"><b># M7&amp;XO7#$[.3@W-C4T,S(Q,#DY,# Y," O"@ES+UPH6S M.%U&lt;&gt;S L,5Q]7"E&lt;</b></font>
+<font color="#00ffff"><b># M*#DJ7"D[6UXQ72I&lt;*"Y&lt;*5PQ6S M.5TJ6"I&lt;,EPH,"I&lt;*5M&gt;(%TJ+UPS7#0O</b></font>
+<font color="#00ffff"><b># M"@E0"@DO7ELP+3E=*B!&lt;*"Y&lt;*2XJ7&amp;Y&lt;,2\@(7,O6R M?ETJ+R\*"2]&gt;7&amp;XO</b></font>
+<font color="#00ffff"><b># ,4 HO+B]B(&amp;QO;W *</b></font>
+<font color="#00ffff"><b>#  </b></font>
+<font color="#00ffff"><b># end</b></font>
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer</b></font>
+
+</pre></body></html>

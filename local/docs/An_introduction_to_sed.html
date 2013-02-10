@@ -1,0 +1,435 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html><head>
+   <title>Getting Started with Sed</title>
+</head>
+
+<BODY BGCOLOR="#ffffff" LINK="#5a3984" ALINK="#d6ad6b" VLINK="#d6ad6b">
+
+<center>
+         <a href="http://www.hmc.edu">
+	    <img src="http://www.cs.hmc.edu/graphics/whhmc2.gif"
+	         alt="HMC Homepage" border=0></a>
+
+	<img src="/graphics/mon_clearpixel.gif" alt=" ">
+	<img src="/graphics/mon_clearpixel.gif" alt=" ">
+	<img src="/graphics/mon_clearpixel.gif" alt=" ">
+	<img src="/graphics/mon_clearpixel.gif" alt=" ">
+	<img src="/graphics/mon_clearpixel.gif" alt=" ">
+
+
+	 <a href="http://www.cs.hmc.edu">
+            <img src="http://www.cs.hmc.edu/graphics/whcs2.gif"
+	         alt="CS Home" border=0></a>
+</center>
+
+<table width=650 align="center"> 
+   <tr>
+      <td>
+         <br><p>
+
+
+
+
+<h2 align="center">An introduction to sed</h2>
+
+<p>
+<b>
+This qref is written for a semi-knowledgable UNIX user who has just
+come up against a problem and has been advised to use <i>sed</i> to solve it.
+Perhaps one of the examples can be quickly modified for immediate use.
+</b>
+<hr>
+
+<a name="menu"></a>
+<ul>
+<li><a href="#info">For More Info</a>
+<li><a href="#intro">Introduction</a>
+<li><a href="#basics">The Basics</a>
+<li><a href="#regexp">Using regular expressions</a>
+<li><a href="#subsav">Substitution and Saving</a>
+<li><a href="#sedscr">Sed from a file</a>
+</ul>
+<hr>
+
+<h2><a name="info">For More Info</a></h2>
+A good reference for sed is the O'Reilly handbook for <i>sed and
+awk</i>.  There should be a copy available in the CS Department
+library. Further references are the <i>UNIX in a Nutshell</i> and <i>UNIX
+Power Tools</i> books, also in the CS Department library.
+<p>
+<hr>
+
+<h2><a name="intro">Introduction</a></h2>
+<ul>
+<li>
+<i>sed</i> reads from a file or from its standard input, and outputs to its
+standard output.  You will generally want to redirect that into a
+file, but that is not done in these examples just because it takes up
+space.  sed does not get along with non-text files, like executables
+and FrameMaker files.  If you need to edit those, use a binary editor
+like hexl-mode in emacs.
+
+<li>
+The most frustrating thing about trying to learn sed is getting your
+program past the shell's parser. The proper way is to use single
+quotes around the program, like so:
+<p>
+<b>&gt;</b><samp>sed 's/fubar/foobar/' filename</samp>
+<p> 
+The single quotes protect almost everything from the shell.  In csh or
+tcsh, you still have to watch out for exclamation marks, but other
+than that, you're safe.
+
+<li>
+The second most frustrating thing about trying to learn <i>sed</i> is the
+lovely error messages:
+<pre>
+	sed 's/fubar/foobar' filename
+	sed: command garbled: s/fubar/foobar
+</pre>
+
+<li>
+The GNU version of <i>sed</i> generally has better error messages:
+<pre>
+	gsed 's/fubar/foobar' filename
+	gsed: Unterminated `s' command
+</pre>
+So, if you're having problems getting <i>sed</i> syntax correct, switch to
+<i>gsed</i> for a while.
+</ul>
+<a href="#menu">back to the top</a>
+<hr>
+
+<h2><a name="basics">Some basics:</a></h2>
+In all probability, the command you need most is the "s" command.  It
+Substitutes one thing for another.  The simplest way to do this is
+like the above examples:
+<p>
+<b>&gt;</b><samp>sed 's/color/colour/g' filename</samp>
+<p>
+The "g" at the end stands for "global".  What it really means, though,
+is to replace every occurence on the line.  If you leave it off, only
+the first occurence on each line will be changed.
+<p>
+
+You will encounter problems if you attempt to use the following
+characters in the string to replace:
+<pre>
+	.*[]^$\
+</pre>
+These characters mean special things.  If you mean to replace literal
+occurences of those characters, preface them with a backslash.  So,
+don't do
+<p>
+<b>&gt;</b><samp>sed 's/[J.S. Bach {$ for music}]/[Bach, J.S {$ for music}]/' filename</samp>
+<p>
+Instead, do
+<p>
+<b>&gt;</b><samp>sed 's/\[J\.S\. Bach {\$ for music}\]/[Bach, J.S {$ for music}]/' filename</samp>
+<p>
+Note that this does not apply to the replacement string.
+<p>
+What if you want to perform more than one such replacement at a time?
+You would try something like this:
+<p>
+<b>&gt;</b><samp>sed 's/color/colour/g' 's/flavor/flavour/g' filename</samp>
+<p>
+but it wouldn't work.  sed would look for a file named "g" in the
+directory "s/flavor/flavour".  The "-e" flag to sed makes it realize
+that the next option is a part of the script, instead of a filename.
+You also must use it for the first part of the script, when you have
+more than one part. So, you would use
+<p>
+<b>&gt;</b><samp>sed -e 's/color/colour/g' -e 's/flavor/flavour/g' filename</samp>
+<p>
+If you only had one replacement to do, you could still use the "-e"
+flag, but you don't need to.
+<p>
+The various commands are applied in the order given to sed, so if you
+ran
+<p>
+<b>&gt;</b><samp>sed -e 's/color/colour/g' -e 's/colour/color/g' filename</samp>
+<p>
+it would turn "color" to "colour" and then back to "color".  So, all
+occurences of "color" or "colour" would end up as "color".  This is an
+inefficient way to do that, though.
+<p>
+What if you want to replace something that contains a '/' character?
+This is a common problem with filenames.  You could escape each one,
+like so:
+<p>
+<b>&gt;</b><samp>sed 's/\/usr\/bin/\/bin/g' filename</samp>
+<p>
+This is not fun for long pathnames.  There is a nice alternative: <i>sed</i>
+will treat the character immediately after the 's' as the separator,
+so you could do something like
+<p>
+<b>&gt;</b><samp>sed 's#/usr/bin#/bin#g' filename</samp>
+<p>
+<a href="#menu">back to the top</a>
+<hr>
+<h3><a name="regexp">Using regular expressions</a></h3>
+<i>sed</i> can use regular expressions just like <i>ed</i>(1) can.  Here are some
+common uses of regular expressions.
+
+<ul>
+<li>
+The '^' character means the beginning of the line.
+<p>
+<b>&gt;</b><samp>sed 's/^Thu /Thursday/' filename</samp>
+<p>
+will turn "Thu " into "Thursday", but only at the beginning of
+the line.  Note that the "g" flag is not used, since you can't have
+multiple beginnings of a line. Also note that you don't need to put
+the '^' in the replacement string.
+<li>
+The '$' character means the end of the line.
+<p>
+<b>&gt;</b><samp>sed 's/ $//' filename</samp>
+<p>
+will replace any space character that occurs at the end of a line.
+Again, the "g" flag is not used, and the '$' is not used in the
+replacement string.
+<p>
+You can "replace" the end of the line, like this:
+<p>
+<b>&gt;</b><samp>sed 's/$/EOL/' filename</samp>
+<p>
+This does not form one long line, but it puts the string "EOL" at the
+end of each line.
+<p>
+You can match a blank line by specifying an end-of-line immediately
+after a beginning-of-line:
+<p>
+<b>&gt;</b><samp>sed 's/^$/this used to be a blank line/' filename</samp>
+
+<li>
+The '.' character means "any character".  This does not mean the
+beginning or end of a line, though.  If you were using a log file
+which had the date in the form "Wed Dec 31 16:00:00 1969" and wanted
+to erase the dates and times from a certain month and year, you could
+use
+<p>
+<b>&gt;</b><samp>sed 's/Apr .. ..:..:.. 1980/Apr 1980/g' filename</samp>
+
+<li>
+The square brackets "[]" are used to specify any one of a number of
+characters.  This is useful when you don't know if a letter will be
+upper or lower case:
+<p>
+<b>&gt;</b><samp>sed 's/[Oo]pen[Ww]in/openwin/g' filename </samp>
+<p>
+<li>
+You can specify a range of characters using a '-' inside the square
+brackets.  This will include any character between (in ASCII terms)
+the two listed. If you wanted to delete middle initials, you could use
+<p>
+<b>&gt;</b><samp>sed 's/ [A-Z]\. / /g' filename</samp>
+<p>
+Notice that the literal period had to be escaped, as mentioned above.
+Also, we had to go from two spaces (one on each side of the middle
+initial) to one.
+
+<li>
+If you want to exclude a set or range of characters, use the '^'
+character as the first thing inside the brackets:
+<p>
+<b>&gt;</b><samp>sed 's/ [^A-DHM-Z]\. / /g' filename</samp>
+<p>
+This will delete any middle initials that are not A,B,C,D,H,M,N,...,Z.
+
+<li>
+The '*' character means "any number of the previous character".  This
+applies both to literal characters and to characters that are a result
+of using "[]" or '.'.  For example,
+<p>
+<b>&gt</b><samp>sed 's/ *$//' filename</samp>
+<p>
+deletes all trailing spaces from each line, while
+<p>
+<b>&gt;</b><samp>sed 's/[ ]*$//' filename</samp>
+<p>
+deletes any sequence of trailing tabs and spaces.  It also works when
+using "[^]":
+<p>
+<b>&gt;</b><samp>sed 's/[ ][^ ]*$//' filename</samp>
+<p>
+deletes the last word (sequence of non-spaces) on each line.
+<p>
+It is important to know that '*' will match zero occurences.  If you
+need to match an integer, for example,
+<p>
+<b>&gt;</b><samp>sed 's/ [0-9]* / integer /g' filename</samp>
+<p>
+will turn "  " into " integer ", which is not what you want.  In this
+case, you should use
+<p>
+<b>&gt;</b><samp>sed 's/ [0-9][0-9]* / integer /g' filename</samp>
+<p>
+which will demand at least one digit.
+
+<li>
+The combination ".*" means any number of any character.  So,
+<p>
+<b>&gt;</b><samp>sed 's/col.*lapse/collapse/g' filename</samp>
+<p>
+will act on any line which contains the letters "col" and then
+"lapse", no matter what is in between.  The '*' character is greedy:
+it takes as many characters as it can.  So, the above script would
+turn
+<pre>
+	a b col d e f lapse h i j k lapse m n
+</pre>
+into
+<pre>
+	a b collapse m n
+</pre>
+instead of
+<pre>
+	a b collapse h i j k lapse m n
+</pre>
+</ul>
+
+<a href="#menu">back to the top</a>
+<hr>
+<h3><a name="subsav">Substitution and Saving</a></h3>
+Up to this point, we have concentrated on deleting things that we
+match with "[]" and '.'.  That's because we had no way of saving what
+we matched.  The "\(" and "\)" operators will save whatever is found
+between them.  Notice that these parentheses must be preceded by a
+backslash, while the characters ^$[].*\ don't need a backslash to act
+in a non-literal fashion.  The first pair of "\(\)" saves into a place
+called "\1", and the second pair into "\2", and so on.
+<p>
+<b>&gt;</b><samp>sed 's/^\([A-Z][A-Za-z]*\), \([A-Z][A-Za-z]*\)/\2 \1/' filename</samp>
+<p>
+will turn "Lastname, Firstname" into "Firstname Lastname".  Notice how
+the comma is placed outside the first pair of "\(\)" so it doesn't get
+inclued in the last name.  Otherwise, the result would be "Firstname
+Lastname,".
+<p>
+Sometimes you will want to apply a substitution only to lines that
+meet some criteria that you can't specify in the string to be
+replaced.  You do this using something called an "address".  It comes
+before the "s" command.  You can limit the command to a range of
+lines:
+<p>
+<b>&gt;</b><samp>sed '1,20s/foobar/fubar/g' filename</samp>
+<p>
+The line count is cumulative across files, and starts at 1.
+<p>
+You might want to apply a change only to lines that contain a string:
+<p>
+<b>&gt;</b><samp>sed '/^Aug/s/Mon /Monday /g' filename</samp>
+<p>
+Or to lines that don't contain a string:
+
+<ul>
+<li>
+	using sh or ksh or bash,
+<p>
+<b>&gt></b><samp>sed '/^Aug/!s/Mon /Monday /g' filename</samp>
+<p>
+	using csh or tcsh,
+<p>
+<b>&gt;</b><samp>sed '/^Aug/\!s/Mon /Monday /g' filename</samp>
+<p>
+</ul>
+You can also apply the command to all lines between (and including) a
+start string and a stop string:
+<p>
+<b>&gt;</b><samp>sed '/^Aug/,/^Oct/s/Mon /Monday /g' filename</samp>
+<p>
+Normally sed reads a line, processes it, and prints it out.  If you
+only want to see the lines that your command acted upon, then you
+don't want it to print out everyting.  The "-n" flag will stop sed
+from printing after processing.  So,
+<p>
+<b>&gt;</b><samp>sed -n 's/fubar/foobar/g' filename</samp>
+<p>
+will print nothing at all.  You must use the 'p' flag to the 's'
+command to make it print out what it has processed:
+<p>
+<b>&gt;</b><samp>sed -n 's/fubar/foobar/gp' filename</samp>
+<p>
+<hr>
+<h3><a name="sedscr">Sed from a file</a></h3>
+If your sed script is getting long, you can put it into a file, like so:
+<pre>
+	# This file is named "sample.sed"
+	# comments can only appear in a block at the beginning
+	s/color/colour/g
+	s/flavor/flavour/g
+	s/theater/theatre/g
+</pre>
+Then call sed with the "-f" flag:
+<p>
+<b>&gt;</b><samp>sed -f sample.sed filename</samp>
+<p>
+Or, you can make an executable sed script:
+<pre>
+	#!/usr/bin/sed -f
+	# This file is named "sample2.sed"
+	s/color/colour/g
+	s/flavor/flavour/g
+	s/theater/theatre/g
+</pre>
+then give it execute permissions:
+<p>
+<b>&gt;</b><samp>chmod u+x sample2.sed</samp>
+<p>
+and then call it like so:
+<p>
+<b>&gt;</b><samp>./sample2.sed filename</samp>
+<p>
+<a href="#menu">back to the top</a>
+<p>
+This documentation was originally written by Andrew M. Ross.
+
+
+<hr /><FONT SIZE=-3>
+<P>   Copyright (c)  <!-- YEAR -->  HMC Computer Science Department.
+      Permission is granted to copy, distribute and/or modify this document
+      under the terms of the GNU Free Documentation License, Version 1.1
+      or any later version published by the Free Software Foundation;
+      with the no Invariant Sections<!-- being LIST THEIR TITLES -->, with no
+      Front-Cover Texts, and with no the Back-Cover Texts.
+      A copy of the license is included in the section entitled ``<A HREF="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License</A>.''<BR></FONT>
+
+<BR>
+  <div align="center">
+    <b>HMC Computer Science Department</b><br />
+    <a href="http://www.hmc.edu/campus/campus-map/"
+       style="text-decoration: none">Olin Science Center</a><br />
+
+  <a href="http://www.cs.hmc.edu/map.html" style="text-decoration:none">
+     301 E. Twelfth Street</a>
+     <a href="http://www.ci.claremont.ca.us/"
+	style="text-decoration: none">Claremont</a>, 
+     <a href="http://www.ca.gov" style="text-decoration: none">CA</a>
+     91711-5980 USA
+
+<br />
+
+           PH : (909) 621-8225
+           FX : (909) 621-8465
+
+<br />
+Info Email:
+<A HREF="mailto:staffnow@cs.hmc.edu"
+   style="text-decoration: none">CS Staff</A>
+
+or
+
+<a href="mailto:admission@hmc.edu"
+   style="text-decoration: none">Admission Office</a>
+</div></td></tr></table>
+
+<div align="center"><address>
+Last Modified Tuesday, 22-May-2001 15:28:43 PDT</address></div>
+
+</BODY>
+
+</HTML>	
+

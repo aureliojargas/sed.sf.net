@@ -1,0 +1,501 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Colorized arkanoid.sed</title></head>
+<body bgcolor="#000000" text="#ffffff"
+      link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b>#!/bin/sed -nf</b></font>
+<font color="#00ffff"><b># arkanoid.sed - http://aurelio.net/bin/sed/arkanoid/</b></font>
+<font color="#00ffff"><b>#   by Aurelio Marinho Jargas &lt;verde (a) aurelio net&gt;</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Arkanoid: a paddle that bounces a ball (pong!) to destroy blocks</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># ACTORS:</b></font>
+<font color="#00ffff"><b>#   o  ball               --  paddle</b></font>
+<font color="#00ffff"><b>#   =  block              ~~  paddle (on hold mode)</b></font>
+<font color="#00ffff"><b>#   *  block exploding    .   life (mini paddle)</b></font>
+<font color="#00ffff"><b>#                                  [come on, use your imagination :)]</b></font>
+<font color="#00ffff"><b># COMMANDS:</b></font>
+<font color="#00ffff"><b>#   z  left move      c  hold mode ON/OFF</b></font>
+<font color="#00ffff"><b>#   x  right move     q  quit</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># HOW TO PLAY:</b></font>
+<font color="#00ffff"><b>#   You must press the ENTER key after *every* command. Start the</b></font>
+<font color="#00ffff"><b>#   program with "sed -f arkanoid.sed". Press ENTER. Choose the</b></font>
+<font color="#00ffff"><b>#   level. Press ENTER. Move the paddle with the keyboard arrows</b></font>
+<font color="#00ffff"><b>#   or with the Z and X keys. Press ENTER. Release the ball using</b></font>
+<font color="#00ffff"><b>#   the down arrow ou the C key. Press ENTER. Press ENTER. Press</b></font>
+<font color="#00ffff"><b>#   ENTER. Press ENTER...</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># ANTI-FLAME DISCLAIMER:</b></font>
+<font color="#00ffff"><b>#   Well, just as sokoban.sed, this one is cool because it's sed.</b></font>
+<font color="#00ffff"><b>#   It's not funny to play or even exciting, because keep pressing</b></font>
+<font color="#00ffff"><b>#   ENTER to the ball move sucks. But hey, it's cute! &amp;;) </b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># For the how-many-lines-it-has? fanatics:</b></font>
+<font color="#00ffff"><b>#   prompt$ sed '/^ *#/d' arkanoid.sed | sed '$=;d'</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Tip: Use hold mode and hit the paddle twice on the walli</b></font>
+<font color="#00ffff"><b>#      to escape cyclic ball movement</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># TODO Get classic arkanoid levels (somebody help me!)</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Changelog:</b></font>
+<font color="#00ffff"><b># - 2002-07-09 v1.0: Debut release</b></font>
+<font color="#00ffff"><b># - 2005-05-13 v1.1: Now it's a sedcheck compliant script.</b></font>
+<font color="#00ffff"><b>#                    It will run on most SED's, including oldies</b></font>
+
+<font color="#ffff00"><b>b</b></font> <a href="#zero">zero</a>
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="nocolor">nocolor</a></b></font>
+<font color="#00ffff"><b>### if you don't want colorful output, just uncomment next line</b></font>
+<font color="#00ffff"><b>#s/K(\([0-9;]*\))//g</b></font>
+<font color="#ffff00"><b>b</b></font> <a href="#showmap">showmap</a>
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="parsecmd">parsecmd</a></b></font>
+<font color="#00ffff"><b>### arrow keys (1), numeric pad (2), i-case (3), wipe trash(4)</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b></b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[A</b></font><font color="#ff6060"><b>/</b></font>h<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[B</b></font><font color="#ff6060"><b>/</b></font>h<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[C</b></font><font color="#ff6060"><b>/</b></font>x<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[D</b></font><font color="#ff6060"><b>/</b></font>z<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>4560</b></font><font color="#ff6060"><b>/</b></font>zhxq<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>QZXHCc</b></font><font color="#ff6060"><b>/</b></font>qzxhhh<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[^qzxh#]</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>b</b></font> <a href="#execcmd">execcmd</a>
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="welcome">welcome</a></b></font>
+<font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
+</b></font>       Welcome to the SED Arkanoid<font color="#00ff00"><b>\
+</b></font>  <font color="#00ff00"><b>\
+</b></font>  Please select a level to begin [1-2]:
+<font color="#ffff00"><b>d</b></font>  
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="showhelp">showhelp</a></b></font>
+<font color="#00ffff"><b>### clear screen, show help</b></font>
+<font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
+</b></font>  [2J[H
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>\
+</b></font>  ...                  Sed Arkanoid<font color="#00ff00"><b>\
+</b></font>  ...                  <font color="#00ff00"><b>\
+</b></font>  ...                    z,4,&lt;left&gt;   left move<font color="#00ff00"><b>\
+</b></font>  ...                    x,6,&lt;right&gt;  right move<font color="#00ff00"><b>\
+</b></font>  ...                    c,5,&lt;down&gt;   hold on/off<font color="#00ff00"><b>\
+</b></font>  ...                    q,0          quit game<font color="#00ff00"><b>\
+</b></font>  ...                    &lt;enter&gt;      go!<font color="#00ff00"><b>\
+</b></font>  <font color="#00ff00"><b>\
+</b></font>  <font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>p</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
+
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="loadmap">loadmap</a></b></font>
+<font color="#00ffff"><b>### load map on HOLD space</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^1$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font>      _____________ <font color="#00ff00"><b>\
+</b></font>     |             |<font color="#00ff00"><b>\
+</b></font>     |             |<font color="#00ff00"><b>\
+</b></font>     |=============|<font color="#00ff00"><b>\
+</b></font>     |=============|<font color="#00ff00"><b>\
+</b></font>     |=============|<font color="#00ff00"><b>\
+</b></font>     |             |<font color="#00ff00"><b>\
+</b></font>     |             |<font color="#00ff00"><b>\
+</b></font>     |             |<font color="#00ff00"><b>\
+</b></font>     |             |<font color="#00ff00"><b>\
+</b></font>     |      o      |<font color="#00ff00"><b>\
+</b></font>     |     ~~      |<font color="#00ff00"><b>\
+</b></font>     |...__________|<font color="#00ff00"><b>\
+</b></font>  <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^2$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font>      _____________ <font color="#00ff00"><b>\
+</b></font>     |=            |<font color="#00ff00"><b>\
+</b></font>     |===          |<font color="#00ff00"><b>\
+</b></font>     |=====        |<font color="#00ff00"><b>\
+</b></font>     |=======      |<font color="#00ff00"><b>\
+</b></font>     |=========    |<font color="#00ff00"><b>\
+</b></font>     |===========  |<font color="#00ff00"><b>\
+</b></font>     |=============|<font color="#00ff00"><b>\
+</b></font>     |             |<font color="#00ff00"><b>\
+</b></font>     |             |<font color="#00ff00"><b>\
+</b></font>     |      o      |<font color="#00ff00"><b>\
+</b></font>     |     ~~      |<font color="#00ff00"><b>\
+</b></font>     |...__________|<font color="#00ff00"><b>\
+</b></font>  <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b>### test levels</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># free X test</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^t1$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font>  TEST 1 - f:X<font color="#00ff00"><b>\
+</b></font>      _____________ <font color="#00ff00"><b>\
+</b></font>     |       = = = |<font color="#00ff00"><b>\
+</b></font>     |      o      |<font color="#00ff00"><b>\
+</b></font>     |       = = = |<font color="#00ff00"><b>\
+</b></font>     |             |<font color="#00ff00"><b>\
+</b></font>     |.____________|<font color="#00ff00"><b>\
+</b></font>  <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#00ffff"><b># free Y test</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^t2$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font>  TEST 2 - f:Y<font color="#00ff00"><b>\
+</b></font>      _____________ <font color="#00ff00"><b>\
+</b></font>     |             |<font color="#00ff00"><b>\
+</b></font>     |  ==  =      |<font color="#00ff00"><b>\
+</b></font>     |   =  ==     |<font color="#00ff00"><b>\
+</b></font>     |     ==      |<font color="#00ff00"><b>\
+</b></font>     |   =o=       |<font color="#00ff00"><b>\
+</b></font>     |  ==         |<font color="#00ff00"><b>\
+</b></font>     |             |<font color="#00ff00"><b>\
+</b></font>     |____.________|<font color="#00ff00"><b>\
+</b></font>  <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#00ffff"><b># tri-explosion test</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^t3$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font> TEST 3 - 3<font color="#00ff00"><b>\
+</b></font>      _____________ <font color="#00ff00"><b>\
+</b></font>     |     ==      |<font color="#00ff00"><b>\
+</b></font>     |     ==      |<font color="#00ff00"><b>\
+</b></font>     |    ==  =    |<font color="#00ff00"><b>\
+</b></font>     |     = ==    |<font color="#00ff00"><b>\
+</b></font>     |  =o         |<font color="#00ff00"><b>\
+</b></font>     |  ==         |<font color="#00ff00"><b>\
+</b></font>     |             |<font color="#00ff00"><b>\
+</b></font>     |.____________|<font color="#00ff00"><b>\
+</b></font>  <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#00ffff"><b># round explosion test</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^t4$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font> TEST 4 - &gt;, &lt;, b:&gt;, b:&lt;<font color="#00ff00"><b>\
+</b></font>      _____________ <font color="#00ff00"><b>\
+</b></font>     |     = =     |<font color="#00ff00"><b>\
+</b></font>     |   == o ==   |<font color="#00ff00"><b>\
+</b></font>     |   = = = =   |<font color="#00ff00"><b>\
+</b></font>     |    == ==    |<font color="#00ff00"><b>\
+</b></font>     |             |<font color="#00ff00"><b>\
+</b></font>     |___________._|<font color="#00ff00"><b>\
+</b></font>  <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>~~</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>there is no '<font color="#00ff00"><b>&amp;</b></font>' level!<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>p</b></font>
+    <font color="#ffff00"><b>q</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="endmap">endmap</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>[H<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>  $</b></font><font color="#ff6060"><b>/</b></font>ru <font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>h</b></font>  
+<font color="#ffff00"><b>b</b></font> <a href="#showhelp">showhelp</a>
+
+<font color="#00ffff"><b>#--------------------------------------------------------------------</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>### general hints about the code:</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># - rlud are movements to perform on this turn</b></font>
+<font color="#00ffff"><b># - RLUD are movements already done</b></font>
+<font color="#00ffff"><b># - O is a ball already moved on this turn</b></font>
+<font color="#00ffff"><b># - @% are temporary ball states to indicate ball over a block</b></font>
+<font color="#00ffff"><b># - ! is a temporary explosion state after a free Y move</b></font>
+<font color="#00ffff"><b># - -- is plain paddle and ~~ is paddle on hold mode</b></font>
+<font color="#00ffff"><b># - ... are your 3 lives (mini-paddles)</b></font>
+<font color="#00ffff"><b># - # is the cheat mode identifier (jail!)</b></font>
+<font color="#00ffff"><b># - on hold, when releasing the ball, its X-direction will be same of</b></font>
+<font color="#00ffff"><b>#   the paddle side where the ball is</b></font>
+<font color="#00ffff"><b># - on hold, forcing paddle on the wall can move ball to the other side</b></font>
+<font color="#00ffff"><b>#   of the paddle</b></font>
+<font color="#00ffff"><b># - on hold mode, Y-direction is always down</b></font>
+<font color="#00ffff"><b># - explosions are showed, then reconverted to ball on the next move</b></font>
+<font color="#00ffff"><b># - ball on vertical and top borders do bounce</b></font>
+<font color="#00ffff"><b># - block explosion and paddle (of course) bounces</b></font>
+<font color="#00ffff"><b># - bounce: change X or Y direction</b></font>
+<font color="#00ffff"><b># - exploding a block may change Y-direction and/or X-direction, depending</b></font>
+<font color="#00ffff"><b>#   if there's another block on the way (see explosion comments)</b></font>
+<font color="#00ffff"><b># - diagonal moves are done as X then Y moves (that's why % is needed)</b></font>
+<font color="#00ffff"><b># - K() pattern is replaced by color escape chars &lt;esc&gt;[m</b></font>
+<font color="#00ffff"><b># - &lt; and &gt; are round explosion direction. stored at the end (.$) of the map</b></font>
+<font color="#00ffff"><b># - ball direction (rlud) is stored at the end (.. $) of the map also</b></font>
+<font color="#00ffff"><b># - user commands are case insensitive</b></font>
+
+
+<font color="#00ffff"><b># ballmiss routine: 1. reset direction and explosion status</b></font>
+<font color="#00ffff"><b># 2. put ball over paddle , 3. take one life, 4. put paddle on hold mode</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="ballmiss">ballmiss</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>...$</b></font><font color="#ff6060"><b>/</b></font>ru <font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\*</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> \<font color="#ff00ff"><b>(</b></font>.\{20\}\)\<font color="#ff00ff"><b>(</b></font>[-~]\)</b></font><font color="#ff6060"><b>/</b></font>o<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\._</b></font><font color="#ff6060"><b>/</b></font>__<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>--</b></font><font color="#ff6060"><b>/</b></font>~~<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="zero">zero</a></b></font>
+<font color="#8080ff"><b>1</b></font> <font color="#ffff00"><b>b</b></font> <a href="#welcome">welcome</a>
+
+<font color="#00ffff"><b># first map loading</b></font>
+<font color="#8080ff"><b>2</b></font> <font color="#ffff00"><b>b</b></font> <a href="#loadmap">loadmap</a>
+
+<font color="#ffff00"><b>b</b></font> <a href="#parsecmd">parsecmd</a>
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="execcmd">execcmd</a></b></font>
+<font color="#00ffff"><b>### execute user commands</b></font>
+
+<font color="#00ffff"><b>### first, have you missed a ball?</b></font>
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\*\<font color="#ff00ff"><b>(</b></font>.\{20\}\)[_.]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#ballmiss">ballmiss</a>
+    <font color="#00ffff"><b># cheat mode: never loses</b></font>
+    <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>d*</b></font><font color="#ff6060"><b>/</b></font>uo<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#execcmd">execcmd</a>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ffff00"><b>x</b></font>  
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>q</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>q</b></font>
+
+<font color="#00ffff"><b># you cheater! (keep holding enter - hyperspeed)</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.*\)|</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>#<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b># 1. move ball+paddle on hold, and goto end</b></font>
+<font color="#00ffff"><b># 2. move just paddle and continue</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>z</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o.\{20\}~</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> o</b></font><font color="#ff6060"><b>/</b></font>o <font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> ~~</b></font><font color="#ff6060"><b>/</b></font>~~ <font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
+    <font color="#ff6060"><b>}</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> --</b></font><font color="#ff6060"><b>/</b></font>-- <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> ~~</b></font><font color="#ff6060"><b>/</b></font>~~ <font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>x</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o.\{20\}~</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o </b></font><font color="#ff6060"><b>/</b></font> o<font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>~~ </b></font><font color="#ff6060"><b>/</b></font> ~~<font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
+    <font color="#ff6060"><b>}</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>-- </b></font><font color="#ff6060"><b>/</b></font> --<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>~~ </b></font><font color="#ff6060"><b>/</b></font> ~~<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>h</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#00ffff"><b>### turn OFF hold mode routine</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>~~</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#00ffff"><b># depending which side of paddle, change X-direction</b></font>
+        <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o.\{20\}~~</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Rr</b></font><font color="#ff6060"><b>/</b></font>LL<font color="#ff6060"><b>/</b></font>
+        <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o.\{20\}~[^~]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Ll</b></font><font color="#ff6060"><b>/</b></font>RR<font color="#ff6060"><b>/</b></font>
+        <font color="#00ffff"><b># change Y-direction</b></font>
+        <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o.\{20\}~</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Dd</b></font><font color="#ff6060"><b>/</b></font>UU<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>}</b></font>
+    <font color="#00ffff"><b># swap ON/OFF paddle shape</b></font>
+    <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>-~</b></font><font color="#ff6060"><b>/</b></font>~-<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>x</b></font>
+
+
+<font color="#00ffff"><b># current explosion turns back to ball</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\*</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\*</b></font><font color="#ff6060"><b>/</b></font>o<font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b># reset movements</b></font>
+<font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>RLUD</b></font><font color="#ff6060"><b>/</b></font>rlud<font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># holded ball, no move</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o.\{20\}~</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
+
+<font color="#00ffff"><b>### LET´S MOVE IT!</b></font>
+
+<font color="#00ffff"><b># reached top: do bounce changing Y-direction</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>.\{20\}\)o</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>u</b></font><font color="#ff6060"><b>/</b></font>d<font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>### detect borders, change X-direction</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>|o</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>l</b></font><font color="#ff6060"><b>/</b></font>r<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o|</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r</b></font><font color="#ff6060"><b>/</b></font>l<font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># plain right-left ball move</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o </b></font><font color="#ff6060"><b>/</b></font> O<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>l</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> o</b></font><font color="#ff6060"><b>/</b></font>O <font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># tricky move over a block - part I</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o=</b></font><font color="#ff6060"><b>/</b></font> @<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>% </b></font><font color="#ff6060"><b>/</b></font>=o<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>l</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>=o</b></font><font color="#ff6060"><b>/</b></font>@ <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> %</b></font><font color="#ff6060"><b>/</b></font>o=<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b># restore ball and mark X moves as done</b></font>
+<font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>O@rl</b></font><font color="#ff6060"><b>/</b></font>o%RL<font color="#ff6060"><b>/</b></font>
+
+<font color="#ffff00"><b>b</b></font> <a href="#boom">boom</a>
+
+
+<font color="#00ffff"><b>### detect block. if so, explode it!</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#     0   1     RIGHT-UP example:</b></font>
+<font color="#00ffff"><b>#   +---+---+</b></font>
+<font color="#00ffff"><b>#   | = | * |   0. free X-way</b></font>
+<font color="#00ffff"><b>#   |o  |  o|   1. explode and change Y-direction           (right-down)</b></font>
+<font color="#00ffff"><b>#   +-------+</b></font>
+<font color="#00ffff"><b>#   |== |** |   0. blocked X and Y way (tri-explosion)</b></font>
+<font color="#00ffff"><b>#   |o= |o* |   1. explode all and change X and Y direction (left-down)</b></font>
+<font color="#00ffff"><b>#   +-------+</b></font>
+<font color="#00ffff"><b>#   |   |o  |</b></font>
+<font color="#00ffff"><b>#   | = | * |   0. free Y-way</b></font>
+<font color="#00ffff"><b>#   |o= | = |   1. explode and change X-direction           (left-up)</b></font>
+<font color="#00ffff"><b>#   +---+---+</b></font>
+<font color="#00ffff"><b>#   </b></font>
+<font color="#00ffff"><b>### RIGHT-UP Smart clockwise full round explosion!</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#   +---+---+---+---+---+</b></font>
+<font color="#00ffff"><b>#   | = | * |   |   |   |  If two explosions on two turns,</b></font>
+<font color="#00ffff"><b>#   |o =|  =|  *|   |o  |   we're on a round explosion.</b></font>
+<font color="#00ffff"><b>#   | = | = | = | * |   |  After the roll, we end as left-up.</b></font>
+<font color="#00ffff"><b>#   +---+---+---+---+---+</b></font>
+<font color="#00ffff"><b>#</b></font>
+
+<font color="#00ffff"><b>### explosion functions (wise is clockwise [&gt;] or anti-clockwise [&lt;])</b></font>
+<font color="#00ffff"><b># chkwise: if wise direction is empty, set it! - else dowise</b></font>
+<font color="#00ffff"><b># setwise: set wise direction, based on current ball direction</b></font>
+<font color="#00ffff"><b>#  dowise: set the next ball direction, based on wise direction</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="chkwise">chkwise</a></b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> $</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#setwise">setwise</a>
+<font color="#ffff00"><b>b</b></font> <a href="#dowise">dowise</a>
+
+<font color="#00ffff"><b># */! : ball came from X/Y free</b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="setwise">setwise</a></b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\*</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Ld $</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> $</b></font><font color="#ff6060"><b>/</b></font>&gt;<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Ru $</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> $</b></font><font color="#ff6060"><b>/</b></font>&gt;<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Rd $</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> $</b></font><font color="#ff6060"><b>/</b></font>&lt;<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Lu $</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> $</b></font><font color="#ff6060"><b>/</b></font>&lt;<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>ud</b></font><font color="#ff6060"><b>/</b></font>du<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Ld $</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> $</b></font><font color="#ff6060"><b>/</b></font>&lt;<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Ru $</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> $</b></font><font color="#ff6060"><b>/</b></font>&lt;<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Rd $</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> $</b></font><font color="#ff6060"><b>/</b></font>&gt;<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Lu $</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> $</b></font><font color="#ff6060"><b>/</b></font>&gt;<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>RL</b></font><font color="#ff6060"><b>/</b></font>LR<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>ud</b></font><font color="#ff6060"><b>/</b></font>UD<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="dowise">dowise</a></b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Rd&lt;$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>d</b></font><font color="#ff6060"><b>/</b></font>U<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Lu&lt;$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>u</b></font><font color="#ff6060"><b>/</b></font>D<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Ru&lt;$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>R</b></font><font color="#ff6060"><b>/</b></font>L<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Ld&lt;$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>L</b></font><font color="#ff6060"><b>/</b></font>R<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Ld&gt;$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>d</b></font><font color="#ff6060"><b>/</b></font>U<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Ru&gt;$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>u</b></font><font color="#ff6060"><b>/</b></font>D<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Rd&gt;$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>R</b></font><font color="#ff6060"><b>/</b></font>L<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Lu&gt;$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>L</b></font><font color="#ff6060"><b>/</b></font>R<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
+
+
+<font color="#00ffff"><b># UP &amp; DOWN explosion code:</b></font>
+<font color="#00ffff"><b>#   1. free X</b></font>
+<font color="#00ffff"><b>#   2. blocked XY from left  (tri-explosion)</b></font>
+<font color="#00ffff"><b>#   3. blocked XY from right (tri-explosion)</b></font>
+<font color="#00ffff"><b>#   4. free Y</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="boom">boom</a></b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>d</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o\<font color="#ff00ff"><b>(</b></font>.\{20\}\)=</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font> <font color="#00ff00"><b>\1</b></font>*<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>% \<font color="#ff00ff"><b>(</b></font>.\{19\}\)==\<font color="#ff00ff"><b>(</b></font>.*L\)</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>*o<font color="#00ff00"><b>\1</b></font>**<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> %\<font color="#ff00ff"><b>(</b></font>.\{19\}\)==\<font color="#ff00ff"><b>(</b></font>.*R\)</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>o*<font color="#00ff00"><b>\1</b></font>**<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>%\<font color="#ff00ff"><b>(</b></font>.\{20\}\)=</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>=<font color="#00ff00"><b>\1</b></font>!<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>u</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>=\<font color="#ff00ff"><b>(</b></font>.\{20\}\)o</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>*<font color="#00ff00"><b>\1</b></font> <font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>==\<font color="#ff00ff"><b>(</b></font>.\{19\}\)% \<font color="#ff00ff"><b>(</b></font>.*L\)</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>**<font color="#00ff00"><b>\1</b></font>*o<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>==\<font color="#ff00ff"><b>(</b></font>.\{19\}\) %\<font color="#ff00ff"><b>(</b></font>.*R\)</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>**<font color="#00ff00"><b>\1</b></font>o*<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>=\<font color="#ff00ff"><b>(</b></font>.\{20\}\)%</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>!<font color="#00ff00"><b>\1</b></font>=<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b># end tri-explosion: invert all directions (keep before "end free X" code)</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\*\*</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>udRL</b></font><font color="#ff6060"><b>/</b></font>DULR<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#00ffff"><b># end free Y explosion</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>! .*L</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#chkwise">chkwise</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> !.*R</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#chkwise">chkwise</a>
+<font color="#00ffff"><b># end free X explosion</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\*</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#chkwise">chkwise</a>
+
+
+<font color="#00ffff"><b># detect paddle bounce, change Y-direction</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o\<font color="#ff00ff"><b>(</b></font>.\{20\}\)-</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>d</b></font><font color="#ff6060"><b>/</b></font>u<font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># plain up-down ball move (no explosion)</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>u</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> \<font color="#ff00ff"><b>(</b></font>.\{20\}\)o</b></font><font color="#ff6060"><b>/</b></font>o<font color="#00ff00"><b>\1</b></font> <font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>d</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o\<font color="#ff00ff"><b>(</b></font>.\{20\}\) </b></font><font color="#ff6060"><b>/</b></font> <font color="#00ff00"><b>\1</b></font>o<font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># tricky move over a block - part II</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>u</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> \<font color="#ff00ff"><b>(</b></font>.\{20\}\)%</b></font><font color="#ff6060"><b>/</b></font>o<font color="#00ff00"><b>\1</b></font>=<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>d</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>%\<font color="#ff00ff"><b>(</b></font>.\{20\}\) </b></font><font color="#ff6060"><b>/</b></font>=<font color="#00ff00"><b>\1</b></font>o<font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># you missed the ball!</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o\<font color="#ff00ff"><b>(</b></font>.\{20\}\)[_.]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o</b></font><font color="#ff6060"><b>/</b></font>*<font color="#ff6060"><b>/</b></font>
+
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="end">end</a></b></font>
+<font color="#00ffff"><b># show move over a block explosion right</b></font>
+<font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!</b></font><font color="#ff6060"><b>/</b></font>*<font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b># reset last explosion reminder for plain moves</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\*</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[&lt;&gt;]$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>### detect level finished or GAME OVER</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>=</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>\<font color="#ff00ff"><b>(</b></font>[^\n]*\n\)\{5\}[^|]*|\)...........</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>K(33;1)  VICTORY!!K()<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>\<font color="#ff00ff"><b>(</b></font>[^\n]*\n\)\{5\}[^|]*|\)...........</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>K(31;1)  GAME OVERK()<font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>### save map</b></font>
+<font color="#ffff00"><b>h</b></font>  
+
+<font color="#00ffff"><b>### hide direction (comment for debug)</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>...$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>### add colors</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>--</b></font><font color="#ff6060"><b>/</b></font>K(32;1)<font color="#00ff00"><b>&amp;</b></font>K()<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>~~</b></font><font color="#ff6060"><b>/</b></font>K(32;1)<font color="#00ff00"><b>&amp;</b></font>K()<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o</b></font><font color="#ff6060"><b>/</b></font>K(33;1)<font color="#00ff00"><b>&amp;</b></font>K()<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> \{0,1\}_\{1,\} \{0,1\}</b></font><font color="#ff6060"><b>/</b></font>K(42;32)<font color="#00ff00"><b>&amp;</b></font>K()<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>|</b></font><font color="#ff6060"><b>/</b></font>K(42;32)<font color="#00ff00"><b>&amp;</b></font>K()<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.</b></font><font color="#ff6060"><b>/</b></font>K(42;32;1)<font color="#00ff00"><b>&amp;</b></font>K()<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#</b></font><font color="#ff6060"><b>/</b></font>K(42;37;1)<font color="#00ff00"><b>&amp;</b></font>K()<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\*</b></font><font color="#ff6060"><b>/</b></font>K(31;1)<font color="#00ff00"><b>&amp;</b></font>K()<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>b</b></font> <a href="#nocolor">nocolor</a>
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="showmap">showmap</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>K(\<font color="#ff00ff"><b>(</b></font>[0-9;]*\))</b></font><font color="#ff6060"><b>/</b></font>[<font color="#00ff00"><b>\1</b></font>m<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>p</b></font>  
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>VICT</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>q</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>OVER</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>q</b></font>
+<font color="#ffff00"><b>d</b></font>  
+
+<font color="#00ffff"><b>### colorized by <a href="http://aurelio.net/sedsed/">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer</b></font>
+
+</pre></body></html>

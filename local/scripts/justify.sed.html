@@ -1,0 +1,82 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized justify.sed</title></head><body bgcolor="#000000" text="#ffffff"
+link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b>#!/bin/sed -f</b></font>
+<font color="#00ffff"><b># justify.sed - aurélio marinho jargas &lt;verde (a) aurelio net&gt;</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># it  gets  a text already wrapped on the desired number of columns</b></font>
+<font color="#00ffff"><b># and  add  extra  white  spaces, from left to right, word by word,</b></font>
+<font color="#00ffff"><b># to  justify  all  the lines. there is a maximum of 5 spaces to be</b></font>
+<font color="#00ffff"><b># inserted  between  the  words. if this limit is reached, the line</b></font>
+<font color="#00ffff"><b># is  not  justified  (come  on,  more  than  5 is horrible). empty</b></font>
+<font color="#00ffff"><b># lines  are  ignored.  btw, this comments were justified with this</b></font>
+<font color="#00ffff"><b># script &amp;:)</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># 20000715 1st release</b></font>
+<font color="#00ffff"><b># 20000722 code cleaned</b></font>
+
+<font color="#00ffff"><b># cleaning extra spaces of the line</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> \+</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^ </b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> $</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b># we'll only justify lines with less than 65 chars</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^.\{65\}</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#"></a>
+
+<font color="#00ffff"><b># backup of the 'stripped' line</b></font>
+<font color="#ffff00"><b>h</b></font>  
+
+<font color="#00ffff"><b># spaces -&gt; pattern</b></font>
+<font color="#00ffff"><b># convert series of spaces to a internal pattern `n</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="s2p">s2p</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>     </b></font><font color="#ff6060"><b>/</b></font>`5<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>    </b></font><font color="#ff6060"><b>/</b></font>`4<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>   </b></font><font color="#ff6060"><b>/</b></font>`3<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>  </b></font><font color="#ff6060"><b>/</b></font>`2<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> </b></font><font color="#ff6060"><b>/</b></font>`1<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#1space">1space</a>
+<font color="#ffff00"><b>b</b></font> <a href="#"></a>
+
+<font color="#00ffff"><b># pattern -&gt; spaces</b></font>
+<font color="#00ffff"><b># restore the spaces converted to the internal pattern `n</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="p2s">p2s</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>`5</b></font><font color="#ff6060"><b>/</b></font>     <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>`4</b></font><font color="#ff6060"><b>/</b></font>    <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>`3</b></font><font color="#ff6060"><b>/</b></font>   <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>`2</b></font><font color="#ff6060"><b>/</b></font>  <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>`1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#check">check</a>
+<font color="#ffff00"><b>b</b></font> <a href="#"></a>
+
+<font color="#00ffff"><b># check if we've reached our right limit</b></font>
+<font color="#00ffff"><b># if not, continue adding spaces</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="check">check</a></b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^.\{65\}</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#s2p">s2p</a>
+<font color="#ffff00"><b>b</b></font> <a href="#"></a>
+
+<font color="#00ffff"><b># here's the "magic":</b></font>
+<font color="#00ffff"><b># add 1 space to the first and minor internal pattern found.</b></font>
+<font color="#00ffff"><b># this way, the extra spaces are always added from left to right,</b></font>
+<font color="#00ffff"><b># always balanced, one by one.</b></font>
+<font color="#00ffff"><b># right after the substitution, we'll restore the spaces and</b></font>
+<font color="#00ffff"><b># test if our limit was reached.</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="1space">1space</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>`1</b></font><font color="#ff6060"><b>/</b></font>`2<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#p2s">p2s</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>`2</b></font><font color="#ff6060"><b>/</b></font>`3<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#p2s">p2s</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>`3</b></font><font color="#ff6060"><b>/</b></font>`4<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#p2s">p2s</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>`4</b></font><font color="#ff6060"><b>/</b></font>`5<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#p2s">p2s</a>
+
+<font color="#00ffff"><b># we don't want to justify with more than 5 added spaces between</b></font>
+<font color="#00ffff"><b># words, so let's restore the original line</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>`5</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>x</b></font>
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://aurelio.net/sed/programas/justify.sed">http://aurelio.net/sed/programas/justify.sed</a></b></font>
+
+</pre></body></html>

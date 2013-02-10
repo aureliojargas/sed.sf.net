@@ -1,0 +1,64 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized mail-iso2txt.sed</title></head><body bgcolor="#000000" text="#ffffff"
+link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b>#!/bin/sed -f</b></font>
+<font color="#00ffff"><b># mail-iso2txt.sed  -  20000906 &lt;aurelio@verde666.org&gt;</b></font>
+<font color="#00ffff"><b>#   convert the email encoded chars =xx to the right hexa char</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># ps.: needs GNU sed &gt;= 3.02.80 because the s//\xnn/ notation</b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=09</b></font><font color="#ff6060"><b>|</b></font>\x09<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=20</b></font><font color="#ff6060"><b>|</b></font>\x20<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=B7</b></font><font color="#ff6060"><b>|</b></font>\xb7<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=BA</b></font><font color="#ff6060"><b>|</b></font>\xba<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=C1</b></font><font color="#ff6060"><b>|</b></font>\xc1<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=C2</b></font><font color="#ff6060"><b>|</b></font>\xc2<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=C3</b></font><font color="#ff6060"><b>|</b></font>\xc3<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=C4</b></font><font color="#ff6060"><b>|</b></font>\xc4<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=C5</b></font><font color="#ff6060"><b>|</b></font>\xc5<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=C6</b></font><font color="#ff6060"><b>|</b></font>\xc6<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=C7</b></font><font color="#ff6060"><b>|</b></font>\xc7<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=C8</b></font><font color="#ff6060"><b>|</b></font>\xc8<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=C9</b></font><font color="#ff6060"><b>|</b></font>\xc9<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=CA</b></font><font color="#ff6060"><b>|</b></font>\xca<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=CB</b></font><font color="#ff6060"><b>|</b></font>\xcb<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=CC</b></font><font color="#ff6060"><b>|</b></font>\xcc<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=CD</b></font><font color="#ff6060"><b>|</b></font>\xcd<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=CE</b></font><font color="#ff6060"><b>|</b></font>\xce<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=CF</b></font><font color="#ff6060"><b>|</b></font>\xcf<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=D7</b></font><font color="#ff6060"><b>|</b></font>\xd7<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=E1</b></font><font color="#ff6060"><b>|</b></font>\xe1<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=E2</b></font><font color="#ff6060"><b>|</b></font>\xe2<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=E3</b></font><font color="#ff6060"><b>|</b></font>\xe3<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=E4</b></font><font color="#ff6060"><b>|</b></font>\xe4<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=E5</b></font><font color="#ff6060"><b>|</b></font>\xe5<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=E6</b></font><font color="#ff6060"><b>|</b></font>\xe6<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=E7</b></font><font color="#ff6060"><b>|</b></font>\xe7<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=E8</b></font><font color="#ff6060"><b>|</b></font>\xe8<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=E9</b></font><font color="#ff6060"><b>|</b></font>\xe9<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=EA</b></font><font color="#ff6060"><b>|</b></font>\xea<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=EB</b></font><font color="#ff6060"><b>|</b></font>\xeb<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=EC</b></font><font color="#ff6060"><b>|</b></font>\xec<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=ED</b></font><font color="#ff6060"><b>|</b></font>\xed<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=EE</b></font><font color="#ff6060"><b>|</b></font>\xee<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=EF</b></font><font color="#ff6060"><b>|</b></font>\xef<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=F1</b></font><font color="#ff6060"><b>|</b></font>\xf1<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=F2</b></font><font color="#ff6060"><b>|</b></font>\xf2<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=F3</b></font><font color="#ff6060"><b>|</b></font>\xf3<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=F4</b></font><font color="#ff6060"><b>|</b></font>\xf4<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=F5</b></font><font color="#ff6060"><b>|</b></font>\xf5<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=F6</b></font><font color="#ff6060"><b>|</b></font>\xf6<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=F7</b></font><font color="#ff6060"><b>|</b></font>\xf7<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=F8</b></font><font color="#ff6060"><b>|</b></font>\xf8<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=F9</b></font><font color="#ff6060"><b>|</b></font>\xf9<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=FA</b></font><font color="#ff6060"><b>|</b></font>\xfa<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=FB</b></font><font color="#ff6060"><b>|</b></font>\xfb<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=FC</b></font><font color="#ff6060"><b>|</b></font>\xfc<font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>=$</b></font><font color="#ff6060"><b>|</b></font><font color="#ff6060"><b>|</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://verde666.org/sed/programas/mail-iso2txt.sed">http://verde666.org/sed/programas/mail-iso2txt.sed</a></b></font>
+
+</pre></body></html>

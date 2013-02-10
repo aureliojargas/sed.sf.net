@@ -1,0 +1,258 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized yahoogroups-kill-sig.sed</title></head><body bgcolor="#000000" text="#ffffff"
+link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b>#!/bin/sed -f</b></font>
+<font color="#00ffff"><b># yahoogroups-kill-sig.sed                    by Aurelio Marinho Jargas</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#   Erases the Yahoo! Groups e-mail signature ad</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># CHANGELOG:</b></font>
+<font color="#00ffff"><b>#   20000??? v0.1    First one</b></font>
+<font color="#00ffff"><b>#   20000725 v0.2    Now it has BEGIN/END marks, it's easier!</b></font>
+<font color="#00ffff"><b>#   20000906 v0.3    Marks changed </b></font>
+<font color="#00ffff"><b>#   20001107 v0.3.1  Contrib: Schlemer HTML killer</b></font>
+<font color="#00ffff"><b>#   ----- eGroups has changed to Yahoo! Groups -----</b></font>
+<font color="#00ffff"><b>#   20010206 v0.4    Contrib: Morcego's s/egroups/yahoo/s fix</b></font>
+<font color="#00ffff"><b>#   20010716 v0.5    Marks changed again</b></font>
+<font color="#00ffff"><b>#   20030428 v0.6    Policy Terms and Unsubscribe killers included</b></font>
+<font color="#00ffff"><b>#   20030506 v0.6.1  One-char fix on the Policy killer, added SAMPLE DATA</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># DESCRIPTION:</b></font>
+<font color="#00ffff"><b># Yahoogroups.com puts advertises on every sent message to the free groups.</b></font>
+<font color="#00ffff"><b># This file is a sed filter to erase it. It handles quoted '&gt; ' ads also.</b></font>
+<font color="#00ffff"><b># If you do use procmail to filter e-mail messages, use this sed to</b></font>
+<font color="#00ffff"><b>#   automaticaly remove the Ads for every message you receive.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># HOW TO USE:</b></font>
+<font color="#00ffff"><b># Save this file on the disk and put at the begin of your ~/.procmailrc:</b></font>
+<font color="#00ffff"><b>#    :0 fhw</b></font>
+<font color="#00ffff"><b>#    * Delivered-To:.*@yahoogroups.com</b></font>
+<font color="#00ffff"><b>#    | sed -f /path/to/yahoogroups-kill-sig.sed</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># If preferred, make this file executable (chmod +x), put it in your PATH and:</b></font>
+<font color="#00ffff"><b>#    :0 fhw</b></font>
+<font color="#00ffff"><b>#    * Delivered-To:.*@yahoogroups.com</b></font>
+<font color="#00ffff"><b>#    | yahoogroups-kill-sig.sed</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># SAMPLE DATA FILE:</b></font>
+<font color="#00ffff"><b># You can use this sample data file to test these rules "by hand",</b></font>
+<font color="#00ffff"><b># before including them on the procmail file.</b></font>
+<font color="#00ffff"><b># Save the following fake e-mail message on a 'data.txt' file</b></font>
+<font color="#00ffff"><b># (remove the leading # chars!) and run:</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#    prompt$ sed -f yahoogroups-kill-sig.sed data.txt</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># All the Ads and Yahoo! messages should be removed.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#---------------------------8&lt;---------------------------</b></font>
+<font color="#00ffff"><b>#From: foo@foo.com</b></font>
+<font color="#00ffff"><b>#To: foo@foo.com</b></font>
+<font color="#00ffff"><b>#Subject: test me</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#Here's the message body.</b></font>
+<font color="#00ffff"><b>#And now, the evil sig.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#------------------------ Yahoo! Groups Sponsor ---------------------~--&gt;</b></font>
+<font color="#00ffff"><b>#Secure your servers with 128-bit SSL encryption! Grab your copy of</b></font>
+<font color="#00ffff"><b>#VeriSign's FREE Guide "Securing Your Web Site for Business." Get it now!</b></font>
+<font color="#00ffff"><b>#http://www.verisign.com/cgi-bin/go.cgi?a=n094442340008000</b></font>
+<font color="#00ffff"><b>#http://us.click.yahoo.com/6lIgYB/IWxCAA/yigFAA/dkFolB/TM</b></font>
+<font color="#00ffff"><b>#---------------------------------------------------------------------~-&gt;</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#Your use of Yahoo! Groups is subject to</b></font>
+<font color="#00ffff"><b>#http://docs.yahoo.com/info/terms/</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#To unsubscribe from this group, send an email to:</b></font>
+<font color="#00ffff"><b>#foo-unsubscribe@yahoogroups.com</b></font>
+<font color="#00ffff"><b>#---------------------------&gt;8---------------------------</b></font>
+
+
+
+<font color="#00ffff"><b>#-------------------------------------------------------------------------</b></font>
+
+
+<font color="#00ffff"><b>#                               +----+</b></font>
+<font color="#00ffff"><b>#                               | Ad |</b></font>
+<font color="#00ffff"><b>#                               +----+</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Ad details: * a line w/ 24 hifens, 'Yahoo...Sponsor', 21 hifens and '~--&gt;'</b></font>
+<font color="#00ffff"><b>#             * lines with yahoogroups propaganda</b></font>
+<font color="#00ffff"><b>#             * a line with 69 hifens, and '~-&gt;' at the end</b></font>
+<font color="#00ffff"><b># Ad Sample:</b></font>
+<font color="#00ffff"><b># ------------------------ Yahoo! Groups Sponsor ---------------------~--&gt;</b></font>
+<font color="#00ffff"><b># Secure your servers with 128-bit SSL encryption! Grab your copy of</b></font>
+<font color="#00ffff"><b># VeriSign's FREE Guide "Securing Your Web Site for Business." Get it now!</b></font>
+<font color="#00ffff"><b># http://www.verisign.com/cgi-bin/go.cgi?a=n094442340008000</b></font>
+<font color="#00ffff"><b># http://us.click.yahoo.com/6lIgYB/IWxCAA/yigFAA/dkFolB/TM</b></font>
+<font color="#00ffff"><b># ---------------------------------------------------------------------~-&gt;</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Ad Killer:</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>&gt; \)*-\{24\} Yahoo! Groups Sponsor -\{21\}~--&gt;$</b></font><font color="#ff6060"><b>/</b></font>,<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>&gt; \)*-\{69\}~-&gt;$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>d</b></font>
+
+
+<font color="#00ffff"><b>#-------------------------------------------------------------------------</b></font>
+
+
+<font color="#00ffff"><b>#                             +--------+</b></font>
+<font color="#00ffff"><b>#                             | Policy |</b></font>
+<font color="#00ffff"><b>#                             +--------+</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># You can also remove the Policy Terms message.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Policy Details: A one line message, sometimes broken into two,</b></font>
+<font color="#00ffff"><b>#                 which appears at the very end of the message.</b></font>
+<font color="#00ffff"><b># Policy Sample:</b></font>
+<font color="#00ffff"><b># Your use of Yahoo! Groups is subject to http://docs.yahoo.com/info/terms/ </b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Policy Killer:</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>&gt; \)*Your use of Yahoo! Groups is subject to *$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>N</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>&gt; \)*Your use of Yahoo! Groups is subject to</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>d</b></font>
+
+
+<font color="#00ffff"><b>#-------------------------------------------------------------------------</b></font>
+
+
+<font color="#00ffff"><b>#                            +-------------+</b></font>
+<font color="#00ffff"><b>#                            | Unsubscribe |</b></font>
+<font color="#00ffff"><b>#                            +-------------+</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># This one is to remove the *default* unsubscribe footer.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Unsubscribe Details: A one line message, sometimes broken into two,</b></font>
+<font color="#00ffff"><b>#                      which appears before the Ads.</b></font>
+<font color="#00ffff"><b># Unsubscribe Sample:</b></font>
+<font color="#00ffff"><b># To unsubscribe from this group, send an email to:</b></font>
+<font color="#00ffff"><b># foo-unsubscribe@yahoogroups.com</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Unsubscribe Killer:</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>&gt; \)*To unsubscribe from this group, send an email to: *$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>N</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>&gt; \)*To unsubscribe from this group, send an email to:</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>d</b></font>
+
+
+<font color="#00ffff"><b>#-------------------------------------------------------------------------</b></font>
+
+
+<font color="#00ffff"><b>#                              +---------+</b></font>
+<font color="#00ffff"><b>#                              | Ad HTML |</b></font>
+<font color="#00ffff"><b>#                              +---------+</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># For those who receive the Yahoo! messages in HTML (argh!), you may use</b></font>
+<font color="#00ffff"><b># this one also, because the HTML signature is way different.</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b># Ad Details: * an HTML comment with bar-star-star-bar,text,bar-star-star-bar</b></font>
+<font color="#00ffff"><b>#             * lines with egroups propaganda</b></font>
+<font color="#00ffff"><b>#             * an HTML comment with bar-star-star-bar,text,bar-star-star-bar</b></font>
+<font color="#00ffff"><b># Ad Sample:</b></font>
+<font color="#00ffff"><b># &lt;!-- |**|begin egp html banner|**| --&gt;</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># &lt;hr&gt;</b></font>
+<font color="#00ffff"><b># &lt;!-- |@|begin eGroups banner|@| runid: 8193 crid: 4101 --&gt;</b></font>
+<font color="#00ffff"><b># &lt;a target=3D"_blank"</b></font>
+<font color="#00ffff"><b># href=3D"http://click.egroups.com/1/8193/8/_/134812/_/9=</b></font>
+<font color="#00ffff"><b># 66089206/"&gt;&lt;center&gt;</b></font>
+<font color="#00ffff"><b># &lt;img width=3D"468" height=3D"60"</b></font>
+<font color="#00ffff"><b>#   border=3D"0"</b></font>
+<font color="#00ffff"><b>#   alt=3D""</b></font>
+<font color="#00ffff"><b># src=3D"http://adimg.egroups.com/img/8193/8/_/134812/_/966089206/468x60_ma=</b></font>
+<font color="#00ffff"><b># ze12k.gif"&gt;&lt;/center&gt;&lt;center&gt;&lt;font color=3D"black"&gt;&lt;/font&gt;&lt;/center&gt;&lt;/a&gt;</b></font>
+<font color="#00ffff"><b># &lt;!-- |@|end eGroups banner|@| --&gt;</b></font>
+<font color="#00ffff"><b># &lt;hr&gt;</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># &lt;!-- |**|end egp html banner|**| --&gt;</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Ad Killer:</b></font>
+<font color="#00ffff"><b>#/^\(&gt; \)*&lt;!-- |\*\*|begin egp html banner|\*\*| --&gt;$/,/^\(&gt; \)*&lt;!-- |\*\*|end egp html banner|\*\*| --&gt;$/d</b></font>
+
+
+
+
+
+
+<font color="#00ffff"><b>#-------------------------------------------------------------------------</b></font>
+<font color="#00ffff"><b>#                           +-------------+</b></font>
+<font color="#00ffff"><b>#                           | OLD KILLERS |</b></font>
+<font color="#00ffff"><b>#                           +-------------+</b></font>
+<font color="#00ffff"><b>#-------------------------------------------------------------------------</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#                             +---------+</b></font>
+<font color="#00ffff"><b>#                             | Ad v0.4 |</b></font>
+<font color="#00ffff"><b>#                             +---------+</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Ad details: * a line w/ 24 hifens, 'Yahoo!...Sponsor', 21 hifens and '~-~&gt;'</b></font>
+<font color="#00ffff"><b>#             * lines with yahoogroups propaganda</b></font>
+<font color="#00ffff"><b>#             * a line with 69 hifens, and '_-&gt;' at the end</b></font>
+<font color="#00ffff"><b># Ad Sample:</b></font>
+<font color="#00ffff"><b># ------------------------ Yahoo! Groups Sponsor ---------------------~-~&gt;</b></font>
+<font color="#00ffff"><b># eGroups is now Yahoo! Groups</b></font>
+<font color="#00ffff"><b># Click here for more details</b></font>
+<font color="#00ffff"><b># http://click.egroups.com/1/11231/1/_/161736/_/980877852/</b></font>
+<font color="#00ffff"><b># ---------------------------------------------------------------------_-&gt;</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Ad Killer:</b></font>
+<font color="#00ffff"><b>#/^\(&gt; \)*-\{24\} Yahoo! Groups Sponsor -\{21\}~-~&gt;$/,/^\(&gt; \)*-\{69\}_-&gt;$/d'</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#-------------------------------------------------------------------------</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#                             +---------+</b></font>
+<font color="#00ffff"><b>#                             | Ad v0.3 |</b></font>
+<font color="#00ffff"><b>#                             +---------+</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Ad details: * a line w/ 26 hifens, 'eGroups Sponsor', 25 hifens and '~-~&gt;'</b></font>
+<font color="#00ffff"><b>#             * lines with egroups propaganda</b></font>
+<font color="#00ffff"><b>#             * a line with 69 hifens, and '_-&gt;' at the end</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Ad Sample:</b></font>
+<font color="#00ffff"><b># -------------------------- eGroups Sponsor -------------------------~-~&gt;</b></font>
+<font color="#00ffff"><b># GET A NEXTCARD VISA, in 30 seconds!  Get rates</b></font>
+<font color="#00ffff"><b># of 2.9% Intro or 9.9% Ongoing APR* and no annual fee!</b></font>
+<font color="#00ffff"><b># Apply NOW!</b></font>
+<font color="#00ffff"><b># http://click.egroups.com/1/7872/14/_/_/_/967638075/</b></font>
+<font color="#00ffff"><b># ---------------------------------------------------------------------_-&gt;</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Ad Killer:</b></font>
+<font color="#00ffff"><b>#/^\(&gt; \)*-\{26\} eGroups Sponsor -\{25\}~-~&gt;$/,/^\(&gt; \)*-\{69\}_-&gt;$/d</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#-------------------------------------------------------------------------</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#                             +---------+</b></font>
+<font color="#00ffff"><b>#                             | Ad v0.2 |</b></font>
+<font color="#00ffff"><b>#                             +---------+</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Ad details: * a line with 68 hifens, an '&lt;e|' and another hifen</b></font>
+<font color="#00ffff"><b>#             * lines with egroups propaganda</b></font>
+<font color="#00ffff"><b>#             * a line with 68 hifens, an '|e&gt;' and another hifen</b></font>
+<font color="#00ffff"><b># Ad Sample:</b></font>
+<font color="#00ffff"><b># --------------------------------------------------------------------&lt;e|-</b></font>
+<font color="#00ffff"><b># Huge Shoe Selection at Zappos.com</b></font>
+<font color="#00ffff"><b># (small sizes also available)</b></font>
+<font color="#00ffff"><b># http://click.egroups.com/1/7062/5/_/193628/_/964577029/</b></font>
+<font color="#00ffff"><b># --------------------------------------------------------------------|e&gt;-</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Ad Killer:</b></font>
+<font color="#00ffff"><b>#/^\(&gt; \)*-\{68\}&lt;e|-$/,/^\(&gt; \)*-\{68\}|e&gt;-$/d</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#-------------------------------------------------------------------------</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#                             +---------+</b></font>
+<font color="#00ffff"><b>#                             | Ad v0.1 |</b></font>
+<font color="#00ffff"><b>#                             +---------+</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Ad Details: * a line with exactly 72 hifens before and after</b></font>
+<font color="#00ffff"><b>#             * any number of lines between</b></font>
+<font color="#00ffff"><b>#             * a line with 'http://click.egroups.com'</b></font>
+<font color="#00ffff"><b># Ad Sample:</b></font>
+<font color="#00ffff"><b># ------------------------------------------------------------------------</b></font>
+<font color="#00ffff"><b># $60 in FREE Long Distance!  Click Here to join beMANY! today.</b></font>
+<font color="#00ffff"><b># http://click.egroups.com/1/4126/10/_/_/_/958599956/</b></font>
+<font color="#00ffff"><b># ------------------------------------------------------------------------</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Ad Killer:</b></font>
+<font color="#00ffff"><b>#/^\(&gt; \)*-\{72\}$/{N;:l;/-\{72\}$/bs;N;bl;:s;s%^.*\n\(&gt; \)*http://click\.egroups\.com.*%%;}</b></font>
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://aurelio.net/sed/programas/yahoogroups-kill-sig.sed">http://aurelio.net/sed/programas/yahoogroups-kill-sig.sed</a></b></font>
+
+</pre></body></html>

@@ -1,0 +1,209 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized masm2gas.sed</title></head><body bgcolor="#000000" text="#ffffff"
+link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># By Louis J. LaBash Jr. &lt;labash@lcjones.aclib.siue.edu&gt;</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#\</b></font>
+<font color="#00ffff"><b>#       @(#)as386.sed	1.1 - 86/11/17\</b></font>
+<font color="#00ffff"><b>#\</b></font>
+<font color="#00ffff"><b># This is a sed script which converts Intel 386 assembly code to Unix\</b></font>
+<font color="#00ffff"><b># 386 assembly code\</b></font>
+<font color="#00ffff"><b>#\</b></font>
+<font color="#00ffff"><b># This script does not attempt to convert 100% of the ASM386 source code,\</b></font>
+<font color="#00ffff"><b># it cannot handle the following constructs:\</b></font>
+<font color="#00ffff"><b>#\</b></font>
+<font color="#00ffff"><b># - strange segmentation schemes\</b></font>
+<font color="#00ffff"><b># - data declarations beyond the simple db/dw/dd with simple init list\</b></font>
+<font color="#00ffff"><b># - ascii strings\</b></font>
+<font color="#00ffff"><b># - structure template addressing (i.e., [ebp].foo)\</b></font>
+<font color="#00ffff"><b># - complex expressions (parenthesis and operators other than +-*/)\</b></font>
+<font color="#00ffff"><b># - immediate operands that are not simple constants\</b></font>
+<font color="#00ffff"><b># - immediate operands with automatically typed memory operands\</b></font>
+<font color="#00ffff"><b># - source files in upper case\</b></font>
+<font color="#00ffff"><b># - source files with continued lines\</b></font>
+<font color="#00ffff"><b>#\</b></font>
+<font color="#00ffff"><b># A typical way to use this sed script is:\</b></font>
+<font color="#00ffff"><b># tr "[A-Z]" "[a-z]" &lt;infile | sed -f this-script &gt;outfile\</b></font>
+<font color="#00ffff"><b>#\</b></font>
+<font color="#00ffff"><b>#\</b></font>
+<font color="#00ffff"><b># Meaning of labels:\</b></font>
+<font color="#00ffff"><b>#\</b></font>
+<font color="#00ffff"><b># cmpress	preserve comments, insert tabs, change '?' to '_'\</b></font>
+<font color="#00ffff"><b># control	convert '$' control lines\</b></font>
+<font color="#00ffff"><b># segment	convert segmentation directives\</b></font>
+<font color="#00ffff"><b># equate	convert 'equ' directives\</b></font>
+<font color="#00ffff"><b># data		convert db/dw/dd data declarations\</b></font>
+<font color="#00ffff"><b># modifer	delete address/type modifiers\</b></font>
+<font color="#00ffff"><b># registr	convert register names\</b></font>
+<font color="#00ffff"><b># bincons	convert binary/octal/hex conatants\</b></font>
+<font color="#00ffff"><b># address	regularize addess expressions, delete unneeded tabs\</b></font>
+<font color="#00ffff"><b># normliz	normalize instruction formats (name-tab-opcode-tab-operands)\</b></font>
+<font color="#00ffff"><b># operand	swap operands, convert scale/index/base address format\</b></font>
+<font color="#00ffff"><b># opcode	append b/w to opcode for byte/word register operands\</b></font>
+<font color="#00ffff"><b># comment	restore preserved comments\</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="cmpress">cmpress</a></b></font>
+<font color="#ffff00"><b>h</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>;.*$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[ 	]*$</b></font><font color="#ff6060"><b>/</b></font>	<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[ 	][ 	]*</b></font><font color="#ff6060"><b>/</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>[][)(.,:*/+-]\)</b></font><font color="#ff6060"><b>/</b></font>	<font color="#00ff00"><b>\1</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	?	</b></font><font color="#ff6060"><b>/</b></font>	0	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>?</b></font><font color="#ff6060"><b>/</b></font>_<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[ 	][ 	]*</b></font><font color="#ff6060"><b>/</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="control">control</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\$[	]*include	(	\<font color="#ff00ff"><b>(</b></font>[^	.)]*\)[^)]*)</b></font><font color="#ff6060"><b>/</b></font>#include	"<font color="#00ff00"><b>\1</b></font>.h"<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\$[	]*eject	</b></font><font color="#ff6060"><b>/</b></font>;	<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>;<font color="#ff6060"><b>/</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="segment">segment</a></b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	segment	e[or]	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>	.text	;<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	segment	ro	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>	.text	;<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	segment	rw	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>	.data	;<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	ends	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>;<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	stackseg	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>;<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[	]*name	\<font color="#ff00ff"><b>(</b></font>[^	]*\)</b></font><font color="#ff6060"><b>/</b></font>	.file	"<font color="#00ff00"><b>\1</b></font>"<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[	]*end	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>;<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[	]*assume	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>;<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[	]*extrn	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>;<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[	]*public	[^	,]*	,	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[	]*public	</b></font><font color="#ff6060"><b>/</b></font>	.globl	<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	,	.*$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>G</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n\<font color="#ff00ff"><b>(</b></font>[ 	]*\)public\<font color="#ff00ff"><b>(</b></font>[ 	]\)[^,]*,</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font><font color="#00ff00"><b>\1</b></font>public<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>P</b></font>
+  <font color="#ffff00"><b>D</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[	]*public	</b></font><font color="#ff6060"><b>/</b></font>	.globl	<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[	]*comm	</b></font><font color="#ff6060"><b>/</b></font>	.comm	<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^	][^	]*\)	proc	</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>	:	;proc	<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	endp	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>;<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^	][^	]*\)	label	</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>	:	;label	<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[	]*even	</b></font><font color="#ff6060"><b>/</b></font>	.even	<font color="#ff6060"><b>/</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="equate">equate</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^	]*\)	equ	\<font color="#ff00ff"><b>(</b></font>.*\)	$</b></font><font color="#ff6060"><b>/</b></font>#define	:	<font color="#00ff00"><b>\1</b></font>	<font color="#00ff00"><b>\2</b></font>	<font color="#ff6060"><b>/</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="data">data</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[	]*db	</b></font><font color="#ff6060"><b>/</b></font>	.byte	<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^	][^	]*\)	db	</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>	:	.byte	<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[	]*dw	</b></font><font color="#ff6060"><b>/</b></font>	.value	<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^	][^	]*\)	dw	</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>	:	.value	<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[	]*dd	</b></font><font color="#ff6060"><b>/</b></font>	.long	<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^	][^	]*\)	dd	</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>	:	.long	<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[	]*dp	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[	]*dp	</b></font><font color="#ff6060"><b>/</b></font>	.value	<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>\/selector of dp pointer<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>G</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n\<font color="#ff00ff"><b>(</b></font>[ 	]*\)dp\<font color="#ff00ff"><b>(</b></font>[ 	]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font><font color="#00ff00"><b>\1</b></font>dd<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>P</b></font>
+  <font color="#ffff00"><b>D</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^	][^	]*\)	dp	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^	][^	]*\)	dp	</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>:	.value	<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>\/selector of dp pointer<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>G</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n[^ 	]*\<font color="#ff00ff"><b>(</b></font>[ 	]*\)dp\<font color="#ff00ff"><b>(</b></font>[ 	]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font><font color="#00ff00"><b>\1</b></font>dd<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>P</b></font>
+  <font color="#ffff00"><b>D</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^	][^	]*\)	struc	</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>	:	;struc	<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^	][^	]*\)	record	</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>	:	;record	<font color="#ff6060"><b>/</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="modifer">modifer</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	:	near	</b></font><font color="#ff6060"><b>/</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	:	far	</b></font><font color="#ff6060"><b>/</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	:	byte	</b></font><font color="#ff6060"><b>/</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	:	word	</b></font><font color="#ff6060"><b>/</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	:	dword	</b></font><font color="#ff6060"><b>/</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	short	</b></font><font color="#ff6060"><b>/</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	offset	</b></font><font color="#ff6060"><b>/</b></font>	$<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	byte	ptr	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>?%al?<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	byte	ptr	</b></font><font color="#ff6060"><b>/</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	word	ptr	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>?%ax?<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	word	ptr	</b></font><font color="#ff6060"><b>/</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	dword	ptr	</b></font><font color="#ff6060"><b>/</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	pword	ptr	</b></font><font color="#ff6060"><b>/</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="registr">registr</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	e\<font color="#ff00ff"><b>(</b></font>[abcd]\)x	</b></font><font color="#ff6060"><b>/</b></font>	%e<font color="#00ff00"><b>\1</b></font>x	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	\<font color="#ff00ff"><b>(</b></font>[abcd]\)\<font color="#ff00ff"><b>(</b></font>[hlx]\)	</b></font><font color="#ff6060"><b>/</b></font>	%<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	e\<font color="#ff00ff"><b>(</b></font>[ds]\)i	</b></font><font color="#ff6060"><b>/</b></font>	%e<font color="#00ff00"><b>\1</b></font>i	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	\<font color="#ff00ff"><b>(</b></font>[ds]\)i	</b></font><font color="#ff6060"><b>/</b></font>	%<font color="#00ff00"><b>\1</b></font>i	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	e\<font color="#ff00ff"><b>(</b></font>[bs]\)p	</b></font><font color="#ff6060"><b>/</b></font>	%e<font color="#00ff00"><b>\1</b></font>p	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	\<font color="#ff00ff"><b>(</b></font>[bs]\)p	</b></font><font color="#ff6060"><b>/</b></font>	%<font color="#00ff00"><b>\1</b></font>p	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	\<font color="#ff00ff"><b>(</b></font>[cdefgs]\)s	</b></font><font color="#ff6060"><b>/</b></font>	%<font color="#00ff00"><b>\1</b></font>s	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="bincons">bincons</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	\<font color="#ff00ff"><b>(</b></font>[01][01]*\)b	</b></font><font color="#ff6060"><b>/</b></font>	0b<font color="#00ff00"><b>\1</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	\<font color="#ff00ff"><b>(</b></font>[0-7][0-7]*\)[oq]	</b></font><font color="#ff6060"><b>/</b></font>	0<font color="#00ff00"><b>\1</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	\<font color="#ff00ff"><b>(</b></font>[0-9][0-9a-f]*\)h	</b></font><font color="#ff6060"><b>/</b></font>	0x<font color="#00ff00"><b>\1</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#ffff00"><b>t</b></font> <a href="#address">address</a>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="address">address</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[</b></font><font color="#ff6060"><b>/</b></font>+<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	]	\.	</b></font><font color="#ff6060"><b>/</b></font>	+	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	]</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	%\<font color="#ff00ff"><b>(</b></font>[^	]*\)	\*	\<font color="#ff00ff"><b>(</b></font>[248]\)	+	\<font color="#ff00ff"><b>(</b></font>[^	%][^	]*\)</b></font><font color="#ff6060"><b>/</b></font>	<font color="#00ff00"><b>\3</b></font>	+	%<font color="#00ff00"><b>\1</b></font>	*	<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	%\<font color="#ff00ff"><b>(</b></font>[^	]*\)	+	\<font color="#ff00ff"><b>(</b></font>[^	%][^	]*\)</b></font><font color="#ff6060"><b>/</b></font>	<font color="#00ff00"><b>\2</b></font>	+	%<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	%\<font color="#ff00ff"><b>(</b></font>[^	]*\)	\*	\<font color="#ff00ff"><b>(</b></font>[248]\)	-	\<font color="#ff00ff"><b>(</b></font>[^	%][^	]*\)</b></font><font color="#ff6060"><b>/</b></font>	-	<font color="#00ff00"><b>\3</b></font>	+	%<font color="#00ff00"><b>\1</b></font>	*	<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	%\<font color="#ff00ff"><b>(</b></font>[^	]*\)	-	\<font color="#ff00ff"><b>(</b></font>[^	%][^	]*\)</b></font><font color="#ff6060"><b>/</b></font>	-	<font color="#00ff00"><b>\2</b></font>	+	%<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	+	-	</b></font><font color="#ff6060"><b>/</b></font>	-	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#address">address</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	\<font color="#ff00ff"><b>(</b></font>[)(,*/+-]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>[)(,*/+-]\)	</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	:</b></font><font color="#ff6060"><b>/</b></font>:<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>%\<font color="#ff00ff"><b>(</b></font>[cdefgs]\)s:	</b></font><font color="#ff6060"><b>/</b></font>%<font color="#00ff00"><b>\1</b></font>s:<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="normliz">normliz</a></b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>:	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^	;#][^	]*\)</b></font><font color="#ff6060"><b>/</b></font>	<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>:	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^	\<font color="#ff00ff"><b>(</b></font>[^	+,-]*\)\<font color="#ff00ff"><b>(</b></font>[+-]\)</b></font><font color="#ff6060"><b>/</b></font>	<font color="#00ff00"><b>\1</b></font>	<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>:	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^	\<font color="#ff00ff"><b>(</b></font>[^	+,]*\)+%</b></font><font color="#ff6060"><b>/</b></font>	<font color="#00ff00"><b>\1</b></font>	+%<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>:	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^	]*\)	\<font color="#ff00ff"><b>(</b></font>[^	+,-]*\)\<font color="#ff00ff"><b>(</b></font>[+-]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>	<font color="#00ff00"><b>\2</b></font>	<font color="#00ff00"><b>\3</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>:	</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^	]*\)	\<font color="#ff00ff"><b>(</b></font>[^	+,]*\)+%</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>	<font color="#00ff00"><b>\2</b></font>	+%<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>+%\<font color="#ff00ff"><b>(</b></font>[^	,]*\)</b></font><font color="#ff6060"><b>/</b></font>(%<font color="#00ff00"><b>\1</b></font>)<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	+</b></font><font color="#ff6060"><b>/</b></font>	<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>[:,]\)+</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="operand">operand</a></b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[.;#]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^	\<font color="#ff00ff"><b>(</b></font>[^	]*\)	\<font color="#ff00ff"><b>(</b></font>[^,]*\),\<font color="#ff00ff"><b>(</b></font>[^	]*\)</b></font><font color="#ff6060"><b>/</b></font>	<font color="#00ff00"><b>\1</b></font>	<font color="#00ff00"><b>\3</b></font>,<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[.;#]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^	][^	]*\)	\<font color="#ff00ff"><b>(</b></font>[^	]*\)	\<font color="#ff00ff"><b>(</b></font>[^,]*\),\<font color="#ff00ff"><b>(</b></font>[^	]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>	<font color="#00ff00"><b>\2</b></font>	<font color="#00ff00"><b>\4</b></font>,<font color="#00ff00"><b>\3</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[.;#]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^	\<font color="#ff00ff"><b>(</b></font>[^	]*\)	\<font color="#ff00ff"><b>(</b></font>[0-9][0-9a-fx]*\)\<font color="#ff00ff"><b>(</b></font>[	,]\)</b></font><font color="#ff6060"><b>/</b></font>	<font color="#00ff00"><b>\1</b></font>	$<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[.;#]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^	][^	]*\)	\<font color="#ff00ff"><b>(</b></font>[^	]*\)	\<font color="#ff00ff"><b>(</b></font>[0-9][0-9a-fx]*\)\<font color="#ff00ff"><b>(</b></font>[	,]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>	<font color="#00ff00"><b>\2</b></font>	$<font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\4</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(%\<font color="#ff00ff"><b>(</b></font>[^)+*]*\)+%\<font color="#ff00ff"><b>(</b></font>[^)*]*\)\*\<font color="#ff00ff"><b>(</b></font>[248]\))</b></font><font color="#ff6060"><b>/</b></font>(%<font color="#00ff00"><b>\1</b></font>,%<font color="#00ff00"><b>\2</b></font>,<font color="#00ff00"><b>\3</b></font>)<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(%\<font color="#ff00ff"><b>(</b></font>[^)+*]*\)\*\<font color="#ff00ff"><b>(</b></font>[248]\)+%\<font color="#ff00ff"><b>(</b></font>[^)]*\))</b></font><font color="#ff6060"><b>/</b></font>(%<font color="#00ff00"><b>\3</b></font>,%<font color="#00ff00"><b>\1</b></font>,<font color="#00ff00"><b>\2</b></font>)<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(%\<font color="#ff00ff"><b>(</b></font>[^)+*]*\)+%\<font color="#ff00ff"><b>(</b></font>[^)]*\))</b></font><font color="#ff6060"><b>/</b></font>(%<font color="#00ff00"><b>\1</b></font>,%<font color="#00ff00"><b>\2</b></font>)<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(%\<font color="#ff00ff"><b>(</b></font>[^)+*]*\)\*\<font color="#ff00ff"><b>(</b></font>[248]\))</b></font><font color="#ff6060"><b>/</b></font>(,%<font color="#00ff00"><b>\1</b></font>,<font color="#00ff00"><b>\2</b></font>)<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="opcode">opcode</a></b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[	,]%[abcd][hl]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>?%al?<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[	,]%[abcd]x</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>?%ax?<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[	,]%[ds]i</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>?%ax?<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[	,]%[bs]p</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>?%ax?<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>?%al?</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^	]*\)	\<font color="#ff00ff"><b>(</b></font>[^	]*\)	</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>	<font color="#00ff00"><b>\2</b></font>b	<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>?%ax?</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^	]*\)	\<font color="#ff00ff"><b>(</b></font>[^	]*\)	</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>	<font color="#00ff00"><b>\2</b></font>w	<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^#define:</b></font><font color="#ff6060"><b>/</b></font>#define<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>?%a[xl]?</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="comment">comment</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>	*$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^.*$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>[ 	]*\);</b></font><font color="#ff6060"><b>/</b></font>;<font color="#00ff00"><b>\1</b></font>;<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[^;]*;</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>G</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>;</b></font><font color="#ff6060"><b>/</b></font>\/<font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/masm2gas.sed">http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/masm2gas.sed</a></b></font>
+
+</pre></body></html>

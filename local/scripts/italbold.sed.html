@@ -1,0 +1,101 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized italbold.sed</title></head><body bgcolor="#000000" text="#ffffff"
+link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b>#! /bin/sed -nf</b></font>
+<font color="#00ffff"><b># filename:  italbold.sed</b></font>
+<font color="#00ffff"><b>#   author:  Eric Pement - pemente@northpark.edu</b></font>
+<font color="#00ffff"><b>#	     modified by Paolo Bonzini to remove GNU sed 3.02.80 features</b></font>
+<font color="#00ffff"><b>#	     and to show how to use `w' to output to stderr.</b></font>
+<font color="#00ffff"><b>#     date:  January 7, 2001</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># purpose:</b></font>
+<font color="#00ffff"><b>#     To take input files with two different "toggle switches" such as</b></font>
+<font color="#00ffff"><b># the _underscore_ and *asterisk*, and convert them into something like</b></font>
+<font color="#00ffff"><b># &lt;i&gt;italic&lt;/i&gt; and &lt;b&gt;boldface&lt;/b&gt; in the output.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#     In this script, I've used HTML to illustrate the procedure, but</b></font>
+<font color="#00ffff"><b># the script can be altered to change the toggle switches, the output</b></font>
+<font color="#00ffff"><b># (maybe printer codes?), or both. Note especially my use of the hold</b></font>
+<font color="#00ffff"><b># space to maintain "state". If "I" appears anywhere in the hold</b></font>
+<font color="#00ffff"><b># space, Italic is currently ON and the next match of "_" should turn</b></font>
+<font color="#00ffff"><b># it off. If "I" is not present in the hold space, it means Italic is</b></font>
+<font color="#00ffff"><b># currently OFF, and the next match of an underscore should turn it</b></font>
+<font color="#00ffff"><b># back ON. A similar principle is used with the Bold flag, using "B"</b></font>
+<font color="#00ffff"><b># to indicate that Boldface is currently ON and no "B" to mean OFF.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># ERROR HANDLING:</b></font>
+<font color="#00ffff"><b>#    This script contains an error-checking routine on lines 64-82, to</b></font>
+<font color="#00ffff"><b># check for unmatched toggle switches. It writes to standard output,</b></font>
+<font color="#00ffff"><b># which may make this script unsuitable for some applications. Sed has</b></font>
+<font color="#00ffff"><b># no way to write to stderr. If you don't like this routine, delete all</b></font>
+<font color="#00ffff"><b># the commands after line 63.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># Copyleft 2000 by Eric Pement. This file may be freely distributed.</b></font>
+<font color="#00ffff"><b># Copyleft terms at http://www.dsl.org/copyleft/non-software-copyleft.shtml</b></font>
+<font color="#00ffff"><b># For more help with sed, see http://www.faqs.org/faqs/editor-faq/sed</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="ital">ital</a></b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>x</b></font>
+  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>I</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#00ffff"><b># An underscore is found, and "Italic ON" (I) was in the former</b></font>
+    <font color="#00ffff"><b># hold space.  Delete the flag, turn the next "_" into HTML "&lt;/i&gt;"</b></font>
+    <font color="#00ffff"><b># code, and return to the top to find more underscores.</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>I</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>_</b></font><font color="#ff6060"><b>|</b></font>&lt;/i&gt;<font color="#ff6060"><b>|</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#ital">ital</a>
+  <font color="#ff6060"><b>}</b></font>
+  <font color="#00ffff"><b># Else turn the "I" flag ON, insert &lt;i&gt; and go above.</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>x</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>_</b></font><font color="#ff6060"><b>|</b></font>&lt;i&gt;<font color="#ff6060"><b>|</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#ital">ital</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b># Now do the same with B and asterisks</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="bold">bold</a></b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\*</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>x</b></font>
+  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>B</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>B</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>\*</b></font><font color="#ff6060"><b>|</b></font>&lt;/b&gt;<font color="#ff6060"><b>|</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#bold">bold</a>
+  <font color="#ff6060"><b>}</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>B<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>x</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>\*</b></font><font color="#ff6060"><b>|</b></font>&lt;b&gt;<font color="#ff6060"><b>|</b></font>
+  <font color="#ffff00"><b>b</b></font> <a href="#bold">bold</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ffff00"><b>p</b></font>  
+<font color="#8080ff"><b>$</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#"></a>
+
+<font color="#00ffff"><b># Error-checking routine</b></font>
+<font color="#ffff00"><b>g</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>&gt;&gt;<font color="#00ff00"><b>\
+</b></font>    +==============================================+<font color="#00ff00"><b>\
+</b></font>    |                                              |<font color="#00ff00"><b>\
+</b></font>    |  ERROR!!                                     |<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>I</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font>    |  Italic was turned ON but never turned OFF!  |<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>B</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font>    |  Bold was turned ON but never turned OFF!    |<font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font>    |                                              |<font color="#00ff00"><b>\
+</b></font>    +==============================================+<font color="#ff6060"><b>/</b></font>
+
+  <font color="#00ffff"><b># If /proc is supported, `w /proc/self/fd/2' writes to stderr</b></font>
+  <font color="#00ffff"><b># For portability, we just use p</b></font>
+  <font color="#ffff00"><b>p</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#00ffff"><b>#----end of script----</b></font>
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/italbold.sed">http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/italbold.sed</a></b></font>
+
+</pre></body></html>

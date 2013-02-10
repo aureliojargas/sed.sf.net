@@ -1,0 +1,186 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized connect4.sed</title></head>
+<body bgcolor="#000000" text="#ffffff"
+      link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b>#!/bin/sed -nf</b></font>
+<font color="#00ffff"><b># Author: Laurent Le Brun &lt;llb [at] fr.fm&gt;</b></font>
+
+<font color="#00ffff"><b># quit command</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^q</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>q</b></font>
+
+<font color="#00ffff"><b># welcome message</b></font>
+<font color="#8080ff"><b>1</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
+</b></font>       Hei !<font color="#00ff00"><b>\
+</b></font><font color="#00ff00"><b>\
+</b></font>Enter a column number [1-7].<font color="#00ff00"><b>\
+</b></font>Type 'q' to exit.
+
+    <font color="#00ffff"><b># load game</b></font>
+
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+</b></font>Player X<font color="#00ff00"><b>\
+</b></font>#-------#<font color="#00ff00"><b>\
+</b></font>#       #<font color="#00ff00"><b>\
+</b></font>#       #<font color="#00ff00"><b>\
+</b></font>#       #<font color="#00ff00"><b>\
+</b></font>#       #<font color="#00ff00"><b>\
+</b></font>#       #<font color="#00ff00"><b>\
+</b></font>#       #<font color="#00ff00"><b>\
+</b></font>#       #<font color="#00ff00"><b>\
+</b></font>#########<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b># wipe trash</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[^1-7]</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r \<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\{12\}\) </b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r \<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\{12\}\) </b></font><font color="#ff6060"><b>/</b></font>r <font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#newt">newt</a>
+    <font color="#ff6060"><b>}</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#full">full</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^2</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r \<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\{13\}\) </b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r \<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\{13\}\) </b></font><font color="#ff6060"><b>/</b></font>r <font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#newt">newt</a>
+    <font color="#ff6060"><b>}</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#full">full</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^3</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r \<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\{14\}\) </b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r \<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\{14\}\) </b></font><font color="#ff6060"><b>/</b></font>r <font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#newt">newt</a>
+    <font color="#ff6060"><b>}</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#full">full</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^4</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r \<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\{15\}\) </b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r \<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\{15\}\) </b></font><font color="#ff6060"><b>/</b></font>r <font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#newt">newt</a>
+    <font color="#ff6060"><b>}</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#full">full</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^5</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r \<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\{16\}\) </b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r \<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\{16\}\) </b></font><font color="#ff6060"><b>/</b></font>r <font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#newt">newt</a>
+    <font color="#ff6060"><b>}</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#full">full</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^6</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r \<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\{17\}\) </b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r \<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\{17\}\) </b></font><font color="#ff6060"><b>/</b></font>r <font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#newt">newt</a>
+    <font color="#ff6060"><b>}</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#full">full</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^7</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r \<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\{18\}\) </b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r \<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\{18\}\) </b></font><font color="#ff6060"><b>/</b></font>r <font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#newt">newt</a>
+    <font color="#ff6060"><b>}</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#full">full</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
+</b></font>  Bad input. Enter a column number [1-7].
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="full">full</a></b></font>
+
+<font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
+</b></font>  Please choose another column.
+<font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="win">win</a></b></font>
+<font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
+</b></font>  Victory !
+<font color="#ffff00"><b>q</b></font>  
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="newt">newt</a></b></font>
+
+<font color="#00ffff"><b># Falling</b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="fall">fall</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>[OX]\)\<font color="#ff00ff"><b>(</b></font>.\{9\}\) </b></font><font color="#ff6060"><b>/</b></font> <font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#fall">fall</a>
+
+<font color="#00ffff"><b># next player</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r X</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r X</b></font><font color="#ff6060"><b>/</b></font>r O<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#up">up</a>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>O</b></font><font color="#ff6060"><b>/</b></font>X<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>1</b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="up">up</a></b></font>
+
+<font color="#00ffff"><b># update game header</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>-\<font color="#ff00ff"><b>(</b></font>.\{9\}[^ ]\)</b></font><font color="#ff6060"><b>/</b></font>!<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#00ffff"><b># victory ?</b></font>
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X\{4\}</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#win">win</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>X.\{9\}\)\{4\}</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#win">win</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>X.\{10\}\)\{4\}</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#win">win</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>X.\{8\}\)\{4\}</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#win">win</a>
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>O\{4\}</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#win">win</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>O.\{9\}\)\{4\}</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#win">win</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>O.\{10\}\)\{4\}</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#win">win</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>O.\{8\}\)\{4\}</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#win">win</a>
+
+<font color="#00ffff"><b># draw game ?</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!\{7\}</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
+</b></font>  Draw game.
+    <font color="#ffff00"><b>q</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
+</b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="end">end</a></b></font>
+
+<font color="#00ffff"><b># update screen</b></font>
+
+<font color="#00ffff"><b># add some sexy colors</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#</b></font><font color="#ff6060"><b>/</b></font>[41;31m<font color="#00ff00"><b>&amp;</b></font>[m<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X</b></font><font color="#ff6060"><b>/</b></font>[33;1m<font color="#00ff00"><b>&amp;</b></font>[m<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>O</b></font><font color="#ff6060"><b>/</b></font>[34;1m<font color="#00ff00"><b>&amp;</b></font>[m<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>-</b></font><font color="#ff6060"><b>/</b></font>[32;32m<font color="#00ff00"><b>&amp;</b></font>[m<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!</b></font><font color="#ff6060"><b>/</b></font>[34;31m<font color="#00ff00"><b>&amp;</b></font>[m<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#ffff00"><b>p</b></font>  
+
+<font color="#00ffff"><b># remove the sexy colors</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[[0-9;]*m</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#ffff00"><b>x</b></font>  
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://laurent.le-brun.eu/pub/connect4.sed">http://laurent.le-brun.eu/pub/connect4.sed</a></b></font>
+
+</pre></body></html>

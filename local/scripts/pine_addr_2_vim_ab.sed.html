@@ -1,0 +1,23 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized pine_addr_2_vim_ab.sed</title></head><body bgcolor="#000000" text="#ffffff"
+link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b># Format .addressbook to vim abbrevations</b></font>
+<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="redo">redo</a></b></font>
+<font color="#00ffff"><b># Define label redo</b></font>
+<font color="#8080ff"><b>$</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>[^	]*\)	[^	]*	\<font color="#ff00ff"><b>(</b></font>[^	]*\).*</b></font><font color="#ff6060"><b>/</b></font>ab mm<font color="#00ff00"><b>\1</b></font> <font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>N</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n   </b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
+  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>[^	]*\)	[^	]*	\<font color="#ff00ff"><b>(</b></font>[^	]*\)[^\n]*\<font color="#ff00ff"><b>(</b></font>\n\)</b></font><font color="#ff6060"><b>/</b></font>ab mm<font color="#00ff00"><b>\1</b></font> <font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font><font color="#ff6060"><b>/</b></font>
+  <font color="#ffff00"><b>P</b></font>
+  <font color="#ffff00"><b>D</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>   *</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>b</b></font> <a href="#redo">redo</a>
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://www.bitterberg.de/tilmann/pine_addr_2_vim_ab.sed">http://www.bitterberg.de/tilmann/pine_addr_2_vim_ab.sed</a></b></font>
+
+</pre></body></html>
