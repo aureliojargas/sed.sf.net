@@ -130,7 +130,7 @@ s|^Sed & Awk, 2nd ed.$|http://shop.oreilly.com/product/9781565922259.do|; t url
 s|^Sed & Awk Pocket Reference$|http://www.ora.com/catalog/sedawkrepr/|; t url
 s|^Unix Awk and Sed Programmer's Interactive Workbook$|http://www.briansbooks.com/catalog/books/0130826758|; t url
 s|^Awk und Sed$|http://www.addison-wesley.de/main/main.asp?page=home/bookdetails&ProductID=37214|; t url
-s|^Mastering Regular Expressions, 2nd ed.$|http://www.oreilly.com/catalog/regex2/|; t url
+s|^Mastering Regular Expressions, 2nd ed.$|http://regex.info/book.html|; t url
 #scripts
 s|^add_decs.sed$|http://sed.sf.net/grabbag/scripts/add_decs.sed|; t url
 s|^anagrams.sed$|http://sed.sf.net/grabbag/scripts/anagrams.sed|; t url
