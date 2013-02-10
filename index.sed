@@ -240,21 +240,21 @@ r      written in C
 
 :mailing
 
-s| @[sed-users (english)|sed-users]@ | sed-users-subscribe@yahoogroups.com           |
-s| @[sed-br (portuguese)|sed-br]@ | sed-br-subscribe@yahoogrupos.com.br           |
+s! @[sed-users (english)|sed-users]@ ! sed-users-subscribe@yahoogroups.com           !
+s! @[sed-br (portuguese)|sed-br]@ ! sed-br-subscribe@yahoogrupos.com.br           !
 
 
 ########################################################################
 
 :sedlovers
 
-s|   Aurelio Jargas    | @[=|Aurelio Jargas]@                       |
-s|     Eric Pement     | @[=|Eric Pement]@ |
-s|   Laurent Le Brun   | @[=|Laurent Le Brun]@                |
-s|    Paolo Bonzini    | @[=|Paolo Bonzini]@                    |
-s| Tilmann Bitterberg  | @[=|Tilmann Bitterberg]@  |
-s|    Yao-Jen Chang    | @[=|Yao-Jen Chang]@      |
-s| Yiorgos Adamopoulos | @[=|Yiorgos Adamopoulos]@ |
+s!   Aurelio Jargas    ! @[=|Aurelio Jargas]@                       !
+s!     Eric Pement     ! @[=|Eric Pement]@ !
+s!   Laurent Le Brun   ! @[=|Laurent Le Brun]@                !
+s!    Paolo Bonzini    ! @[=|Paolo Bonzini]@                    !
+s! Tilmann Bitterberg  ! @[=|Tilmann Bitterberg]@  !
+s!    Yao-Jen Chang    ! @[=|Yao-Jen Chang]@      !
+s! Yiorgos Adamopoulos ! @[=|Yiorgos Adamopoulos]@ !
 
 
 ########################################################################
