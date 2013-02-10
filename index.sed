@@ -82,8 +82,8 @@ r     @[-|Graphical sed (state diagram)]@ by Al Aab
 r         @[-|Sed in (pseudo) microcode]@ by Carlos Jorge G. Duarte
 r          @[-|Proposal of a custom sed]@ by Simon Taylor
 r      @[-|Netscape frame-free with sed]@ by Paul Haeberli
-r       @[-|SED emulating UNIX commands]@ by Aurélio Marinho Jargas
-r         @[-|sed-HOWTO (in portuguese)]@ by Aurélio Marinho Jargas
+r       @[-|SED emulating UNIX commands]@ by Aurelio Marinho Jargas
+r         @[-|sed-HOWTO (in portuguese)]@ by Aurelio Marinho Jargas
 }
 
 ########################################################################
@@ -161,9 +161,9 @@ r               @[indexhtml|indexhtml.sed]@ [nocolor] by Tilmann Bitterberg
 r                @[iso2html|iso2html.sed]@ [@[colored|@local/scripts/iso2html.sed.html]@] by Paolo Bonzini
 r                @[italbold|italbold.sed]@ [@[colored|@local/scripts/italbold.sed.html]@] by Eric Pement
 r                @[joinfile|joinfile.sed]@ [@[colored|@local/scripts/joinfile.sed.html]@] by Paolo Bonzini
-r                 @[justify|justify.sed]@ [@[colored|@local/scripts/justify.sed.html]@] by Aurélio Marinho Jargas
+r                 @[justify|justify.sed]@ [@[colored|@local/scripts/justify.sed.html]@] by Aurelio Marinho Jargas
 r               @[list_urls|list_urls.sed]@ [@[colored|@local/scripts/list_urls.sed.html]@] by Paolo Bonzini
-r            @[mail-iso2txt|mail-iso2txt.sed]@ [@[colored|@local/scripts/mail-iso2txt.sed.html]@] by Aurélio Marinho Jargas
+r            @[mail-iso2txt|mail-iso2txt.sed]@ [@[colored|@local/scripts/mail-iso2txt.sed.html]@] by Aurelio Marinho Jargas
 r                @[maketarg|maketarg.sed]@ [@[colored|@local/scripts/maketarg.sed.html]@] by Carlos Jorge G. Duarte
 r                @[masm2gas|masm2gas.sed]@ [@[colored|@local/scripts/masm2gas.sed.html]@] by Louis J. LaBash Jr.
 r                @[overstrk|overstrk.sed]@ [@[colored|@local/scripts/overstrk.sed.html]@] by ecbyahoo
@@ -192,7 +192,7 @@ r                @[txt2html|txt2html.sed]@ [@[colored|@local/scripts/txt2html.se
 r                @[undblspc|undblspc.sed]@ [@[colored|@local/scripts/undblspc.sed.html]@] by Sed One-liners Document
 r                @[unlambda|unlambda.sed]@ [@[colored|@local/scripts/unlambda.sed.html]@] by Laurent Vogel
 r                 @[untroff|untroff.sed]@ [@[colored|@local/scripts/untroff.sed.html]@] by Paolo Bonzini
-r    @[yahoogroups-kill-sig|yahoogroups-kill-sig.sed]@ [@[colored|@local/scripts/yahoogroups-kill-sig.sed.html]@] by Aurélio Marinho Jargas
+r    @[yahoogroups-kill-sig|yahoogroups-kill-sig.sed]@ [@[colored|@local/scripts/yahoogroups-kill-sig.sed.html]@] by Aurelio Marinho Jargas
 }
 
 ########################################################################
@@ -205,8 +205,8 @@ r        @[-|99 green bottles]@ [@[colored|local/games/99-green-bottles.sed.html
 r             @[-|tic tac toe]@ [@[colored|local/games/tictactoe.sed.html]@] by Graham Bell
 r         @[-|pong (1 player)]@ [@[colored|local/games/pong1player.sed.html]@] by Graham Bell
 r        @[-|pong (2 players)]@ [@[colored|local/games/pong2players.sed.html]@] by Graham Bell
-r                 @[-|sokoban]@ [@[colored|local/games/sokoban.sed.html]@] by Aurélio Marinho Jargas
-r                @[-|arkanoid]@ [@[colored|local/games/arkanoid.sed.html]@] by Aurélio Marinho Jargas
+r                 @[-|sokoban]@ [@[colored|local/games/sokoban.sed.html]@] by Aurelio Marinho Jargas
+r                @[-|arkanoid]@ [@[colored|local/games/arkanoid.sed.html]@] by Aurelio Marinho Jargas
 r         @[-|towers of hanoi]@ [@[colored|local/games/hanoi.sed.html]@] by George Bergman
 r                @[-|connect4]@ [@[colored|local/games/connect4.sed.html]@] by Laurent Le Brun
 r           @[-|my mastermind]@ [@[colored|local/games/sedermind.sed.html]@] by Laurent Le Brun
@@ -224,7 +224,7 @@ r   @[sd - Sed Debugger|sd]@                          by Brian Hiles
 r      written in Bourne Shell
 r   @[sd - Sed Debugger|sdk]@                          by Brian Hiles
 r      written in Korn Shell
-r   @[sedsed - Sed Debugger/Indenter/HTMLizer|sedsed]@    by Aurélio Marinho Jargas
+r   @[sedsed - Sed Debugger/Indenter/HTMLizer|sedsed]@    by Aurelio Marinho Jargas
 r      written in Python
 r   @[sedcheck - POSIX compatibility checker|sedcheck]@     by Laurent Vogel
 r      written in Sed!  [@[colored|local/debug/sedcheck.sed.html]@]
@@ -248,7 +248,7 @@ s| @[sed-br (portuguese)|sed-br]@ | sed-br-subscribe@yahoogrupos.com.br         
 
 :sedlovers
 
-s|  Aurélio M. Jargas  | @[=|Aurelio Jargas]@                       |
+s|  Aurelio M. Jargas  | @[=|Aurelio Jargas]@                       |
 s|     Eric Pement     | @[=|Eric Pement]@ |
 s|   Laurent Le Brun   | @[=|Laurent Le Brun]@                |
 s|    Paolo Bonzini    | @[=|Paolo Bonzini]@                    |
