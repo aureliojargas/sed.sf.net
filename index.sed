@@ -93,13 +93,13 @@ r         @[-|sed-HOWTO (in portuguese)]@ by Aurelio Jargas
 /  sed is also available on paper  /{
 
 r   @[-|Sed & Awk, 2nd ed.]@
-r      by Dougherty, Dale and Robbins, Arnold
+r      by Dale Dougherty and Arnold Robbins
 r      from O'Reilly, ISBN 1-56592-225-5
 r   @[-|Sed & Awk Pocket Reference]@
-r      by Robbins, Arnold
+r      by Arnold Robbins
 r      from O'Reilly, ISBN 1-56592-729-X
 r   @[-|Unix Awk and Sed Programmer's Interactive Workbook]@
-r      by Patsis, Peter
+r      by Peter Patsis
 r      from Prentice Hall Computer Books, ISBN 0130826758
 r   @[-|Awk und Sed]@
 r      by Helumt Herold
