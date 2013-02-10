@@ -16,7 +16,7 @@
        filter text in a pipeline which particularly distinguishes      \
        it from other types of editors.                                 \
                                                                        \
-       See all the links below or browse the @[local mirror|@local]@.             \
+       See all the links below or browse the @[local mirror|@local/]@.             \
                                                                        \
        Please report broken links to: verde (a) aurelio net.           \
 
