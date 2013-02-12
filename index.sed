@@ -125,6 +125,7 @@ r                    @[bf2c|bf2c.sed]@ [@[colored|@local/scripts/bf2c.sed.html]@
 r               @[brainf__k|brainf__k.sed]@ [@[colored|@local/scripts/brainf__k.sed.html]@] by Edward Rosten
 r                 @[bre2ere|bre2ere.sed]@ [@[colored|local/scripts/bre2ere.sed.html]@] by Laurent Vogel
 r                  @[cal.sh|cal.sh.txt]@ [nocolor] by Paolo Bonzini
+r                  @[caesar|caesar.sed]@ [@[colored|@local/scripts/caesar.sed.html]@] by Batalov Sergey
 r             @[cal-year.sh|cal-year.sh.txt]@ [nocolor] by Paolo Bonzini
 r                   @[cat-b|cat-b.sed]@ [@[colored|@local/scripts/cat-b.sed.html]@] by Paolo Bonzini
 r                @[cat-b.sh|cat-b.sh.txt]@ [nocolor] by Sed One-liners Document
