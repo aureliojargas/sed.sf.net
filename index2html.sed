@@ -153,7 +153,7 @@ s|^Definitive Guide to sed$|http://www.sed-book.com/|; t url
 s|^add_decs.sed$|http://sed.sf.net/grabbag/scripts/add_decs.sed|; t url
 s|^anagrams.sed$|http://sed.sf.net/grabbag/scripts/anagrams.sed|; t url
 s|^bf2c.sed$|http://sed.sf.net/grabbag/scripts/bf2c.sed|; t url
-s|^brainf__k.sed$|http://www2.eng.cam.ac.uk/~er258/code/sed/brainf__k.sed|; t url
+s|^brainf__k.sed$|http://www.edwardrosten.com/code/sed/brainf__k.sed|; t url
 s|^bre2ere.sed$|http://sed.sf.net/local/scripts/bre2ere.sed|; t url
 s|^cal.sh.txt$|http://sed.sf.net/grabbag/scripts/cal.sh.txt|; t url
 s|^cal-year.sh.txt$|http://sed.sf.net/grabbag/scripts/cal-year.sh.txt|; t url
