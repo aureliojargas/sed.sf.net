@@ -24,20 +24,21 @@
 # ANTI-FLAME DISCLAIMER:
 #   Well, just as sokoban.sed, this one is cool because it's sed.
 #   It's not funny to play or even exciting, because keep pressing
-#   ENTER to the ball move sucks. But hey, it's cute! &;) 
+#   ENTER to the ball move sucks. But hey, it's cute! &;)
 #
 # For the how-many-lines-it-has? fanatics:
 #   prompt$ sed '/^ *#/d' arkanoid.sed | sed '$=;d'
 #
-# Tip: Use hold mode and hit the paddle twice on the walli
+# Tip: Use hold mode and hit the paddle twice on the wall
 #      to escape cyclic ball movement
 #
-# TODO Get classic arkanoid levels (somebody help me!)
+# TODO Get classic Arkanoid levels (somebody help me!)
 #
-# Changelog:
-# - 2002-07-09 v1.0: Debut release
-# - 2005-05-13 v1.1: Now it's a sedcheck compliant script.
-#                    It will run on most SED's, including oldies
+# CHANGELOG:
+#   2002-07-09 v1.0: Debut release
+#   2005-05-13 v1.1: Now it's a sedcheck compliant script.
+#                    It will run on most SED's, including oldies.
+#   2013-02-12 v1.2: Removed ISO-8859-1 char, now we're plain ASCII.
 
 b zero
 
@@ -255,7 +256,7 @@ x
 
 /q/q
 
-# you cheater! (keep holding enter - hyperspeed)
+# you cheater! (keep holding enter - hyper-speed)
 /#/{
   x
   /#/!s/\(.*\)|/\1#/
@@ -302,10 +303,10 @@ s/\*/o/
 # reset movements
 y/RLUD/rlud/
 
-# holded ball, no move
+# hold ball, no move
 /o.\{20\}~/b end
 
-### LET´S MOVE IT!
+### LET'S MOVE IT!
 
 # reached top: do bounce changing Y-direction
 /_\(.\{20\}\)o/y/u/d/
@@ -348,7 +349,7 @@ b boom
 #   | = | * |   0. free Y-way
 #   |o= | = |   1. explode and change X-direction           (left-up)
 #   +---+---+
-#   
+#
 ### RIGHT-UP Smart clockwise full round explosion!
 #
 #   +---+---+---+---+---+
@@ -375,14 +376,14 @@ b boom
     /Rd $/s/ $/</
     /Lu $/s/ $/</
     y/ud/du/
-  }	
+  }
   /!/{
     /Ld $/s/ $/</
     /Ru $/s/ $/</
     /Rd $/s/ $/>/
     /Lu $/s/ $/>/
     y/RL/LR/
-  }	
+  }
   y/ud/UD/
   b end
 
