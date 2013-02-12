@@ -267,7 +267,7 @@ s! Yiorgos Adamopoulos ! @[=|Yiorgos Adamopoulos]@ !
 #
 # The End.
 #
-# Note 1: This page was completely generated @[by a sed script|sedindex2html]@.
+# Note 1: This page was completely generated @[by a sed script|@index2html.sed.html]@.
 # Note 2: This page is a valid sed script.
 #         You can copy/paste and run it with sed -f.
 #
