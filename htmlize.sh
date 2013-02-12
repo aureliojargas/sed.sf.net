@@ -43,6 +43,9 @@ do
 	input_path="$1"
 	output_path="$input_path".$output_extension
 
+	# Remove the current file name from the to-do list
+	shift
+
 	input_basename=$(echo "$input_path" | sed 's,.*/,, ; s/\.sed$//')
 	url=$(get_script_url "$input_basename")
 
@@ -54,7 +57,4 @@ do
 ### original script: <a href=\"$url\">$url</a>&," > "$output_path"
 
 	echo "Saved $output_path"
-
-	# Remove the current file name from the to-do list
-	shift
 done
