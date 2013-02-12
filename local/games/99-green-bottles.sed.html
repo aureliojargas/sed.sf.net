@@ -1,7 +1,8 @@
 <html>
 <head><meta name="Generator" content="sedsed --htmlize">
-<title>Colorized 99-green-bottles.sed</title></head><body bgcolor="#000000" text="#ffffff"
-link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<title>Colorized 99-green-bottles.sed</title></head>
+<body bgcolor="#000000" text="#ffffff"
+      link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <pre>
 <font color="#00ffff"><b>#n</b></font>
 <font color="#00ffff"><b>#This sed script prints out 99 green bottles with words or numbers</b></font>
@@ -11,24 +12,24 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b>#License: GPL (www.gnu.org)</b></font>
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>numbers</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>99a green bottles hanging on the wall<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#l1">l1</a>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>99a green bottles hanging on the wall<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#l1">l1</a>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>99 green bottles hanging on the wall<font color="#ff6060"><b>/</b></font>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="l1">l1</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="l1">l1</a></b></font>
 <font color="#ffff00"><b>h</b></font>  
 
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font>c<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>b</b></font> <a href="#enum">enum</a>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="eenumc">eenumc</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="eenumc">eenumc</a></b></font>
 
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="begin">begin</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="begin">begin</a></b></font>
 <font color="#ffff00"><b>h</b></font>  
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font>b<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>b</b></font> <a href="#enum">enum</a>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="eenumb">eenumb</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="eenumb">eenumb</a></b></font>
 
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>And if one green bottle should accidently fall<font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>p</b></font>  
@@ -40,9 +41,9 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>x</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>9</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>x</b></font>
-  <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>9876543210</b></font><font color="#ff6060"><b>/</b></font>8765432109<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>x</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>9876543210</b></font><font color="#ff6060"><b>/</b></font>8765432109<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ffff00"><b>x</b></font>  
 <font color="#ffff00"><b>G</b></font>  
@@ -51,7 +52,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#ffff00"><b>h</b></font>  
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font>aThere'll be <font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>b</b></font> <a href="#enum">enum</a>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="eenuma">eenuma</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="eenuma">eenuma</a></b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>p</b></font>  
@@ -62,52 +63,52 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="enum">enum</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="enum">enum</a></b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[0-9][0-9]a</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.*[0-9][0-9]\)a\<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#noenum">noenum</a>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.*[0-9][0-9]\)a\<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#noenum">noenum</a>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[02-9][0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>0[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>0</b></font><font color="#ff6060"><b>/</b></font>!<font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>2[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>2</b></font><font color="#ff6060"><b>/</b></font>twenty <font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>3[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>3</b></font><font color="#ff6060"><b>/</b></font>thirty <font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>4[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>4</b></font><font color="#ff6060"><b>/</b></font>fourty <font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>5[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>5</b></font><font color="#ff6060"><b>/</b></font>fifty <font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>6[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>6</b></font><font color="#ff6060"><b>/</b></font>sixty <font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>7[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>7</b></font><font color="#ff6060"><b>/</b></font>seventy <font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>8[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>8</b></font><font color="#ff6060"><b>/</b></font>eighty <font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>9[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>9</b></font><font color="#ff6060"><b>/</b></font>ninety <font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>0[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>0</b></font><font color="#ff6060"><b>/</b></font>!<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>2[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>2</b></font><font color="#ff6060"><b>/</b></font>twenty <font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>3[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>3</b></font><font color="#ff6060"><b>/</b></font>thirty <font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>4[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>4</b></font><font color="#ff6060"><b>/</b></font>fourty <font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>5[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>5</b></font><font color="#ff6060"><b>/</b></font>fifty <font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>6[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>6</b></font><font color="#ff6060"><b>/</b></font>sixty <font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>7[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>7</b></font><font color="#ff6060"><b>/</b></font>seventy <font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>8[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>8</b></font><font color="#ff6060"><b>/</b></font>eighty <font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>9[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>9</b></font><font color="#ff6060"><b>/</b></font>ninety <font color="#ff6060"><b>/</b></font>
 
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]0</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>0</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>1</b></font><font color="#ff6060"><b>/</b></font>one<font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]2</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>2</b></font><font color="#ff6060"><b>/</b></font>two<font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]3</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>3</b></font><font color="#ff6060"><b>/</b></font>three<font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]4</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>4</b></font><font color="#ff6060"><b>/</b></font>four<font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]5</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>5</b></font><font color="#ff6060"><b>/</b></font>five<font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]6</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>6</b></font><font color="#ff6060"><b>/</b></font>six<font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]7</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>7</b></font><font color="#ff6060"><b>/</b></font>seven<font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]8</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>8</b></font><font color="#ff6060"><b>/</b></font>eight<font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]9</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>9</b></font><font color="#ff6060"><b>/</b></font>nine<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]0</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>0</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>1</b></font><font color="#ff6060"><b>/</b></font>one<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]2</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>2</b></font><font color="#ff6060"><b>/</b></font>two<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]3</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>3</b></font><font color="#ff6060"><b>/</b></font>three<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]4</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>4</b></font><font color="#ff6060"><b>/</b></font>four<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]5</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>5</b></font><font color="#ff6060"><b>/</b></font>five<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]6</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>6</b></font><font color="#ff6060"><b>/</b></font>six<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]7</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>7</b></font><font color="#ff6060"><b>/</b></font>seven<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]8</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>8</b></font><font color="#ff6060"><b>/</b></font>eight<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[! ]9</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>9</b></font><font color="#ff6060"><b>/</b></font>nine<font color="#ff6060"><b>/</b></font>
 
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!one</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>bottles</b></font><font color="#ff6060"><b>/</b></font>bottle<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>! </b></font><font color="#ff6060"><b>/</b></font>no <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!one</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>bottles</b></font><font color="#ff6060"><b>/</b></font>bottle<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>! </b></font><font color="#ff6060"><b>/</b></font>no <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>1[0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>10</b></font><font color="#ff6060"><b>/</b></font>ten<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>11</b></font><font color="#ff6060"><b>/</b></font>eleven<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>12</b></font><font color="#ff6060"><b>/</b></font>twelve<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>13</b></font><font color="#ff6060"><b>/</b></font>thirteen<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>14</b></font><font color="#ff6060"><b>/</b></font>fourteen<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>15</b></font><font color="#ff6060"><b>/</b></font>fifteen<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>16</b></font><font color="#ff6060"><b>/</b></font>sixteen<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>17</b></font><font color="#ff6060"><b>/</b></font>seventeen<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>18</b></font><font color="#ff6060"><b>/</b></font>eighteen<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>19</b></font><font color="#ff6060"><b>/</b></font>nineteen<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>10</b></font><font color="#ff6060"><b>/</b></font>ten<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>11</b></font><font color="#ff6060"><b>/</b></font>eleven<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>12</b></font><font color="#ff6060"><b>/</b></font>twelve<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>13</b></font><font color="#ff6060"><b>/</b></font>thirteen<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>14</b></font><font color="#ff6060"><b>/</b></font>fourteen<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>15</b></font><font color="#ff6060"><b>/</b></font>fifteen<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>16</b></font><font color="#ff6060"><b>/</b></font>sixteen<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>17</b></font><font color="#ff6060"><b>/</b></font>seventeen<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>18</b></font><font color="#ff6060"><b>/</b></font>eighteen<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>19</b></font><font color="#ff6060"><b>/</b></font>nineteen<font color="#ff6060"><b>/</b></font>
 <font color="#ff6060"><b>}</b></font>  
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="noenum">noenum</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="noenum">noenum</a></b></font>
 <font color="#ffff00"><b>G</b></font>  
 <font color="#ffff00"><b>h</b></font>  
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
@@ -125,28 +126,29 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^a</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^a</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>h</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#eenuma">eenuma</a>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^a</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>h</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#eenuma">eenuma</a>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^b</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^b</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>h</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#eenumb">eenumb</a>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^b</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>h</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#eenumb">eenumb</a>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^c</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^c</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>h</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#eenumc">eenumc</a>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^c</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>h</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#eenumc">eenumc</a>
 <font color="#ff6060"><b>}</b></font>  
 
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="end">end</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="end">end</a></b></font>
 
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
-### original script: <a href="http://users.ox.ac.uk/~scat1148/code/programs_best_written_in_another_language/99-green-bottles.sed">http://users.ox.ac.uk/~scat1148/code/programs_best_written_in_another_language/99-green-bottles.sed</a></b></font>
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://www2.eng.cam.ac.uk/~er258/code/sed/99-green-bottles.sed">http://www2.eng.cam.ac.uk/~er258/code/sed/99-green-bottles.sed</a></b></font>
 
 </pre></body></html>

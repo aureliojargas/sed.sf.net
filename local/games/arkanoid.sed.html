@@ -1,6 +1,5 @@
 <html>
 <head><meta name="Generator" content="sedsed --htmlize">
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>Colorized arkanoid.sed</title></head>
 <body bgcolor="#000000" text="#ffffff"
       link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
@@ -31,20 +30,21 @@
 <font color="#00ffff"><b># ANTI-FLAME DISCLAIMER:</b></font>
 <font color="#00ffff"><b>#   Well, just as sokoban.sed, this one is cool because it's sed.</b></font>
 <font color="#00ffff"><b>#   It's not funny to play or even exciting, because keep pressing</b></font>
-<font color="#00ffff"><b>#   ENTER to the ball move sucks. But hey, it's cute! &amp;;) </b></font>
+<font color="#00ffff"><b>#   ENTER to the ball move sucks. But hey, it's cute! &amp;;)</b></font>
 <font color="#00ffff"><b>#</b></font>
 <font color="#00ffff"><b># For the how-many-lines-it-has? fanatics:</b></font>
 <font color="#00ffff"><b>#   prompt$ sed '/^ *#/d' arkanoid.sed | sed '$=;d'</b></font>
 <font color="#00ffff"><b>#</b></font>
-<font color="#00ffff"><b># Tip: Use hold mode and hit the paddle twice on the walli</b></font>
+<font color="#00ffff"><b># Tip: Use hold mode and hit the paddle twice on the wall</b></font>
 <font color="#00ffff"><b>#      to escape cyclic ball movement</b></font>
 <font color="#00ffff"><b>#</b></font>
-<font color="#00ffff"><b># TODO Get classic arkanoid levels (somebody help me!)</b></font>
+<font color="#00ffff"><b># TODO Get classic Arkanoid levels (somebody help me!)</b></font>
 <font color="#00ffff"><b>#</b></font>
-<font color="#00ffff"><b># Changelog:</b></font>
-<font color="#00ffff"><b># - 2002-07-09 v1.0: Debut release</b></font>
-<font color="#00ffff"><b># - 2005-05-13 v1.1: Now it's a sedcheck compliant script.</b></font>
-<font color="#00ffff"><b>#                    It will run on most SED's, including oldies</b></font>
+<font color="#00ffff"><b># CHANGELOG:</b></font>
+<font color="#00ffff"><b>#   2002-07-09 v1.0: Debut release</b></font>
+<font color="#00ffff"><b>#   2005-05-13 v1.1: Now it's a sedcheck compliant script.</b></font>
+<font color="#00ffff"><b>#                    It will run on most SED's, including oldies.</b></font>
+<font color="#00ffff"><b>#   2013-02-12 v1.2: Removed ISO-8859-1 char, now we're plain ASCII.</b></font>
 
 <font color="#ffff00"><b>b</b></font> <a href="#zero">zero</a>
 
@@ -268,7 +268,7 @@
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>q</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>q</b></font>
 
-<font color="#00ffff"><b># you cheater! (keep holding enter - hyperspeed)</b></font>
+<font color="#00ffff"><b># you cheater! (keep holding enter - hyper-speed)</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>x</b></font>
     <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.*\)|</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>#<font color="#ff6060"><b>/</b></font>
@@ -318,10 +318,10 @@
 <font color="#00ffff"><b># reset movements</b></font>
 <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>RLUD</b></font><font color="#ff6060"><b>/</b></font>rlud<font color="#ff6060"><b>/</b></font>
 
-<font color="#00ffff"><b># holded ball, no move</b></font>
+<font color="#00ffff"><b># hold ball, no move</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>o.\{20\}~</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
 
-<font color="#00ffff"><b>### LET´S MOVE IT!</b></font>
+<font color="#00ffff"><b>### LET'S MOVE IT!</b></font>
 
 <font color="#00ffff"><b># reached top: do bounce changing Y-direction</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>.\{20\}\)o</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>u</b></font><font color="#ff6060"><b>/</b></font>d<font color="#ff6060"><b>/</b></font>
@@ -364,7 +364,7 @@
 <font color="#00ffff"><b>#   | = | * |   0. free Y-way</b></font>
 <font color="#00ffff"><b>#   |o= | = |   1. explode and change X-direction           (left-up)</b></font>
 <font color="#00ffff"><b>#   +---+---+</b></font>
-<font color="#00ffff"><b>#   </b></font>
+<font color="#00ffff"><b>#</b></font>
 <font color="#00ffff"><b>### RIGHT-UP Smart clockwise full round explosion!</b></font>
 <font color="#00ffff"><b>#</b></font>
 <font color="#00ffff"><b>#   +---+---+---+---+---+</b></font>
@@ -496,6 +496,7 @@
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>OVER</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>q</b></font>
 <font color="#ffff00"><b>d</b></font>  
 
-<font color="#00ffff"><b>### colorized by <a href="http://aurelio.net/sedsed/">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer</b></font>
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://aurelio.net/bin/sed/arkanoid/arkanoid.sed">http://aurelio.net/bin/sed/arkanoid/arkanoid.sed</a></b></font>
 
 </pre></body></html>

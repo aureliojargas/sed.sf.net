@@ -1,7 +1,8 @@
 <html>
 <head><meta name="Generator" content="sedsed --htmlize">
-<title>Colorized sokoban.sed</title></head><body bgcolor="#000000" text="#ffffff"
-link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<title>Colorized sokoban.sed</title></head>
+<body bgcolor="#000000" text="#ffffff"
+      link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <pre>
 <font color="#00ffff"><b>#!/bin/sed -nf</b></font>
 <font color="#00ffff"><b># sokoban.sed  &lt;http://aurelio.net/sed/sokoban&gt;</b></font>
@@ -69,32 +70,32 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#ffff00"><b>b</b></font> <a href="#zero">zero</a>
 
 <font color="#00ffff"><b># function welcome</b></font>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="welcome">welcome</a></b></font>
-<font color="#ffff00"><b>i</b></font> <font color="#00ff00"><b>\
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="welcome">welcome</a></b></font>
+<font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
 </b></font>       Welcome to the SED Sokoban<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>Please select a level to begin [1-90]:
 <font color="#ffff00"><b>d</b></font>  
 
 <font color="#00ffff"><b># function loadmap</b></font>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="loadmap">loadmap</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="loadmap">loadmap</a></b></font>
 
 <font color="#00ffff"><b># clear screen</b></font>
-<font color="#ffff00"><b>i</b></font> <font color="#00ff00"><b>\
+<font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
 </b></font>[2J
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^0$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 0 (victory test)<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>     %%%%%            <font color="#00ff00"><b>\
 </b></font>     %@o.%            <font color="#00ff00"><b>\
 </b></font>     %%%%%            <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^1$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 1<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>     %%%%%            <font color="#00ff00"><b>\
@@ -109,10 +110,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>     %     %%%%%%%%%  <font color="#00ff00"><b>\
 </b></font>     %%%%%%%          <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^2$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 2<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%         <font color="#00ff00"><b>\
@@ -126,10 +127,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>   %    %     %       <font color="#00ff00"><b>\
 </b></font>   %%%%%%%%%%%%       <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^3$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 3<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>         %%%%%%%%     <font color="#00ff00"><b>\
@@ -143,10 +144,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %....  %%%%%%%%%%    <font color="#00ff00"><b>\
 </b></font> %%%%%%%%             <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^4$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 4<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>            %%%%%%%%  <font color="#00ff00"><b>\
@@ -164,10 +165,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %    %    %%         <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%          <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^5$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 5<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>         %%%%%        <font color="#00ff00"><b>\
@@ -184,10 +185,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>           %    %     <font color="#00ff00"><b>\
 </b></font>           %%%%%%     <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^6$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 6<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%  %%%          <font color="#00ff00"><b>\
@@ -202,10 +203,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>    %  %%   %         <font color="#00ff00"><b>\
 </b></font>    %%%%%%%%%         <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^7$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 7<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>        %%%%%         <font color="#00ff00"><b>\
@@ -221,10 +222,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %  %%% %%%%%         <font color="#00ff00"><b>\
 </b></font> %%%%                 <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^8$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 8<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>   %%%%               <font color="#00ff00"><b>\
@@ -244,10 +245,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>   %......%           <font color="#00ff00"><b>\
 </b></font>   %%%%%%%%           <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^9$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 9<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>           %%%%%%%    <font color="#00ff00"><b>\
@@ -265,10 +266,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>      %      %        <font color="#00ff00"><b>\
 </b></font>      %%%%%%%%        <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^10$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 10<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>  %%%  %%%%%%%%%%%%%  <font color="#00ff00"><b>\
@@ -288,10 +289,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>     %           %.%  <font color="#00ff00"><b>\
 </b></font>     %%%%%%%%%%%%%%%  <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^11$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 11<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>           %%%%       <font color="#00ff00"><b>\
@@ -310,10 +311,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %.....%              <font color="#00ff00"><b>\
 </b></font> %%%%%%%              <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^12$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 12<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%     <font color="#00ff00"><b>\
@@ -330,10 +331,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>         %     %      <font color="#00ff00"><b>\
 </b></font>         %%%%%%%      <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^13$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 13<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>    %%%%%%%%%         <font color="#00ff00"><b>\
@@ -350,10 +351,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>  %  %    %%%%%%%%%%  <font color="#00ff00"><b>\
 </b></font>  %%%%                <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^14$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 14<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>        %%%%%%%       <font color="#00ff00"><b>\
@@ -373,10 +374,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>       %%%%%%%%  %    <font color="#00ff00"><b>\
 </b></font>              %%%%    <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^15$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 15<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>    %%%%%%%%          <font color="#00ff00"><b>\
@@ -396,10 +397,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %%%%%%   %           <font color="#00ff00"><b>\
 </b></font>      %%%%%           <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^16$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 16<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%                <font color="#00ff00"><b>\
@@ -418,10 +419,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>   %  %               <font color="#00ff00"><b>\
 </b></font>   %%%%               <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^17$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 17<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>    %%%%%%%%%%        <font color="#00ff00"><b>\
@@ -439,10 +440,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>    %    %            <font color="#00ff00"><b>\
 </b></font>    %%%%%%            <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^18$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 18<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>      %%%%%%%%%%%     <font color="#00ff00"><b>\
@@ -459,10 +460,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>   %  %%%%%%%%%%%  %  <font color="#00ff00"><b>\
 </b></font>   %%%%         %%%%  <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^19$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 19<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>   %%%%%%             <font color="#00ff00"><b>\
@@ -482,10 +483,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %       %  %% ....%  <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%  <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^20$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 20<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>     %%%%%%%%%%       <font color="#00ff00"><b>\
@@ -505,10 +506,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>    %      %% %%%%%%  <font color="#00ff00"><b>\
 </b></font>    %%%%%%%%          <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^21$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 21<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%            <font color="#00ff00"><b>\
@@ -527,10 +528,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>      %%   %%%%%      <font color="#00ff00"><b>\
 </b></font>       %%%%%          <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^22$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 22<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%     %%%%      <font color="#00ff00"><b>\
@@ -550,10 +551,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %         %       %  <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%  <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^23$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 23<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>     %%%%%%%          <font color="#00ff00"><b>\
@@ -571,10 +572,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %%. %%%%  %%%%%   %  <font color="#00ff00"><b>\
 </b></font>  %%%%  %%%%   %%%%%  <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^24$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 24<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%      <font color="#00ff00"><b>\
@@ -594,10 +595,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>  % @%%  %  %  %      <font color="#00ff00"><b>\
 </b></font>  %%%%%%%%%%%%%%      <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^25$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 25<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%                 <font color="#00ff00"><b>\
@@ -617,10 +618,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %        %    %   %  <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%    %%%%%  <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^26$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 26<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>  %%%%%%%             <font color="#00ff00"><b>\
@@ -636,10 +637,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>       %      %%      <font color="#00ff00"><b>\
 </b></font>       %%%%%%%%       <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^27$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 27<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>  %%%%%%%%%%%%%%%%%   <font color="#00ff00"><b>\
@@ -656,10 +657,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>  %%%%%%%  @ %%       <font color="#00ff00"><b>\
 </b></font>        %%%%%%        <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^28$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 28<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>          %%%%%       <font color="#00ff00"><b>\
@@ -678,10 +679,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>     %%%%%%   %       <font color="#00ff00"><b>\
 </b></font>          %%%%%       <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^29$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 29<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%                <font color="#00ff00"><b>\
@@ -698,10 +699,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %  %   %   %   %  %  <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%  <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^30$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 30<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>        %%%%%%%%%%%   <font color="#00ff00"><b>\
@@ -719,10 +720,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %%%%%   %%%%%%...%%  <font color="#00ff00"><b>\
 </b></font>     %%%%%    %%%%%   <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^31$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 31<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>   %%%%               <font color="#00ff00"><b>\
@@ -742,10 +743,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>    %...%             <font color="#00ff00"><b>\
 </b></font>    %%%%%             <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^32$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 32<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>       %%%%           <font color="#00ff00"><b>\
@@ -764,10 +765,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>       %  %           <font color="#00ff00"><b>\
 </b></font>       %%%%           <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^33$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 33<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>  %%%%%%%%%%%         <font color="#00ff00"><b>\
@@ -786,10 +787,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>  %%..%%    %         <font color="#00ff00"><b>\
 </b></font>   %%%%%%%%%%         <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^34$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 34<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>  %%%%%%%%%           <font color="#00ff00"><b>\
@@ -808,10 +809,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>    %  %%%%%          <font color="#00ff00"><b>\
 </b></font>    %%%%              <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^35$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 35<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%% %%%%%%  <font color="#00ff00"><b>\
@@ -831,10 +832,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>  %    % %    %       <font color="#00ff00"><b>\
 </b></font>  %%%%%% %%%%%%       <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^36$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 36<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>             %%%%%    <font color="#00ff00"><b>\
@@ -854,10 +855,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>     %.........%      <font color="#00ff00"><b>\
 </b></font>     %%%%%%%%%%%      <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^37$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 37<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%          <font color="#00ff00"><b>\
@@ -876,10 +877,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>     %%%%%@%%%%%      <font color="#00ff00"><b>\
 </b></font>         %%%          <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^38$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 38<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>       %%%%           <font color="#00ff00"><b>\
@@ -894,10 +895,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>  %  %%%%%%%          <font color="#00ff00"><b>\
 </b></font>  %%%%                <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^39$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 39<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>              %%%%%%  <font color="#00ff00"><b>\
@@ -917,10 +918,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %%%%%%   %%%         <font color="#00ff00"><b>\
 </b></font>      %%%%%           <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^40$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 40<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>     %%%%%%%%%%%%     <font color="#00ff00"><b>\
@@ -940,10 +941,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %....   %            <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%            <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^41$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 41<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>            %%%%%     <font color="#00ff00"><b>\
@@ -962,10 +963,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>              %%  %%  <font color="#00ff00"><b>\
 </b></font>               %%%%   <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^42$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 42<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>      %%%%%%%%        <font color="#00ff00"><b>\
@@ -982,10 +983,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>   %%%%%%   %%%%%%    <font color="#00ff00"><b>\
 </b></font>        %%%%%         <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^43$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 43<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>         %%%%%%%      <font color="#00ff00"><b>\
@@ -1000,10 +1001,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %%%%%%%% %%   %   %  <font color="#00ff00"><b>\
 </b></font>           %%%%%%%%%  <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^44$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 44<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>  %%%%%               <font color="#00ff00"><b>\
@@ -1022,10 +1023,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>           %       %  <font color="#00ff00"><b>\
 </b></font>           %%%%%%%%%  <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^45$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 45<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%% %%%%           <font color="#00ff00"><b>\
@@ -1043,10 +1044,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> % %%    %%%%         <font color="#00ff00"><b>\
 </b></font> %%%                  <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^46$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 46<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%           <font color="#00ff00"><b>\
@@ -1066,10 +1067,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>   %.......%          <font color="#00ff00"><b>\
 </b></font>   %%%%%%%%%          <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^47$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 47<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>          %%%%        <font color="#00ff00"><b>\
@@ -1084,10 +1085,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>   %  %%%%%%%         <font color="#00ff00"><b>\
 </b></font>   %%%%               <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^48$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 48<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>   %%%%%%%%%          <font color="#00ff00"><b>\
@@ -1107,10 +1108,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>  %  %%%%%  %         <font color="#00ff00"><b>\
 </b></font>  %%%%   %%%%         <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^49$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 49<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>        %%%%          <font color="#00ff00"><b>\
@@ -1129,10 +1130,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>        %  %%   %     <font color="#00ff00"><b>\
 </b></font>        %%%%%%%%%     <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^50$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 50<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>       %%%%%%%%%%%%   <font color="#00ff00"><b>\
@@ -1152,10 +1153,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>   %  %      %    %%  <font color="#00ff00"><b>\
 </b></font>   %%%%      %%%%%%   <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^51$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 51<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>  %%%%%%%%%           <font color="#00ff00"><b>\
@@ -1171,10 +1172,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %..% %     %%%       <font color="#00ff00"><b>\
 </b></font> %%%% %%%%%%%         <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^52$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 52<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>            %%%%%%%%  <font color="#00ff00"><b>\
@@ -1195,10 +1196,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>  %  %%%%%%%%%%%      <font color="#00ff00"><b>\
 </b></font>  %%%%                <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^53$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 53<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%   <font color="#00ff00"><b>\
@@ -1214,10 +1215,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>  %%.%              % <font color="#00ff00"><b>\
 </b></font>   %%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^54$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 54<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1233,10 +1234,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %   %    %   %     % <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^55$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 55<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1252,10 +1253,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %%%%         % %  %% <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^56$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 56<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1271,10 +1272,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %      % %    %%%%%% <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^57$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 57<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1290,10 +1291,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %%%%%  %  %  %  %  % <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^58$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 58<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1309,10 +1310,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %    %     %  %   @% <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^59$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 59<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1328,10 +1329,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %%%%% %    %  %   %% <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^60$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 60<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1347,10 +1348,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %%       %%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^61$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 61<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1366,10 +1367,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %  %  %%    %%  %  % <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^62$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 62<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1385,10 +1386,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %...%%%        %%  % <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^63$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 63<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1404,10 +1405,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %     @%     %   % % <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^64$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 64<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1423,10 +1424,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %%%%%%%%  %  %     % <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^65$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 65<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1442,10 +1443,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %     %    %  %    % <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^66$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 66<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1461,10 +1462,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %  %    %    %  %  % <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^67$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 67<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1480,10 +1481,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %%%    %    %    %%% <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^68$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 68<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1499,10 +1500,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %.....%%        %  % <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^69$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 69<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1518,10 +1519,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %    %    %@       % <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^70$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 70<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1537,10 +1538,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %            %.....% <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^71$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 71<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1556,10 +1557,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %%%%   %       %   % <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^72$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 72<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1575,10 +1576,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %%       %%   %  %%% <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^73$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 73<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1594,10 +1595,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %   %  %     %.....% <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^74$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 74<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1613,10 +1614,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> % %  %    @%      %% <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^75$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 75<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1632,10 +1633,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %   %   %        % % <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^76$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 76<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1651,10 +1652,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %   %%   %  %      % <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^77$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 77<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1673,10 +1674,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>        %  %% %%%%%%  <font color="#00ff00"><b>\
 </b></font>        %%%%%%%       <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^78$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 78<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>        %%%%%%%%%%%   <font color="#00ff00"><b>\
@@ -1692,10 +1693,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %....%      %     %  <font color="#00ff00"><b>\
 </b></font> %%%%%%      %%%%%%%  <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^79$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 79<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%        <font color="#00ff00"><b>\
@@ -1711,10 +1712,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>   %%%@%%%%%%%%%%%%%  <font color="#00ff00"><b>\
 </b></font>     %%%              <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^80$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 80<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>   %%%%%%%%%%%%%%%%%  <font color="#00ff00"><b>\
@@ -1731,10 +1732,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %    %    %          <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%          <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^81$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 81<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>               %%%%%  <font color="#00ff00"><b>\
@@ -1751,10 +1752,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %%%%%%%%%%%@%%       <font color="#00ff00"><b>\
 </b></font>           %%%        <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^82$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 82<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>     %%%%%%           <font color="#00ff00"><b>\
@@ -1771,10 +1772,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>  %    %  %           <font color="#00ff00"><b>\
 </b></font>  %%%%%%%%%           <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^83$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 83<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%% %%%%%%%%%    <font color="#00ff00"><b>\
@@ -1791,10 +1792,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>   %..    %  %   %    <font color="#00ff00"><b>\
 </b></font>   %%%%%%%%  %%%%%    <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^84$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 84<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%              <font color="#00ff00"><b>\
@@ -1810,10 +1811,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %     %%@%  ...%     <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%     <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^85$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 85<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%         <font color="#00ff00"><b>\
@@ -1833,10 +1834,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %   %     %       %% <font color="#00ff00"><b>\
 </b></font> %%%%%     %%%%%%%%%% <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^86$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 86<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%     <font color="#00ff00"><b>\
@@ -1850,10 +1851,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %    % %%%%          <font color="#00ff00"><b>\
 </b></font> %%%%%%               <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^87$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 87<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>     %%%%%            <font color="#00ff00"><b>\
@@ -1871,10 +1872,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %         %....%     <font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%     <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^88$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 88<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%        <font color="#00ff00"><b>\
@@ -1894,10 +1895,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>  %  %    %           <font color="#00ff00"><b>\
 </b></font>  %%%%%%%%%           <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^89$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 89<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font>  %%%%%%%%%%%%%%%%%%  <font color="#00ff00"><b>\
@@ -1918,10 +1919,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font>        %%%  %        <font color="#00ff00"><b>\
 </b></font>          %%%%        <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^90$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\
 </b></font>SED Sokoban - LEVEL 90<font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
@@ -1942,14 +1943,14 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 </b></font> %%%%%%%%%%%%%%%%%%%% <font color="#00ff00"><b>\
 </b></font>                      <font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#endmap">endmap</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>SED Soko</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>there is no '<font color="#00ff00"><b>&amp;</b></font>' level!<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>p</b></font>
-  <font color="#ffff00"><b>q</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>there is no '<font color="#00ff00"><b>&amp;</b></font>' level!<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>p</b></font>
+    <font color="#ffff00"><b>q</b></font>
 <font color="#ff6060"><b>}</b></font>  
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="endmap">endmap</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="endmap">endmap</a></b></font>
 <font color="#00ffff"><b># back to line 1 col 1</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>[H<font color="#ff6060"><b>/</b></font>
 <font color="#00ffff"><b># show available commands</b></font>
@@ -1959,7 +1960,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#ffff00"><b>b</b></font> <a href="#ini">ini</a>
 
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="zero">zero</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="zero">zero</a></b></font>
 
 <font color="#00ffff"><b># welcome message</b></font>
 <font color="#8080ff"><b>1</b></font> <font color="#ffff00"><b>b</b></font> <a href="#welcome">welcome</a>
@@ -1969,10 +1970,10 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#00ffff"><b># supporting arrow keys also</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b></b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[A</b></font><font color="#ff6060"><b>/</b></font>k<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[B</b></font><font color="#ff6060"><b>/</b></font>j<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[C</b></font><font color="#ff6060"><b>/</b></font>l<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[D</b></font><font color="#ff6060"><b>/</b></font>h<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[A</b></font><font color="#ff6060"><b>/</b></font>k<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[B</b></font><font color="#ff6060"><b>/</b></font>j<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[C</b></font><font color="#ff6060"><b>/</b></font>l<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\[D</b></font><font color="#ff6060"><b>/</b></font>h<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#00ffff"><b># command aliases</b></font>
@@ -1986,48 +1987,48 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#00ffff"><b># commands!</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^:</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#00ffff"><b># quit</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^:q</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>q</b></font>
+    <font color="#00ffff"><b># quit</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^:q</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>q</b></font>
 
-  <font color="#00ffff"><b># refresh screen</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^:z</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>[2J<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>p</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>:p [refresh]<font color="#ff6060"><b>/</b></font>
-    <font color="#ffff00"><b>b</b></font> <a href="#ini">ini</a>
-  <font color="#ff6060"><b>}</b></font>
-  <font color="#00ffff"><b># goto level N (optional g)</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^:g\{0,1\}\<font color="#ff00ff"><b>(</b></font>[0-9]\{1,\}\)$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-    <font color="#ffff00"><b>h</b></font>
-    <font color="#ffff00"><b>x</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>:p [goto level <font color="#00ff00"><b>&amp;</b></font>]<font color="#ff6060"><b>/</b></font>
-    <font color="#ffff00"><b>x</b></font>
-    <font color="#ffff00"><b>b</b></font> <a href="#loadmap">loadmap</a>
-  <font color="#ff6060"><b>}</b></font>
-  <font color="#00ffff"><b># restarting level</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^:r</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>:p [restart]<font color="#ff6060"><b>/</b></font>
-    <font color="#ffff00"><b>x</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*LEVEL \<font color="#ff00ff"><b>(</b></font>[0-9]\{1,\}\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-    <font color="#ffff00"><b>b</b></font> <a href="#loadmap">loadmap</a>
-  <font color="#ff6060"><b>}</b></font>
+    <font color="#00ffff"><b># refresh screen</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^:z</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>[2J<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>p</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>:p [refresh]<font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#ini">ini</a>
+    <font color="#ff6060"><b>}</b></font>
+    <font color="#00ffff"><b># goto level N (optional g)</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^:g\{0,1\}\<font color="#ff00ff"><b>(</b></font>[0-9]\{1,\}\)$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>h</b></font>
+        <font color="#ffff00"><b>x</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>:p [goto level <font color="#00ff00"><b>&amp;</b></font>]<font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>x</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#loadmap">loadmap</a>
+    <font color="#ff6060"><b>}</b></font>
+    <font color="#00ffff"><b># restarting level</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^:r</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>:p [restart]<font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>x</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*LEVEL \<font color="#ff00ff"><b>(</b></font>[0-9]\{1,\}\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#loadmap">loadmap</a>
+    <font color="#ff6060"><b>}</b></font>
 <font color="#ff6060"><b>}</b></font>  
 
 
 <font color="#00ffff"><b># here the party begins</b></font>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="ini">ini</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="ini">ini</a></b></font>
 
 <font color="#00ffff"><b># print message (XXX bad idea)</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^:p </b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#00ffff"><b>#s//last command: /; s/$/       /p;</b></font>
-  <font color="#00ffff"><b>#s/last .*// </b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b>#s//last command: /; s/$/       /p;</b></font>
+    <font color="#00ffff"><b>#s/last .*// </b></font>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#00ffff"><b># empty command, jump to end</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>x</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#x">x</a>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#x">x</a>
 <font color="#ff6060"><b>}</b></font>  
 
 
@@ -2035,55 +2036,55 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^h</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
 
-  <font color="#00ffff"><b># del current move and save others</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>x</b></font>
+    <font color="#00ffff"><b># del current move and save others</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
 
-  <font color="#00ffff"><b># reset 't' status</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#zeroleft">zeroleft</a>
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="zeroleft">zeroleft</a></b></font>
+    <font color="#00ffff"><b># reset 't' status</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#zeroleft">zeroleft</a>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="zeroleft">zeroleft</a></b></font>
 
-  <font color="#00ffff"><b># clear path</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> @</b></font><font color="#ff6060"><b>/</b></font>@ <font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># push load</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> o@</b></font><font color="#ff6060"><b>/</b></font>o@ <font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># clear path</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> @</b></font><font color="#ff6060"><b>/</b></font>@ <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># push load</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> o@</b></font><font color="#ff6060"><b>/</b></font>o@ <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
 
-  <font color="#00ffff"><b># enter overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.@</b></font><font color="#ff6060"><b>/</b></font>! <font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># continue overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.!</b></font><font color="#ff6060"><b>/</b></font>!.<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> !</b></font><font color="#ff6060"><b>/</b></font>@.<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># enter overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.@</b></font><font color="#ff6060"><b>/</b></font>! <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># continue overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.!</b></font><font color="#ff6060"><b>/</b></font>!.<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> !</b></font><font color="#ff6060"><b>/</b></font>@.<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
 
-  <font color="#00ffff"><b># enter load overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.o@</b></font><font color="#ff6060"><b>/</b></font>O@ <font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># enter overdot with load</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.O@</b></font><font color="#ff6060"><b>/</b></font>O! <font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># continue overdot with load</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.O!</b></font><font color="#ff6060"><b>/</b></font>O!.<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out load overdot / enter overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> O@</b></font><font color="#ff6060"><b>/</b></font>o! <font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out load overdot / continue overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> O!</b></font><font color="#ff6060"><b>/</b></font>o!.<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out overdot with load</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> o!</b></font><font color="#ff6060"><b>/</b></font>o@.<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out overdot with load / enter overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.o!</b></font><font color="#ff6060"><b>/</b></font>O@.<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># enter load overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.o@</b></font><font color="#ff6060"><b>/</b></font>O@ <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># enter overdot with load</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.O@</b></font><font color="#ff6060"><b>/</b></font>O! <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># continue overdot with load</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.O!</b></font><font color="#ff6060"><b>/</b></font>O!.<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out load overdot / enter overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> O@</b></font><font color="#ff6060"><b>/</b></font>o! <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out load overdot / continue overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> O!</b></font><font color="#ff6060"><b>/</b></font>o!.<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out overdot with load</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> o!</b></font><font color="#ff6060"><b>/</b></font>o@.<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out overdot with load / enter overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.o!</b></font><font color="#ff6060"><b>/</b></font>O@.<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
 
-  <font color="#00ffff"><b># can't pass</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># can't pass</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#x">x</a>
 
 <font color="#ff6060"><b>}</b></font>  
 
@@ -2092,55 +2093,55 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^l</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
 
-  <font color="#00ffff"><b># del current move and save others</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>x</b></font>
+    <font color="#00ffff"><b># del current move and save others</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
 
-  <font color="#00ffff"><b># reset 't' status</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#zerorght">zerorght</a>
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="zerorght">zerorght</a></b></font>
+    <font color="#00ffff"><b># reset 't' status</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#zerorght">zerorght</a>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="zerorght">zerorght</a></b></font>
 
-  <font color="#00ffff"><b># clear path</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@ </b></font><font color="#ff6060"><b>/</b></font> @<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># push load</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@o </b></font><font color="#ff6060"><b>/</b></font> @o<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># clear path</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@ </b></font><font color="#ff6060"><b>/</b></font> @<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># push load</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@o </b></font><font color="#ff6060"><b>/</b></font> @o<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
 
-  <font color="#00ffff"><b># enter overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@\.</b></font><font color="#ff6060"><b>/</b></font> !<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># continue overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!\.</b></font><font color="#ff6060"><b>/</b></font>.!<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>! </b></font><font color="#ff6060"><b>/</b></font>.@<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># enter overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@\.</b></font><font color="#ff6060"><b>/</b></font> !<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># continue overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!\.</b></font><font color="#ff6060"><b>/</b></font>.!<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>! </b></font><font color="#ff6060"><b>/</b></font>.@<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
 
-  <font color="#00ffff"><b># enter load overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@o\.</b></font><font color="#ff6060"><b>/</b></font> @O<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># enter overdot with load</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@O\.</b></font><font color="#ff6060"><b>/</b></font> !O<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># continue overdot with load</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!O\.</b></font><font color="#ff6060"><b>/</b></font>.!O<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out load overdot / enter overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@O </b></font><font color="#ff6060"><b>/</b></font> !o<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out load overdot / continue overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!O </b></font><font color="#ff6060"><b>/</b></font>.!o<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out overdot with load</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!o </b></font><font color="#ff6060"><b>/</b></font>.@o<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out overdot with load / enter overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!o\.</b></font><font color="#ff6060"><b>/</b></font>.@O<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># enter load overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@o\.</b></font><font color="#ff6060"><b>/</b></font> @O<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># enter overdot with load</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@O\.</b></font><font color="#ff6060"><b>/</b></font> !O<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># continue overdot with load</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!O\.</b></font><font color="#ff6060"><b>/</b></font>.!O<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out load overdot / enter overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@O </b></font><font color="#ff6060"><b>/</b></font> !o<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out load overdot / continue overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!O </b></font><font color="#ff6060"><b>/</b></font>.!o<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out overdot with load</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!o </b></font><font color="#ff6060"><b>/</b></font>.@o<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out overdot with load / enter overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!o\.</b></font><font color="#ff6060"><b>/</b></font>.@O<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
 
-  <font color="#00ffff"><b># can't pass</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># can't pass</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#x">x</a>
 <font color="#ff6060"><b>}</b></font>  
 
 
@@ -2148,55 +2149,55 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^j</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
 
-  <font color="#00ffff"><b># del current move and save others</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>x</b></font>
+    <font color="#00ffff"><b># del current move and save others</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
 
-  <font color="#00ffff"><b># reset 't' status</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#zerodown">zerodown</a>
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="zerodown">zerodown</a></b></font>
+    <font color="#00ffff"><b># reset 't' status</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#zerodown">zerodown</a>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="zerodown">zerodown</a></b></font>
 
-  <font color="#00ffff"><b># clear path</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@\<font color="#ff00ff"><b>(</b></font>.\{22\}\) </b></font><font color="#ff6060"><b>/</b></font> <font color="#00ff00"><b>\1</b></font>@<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># push load</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@\<font color="#ff00ff"><b>(</b></font>.\{22\}\)o\<font color="#ff00ff"><b>(</b></font>.\{22\}\) </b></font><font color="#ff6060"><b>/</b></font> <font color="#00ff00"><b>\1</b></font>@<font color="#00ff00"><b>\2</b></font>o<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># clear path</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@\<font color="#ff00ff"><b>(</b></font>.\{22\}\) </b></font><font color="#ff6060"><b>/</b></font> <font color="#00ff00"><b>\1</b></font>@<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># push load</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@\<font color="#ff00ff"><b>(</b></font>.\{22\}\)o\<font color="#ff00ff"><b>(</b></font>.\{22\}\) </b></font><font color="#ff6060"><b>/</b></font> <font color="#00ff00"><b>\1</b></font>@<font color="#00ff00"><b>\2</b></font>o<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
 
-  <font color="#00ffff"><b># enter overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@\<font color="#ff00ff"><b>(</b></font>.\{22\}\)\.</b></font><font color="#ff6060"><b>/</b></font> <font color="#00ff00"><b>\1</b></font>!<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># continue overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!\<font color="#ff00ff"><b>(</b></font>.\{22\}\)\.</b></font><font color="#ff6060"><b>/</b></font>.<font color="#00ff00"><b>\1</b></font>!<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!\<font color="#ff00ff"><b>(</b></font>.\{22\}\) </b></font><font color="#ff6060"><b>/</b></font>.<font color="#00ff00"><b>\1</b></font>@<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># enter overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@\<font color="#ff00ff"><b>(</b></font>.\{22\}\)\.</b></font><font color="#ff6060"><b>/</b></font> <font color="#00ff00"><b>\1</b></font>!<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># continue overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!\<font color="#ff00ff"><b>(</b></font>.\{22\}\)\.</b></font><font color="#ff6060"><b>/</b></font>.<font color="#00ff00"><b>\1</b></font>!<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!\<font color="#ff00ff"><b>(</b></font>.\{22\}\) </b></font><font color="#ff6060"><b>/</b></font>.<font color="#00ff00"><b>\1</b></font>@<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
 
-  <font color="#00ffff"><b># enter load overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@\<font color="#ff00ff"><b>(</b></font>.\{22\}\)o\<font color="#ff00ff"><b>(</b></font>.\{22\}\)\.</b></font><font color="#ff6060"><b>/</b></font> <font color="#00ff00"><b>\1</b></font>@<font color="#00ff00"><b>\2</b></font>O<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># enter overdot with load</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@\<font color="#ff00ff"><b>(</b></font>.\{22\}\)O\<font color="#ff00ff"><b>(</b></font>.\{22\}\)\.</b></font><font color="#ff6060"><b>/</b></font> <font color="#00ff00"><b>\1</b></font>!<font color="#00ff00"><b>\2</b></font>O<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># continue overdot with load</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!\<font color="#ff00ff"><b>(</b></font>.\{22\}\)O\<font color="#ff00ff"><b>(</b></font>.\{22\}\)\.</b></font><font color="#ff6060"><b>/</b></font>.<font color="#00ff00"><b>\1</b></font>!<font color="#00ff00"><b>\2</b></font>O<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out load overdot / enter overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@\<font color="#ff00ff"><b>(</b></font>.\{22\}\)O\<font color="#ff00ff"><b>(</b></font>.\{22\}\) </b></font><font color="#ff6060"><b>/</b></font> <font color="#00ff00"><b>\1</b></font>!<font color="#00ff00"><b>\2</b></font>o<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out load overdot / continue overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!\<font color="#ff00ff"><b>(</b></font>.\{22\}\)O\<font color="#ff00ff"><b>(</b></font>.\{22\}\) </b></font><font color="#ff6060"><b>/</b></font>.<font color="#00ff00"><b>\1</b></font>!<font color="#00ff00"><b>\2</b></font>o<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out overdot with load</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!\<font color="#ff00ff"><b>(</b></font>.\{22\}\)o\<font color="#ff00ff"><b>(</b></font>.\{22\}\) </b></font><font color="#ff6060"><b>/</b></font>.<font color="#00ff00"><b>\1</b></font>@<font color="#00ff00"><b>\2</b></font>o<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out overdot with load / enter overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!\<font color="#ff00ff"><b>(</b></font>.\{22\}\)o\<font color="#ff00ff"><b>(</b></font>.\{22\}\)\.</b></font><font color="#ff6060"><b>/</b></font>.<font color="#00ff00"><b>\1</b></font>@<font color="#00ff00"><b>\2</b></font>O<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># enter load overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@\<font color="#ff00ff"><b>(</b></font>.\{22\}\)o\<font color="#ff00ff"><b>(</b></font>.\{22\}\)\.</b></font><font color="#ff6060"><b>/</b></font> <font color="#00ff00"><b>\1</b></font>@<font color="#00ff00"><b>\2</b></font>O<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># enter overdot with load</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@\<font color="#ff00ff"><b>(</b></font>.\{22\}\)O\<font color="#ff00ff"><b>(</b></font>.\{22\}\)\.</b></font><font color="#ff6060"><b>/</b></font> <font color="#00ff00"><b>\1</b></font>!<font color="#00ff00"><b>\2</b></font>O<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># continue overdot with load</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!\<font color="#ff00ff"><b>(</b></font>.\{22\}\)O\<font color="#ff00ff"><b>(</b></font>.\{22\}\)\.</b></font><font color="#ff6060"><b>/</b></font>.<font color="#00ff00"><b>\1</b></font>!<font color="#00ff00"><b>\2</b></font>O<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out load overdot / enter overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@\<font color="#ff00ff"><b>(</b></font>.\{22\}\)O\<font color="#ff00ff"><b>(</b></font>.\{22\}\) </b></font><font color="#ff6060"><b>/</b></font> <font color="#00ff00"><b>\1</b></font>!<font color="#00ff00"><b>\2</b></font>o<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out load overdot / continue overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!\<font color="#ff00ff"><b>(</b></font>.\{22\}\)O\<font color="#ff00ff"><b>(</b></font>.\{22\}\) </b></font><font color="#ff6060"><b>/</b></font>.<font color="#00ff00"><b>\1</b></font>!<font color="#00ff00"><b>\2</b></font>o<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out overdot with load</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!\<font color="#ff00ff"><b>(</b></font>.\{22\}\)o\<font color="#ff00ff"><b>(</b></font>.\{22\}\) </b></font><font color="#ff6060"><b>/</b></font>.<font color="#00ff00"><b>\1</b></font>@<font color="#00ff00"><b>\2</b></font>o<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out overdot with load / enter overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!\<font color="#ff00ff"><b>(</b></font>.\{22\}\)o\<font color="#ff00ff"><b>(</b></font>.\{22\}\)\.</b></font><font color="#ff6060"><b>/</b></font>.<font color="#00ff00"><b>\1</b></font>@<font color="#00ff00"><b>\2</b></font>O<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
 
-  <font color="#00ffff"><b># target not free</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># target not free</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#x">x</a>
 <font color="#ff6060"><b>}</b></font>  
 
 
@@ -2204,55 +2205,55 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^k</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
 
-  <font color="#00ffff"><b># del current move and save others</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>x</b></font>
+    <font color="#00ffff"><b># del current move and save others</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
 
-  <font color="#00ffff"><b># reset 't' status</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#zeroup">zeroup</a>
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="zeroup">zeroup</a></b></font>
+    <font color="#00ffff"><b># reset 't' status</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#zeroup">zeroup</a>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="zeroup">zeroup</a></b></font>
 
-  <font color="#00ffff"><b># clear path</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> \<font color="#ff00ff"><b>(</b></font>.\{22\}\)@</b></font><font color="#ff6060"><b>/</b></font>@<font color="#00ff00"><b>\1</b></font> <font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># push load</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> \<font color="#ff00ff"><b>(</b></font>.\{22\}\)o\<font color="#ff00ff"><b>(</b></font>.\{22\}\)@</b></font><font color="#ff6060"><b>/</b></font>o<font color="#00ff00"><b>\1</b></font>@<font color="#00ff00"><b>\2</b></font> <font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># clear path</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> \<font color="#ff00ff"><b>(</b></font>.\{22\}\)@</b></font><font color="#ff6060"><b>/</b></font>@<font color="#00ff00"><b>\1</b></font> <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># push load</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> \<font color="#ff00ff"><b>(</b></font>.\{22\}\)o\<font color="#ff00ff"><b>(</b></font>.\{22\}\)@</b></font><font color="#ff6060"><b>/</b></font>o<font color="#00ff00"><b>\1</b></font>@<font color="#00ff00"><b>\2</b></font> <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
 
-  <font color="#00ffff"><b># enter overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.\<font color="#ff00ff"><b>(</b></font>.\{22\}\)@</b></font><font color="#ff6060"><b>/</b></font>!<font color="#00ff00"><b>\1</b></font> <font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># continue overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.\<font color="#ff00ff"><b>(</b></font>.\{22\}\)!</b></font><font color="#ff6060"><b>/</b></font>!<font color="#00ff00"><b>\1</b></font>.<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> \<font color="#ff00ff"><b>(</b></font>.\{22\}\)!</b></font><font color="#ff6060"><b>/</b></font>@<font color="#00ff00"><b>\1</b></font>.<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># enter overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.\<font color="#ff00ff"><b>(</b></font>.\{22\}\)@</b></font><font color="#ff6060"><b>/</b></font>!<font color="#00ff00"><b>\1</b></font> <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># continue overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.\<font color="#ff00ff"><b>(</b></font>.\{22\}\)!</b></font><font color="#ff6060"><b>/</b></font>!<font color="#00ff00"><b>\1</b></font>.<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> \<font color="#ff00ff"><b>(</b></font>.\{22\}\)!</b></font><font color="#ff6060"><b>/</b></font>@<font color="#00ff00"><b>\1</b></font>.<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
 
-  <font color="#00ffff"><b># enter load overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.\<font color="#ff00ff"><b>(</b></font>.\{22\}\)o\<font color="#ff00ff"><b>(</b></font>.\{22\}\)@</b></font><font color="#ff6060"><b>/</b></font>O<font color="#00ff00"><b>\1</b></font>@<font color="#00ff00"><b>\2</b></font> <font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># enter overdot with load</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.\<font color="#ff00ff"><b>(</b></font>.\{22\}\)O\<font color="#ff00ff"><b>(</b></font>.\{22\}\)@</b></font><font color="#ff6060"><b>/</b></font>O<font color="#00ff00"><b>\1</b></font>!<font color="#00ff00"><b>\2</b></font> <font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># continue overdot with load</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.\<font color="#ff00ff"><b>(</b></font>.\{22\}\)O\<font color="#ff00ff"><b>(</b></font>.\{22\}\)!</b></font><font color="#ff6060"><b>/</b></font>O<font color="#00ff00"><b>\1</b></font>!<font color="#00ff00"><b>\2</b></font>.<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out load overdot / enter overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> \<font color="#ff00ff"><b>(</b></font>.\{22\}\)O\<font color="#ff00ff"><b>(</b></font>.\{22\}\)@</b></font><font color="#ff6060"><b>/</b></font>o<font color="#00ff00"><b>\1</b></font>!<font color="#00ff00"><b>\2</b></font> <font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out load overdot / continue overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> \<font color="#ff00ff"><b>(</b></font>.\{22\}\)O\<font color="#ff00ff"><b>(</b></font>.\{22\}\)!</b></font><font color="#ff6060"><b>/</b></font>o<font color="#00ff00"><b>\1</b></font>!<font color="#00ff00"><b>\2</b></font>.<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out overdot with load</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> \<font color="#ff00ff"><b>(</b></font>.\{22\}\)o\<font color="#ff00ff"><b>(</b></font>.\{22\}\)!</b></font><font color="#ff6060"><b>/</b></font>o<font color="#00ff00"><b>\1</b></font>@<font color="#00ff00"><b>\2</b></font>.<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
-  <font color="#00ffff"><b># out overdot with load / enter overdot</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.\<font color="#ff00ff"><b>(</b></font>.\{22\}\)o\<font color="#ff00ff"><b>(</b></font>.\{22\}\)!</b></font><font color="#ff6060"><b>/</b></font>O<font color="#00ff00"><b>\1</b></font>@<font color="#00ff00"><b>\2</b></font>.<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># enter load overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.\<font color="#ff00ff"><b>(</b></font>.\{22\}\)o\<font color="#ff00ff"><b>(</b></font>.\{22\}\)@</b></font><font color="#ff6060"><b>/</b></font>O<font color="#00ff00"><b>\1</b></font>@<font color="#00ff00"><b>\2</b></font> <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># enter overdot with load</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.\<font color="#ff00ff"><b>(</b></font>.\{22\}\)O\<font color="#ff00ff"><b>(</b></font>.\{22\}\)@</b></font><font color="#ff6060"><b>/</b></font>O<font color="#00ff00"><b>\1</b></font>!<font color="#00ff00"><b>\2</b></font> <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># continue overdot with load</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.\<font color="#ff00ff"><b>(</b></font>.\{22\}\)O\<font color="#ff00ff"><b>(</b></font>.\{22\}\)!</b></font><font color="#ff6060"><b>/</b></font>O<font color="#00ff00"><b>\1</b></font>!<font color="#00ff00"><b>\2</b></font>.<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out load overdot / enter overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> \<font color="#ff00ff"><b>(</b></font>.\{22\}\)O\<font color="#ff00ff"><b>(</b></font>.\{22\}\)@</b></font><font color="#ff6060"><b>/</b></font>o<font color="#00ff00"><b>\1</b></font>!<font color="#00ff00"><b>\2</b></font> <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out load overdot / continue overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> \<font color="#ff00ff"><b>(</b></font>.\{22\}\)O\<font color="#ff00ff"><b>(</b></font>.\{22\}\)!</b></font><font color="#ff6060"><b>/</b></font>o<font color="#00ff00"><b>\1</b></font>!<font color="#00ff00"><b>\2</b></font>.<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out overdot with load</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> \<font color="#ff00ff"><b>(</b></font>.\{22\}\)o\<font color="#ff00ff"><b>(</b></font>.\{22\}\)!</b></font><font color="#ff6060"><b>/</b></font>o<font color="#00ff00"><b>\1</b></font>@<font color="#00ff00"><b>\2</b></font>.<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># out overdot with load / enter overdot</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.\<font color="#ff00ff"><b>(</b></font>.\{22\}\)o\<font color="#ff00ff"><b>(</b></font>.\{22\}\)!</b></font><font color="#ff6060"><b>/</b></font>O<font color="#00ff00"><b>\1</b></font>@<font color="#00ff00"><b>\2</b></font>.<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#x">x</a>
 
-  <font color="#00ffff"><b># target not free</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#x">x</a>
+    <font color="#00ffff"><b># target not free</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#x">x</a>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#00ffff"><b># wrong command, do nothing</b></font>
@@ -2261,7 +2262,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 
 <font color="#00ffff"><b># ----------------[ THE END ]-----------------</b></font>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="x">x</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="x">x</a></b></font>
 
 <font color="#00ffff"><b># adding color codes</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>%</b></font><font color="#ff6060"><b>/</b></font>[46;36m<font color="#00ff00"><b>&amp;</b></font>[m<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
@@ -2281,15 +2282,15 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#00ffff"><b># no more messy boxes ('o'), level finished!</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>%%%.*o.*%%%</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>[37;01m(( [31mV[32mI[33mC[34mT<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>[31mO[32mR[33mY[34m![37m ))[m<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>                                                   <font color="#ff6060"><b>/</b></font>
-  <font color="#00ffff"><b># uncomment here if you DON'T want color or sound on victory</b></font>
-  <font color="#00ffff"><b># s///g ; s/\[[0-9;]*m//g</b></font>
-  <font color="#ffff00"><b>p</b></font>
-  <font color="#ffff00"><b>i</b></font> <font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>[37;01m(( [31mV[32mI[33mC[34mT<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>[31mO[32mR[33mY[34m![37m ))[m<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>                                                   <font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># uncomment here if you DON'T want color or sound on victory</b></font>
+    <font color="#00ffff"><b># s///g ; s/\[[0-9;]*m//g</b></font>
+    <font color="#ffff00"><b>p</b></font>
+    <font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
 </b></font>  You're a master of this level. Try the next!
-  <font color="#ffff00"><b>q</b></font>
+    <font color="#ffff00"><b>q</b></font>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#00ffff"><b># save current position on hold space</b></font>
@@ -2300,12 +2301,13 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#00ffff"><b># nice loop for accumulated moves</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>p</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#ini">ini</a>
+    <font color="#ffff00"><b>p</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#ini">ini</a>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#00ffff"><b># The End ;(</b></font>
 
-<font color="#00ffff"><b>### colorized by <a href="http://aurelio.net/sedsed/">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer</b></font>
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://aurelio.net/sed/sokoban/sokoban.sed">http://aurelio.net/sed/sokoban/sokoban.sed</a></b></font>
 
 </pre></body></html>
