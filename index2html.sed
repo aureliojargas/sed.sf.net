@@ -229,7 +229,7 @@ s|^unlambda.sed$|ftp://quatramaran.ens.fr/pub/madore/unlambda/contrib/unlambda.s
 s|^untroff.sed$|http://sed.sf.net/grabbag/scripts/untroff.sed|; t url
 s|^yahoogroups-kill-sig.sed$|http://aurelio.net/sed/programas/yahoogroups-kill-sig.sed|; t url
 #games
-s|^99 green bottles$|http://www2.eng.cam.ac.uk/~er258/code/sed/99-green-bottles.sed|; t url
+s|^99 green bottles$|http://www.edwardrosten.com/code/sed/99-green-bottles.sed|; t url
 s|^tic tac toe$|http://www-jcsu.jesus.cam.ac.uk/~gsb29/sedgames.html|; t url
 s|^pong (1 player)$|http://www-jcsu.jesus.cam.ac.uk/~gsb29/sedgames.html|; t url
 s|^pong (2 players)$|http://www-jcsu.jesus.cam.ac.uk/~gsb29/sedgames.html|; t url
