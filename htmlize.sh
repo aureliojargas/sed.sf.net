@@ -6,11 +6,21 @@
 #
 # Usage: ./htmlize.sh path/to/script.sed
 
-# TODO local/games/sedermind.sed: ERROR: invalid SED command 'Q' at line 84 (unsupported by sedsed)
 
 url_database="index2html.sed"
 output_extension="html"
 
+unsupported="
+local/games/sedermind.sed: invalid SED command 'Q' at line 84 (unsupported by sedsed)
+local/scripts/html2iso.sed: sed: RE error: illegal byte sequence
+local/scripts/html_lc.sed: sed: RE error: illegal byte sequence
+local/scripts/html_uc.sed: sed: RE error: illegal byte sequence
+local/scripts/indexhtml.sed: can't handle \n as delimiter (unsupported by sedsed)
+local/scripts/iso2html.sed: sed: RE error: illegal byte sequence
+local/scripts/justify.sed: sed: RE error: illegal byte sequence
+local/scripts/sodelnum.sed: sed: RE error: illegal byte sequence
+local/scripts/untroff.sed: sed: RE error: illegal byte sequence
+"
 
 get_script_url() {
 	local label="$1"
@@ -46,9 +56,16 @@ do
 	# Remove the current file name from the to-do list
 	shift
 
+	# Get the script URL
 	input_basename=$(echo "$input_path" | sed 's,.*/,, ; s/\.sed$//')
 	url=$(get_script_url "$input_basename")
 
+	# Skip this script if it's unsupported
+	if echo "$unsupported" | grep "^$input_path:" >/dev/null
+	then
+		printf -- "----- %-44s %s\n" "$input_basename" "[SKIPPED]"
+		continue
+	fi
 
 	# Convert to HTML and add original URL to the footer
 	sedsed --htmlize -f "$input_path" |
