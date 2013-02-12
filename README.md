@@ -18,7 +18,7 @@ To update the index.html file:
 
 To update the HTML version of the generator script:
 
-    sedsed --htmlize -f index2html.sed > index2html.sed.html
+    ./htmlize.sh index2html.sed
 
 
 

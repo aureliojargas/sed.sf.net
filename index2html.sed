@@ -263,8 +263,9 @@ s|^Paolo Bonzini$|http://sed.sf.net/grabbag/|; t url
 s|^Felix von Leitner$|http://www.math.fu-berlin.de/~leitner/sed/|; t url
 s|^Yiorgos Adamopoulos$|http://www.dbnet.ece.ntua.gr/~george/sed/OLD/|; t url
 s|^Yao-Jen Chang$|http://main.rtfiber.com.tw/~changyj/sed/|; t url
-#end
-s|^sedindex2html$|http://sed.sf.net/index2html.sed.html|; t url
+#other
+s|^index2html$|http://sed.sf.net/index2html.sed|; t url
 s|^github$|https://github.com/aureliojargas/sed-website|; t url
+#end
 
 b url
