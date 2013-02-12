@@ -49,12 +49,11 @@ do
 	input_basename=$(echo "$input_path" | sed 's,.*/,, ; s/\.sed$//')
 	url=$(get_script_url "$input_basename")
 
-	printf "*** $input_basename\t$url\n"
 
 	# Convert to HTML and add original URL to the footer
 	sedsed --htmlize -f "$input_path" |
 		sed "/>### colorized by/ s,</b>,\\
 ### original script: <a href=\"$url\">$url</a>&," > "$output_path"
 
-	echo "Saved $output_path"
+	printf "Saved %-44s %s\n" "$output_path" "$url"
 done
