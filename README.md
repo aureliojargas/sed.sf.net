@@ -20,6 +20,17 @@ To update the HTML version of the generator script:
 
     ./htmlize.sh index2html.sed
 
+To update the HTML version of some local script:
+
+    ./htmlize.sh local/scripts/foo.sed
+
+To include a new script in the repository:
+
+1. Add the text line to `index.sed`, mentioning the script and the author
+2. Add the script original URL to `index2html.sed`
+3. Add the original script file to the `local/scripts` (or `local/games`) folder
+4. Convert the original script to HTML using `htmlize.sh`
+5. Update `index.html` and `index2html.sed.html` files (see instructions above)
 
 
 [index.sed]:      https://github.com/aureliojargas/sed-website/blob/master/index.sed
