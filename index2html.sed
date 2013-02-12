@@ -235,7 +235,7 @@ s|^tic tac toe$|http://www-jcsu.jesus.cam.ac.uk/~gsb29/sedgames.html|; t url
 s|^pong (1 player)$|http://www-jcsu.jesus.cam.ac.uk/~gsb29/sedgames.html|; t url
 s|^pong (2 players)$|http://www-jcsu.jesus.cam.ac.uk/~gsb29/sedgames.html|; t url
 s|^sokoban$|http://aurelio.net/sed/sokoban/sokoban.sed|; t url
-s|^arkanoid$|http://aurelio.net/bin/sed/arkanoid/arkanoid.sed|; t url
+s|^arkanoid$|https://github.com/aureliojargas/sed-scripts/blob/master/arkanoid.sed|; t url
 s|^towers of hanoi$|http://sed.sf.net/grabbag/tutorials/hanoi.htm|; t url
 s|^my mastermind$|http://laurent.le-brun.eu/pub/sedermind.sed|; t url
 s|^puzzle$|http://laurent.le-brun.eu/pub/puzzle.sed|; t url
