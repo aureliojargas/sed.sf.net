@@ -1,5 +1,5 @@
 #!/bin/sed -f
-# justify.sed - aurélio marinho jargas <verde (a) aurelio net>
+# justify.sed - Aurelio Jargas <verde (a) aurelio net>
 #
 # it  gets  a text already wrapped on the desired number of columns
 # and  add  extra  white  spaces, from left to right, word by word,

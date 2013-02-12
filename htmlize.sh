@@ -17,7 +17,6 @@ local/scripts/html_lc.sed: sed: RE error: illegal byte sequence
 local/scripts/html_uc.sed: sed: RE error: illegal byte sequence
 local/scripts/indexhtml.sed: can't handle \n as delimiter (unsupported by sedsed)
 local/scripts/iso2html.sed: sed: RE error: illegal byte sequence
-local/scripts/justify.sed: sed: RE error: illegal byte sequence
 local/scripts/sodelnum.sed: sed: RE error: illegal byte sequence
 local/scripts/untroff.sed: sed: RE error: illegal byte sequence
 "
