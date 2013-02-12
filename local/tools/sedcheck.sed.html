@@ -1,7 +1,8 @@
 <html>
 <head><meta name="Generator" content="sedsed --htmlize">
-<title>Colorized sedcheck.sed</title></head><body bgcolor="#000000" text="#ffffff"
-link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<title>Colorized sedcheck.sed</title></head>
+<body bgcolor="#000000" text="#ffffff"
+      link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <pre>
 <font color="#00ffff"><b># sedcheck.sed - detects various POSIX compatibility issues in sed scripts</b></font>
 <font color="#00ffff"><b># </b></font>
@@ -24,7 +25,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#ffff00"><b>G</b></font>  
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.*\)\n\<font color="#ff00ff"><b>(</b></font>[^~]*~\).*</b></font><font color="#ff6060"><b>/</b></font>_<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="loop">loop</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="loop">loop</a></b></font>
 
 <font color="#00ffff"><b># outside commands: _~ = at top level, _{{~ inside two nested groups</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_{*~\)\<font color="#ff00ff"><b>(</b></font>[ 	][ 	]*\)</b></font><font color="#ff6060"><b>/</b></font>&lt;trailing 'blank's should be avoided&gt;<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
@@ -141,7 +142,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_c\<font color="#ff00ff"><b>(</b></font>[^~]*~\)y\<font color="#ff00ff"><b>(</b></font>'*[^']\)</b></font><font color="#ff6060"><b>/</b></font>y<font color="#00ff00"><b>\2</b></font>_y<font color="#00ff00"><b>\2</b></font>y<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 
 <font color="#00ffff"><b># s right hand side and both sides of y</b></font>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="sy">sy</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="sy">sy</a></b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_[sy]\/[^~]*~\)\<font color="#ff00ff"><b>(</b></font>[^\/][^\/]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[sy]\<font color="#ff00ff"><b>(</b></font>'*[^']\)\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>[sy][^~]*~\)\<font color="#ff00ff"><b>(</b></font>[^\]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>_?<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
@@ -188,71 +189,71 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b># expression. </b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rB]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
 
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="reloop">reloop</a></b></font>
-  <font color="#00ffff"><b># shortcut, when the delimiter is "/"</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>\/[^~]*~\)\<font color="#ff00ff"><b>(</b></font>[^\/*$[][^\/*$[]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>_r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>'*[^']\)\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="reloop">reloop</a></b></font>
+    <font color="#00ffff"><b># shortcut, when the delimiter is "/"</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>\/[^~]*~\)\<font color="#ff00ff"><b>(</b></font>[^\/*$[][^\/*$[]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>_r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>'*[^']\)\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
 
-  <font color="#00ffff"><b># \x</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>\<font color="#ff00ff"><b>(</b></font>[n.(){1-9^$*[]\)[^~]*~\)\\\2</b></font><font color="#ff6060"><b>/</b></font>&lt;"\\<font color="#00ff00"><b>\2</b></font>" ambiguous with "<font color="#00ff00"><b>\2</b></font>" as <font color="#00ff00"><b>\
+    <font color="#00ffff"><b># \x</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>\<font color="#ff00ff"><b>(</b></font>[n.(){1-9^$*[]\)[^~]*~\)\\\2</b></font><font color="#ff6060"><b>/</b></font>&lt;"\\<font color="#00ff00"><b>\2</b></font>" ambiguous with "<font color="#00ff00"><b>\2</b></font>" as <font color="#00ff00"><b>\
 </b></font>delimiter&gt;_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>\<font color="#ff00ff"><b>(</b></font>'*[^']\)[^~]*~\)\\\2</b></font><font color="#ff6060"><b>/</b></font>\\<font color="#00ff00"><b>\2</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\[^n.\*^$(){1-9?+[]\)</b></font><font color="#ff6060"><b>/</b></font>&lt;"<font color="#00ff00"><b>\2</b></font>" undefined&gt;<font color="#00ff00"><b>\2</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\\?</b></font><font color="#ff6060"><b>/</b></font>&lt;"\\?" undefined (use "\\{0,1\\}" instead)&gt;\\?_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\\+</b></font><font color="#ff6060"><b>/</b></font>&lt;"\\+" undefined (use "\\{1,\\}" instead)&gt;\\+_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\[n.\*^$1-9)[]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\\<font color="#ff00ff"><b>(</b></font>\^</b></font><font color="#ff6060"><b>/</b></font>\\(&lt;subexpression anchoring is optional (use <font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>\<font color="#ff00ff"><b>(</b></font>'*[^']\)[^~]*~\)\\\2</b></font><font color="#ff6060"><b>/</b></font>\\<font color="#00ff00"><b>\2</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\[^n.\*^$(){1-9?+[]\)</b></font><font color="#ff6060"><b>/</b></font>&lt;"<font color="#00ff00"><b>\2</b></font>" undefined&gt;<font color="#00ff00"><b>\2</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\\?</b></font><font color="#ff6060"><b>/</b></font>&lt;"\\?" undefined (use "\\{0,1\\}" instead)&gt;\\?_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\\+</b></font><font color="#ff6060"><b>/</b></font>&lt;"\\+" undefined (use "\\{1,\\}" instead)&gt;\\+_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\[n.\*^$1-9)[]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\\<font color="#ff00ff"><b>(</b></font>\^</b></font><font color="#ff6060"><b>/</b></font>\\(&lt;subexpression anchoring is optional (use <font color="#00ff00"><b>\
 </b></font>"\\^" instead)&gt;^_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\\<font color="#ff00ff"><b>(</b></font>\*</b></font><font color="#ff6060"><b>/</b></font>\\(*_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\\<font color="#ff00ff"><b>(</b></font></b></font><font color="#ff6060"><b>/</b></font>\\(_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\\<font color="#ff00ff"><b>(</b></font>\*</b></font><font color="#ff6060"><b>/</b></font>\\(*_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\\<font color="#ff00ff"><b>(</b></font></b></font><font color="#ff6060"><b>/</b></font>\\(_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 
-  <font color="#00ffff"><b># \{...\}</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\{\)\<font color="#ff00ff"><b>(</b></font>[^0-9]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&lt;bad interval&gt;<font color="#00ff00"><b>\3</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\{[0-9][0-9]*\)\<font color="#ff00ff"><b>(</b></font>[^\,0-9]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&lt;bad interval&gt;<font color="#00ff00"><b>\3</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\{[0-9][0-9]*\)\<font color="#ff00ff"><b>(</b></font>\\[^}]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&lt;bad interval&gt;<font color="#00ff00"><b>\3</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\{[0-9][0-9]*,\)\<font color="#ff00ff"><b>(</b></font>[^\0-9]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&lt;bad interval&gt;<font color="#00ff00"><b>\3</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\{[0-9][0-9]*,[0-9][0-9]*\)\<font color="#ff00ff"><b>(</b></font>[^\0-9]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&lt;bad <font color="#00ff00"><b>\
+    <font color="#00ffff"><b># \{...\}</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\{\)\<font color="#ff00ff"><b>(</b></font>[^0-9]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&lt;bad interval&gt;<font color="#00ff00"><b>\3</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\{[0-9][0-9]*\)\<font color="#ff00ff"><b>(</b></font>[^\,0-9]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&lt;bad interval&gt;<font color="#00ff00"><b>\3</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\{[0-9][0-9]*\)\<font color="#ff00ff"><b>(</b></font>\\[^}]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&lt;bad interval&gt;<font color="#00ff00"><b>\3</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\{[0-9][0-9]*,\)\<font color="#ff00ff"><b>(</b></font>[^\0-9]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&lt;bad interval&gt;<font color="#00ff00"><b>\3</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\{[0-9][0-9]*,[0-9][0-9]*\)\<font color="#ff00ff"><b>(</b></font>[^\0-9]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&lt;bad <font color="#00ff00"><b>\
 </b></font>interval&gt;<font color="#00ff00"><b>\3</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\{[0-9][0-9]*,[0-9][0-9]*\)\<font color="#ff00ff"><b>(</b></font>\\[^}]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&lt;bad <font color="#00ff00"><b>\
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\{[0-9][0-9]*,[0-9][0-9]*\)\<font color="#ff00ff"><b>(</b></font>\\[^}]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&lt;bad <font color="#00ff00"><b>\
 </b></font>interval&gt;<font color="#00ff00"><b>\3</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_R\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\{[^}]*}\)</b></font><font color="#ff6060"><b>/</b></font>&lt;multiple "*" or intervals&gt;<font color="#00ff00"><b>\2</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_r\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\{[^}]*}\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>_?R<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_R\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\{[^}]*}\)</b></font><font color="#ff6060"><b>/</b></font>&lt;multiple "*" or intervals&gt;<font color="#00ff00"><b>\2</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_r\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\\{[^}]*}\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>_?R<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 
-  <font color="#00ffff"><b># entering a bracket expression</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\[^^]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>_B<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\[^]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>_B<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\[^\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>_B<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\[\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>_B<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># entering a bracket expression</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\[^^]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>_B<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\[^]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>_B<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\[^\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>_B<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\[\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>_B<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 
-  <font color="#00ffff"><b># bracket expression</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_B[^~]*~\)\<font color="#ff00ff"><b>(</b></font>[^]\[][^]\[]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_B[^~]*~\)\\n</b></font><font color="#ff6060"><b>/</b></font>&lt;"\\n" ambiguous (use "n\\" instead)&gt;\\n<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_B[^~]*~\)\\\<font color="#ff00ff"><b>(</b></font>[^n]\)</b></font><font color="#ff6060"><b>/</b></font>\\<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>B[^~]*~\)\\$</b></font><font color="#ff6060"><b>/</b></font>&lt;"\\'newline'" not allowed&gt;\\_\\<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_B[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\[[.=:].[^]]*]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_B[^~]*~\)\[\<font color="#ff00ff"><b>(</b></font>[^.=:]\)</b></font><font color="#ff6060"><b>/</b></font>[<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_B\<font color="#ff00ff"><b>(</b></font>[^~]*~\)]</b></font><font color="#ff6060"><b>/</b></font>]_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># bracket expression</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_B[^~]*~\)\<font color="#ff00ff"><b>(</b></font>[^]\[][^]\[]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_B[^~]*~\)\\n</b></font><font color="#ff6060"><b>/</b></font>&lt;"\\n" ambiguous (use "n\\" instead)&gt;\\n<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_B[^~]*~\)\\\<font color="#ff00ff"><b>(</b></font>[^n]\)</b></font><font color="#ff6060"><b>/</b></font>\\<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>B[^~]*~\)\\$</b></font><font color="#ff6060"><b>/</b></font>&lt;"\\'newline'" not allowed&gt;\\_\\<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_B[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\[[.=:].[^]]*]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_B[^~]*~\)\[\<font color="#ff00ff"><b>(</b></font>[^.=:]\)</b></font><font color="#ff6060"><b>/</b></font>[<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_B\<font color="#ff00ff"><b>(</b></font>[^~]*~\)]</b></font><font color="#ff6060"><b>/</b></font>]_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 
-  <font color="#00ffff"><b># *</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_R\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\*</b></font><font color="#ff6060"><b>/</b></font>&lt;multiple "*" or intervals&gt;*_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_r\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\*</b></font><font color="#ff6060"><b>/</b></font>*_?R<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># *</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_R\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\*</b></font><font color="#ff6060"><b>/</b></font>&lt;multiple "*" or intervals&gt;*_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_r\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\*</b></font><font color="#ff6060"><b>/</b></font>*_?R<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 
-  <font color="#00ffff"><b># $</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\$\\)\)</b></font><font color="#ff6060"><b>/</b></font>&lt;subexpression anchoring is optional (use <font color="#00ff00"><b>\
+    <font color="#00ffff"><b># $</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>\$\\)\)</b></font><font color="#ff6060"><b>/</b></font>&lt;subexpression anchoring is optional (use <font color="#00ff00"><b>\
 </b></font>"\\$" instead)&gt;<font color="#00ff00"><b>\2</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\$</b></font><font color="#ff6060"><b>/</b></font>$_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\$</b></font><font color="#ff6060"><b>/</b></font>$_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 
-  <font color="#00ffff"><b># \&lt;newline&gt;</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]'z\<font color="#ff00ff"><b>(</b></font>[^~]*~\)$</b></font><font color="#ff6060"><b>/</b></font>_\\<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rRB][^{~]*\<font color="#ff00ff"><b>(</b></font>{*~\)$</b></font><font color="#ff6060"><b>/</b></font>&lt;missing delimiter&gt;_<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\\$</b></font><font color="#ff6060"><b>/</b></font>&lt;"\\'newline'" not allowed (use "\\n" <font color="#00ff00"><b>\
+    <font color="#00ffff"><b># \&lt;newline&gt;</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]'z\<font color="#ff00ff"><b>(</b></font>[^~]*~\)$</b></font><font color="#ff6060"><b>/</b></font>_\\<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rRB][^{~]*\<font color="#ff00ff"><b>(</b></font>{*~\)$</b></font><font color="#ff6060"><b>/</b></font>&lt;missing delimiter&gt;_<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\\$</b></font><font color="#ff6060"><b>/</b></font>&lt;"\\'newline'" not allowed (use "\\n" <font color="#00ff00"><b>\
 </b></font>instead)&gt;\\_\\r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 
-  <font color="#00ffff"><b># any other character</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># any other character</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rR]\<font color="#ff00ff"><b>(</b></font>[^~]*~\)\<font color="#ff00ff"><b>(</b></font>.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>_?r<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_?</b></font><font color="#ff6060"><b>/</b></font>_<font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rRB]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>t</b></font> <a href="#reloop">reloop</a>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_?</b></font><font color="#ff6060"><b>/</b></font>_<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[rRB]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>t</b></font> <a href="#reloop">reloop</a>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#00ffff"><b># force re-cycle</b></font>
@@ -271,7 +272,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#ffff00"><b>h</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&lt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#noerror">noerror</a>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="error">error</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="error">error</a></b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[^~]*~\<font color="#ff00ff"><b>(</b></font>[0-9]*\)[^&lt;]*&lt;\<font color="#ff00ff"><b>(</b></font>[^&gt;]*\).*</b></font><font color="#ff6060"><b>/</b></font>line <font color="#00ff00"><b>\1</b></font>: <font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>'\<font color="#ff00ff"><b>(</b></font>[^']*\)'</b></font><font color="#ff6060"><b>/</b></font>&lt;<font color="#00ff00"><b>\1</b></font>&gt;<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 <font color="#ffff00"><b>p</b></font>  
@@ -284,7 +285,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#ffff00"><b>g</b></font>  
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*\n</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>[^&lt;]*\)&lt;.*</b></font><font color="#ff6060"><b>/</b></font>&gt;<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="tospace">tospace</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="tospace">tospace</a></b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;'*[^	]</b></font><font color="#ff6060"><b>/</b></font> &gt;<font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;\<font color="#ff00ff"><b>(</b></font>		*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>&gt;<font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;$</b></font><font color="#ff6060"><b>/</b></font>^<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>p</b></font>
@@ -296,7 +297,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#ffff00"><b>h</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&lt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#error">error</a>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="noerror">noerror</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="noerror">noerror</a></b></font>
 <font color="#00ffff"><b># remove the line from the future hold buffer</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n.*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>h</b></font>  
@@ -305,12 +306,15 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#00ffff"><b># if the issue count is not null, report it.</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[^~]*~[^,]*,\<font color="#ff00ff"><b>(</b></font>[1-9][0-9]*\).*</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font> issues reported.<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>1 issue\)s</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>q</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font> issues reported.<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>1 issue\)s</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>q</b></font>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ffff00"><b>d</b></font>  
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer</b></font>
+
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://lvogel.free.fr/sed/sedcheck.sed">http://lvogel.free.fr/sed/sedcheck.sed</a></b></font>
 
 </pre></body></html>
