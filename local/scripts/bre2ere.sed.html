@@ -1,7 +1,8 @@
 <html>
 <head><meta name="Generator" content="sedsed --htmlize">
-<title>Colorized bre2ere.sed</title></head><body bgcolor="#000000" text="#ffffff"
-link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<title>Colorized bre2ere.sed</title></head>
+<body bgcolor="#000000" text="#ffffff"
+      link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <pre>
 <font color="#00ffff"><b># bre2ere.sed - convert BRE to ERE sed</b></font>
 <font color="#00ffff"><b>#</b></font>
@@ -18,7 +19,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>[  ]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
 <font color="#00ffff"><b># look for optional addresses before the command</b></font>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="addr">addr</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="addr">addr</a></b></font>
 <font color="#00ffff"><b># a 's' in the hold buffer indicates that the RE was part of a subst</b></font>
 <font color="#00ffff"><b># command. Since we're looking for addresses, clear the hold buffer.</b></font>
 <font color="#ffff00"><b>x</b></font>  
@@ -29,41 +30,41 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#00ffff"><b># handle /re/ as if it was \/re/ (i.e. special case of \xrex)</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\/</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>\/_\/<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#rebeg">rebeg</a>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>\/_\/<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#rebeg">rebeg</a>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#00ffff"><b># handle \xrex</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\\'*.</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#00ffff"><b># we will carry the delimiter after the _</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\\\<font color="#ff00ff"><b>(</b></font>'*.\)</b></font><font color="#ff6060"><b>/</b></font>\\<font color="#00ff00"><b>\1</b></font>_<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="rebeg">rebeg</a></b></font>
-  <font color="#00ffff"><b># first case: ^ as first position</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)^</b></font><font color="#ff6060"><b>/</b></font>^<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="reloop">reloop</a></b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#reend">reend</a>
-  <font color="#00ffff"><b># skip one ordinary char</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[^'/[\<font color="#ff00ff"><b>(</b></font>){}+?|^]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#00ffff"><b># ( -&gt; \(</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[(){}?+|^]\)</b></font><font color="#ff6060"><b>/</b></font>\\<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#00ffff"><b># \( -&gt; (</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\\\<font color="#ff00ff"><b>(</b></font>[(){}]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#00ffff"><b># $ -&gt; \$ except if last</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)$\1</b></font><font color="#ff6060"><b>/</b></font>$_<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\$</b></font><font color="#ff6060"><b>/</b></font>\\$<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#00ffff"><b># skip any other \x</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[\']'*[^(){}]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#00ffff"><b># skip bracket expression</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>\[\^'*.[^]]*]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>\['*.[^]]*]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#00ffff"><b># loop</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#reloop">reloop</a>
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="reend">reend</a></b></font>
-  <font color="#00ffff"><b># if an s is in the hold buf, go back to s</b></font>
-  <font color="#ffff00"><b>x</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>s</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#subst">subst</a>
-  <font color="#ffff00"><b>x</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># we will carry the delimiter after the _</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\\\<font color="#ff00ff"><b>(</b></font>'*.\)</b></font><font color="#ff6060"><b>/</b></font>\\<font color="#00ff00"><b>\1</b></font>_<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="rebeg">rebeg</a></b></font>
+    <font color="#00ffff"><b># first case: ^ as first position</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)^</b></font><font color="#ff6060"><b>/</b></font>^<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="reloop">reloop</a></b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#reend">reend</a>
+    <font color="#00ffff"><b># skip one ordinary char</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[^'/[\<font color="#ff00ff"><b>(</b></font>){}+?|^]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># ( -&gt; \(</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[(){}?+|^]\)</b></font><font color="#ff6060"><b>/</b></font>\\<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># \( -&gt; (</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\\\<font color="#ff00ff"><b>(</b></font>[(){}]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># $ -&gt; \$ except if last</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)$\1</b></font><font color="#ff6060"><b>/</b></font>$_<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\$</b></font><font color="#ff6060"><b>/</b></font>\\$<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># skip any other \x</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[\']'*[^(){}]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># skip bracket expression</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>\[\^'*.[^]]*]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>\['*.[^]]*]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># loop</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#reloop">reloop</a>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="reend">reend</a></b></font>
+    <font color="#00ffff"><b># if an s is in the hold buf, go back to s</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>s</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#subst">subst</a>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#00ffff"><b># skip white space and any !</b></font>
@@ -74,52 +75,52 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#00ffff"><b># we now reach the command char</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_s'*.</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_s\<font color="#ff00ff"><b>(</b></font>'*.\)</b></font><font color="#ff6060"><b>/</b></font>s<font color="#00ff00"><b>\1</b></font>_<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>x</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>s<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>x</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#rebeg">rebeg</a>
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="subst">subst</a></b></font>
-  <font color="#ffff00"><b>x</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="rhsloop">rhsloop</a></b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#rhsend">rhsend</a>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[^\']\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[\']'*.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_'*.\\$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\\$</b></font><font color="#ff6060"><b>/</b></font>\\<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>'b</b></font><font color="#ff6060"><b>/</b></font>_<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>'a</b></font><font color="#ff6060"><b>/</b></font>'<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
-    <font color="#ffff00"><b>N</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>'</b></font><font color="#ff6060"><b>/</b></font>'a<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_</b></font><font color="#ff6060"><b>/</b></font>'b<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\\\<font color="#ff00ff"><b>(</b></font>'*.\)\<font color="#ff00ff"><b>(</b></font>\n\)</b></font><font color="#ff6060"><b>/</b></font>\\<font color="#00ff00"><b>\2</b></font>_<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>}</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#rhsloop">rhsloop</a>
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="rhsend">rhsend</a></b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\).</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
-  <font color="#00ffff"><b># flags</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>[0-9pg]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
-  <font color="#00ffff"><b># w flag handled as the w command</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_s\<font color="#ff00ff"><b>(</b></font>'*.\)</b></font><font color="#ff6060"><b>/</b></font>s<font color="#00ff00"><b>\1</b></font>_<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>s<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#rebeg">rebeg</a>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="subst">subst</a></b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="rhsloop">rhsloop</a></b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#rhsend">rhsend</a>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[^\']\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[\']'*.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_'*.\\$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\\$</b></font><font color="#ff6060"><b>/</b></font>\\<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>'b</b></font><font color="#ff6060"><b>/</b></font>_<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>'a</b></font><font color="#ff6060"><b>/</b></font>'<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+        <font color="#ffff00"><b>N</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>'</b></font><font color="#ff6060"><b>/</b></font>'a<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_</b></font><font color="#ff6060"><b>/</b></font>'b<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\\\<font color="#ff00ff"><b>(</b></font>'*.\)\<font color="#ff00ff"><b>(</b></font>\n\)</b></font><font color="#ff6060"><b>/</b></font>\\<font color="#00ff00"><b>\2</b></font>_<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>}</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#rhsloop">rhsloop</a>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="rhsend">rhsend</a></b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\).</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># flags</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>[0-9pg]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># w flag handled as the w command</b></font>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_y'*.</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_y\<font color="#ff00ff"><b>(</b></font>'*.\)</b></font><font color="#ff6060"><b>/</b></font>y<font color="#00ff00"><b>\1</b></font>_<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="y1loop">y1loop</a></b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_y\<font color="#ff00ff"><b>(</b></font>'*.\)</b></font><font color="#ff6060"><b>/</b></font>y<font color="#00ff00"><b>\1</b></font>_<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="y1loop">y1loop</a></b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#y2loop">y2loop</a>
+    <font color="#ff6060"><b>}</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[^\]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[\']'*.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#y1loop">y1loop</a>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="y2loop">y2loop</a></b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#y2end">y2end</a>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[^\]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[\']'*.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#y2loop">y2loop</a>
-  <font color="#ff6060"><b>}</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[^\]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[\']'*.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#y1loop">y1loop</a>
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="y2loop">y2loop</a></b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#y2end">y2end</a>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[^\]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>_'*.\)\<font color="#ff00ff"><b>(</b></font>[\']'*.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#y2loop">y2loop</a>
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="y2end">y2end</a></b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="y2end">y2end</a></b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#00ffff"><b># :label, b label, t label, r file, w file (cmd &amp; flag), # comment</b></font>
@@ -131,21 +132,21 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#00ffff"><b># a\, c\, i\</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>[aic]\)</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="aloop">aloop</a></b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>[^\]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\\$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>\\<font color="#ff6060"><b>/</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>'b</b></font><font color="#ff6060"><b>/</b></font>_<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>'a</b></font><font color="#ff6060"><b>/</b></font>'<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
-    <font color="#ffff00"><b>N</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>'</b></font><font color="#ff6060"><b>/</b></font>'a<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_</b></font><font color="#ff6060"><b>/</b></font>'b<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>\n\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>}</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>\\:*.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#aloop">aloop</a>
-  <font color="#ffff00"><b>b</b></font> <a href="#out">out</a>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="aloop">aloop</a></b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>[^\]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\\$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>\\<font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>'b</b></font><font color="#ff6060"><b>/</b></font>_<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>'a</b></font><font color="#ff6060"><b>/</b></font>'<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+        <font color="#ffff00"><b>N</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>'</b></font><font color="#ff6060"><b>/</b></font>'a<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_</b></font><font color="#ff6060"><b>/</b></font>'b<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>\n\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>}</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>\\:*.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#aloop">aloop</a>
+    <font color="#ffff00"><b>b</b></font> <a href="#out">out</a>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#00ffff"><b># skip whitespace</b></font>
@@ -153,8 +154,8 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#00ffff"><b># loop while there is still a command</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[;{]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>[;{]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#addr">addr</a>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>[;{]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#addr">addr</a>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#out">out</a>
@@ -163,18 +164,19 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#ffff00"><b>h</b></font>  
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[^_]*_</b></font><font color="#ff6060"><b>/</b></font>unknown construct: <font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>p</b></font>  
-<font color="#ffff00"><b>i</b></font> <font color="#00ff00"><b>\
+<font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
 </b></font>line was:
 <font color="#ffff00"><b>x</b></font>  
 <font color="#ffff00"><b>q</b></font>  
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="out">out</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="out">out</a></b></font>
 <font color="#00ffff"><b># remove the _</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#00ffff"><b># unquote _ and '</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>'b</b></font><font color="#ff6060"><b>/</b></font>_<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>'a</b></font><font color="#ff6060"><b>/</b></font>'<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer</b></font>
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://sed.sf.net/local/scripts/bre2ere.sed">http://sed.sf.net/local/scripts/bre2ere.sed</a></b></font>
 
 </pre></body></html>

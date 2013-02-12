@@ -1,7 +1,8 @@
 <html>
 <head><meta name="Generator" content="sedsed --htmlize">
-<title>Colorized cat-s.sed</title></head><body bgcolor="#000000" text="#ffffff"
-link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<title>Colorized cat-s.sed</title></head>
+<body bgcolor="#000000" text="#ffffff"
+      link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <pre>
 <font color="#00ffff"><b>#!/usr/bin/sed -nf</b></font>
 
@@ -9,7 +10,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>d</b></font>
 
 <font color="#00ffff"><b># get here: so there is a non empty</b></font>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="x">x</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="x">x</a></b></font>
 <font color="#00ffff"><b># print it</b></font>
 <font color="#ffff00"><b>p</b></font>  
 <font color="#00ffff"><b># get next</b></font>
@@ -17,7 +18,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b># got chars? print it again, etc...</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#x">x</a>
 <font color="#00ffff"><b># no, don't have chars: another empty line</b></font>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="z">z</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="z">z</a></b></font>
 <font color="#00ffff"><b># get next</b></font>
 <font color="#ffff00"><b>n</b></font>  
 <font color="#00ffff"><b># also empty? then ignore it, and get next... this will remove ALL empty</b></font>
@@ -27,11 +28,11 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#00ffff"><b># all empty lines were deleted/ignored, but we have a non empty, as</b></font>
 <font color="#00ffff"><b># what we want to do is to squeeze, insert a blank line artificially</b></font>
-<font color="#ffff00"><b>i</b></font> <font color="#00ff00"><b>\
+<font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
 </b></font>
 <font color="#ffff00"><b>b</b></font> <a href="#x">x</a>
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
-### original script: <a href="http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/cat-s.sed">http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/cat-s.sed</a></b></font>
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://sed.sf.net/grabbag/scripts/cat-s.sed">http://sed.sf.net/grabbag/scripts/cat-s.sed</a></b></font>
 
 </pre></body></html>

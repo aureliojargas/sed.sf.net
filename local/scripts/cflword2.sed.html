@@ -1,35 +1,36 @@
 <html>
 <head><meta name="Generator" content="sedsed --htmlize">
-<title>Colorized cflword2.sed</title></head><body bgcolor="#000000" text="#ffffff"
-link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<title>Colorized cflword2.sed</title></head>
+<body bgcolor="#000000" text="#ffffff"
+      link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <pre>
 <font color="#00ffff"><b>#! /bin/sed -f</b></font>
 
 <font color="#00ffff"><b># Put a space in front to simplify treatment of the first word</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="loop">loop</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="loop">loop</a></b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[ 	][a-z]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#00ffff"><b># Get the letter to be changed and construct &lt;letter&gt;&lt;before&gt;\n&lt;after&gt;</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.*[ 	]\)\<font color="#ff00ff"><b>(</b></font>[a-z]\)\<font color="#ff00ff"><b>(</b></font>.*\)$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\
+    <font color="#00ffff"><b># Get the letter to be changed and construct &lt;letter&gt;&lt;before&gt;\n&lt;after&gt;</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.*[ 	]\)\<font color="#ff00ff"><b>(</b></font>[a-z]\)\<font color="#ff00ff"><b>(</b></font>.*\)$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\3</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>h</b></font>
+    <font color="#ffff00"><b>h</b></font>
 
-  <font color="#00ffff"><b># Capitalize the first letter of pattern space, remove the rest of it</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>abcdefghijklmnopqrstuvwxyz</b></font><font color="#ff6060"><b>/</b></font>ABCDEFGHIJKLMNOPQRSTUVWXYZ<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>G</b></font>
+    <font color="#00ffff"><b># Capitalize the first letter of pattern space, remove the rest of it</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>abcdefghijklmnopqrstuvwxyz</b></font><font color="#ff6060"><b>/</b></font>ABCDEFGHIJKLMNOPQRSTUVWXYZ<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>G</b></font>
 
-  <font color="#00ffff"><b># Pattern space is now &lt;new&gt;\n&lt;old&gt;&lt;before&gt;\n&lt;after&gt;; construct</b></font>
-  <font color="#00ffff"><b># &lt;before&gt;&lt;new&gt;&lt;after&gt; and loop back (&lt;after&gt; is not matched by the RE)</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\)\n.\<font color="#ff00ff"><b>(</b></font>.*\)\n</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#loop">loop</a>
+    <font color="#00ffff"><b># Pattern space is now &lt;new&gt;\n&lt;old&gt;&lt;before&gt;\n&lt;after&gt;; construct</b></font>
+    <font color="#00ffff"><b># &lt;before&gt;&lt;new&gt;&lt;after&gt; and loop back (&lt;after&gt; is not matched by the RE)</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\)\n.\<font color="#ff00ff"><b>(</b></font>.*\)\n</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#loop">loop</a>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#00ffff"><b># Remove the space we had added</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^.</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
-### original script: <a href="http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/cflword2.sed">http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/cflword2.sed</a></b></font>
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://sed.sf.net/grabbag/scripts/cflword2.sed">http://sed.sf.net/grabbag/scripts/cflword2.sed</a></b></font>
 
 </pre></body></html>

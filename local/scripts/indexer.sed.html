@@ -1,7 +1,8 @@
 <html>
 <head><meta name="Generator" content="sedsed --htmlize">
-<title>Colorized indexer.sed</title></head><body bgcolor="#000000" text="#ffffff"
-link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<title>Colorized indexer.sed</title></head>
+<body bgcolor="#000000" text="#ffffff"
+      link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <pre>
 <font color="#00ffff"><b>#! /bin/sed -f</b></font>
 
@@ -22,41 +23,41 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b>#</b></font>
 <font color="#00ffff"><b># The following command causes abort at lines missing a semicolon:</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>i</b></font> <font color="#00ff00"><b>\
+    <font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
 </b></font>   ******************************* <font color="#00ff00"><b>\
 </b></font>   ERROR - Each line of the input  <font color="#00ff00"><b>\
 </b></font>   file MUST have a semicolon!     <font color="#00ff00"><b>\
 </b></font>   ******************************* <font color="#00ff00"><b>\
 </b></font>   ^G <font color="#00ff00"><b>\
 </b></font>   Offending line occurs at this line number:
-  <font color="#ffff00"><b>=</b></font>
-  <font color="#ffff00"><b>q</b></font>
+    <font color="#ffff00"><b>=</b></font>
+    <font color="#ffff00"><b>q</b></font>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#00ffff"><b># Following command causes abort at lines with 2 semicolons:</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>;.*;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>i</b></font> <font color="#00ff00"><b>\
+    <font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
 </b></font>   ******************************* <font color="#00ff00"><b>\
 </b></font>   ERROR - There may be only ONE   <font color="#00ff00"><b>\
 </b></font>   semicolon on each line!         <font color="#00ff00"><b>\
 </b></font>   ******************************* <font color="#00ff00"><b>\
 </b></font>   ^G <font color="#00ff00"><b>\
 </b></font>   Offending line occurs at this line number:
-  <font color="#ffff00"><b>=</b></font>
-  <font color="#ffff00"><b>q</b></font>
+    <font color="#ffff00"><b>=</b></font>
+    <font color="#ffff00"><b>q</b></font>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#00ffff"><b># Main body of sed script follows:</b></font>
 <font color="#ff6060"><b>{</b></font>  
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="loop">loop</a></b></font>
-  <font color="#8080ff"><b>$</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>N</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^;]*;\) \<font color="#ff00ff"><b>(</b></font>.*\)\n\1 \<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font> <font color="#00ff00"><b>\2</b></font>, <font color="#00ff00"><b>\3</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#loop">loop</a>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>;</b></font><font color="#ff6060"><b>/</b></font>,<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>P</b></font>
-  <font color="#ffff00"><b>D</b></font>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="loop">loop</a></b></font>
+    <font color="#8080ff"><b>$</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>N</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^;]*;\) \<font color="#ff00ff"><b>(</b></font>.*\)\n\1 \<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font> <font color="#00ff00"><b>\2</b></font>, <font color="#00ff00"><b>\3</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#loop">loop</a>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>;</b></font><font color="#ff6060"><b>/</b></font>,<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>P</b></font>
+    <font color="#ffff00"><b>D</b></font>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#00ffff"><b>#------------------END of SCRIPT----------------------------</b></font>
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
-### original script: <a href="http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/indexer.sed">http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/indexer.sed</a></b></font>
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://sed.sf.net/grabbag/scripts/indexer.sed">http://sed.sf.net/grabbag/scripts/indexer.sed</a></b></font>
 
 </pre></body></html>

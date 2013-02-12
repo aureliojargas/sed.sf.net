@@ -1,7 +1,8 @@
 <html>
 <head><meta name="Generator" content="sedsed --htmlize">
-<title>Colorized get_html_title.sed</title></head><body bgcolor="#000000" text="#ffffff"
-link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<title>Colorized get_html_title.sed</title></head>
+<body bgcolor="#000000" text="#ffffff"
+      link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <pre>
 <font color="#00ffff"><b>#! /bin/sed -nf</b></font>
 <font color="#00ffff"><b>#</b></font>
@@ -13,44 +14,44 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b>#</b></font>
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&lt;[Tt][Ii][Tt][Ll][Ee]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="title">title</a></b></font>
-  <font color="#00ffff"><b># read up to closing tag</b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&lt;\/[Tt][Ii][Tt][Ll][Ee]&gt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
-    <font color="#ffff00"><b>N</b></font>
-    <font color="#ffff00"><b>b</b></font> <a href="#title">title</a>
-  <font color="#ff6060"><b>}</b></font>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="title">title</a></b></font>
+    <font color="#00ffff"><b># read up to closing tag</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&lt;\/[Tt][Ii][Tt][Ll][Ee]&gt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>N</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#title">title</a>
+    <font color="#ff6060"><b>}</b></font>
 
-  <font color="#00ffff"><b># strip leading/trailing whitespace</b></font>
-  <font color="#00ffff"><b># Mario Niebaum &lt;Mario.Niebaum@e-technik.tu-chemnitz.de&gt;</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^.*&lt;[tT][iI][tT][lL][eE]&gt;[        ]*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[         ]*&lt;\/[tT][iI][tT][lL][eE]&gt;.*$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># strip leading/trailing whitespace</b></font>
+    <font color="#00ffff"><b># Mario Niebaum &lt;Mario.Niebaum@e-technik.tu-chemnitz.de&gt;</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^.*&lt;[tT][iI][tT][lL][eE]&gt;[        ]*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[         ]*&lt;\/[tT][iI][tT][lL][eE]&gt;.*$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
 
-  <font color="#00ffff"><b># strip HTML tags and print</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#print">print</a>
+    <font color="#00ffff"><b># strip HTML tags and print</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#print">print</a>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&lt;[Hh][0-7]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="heading">heading</a></b></font>
-  <font color="#00ffff"><b># lowercase heading tags</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>&lt;\/\{0,1\}\)[Hh]\<font color="#ff00ff"><b>(</b></font>[0-7]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>h<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="heading">heading</a></b></font>
+    <font color="#00ffff"><b># lowercase heading tags</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>&lt;\/\{0,1\}\)[Hh]\<font color="#ff00ff"><b>(</b></font>[0-7]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>h<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 
-  <font color="#00ffff"><b># strip characters up to opening tag</b></font>
-  <font color="#ffff00"><b>G</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&lt;h\<font color="#ff00ff"><b>(</b></font>[0-7]&gt;\)\<font color="#ff00ff"><b>(</b></font>.*\)\<font color="#ff00ff"><b>(</b></font>.\)$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*\n</b></font><font color="#ff6060"><b>/</b></font>&lt;h<font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># strip characters up to opening tag</b></font>
+    <font color="#ffff00"><b>G</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&lt;h\<font color="#ff00ff"><b>(</b></font>[0-7]&gt;\)\<font color="#ff00ff"><b>(</b></font>.*\)\<font color="#ff00ff"><b>(</b></font>.\)$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*\n</b></font><font color="#ff6060"><b>/</b></font>&lt;h<font color="#ff6060"><b>/</b></font>
 
-  <font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="match_tags">match_tags</a></b></font>
-  <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^&lt;h\<font color="#ff00ff"><b>(</b></font>[0-7]\).*&lt;\/h\1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
-    <font color="#ffff00"><b>N</b></font>
-    <font color="#ffff00"><b>b</b></font> <a href="#match_tags">match_tags</a>
-  <font color="#ff6060"><b>}</b></font>
+    <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="match_tags">match_tags</a></b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^&lt;h\<font color="#ff00ff"><b>(</b></font>[0-7]\).*&lt;\/h\1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>N</b></font>
+        <font color="#ffff00"><b>b</b></font> <a href="#match_tags">match_tags</a>
+    <font color="#ff6060"><b>}</b></font>
 
-  <font color="#00ffff"><b># strip leading/trailing whitespace</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^.*&lt;[Hh][0-7]&gt;[        ]*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[         ]*&lt;\/[Hh][0-7]&gt;.*$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b># strip leading/trailing whitespace</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^.*&lt;[Hh][0-7]&gt;[        ]*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[         ]*&lt;\/[Hh][0-7]&gt;.*$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
 
-  <font color="#00ffff"><b># clean up and print</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#print">print</a>
+    <font color="#00ffff"><b># clean up and print</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#print">print</a>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#00ffff"><b># nothing found, so continue to next line</b></font>
@@ -59,7 +60,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b># print:</b></font>
 <font color="#00ffff"><b># remove embedded tags and leading/trailing whitespace from</b></font>
 <font color="#00ffff"><b># pattern space, print result and quit</b></font>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="print">print</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="print">print</a></b></font>
 
 <font color="#00ffff"><b># reduce leading/trailing whitespace around newlines</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[ 	]*\n[	 ]*</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
@@ -77,7 +78,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#ffff00"><b>p</b></font>  
 <font color="#ffff00"><b>q</b></font>  
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
-### original script: <a href="http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/get_html_title.sed">http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/get_html_title.sed</a></b></font>
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://sed.sf.net/grabbag/scripts/get_html_title.sed">http://sed.sf.net/grabbag/scripts/get_html_title.sed</a></b></font>
 
 </pre></body></html>

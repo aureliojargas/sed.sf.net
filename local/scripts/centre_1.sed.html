@@ -1,7 +1,8 @@
 <html>
 <head><meta name="Generator" content="sedsed --htmlize">
-<title>Colorized centre_1.sed</title></head><body bgcolor="#000000" text="#ffffff"
-link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<title>Colorized centre_1.sed</title></head>
+<body bgcolor="#000000" text="#ffffff"
+      link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <pre>
 <font color="#00ffff"><b>#!/usr/bin/sed -f</b></font>
 <font color="#00ffff"><b># center all lines of a file, on a 80 columns width</b></font>
@@ -11,11 +12,11 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b>#</b></font>
 
 <font color="#8080ff"><b>1</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#00ffff"><b># Prepare 80 spaces in the buffer</b></font>
-  <font color="#ffff00"><b>x</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^$</b></font><font color="#ff6060"><b>/</b></font>          <font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^ *$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>x</b></font>
+    <font color="#00ffff"><b># Prepare 80 spaces in the buffer</b></font>
+    <font color="#ffff00"><b>x</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^$</b></font><font color="#ff6060"><b>/</b></font>          <font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^ *$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>x</b></font>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#00ffff"><b># del leading and trailing spaces</b></font>
@@ -32,7 +33,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b># spaces are split into two halves through the use of back-refs.</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.*\)\n\<font color="#ff00ff"><b>(</b></font> *\)\2.*$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
-### original script: <a href="http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/centre_1.sed">http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/centre_1.sed</a></b></font>
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://sed.sf.net/grabbag/scripts/centre_1.sed">http://sed.sf.net/grabbag/scripts/centre_1.sed</a></b></font>
 
 </pre></body></html>

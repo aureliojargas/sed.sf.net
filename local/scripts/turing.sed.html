@@ -1,7 +1,8 @@
 <html>
 <head><meta name="Generator" content="sedsed --htmlize">
-<title>Colorized turing.sed</title></head><body bgcolor="#000000" text="#ffffff"
-link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<title>Colorized turing.sed</title></head>
+<body bgcolor="#000000" text="#ffffff"
+      link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <pre>
 <font color="#00ffff"><b>#! /bin/sed -f</b></font>
 <font color="#00ffff"><b># </b></font>
@@ -13,7 +14,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b># See text file for information about Turing Machine script.</b></font>
 
 <font color="#00ffff"><b># Read all the instructions, and add a final newline.</b></font>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="read">read</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="read">read</a></b></font>
 <font color="#ffff00"><b>N</b></font>  
 <font color="#8080ff"><b>$</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#read">read</a>
 <font color="#ffff00"><b>G</b></font>  
@@ -36,7 +37,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font>0x<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 
 <font color="#00ffff"><b># Start the machine !</b></font>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="loop">loop</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="loop">loop</a></b></font>
 <font color="#00ffff"><b># Display only the tape and the state.</b></font>
 <font color="#ffff00"><b>h</b></font>  
 <font color="#00ffff"><b># (comment out the next two lines to see internal data when</b></font>
@@ -48,8 +49,8 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#00ffff"><b># Check the content of the current cell.</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>|[^:|]|</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>nternal error in the Turing machine<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>q</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>nternal error in the Turing machine<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>q</b></font>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#00ffff"><b># Store in second position the symbol read on the tape</b></font>
@@ -57,42 +58,42 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#00ffff"><b># Have we reached a final state ?</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\).*:\1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font>Final state <font color="#00ff00"><b>\1</b></font> reached... end of processing<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>q</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font>Final state <font color="#00ff00"><b>\1</b></font> reached... end of processing<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>q</b></font>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#00ffff"><b># Is there an instruction for this state and this cell content ?</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>..\).*:\1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font>No instruction for state <font color="#00ff00"><b>\1</b></font> and cell <font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>q</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font>No instruction for state <font color="#00ff00"><b>\1</b></font> and cell <font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>q</b></font>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#00ffff"><b># Look for the new content to write.</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>..\).*:\1[^:|]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>can't write this symbol on the tape!<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>q</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>can't write this symbol on the tape!<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>q</b></font>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>..\)\<font color="#ff00ff"><b>(</b></font>.*\)|.|\<font color="#ff00ff"><b>(</b></font>.*\):\1\<font color="#ff00ff"><b>(</b></font>.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font>|<font color="#00ff00"><b>\4</b></font>|<font color="#00ff00"><b>\3</b></font>:<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\4</b></font><font color="#ff6060"><b>/</b></font>
 
 <font color="#00ffff"><b># Look for the direction of movement.</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>..\).*:\1.[ LRlr]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>Movement must be specified as L, R or space<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>q</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>Movement must be specified as L, R or space<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>q</b></font>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#00ffff"><b># Clear the substitute flag that we will use later.</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#nop">nop</a>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="nop">nop</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="nop">nop</a></b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>..\).*:\1. </b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#00ffff"><b># Direction = ' ' -&gt; Don't move the head</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#end_move">end_move</a>
+    <font color="#00ffff"><b># Direction = ' ' -&gt; Don't move the head</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#end_move">end_move</a>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>..\).*:\1.[Ll]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
-  <font color="#00ffff"><b># Move the head to the left if the tape is long enough,</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>..\)\<font color="#ff00ff"><b>(</b></font>.*\)\<font color="#ff00ff"><b>(</b></font>.\)|\<font color="#ff00ff"><b>(</b></font>.\)|</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font>|<font color="#00ff00"><b>\3</b></font>|<font color="#00ff00"><b>\4</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>t</b></font> <a href="#end_move">end_move</a>
-  <font color="#00ffff"><b># else extend the tape with an empty cell.</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>|\<font color="#ff00ff"><b>(</b></font>.\)|</b></font><font color="#ff6060"><b>/</b></font>| |<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>b</b></font> <a href="#end_move">end_move</a>
+    <font color="#00ffff"><b># Move the head to the left if the tape is long enough,</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>..\)\<font color="#ff00ff"><b>(</b></font>.*\)\<font color="#ff00ff"><b>(</b></font>.\)|\<font color="#ff00ff"><b>(</b></font>.\)|</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font>|<font color="#00ff00"><b>\3</b></font>|<font color="#00ff00"><b>\4</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>t</b></font> <a href="#end_move">end_move</a>
+    <font color="#00ffff"><b># else extend the tape with an empty cell.</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>|\<font color="#ff00ff"><b>(</b></font>.\)|</b></font><font color="#ff6060"><b>/</b></font>| |<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#end_move">end_move</a>
 <font color="#ff6060"><b>}</b></font>  
 
 <font color="#00ffff"><b># Move the head to the right, if the tape is long enough,</b></font>
@@ -101,12 +102,12 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b># else extend the tape with an empty cell.</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>|\<font color="#ff00ff"><b>(</b></font>.\)|</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>| |<font color="#ff6060"><b>/</b></font>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="end_move">end_move</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="end_move">end_move</a></b></font>
 
 <font color="#00ffff"><b># Check the new state,</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>..\).*:\1..[^:|]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>can't use this symbol as new state<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>q</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>can't use this symbol as new state<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>q</b></font>
 <font color="#ff6060"><b>}</b></font>  
 <font color="#00ffff"><b># then switch the machine state</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.\)\<font color="#ff00ff"><b>(</b></font>.*\):\1\2\<font color="#ff00ff"><b>(</b></font>..\)\<font color="#ff00ff"><b>(</b></font>.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\5</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\3</b></font>:<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\4</b></font><font color="#00ff00"><b>\5</b></font><font color="#ff6060"><b>/</b></font>
@@ -121,7 +122,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#00ffff"><b>###### end of the script </b></font>
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
-### original script: <a href="http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/turing.sed">http://pcsiwa.rett.polimi.it/~paolob/seders/scripts/turing.sed</a></b></font>
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://sed.sf.net/grabbag/scripts/turing.sed">http://sed.sf.net/grabbag/scripts/turing.sed</a></b></font>
 
 </pre></body></html>

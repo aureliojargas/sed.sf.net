@@ -1,7 +1,8 @@
 <html>
 <head><meta name="Generator" content="sedsed --htmlize">
-<title>Colorized brainf__k.sed</title></head><body bgcolor="#000000" text="#ffffff"
-link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<title>Colorized brainf__k.sed</title></head>
+<body bgcolor="#000000" text="#ffffff"
+      link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <pre>
 <font color="#00ffff"><b># BrainF*#&amp; interpreter in sed V1.0</b></font>
 <font color="#00ffff"><b>#     Edward Rosten 2001</b></font>
@@ -87,13 +88,13 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>00{#<font color="#00ff00"><b>&amp;</b></font>}<font color="#ff6060"><b>/</b></font>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="preprocessor">preprocessor</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="preprocessor">preprocessor</a></b></font>
 
 <font color="#00ffff"><b>#Check for garbage:</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#[][+&lt;&gt;,.-]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
-  <font color="#ffff00"><b>p</b></font>
-  <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*#\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font>Error: Spurious character `<font color="#00ff00"><b>\1</b></font>' found in input!<font color="#ff6060"><b>/</b></font>
-  <font color="#ffff00"><b>q</b></font>
+    <font color="#ffff00"><b>p</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*#\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font>Error: Spurious character `<font color="#00ff00"><b>\1</b></font>' found in input!<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>q</b></font>
 <font color="#ff6060"><b>}</b></font>  
 
 
@@ -110,7 +111,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#00ffff"><b>#if we're not at the end, continue the loop...</b></font>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="end_prep_loop">end_prep_loop</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="end_prep_loop">end_prep_loop</a></b></font>
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#}</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#preprocessor">preprocessor</a>
 
@@ -134,7 +135,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b># counter</b></font>
 <font color="#00ffff"><b>#</b></font>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="found_open">found_open</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="found_open">found_open</a></b></font>
 
 <font color="#00ffff"><b>#Append the counter to the stack:</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>..\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
@@ -173,7 +174,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b># the # onwards.</b></font>
 <font color="#00ffff"><b>#</b></font>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="found_close">found_close</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="found_close">found_close</a></b></font>
 
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.*\)#]\<font color="#ff00ff"><b>(</b></font>.*\)\<font color="#ff00ff"><b>(</b></font>..\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>]<font color="#00ff00"><b>\3</b></font>#<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
 
@@ -200,11 +201,11 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b># The + indicates the end of the data</b></font>
 
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="interpreter">interpreter</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="interpreter">interpreter</a></b></font>
 
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>#<font color="#00ff00"><b>&amp;</b></font>@!00%<font color="#ff6060"><b>/</b></font>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="main">main</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="main">main</a></b></font>
 
 <font color="#00ffff"><b>#Split apart the program and extract the command and put it at the end.</b></font>
 
@@ -225,7 +226,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="done">done</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="done">done</a></b></font>
 
 
 <font color="#00ffff"><b>#Increment the program pointer.</b></font>
@@ -236,7 +237,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[][]#[A-Z0-9][A-Z0-9]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#\<font color="#ff00ff"><b>(</b></font>..\)\<font color="#ff00ff"><b>(</b></font>.*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>#<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="more_done">more_done</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="more_done">more_done</a></b></font>
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#@</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#main">main</a>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
@@ -252,7 +253,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b># Add 1 to the value at the byte pointer</b></font>
 <font color="#00ffff"><b>#</b></font>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="add">add</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="add">add</a></b></font>
 <font color="#00ffff"><b>#Remove the command</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
 
@@ -289,7 +290,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 
 <font color="#00ffff"><b>#Paste the added number back in.</b></font>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="nearly_finished_adding">nearly_finished_adding</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="nearly_finished_adding">nearly_finished_adding</a></b></font>
 
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!..\<font color="#ff00ff"><b>(</b></font>.*\)%\<font color="#ff00ff"><b>(</b></font>..\)</b></font><font color="#ff6060"><b>/</b></font>!<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font>%<font color="#ff6060"><b>/</b></font>
 
@@ -302,7 +303,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b># Subtract 1 from the value at the byte pointer</b></font>
 <font color="#00ffff"><b>#</b></font>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="sub">sub</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="sub">sub</a></b></font>
 <font color="#00ffff"><b>#Remove the command</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
 
@@ -339,7 +340,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 
 <font color="#00ffff"><b>#Paste the added number back in.</b></font>
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="nearly_finished_subbing">nearly_finished_subbing</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="nearly_finished_subbing">nearly_finished_subbing</a></b></font>
 
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!..\<font color="#ff00ff"><b>(</b></font>.*\)%\<font color="#ff00ff"><b>(</b></font>..\)</b></font><font color="#ff6060"><b>/</b></font>!<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font>%<font color="#ff6060"><b>/</b></font>
 
@@ -353,7 +354,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b># Implement the `&gt;' command: ie move the pointer to the right</b></font>
 <font color="#00ffff"><b>#</b></font>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="right">right</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="right">right</a></b></font>
 
 <font color="#00ffff"><b>#Remove the command</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
@@ -372,7 +373,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b># Implement the `&lt;' command: ie move the pointer to the left</b></font>
 <font color="#00ffff"><b>#</b></font>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="left">left</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="left">left</a></b></font>
 
 <font color="#00ffff"><b>#Remove the command</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
@@ -390,7 +391,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b># Implement the `.' command, ie, print the current value at the pointer.</b></font>
 <font color="#00ffff"><b>#</b></font>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="print">print</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="print">print</a></b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>h</b></font>  
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*!\<font color="#ff00ff"><b>(</b></font>..\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
@@ -408,7 +409,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b># assumed to be in the style of 1 byte per line, 2 hex digits per byte.</b></font>
 <font color="#00ffff"><b>#</b></font>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="read">read</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="read">read</a></b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>N</b></font>  
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>!..\<font color="#ff00ff"><b>(</b></font>.*\)\n\<font color="#ff00ff"><b>(</b></font>..\)</b></font><font color="#ff6060"><b>/</b></font>!<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
@@ -424,7 +425,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b># pointer is zero or continues straight on otherwise.</b></font>
 <font color="#00ffff"><b>#</b></font>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="start_while">start_while</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="start_while">start_while</a></b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
 
 
@@ -443,7 +444,7 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 <font color="#00ffff"><b># Implement the ] commend. this jumps unconditionally back to the matching [</b></font>
 <font color="#00ffff"><b># This function leaves the # in the right place for a new loop</b></font>
 
-<font color="#ff00ff"><b>:</b></font> <font color="#ff00ff"><b><a name="end_while">end_while</a></b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="end_while">end_while</a></b></font>
 
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
 
@@ -466,7 +467,8 @@ link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
 
 
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a sed script debugger/indenter/tokenizer/HTMLizer
-### original script: <a href="http://users.ox.ac.uk/~scat1148/code/programs_best_written_in_another_language/brainf__k.sed">http://users.ox.ac.uk/~scat1148/code/programs_best_written_in_another_language/brainf__k.sed</a></b></font>
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href="http://www2.eng.cam.ac.uk/~er258/code/sed/brainf__k.sed">http://www2.eng.cam.ac.uk/~er258/code/sed/brainf__k.sed</a></b></font>
 
 </pre></body></html>
