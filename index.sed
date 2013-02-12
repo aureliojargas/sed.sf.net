@@ -206,6 +206,7 @@ r    @[yahoogroups-kill-sig|yahoogroups-kill-sig.sed]@ [@[colored|@local/scripts
 /  want some fun? try them all!  /{
 
 r        @[-|99 green bottles]@ [@[colored|local/games/99-green-bottles.sed.html]@] by Edward Rosten
+r           @[-|sudoku solver]@ [@[colored|local/games/sedoku.sed.html]@] by Edward Rosten
 r             @[-|tic tac toe]@ [@[colored|local/games/tictactoe.sed.html]@] by Graham Bell
 r         @[-|pong (1 player)]@ [@[colored|local/games/pong1player.sed.html]@] by Graham Bell
 r        @[-|pong (2 players)]@ [@[colored|local/games/pong2players.sed.html]@] by Graham Bell

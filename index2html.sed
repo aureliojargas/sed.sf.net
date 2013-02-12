@@ -240,6 +240,8 @@ s|^my mastermind$|http://laurent.le-brun.eu/pub/sedermind.sed|; t url
 s|^puzzle$|http://laurent.le-brun.eu/pub/puzzle.sed|; t url
 s|^path solver$|http://laurent.le-brun.eu/pub/path.sed|; t url
 s|^connect4$|http://laurent.le-brun.eu/pub/connect4.sed|; t url
+s|^sudoku solver$|http://www.edwardrosten.com/code/sed/sedoku.sed|; t url
+
 #tools
 s|^sd$|http://sed.sf.net/grabbag/scripts/sd.sh.txt|; t url
 s|^sdk$|http://www.student.northpark.edu/pemente/sed/sd.ksh.txt|; t url

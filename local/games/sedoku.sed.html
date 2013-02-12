@@ -1,0 +1,352 @@
+<html>
+<head><meta name="Generator" content="sedsed --htmlize">
+<title>Colorized sedoku.sed</title></head>
+<body bgcolor="#000000" text="#ffffff"
+      link="#ff00ff" alink="#ff00ff" vlink="#ff00ff">
+<pre>
+<font color="#00ffff"><b>################################################################################</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#  Sedoku -- a sudoku (blech) solver in sed</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#  The solver works in two stages. First, row, column and square consistency is</b></font>
+<font color="#00ffff"><b>#  enforced. Then, if this does not solve the puzzle, a search is performed by</b></font>
+<font color="#00ffff"><b>#  choosing a number where there is a range of possibilities and enforcing </b></font>
+<font color="#00ffff"><b>#  consistency</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#  All the consistency work is performed in the pattern space, leaving the hold </b></font>
+<font color="#00ffff"><b>#  space free for the search.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#  Each square is stored as 11 chars:  X followed by a list of possible numbers</b></font>
+<font color="#00ffff"><b>#  in the correct position, followed by a Y. For instance, X--34--789Y indicates</b></font>
+<font color="#00ffff"><b>#  that in that square, the numbers 3,4,7,8,9 are consistent with all other </b></font>
+<font color="#00ffff"><b>#  numbers.</b></font>
+<font color="#00ffff"><b>#  As a special case, when there is only one number present, X is replaced by x</b></font>
+<font color="#00ffff"><b>#  The fixed width format of each square makes it easy to index a particluar row</b></font>
+<font color="#00ffff"><b>#  column or 3x3 square.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#  Any squares which have only 1 allowed number (ie solved squares) are used to </b></font>
+<font color="#00ffff"><b>#  eliminate numbers from the available list in all other related squares (row</b></font>
+<font color="#00ffff"><b>#  column, square). </b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#  </b></font>
+<font color="#00ffff"><b>#  See ###Elimination</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#  When an elimination is being performed, 9 squares are `active' in the </b></font>
+<font color="#00ffff"><b>#  elimination, and these have the [xX] replaced by [aA]. Then, the program looks</b></font>
+<font color="#00ffff"><b>#  for any solved numbers and removed this number from the list of all active </b></font>
+<font color="#00ffff"><b>#  but unsolved squared. After this, any solved squares are flagged by replacing</b></font>
+<font color="#00ffff"><b>#  A with a. This is looped over until no more eliminations are made.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>#  First, ranges of squares to be activated are marked between S,E pairs, and a</b></font>
+<font color="#00ffff"><b>#  state letter is added to the beginning of the buffer to mark the current </b></font>
+<font color="#00ffff"><b>#  state. After elimination on the active squares, the markers are moved to </b></font>
+<font color="#00ffff"><b>#  activate the next set of squares.</b></font>
+<font color="#00ffff"><b>#  </b></font>
+<font color="#00ffff"><b># See ###Search</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># The hold space is used to maintain a &lt;stack/queue&gt; of puzzle solutions.</b></font>
+<font color="#00ffff"><b># Currently a queue is used (bredth first search) since I've never seen a</b></font>
+<font color="#00ffff"><b># puzzle which reaquies &gt;1 search depth.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># The search is performed by replacing an incomplete cell with a complete  </b></font>
+<font color="#00ffff"><b># one and rerunning the solver. The number to be tried is marked with a Q</b></font>
+<font color="#00ffff"><b># The Q is moved along one available place. Cells in which all of the </b></font>
+<font color="#00ffff"><b># numbers have been tried have X replaced with K. If Q goes beyond the</b></font>
+<font color="#00ffff"><b># last number in a cell, it is removed, the cell is changed to K and a </b></font>
+<font color="#00ffff"><b># new Q is put in the next place.</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># The top of the quee is moved in to the pattern space and changed in </b></font>
+<font color="#00ffff"><b># to a form suitable for elimination. If is is consistent but unsolved,</b></font>
+<font color="#00ffff"><b># then it is put back in to the queue. Otherwise, the next thing in the</b></font>
+<font color="#00ffff"><b># queue is examined.</b></font>
+
+<font color="#00ffff"><b>#Store as e.g. A12--5-7-9B</b></font>
+<font color="#00ffff"><b>#Replace with lcase if number is exact</b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.</b></font><font color="#ff6060"><b>/</b></font>X<font color="#00ff00"><b>&amp;</b></font>Y<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>1</b></font><font color="#ff6060"><b>/</b></font>1--------<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>2</b></font><font color="#ff6060"><b>/</b></font>-2-------<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>3</b></font><font color="#ff6060"><b>/</b></font>--3------<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>4</b></font><font color="#ff6060"><b>/</b></font>---4-----<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>5</b></font><font color="#ff6060"><b>/</b></font>----5----<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>6</b></font><font color="#ff6060"><b>/</b></font>-----6---<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>7</b></font><font color="#ff6060"><b>/</b></font>------7--<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>8</b></font><font color="#ff6060"><b>/</b></font>-------8-<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>9</b></font><font color="#ff6060"><b>/</b></font>--------9<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.</b></font><font color="#ff6060"><b>/</b></font>123456789<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#ffff00"><b>H</b></font>  
+
+<font color="#8080ff"><b>1</b></font>,<font color="#8080ff"><b>8</b></font> <font color="#ffff00"><b>d</b></font>
+<font color="#00ffff"><b>#Empty the hold space for later</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#00ffff"><b>#Mark known squares</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X\<font color="#ff00ff"><b>(</b></font>-*[0-9]-*\)Y</b></font><font color="#ff6060"><b>/</b></font>x<font color="#00ff00"><b>\1</b></font>Y<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>Z<font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b>#a Z$ signifies no elminiation happened. z$ signifies that they did.</b></font>
+
+
+<font color="#00ffff"><b>#Mark active squares with aA instead of xX</b></font>
+<font color="#00ffff"><b>#First char is the machine state</b></font>
+<font color="#00ffff"><b>#rR means row elimination is active. R for first row, r for the rest</b></font>
+<font color="#00ffff"><b>#cC means col elimination is active.</b></font>
+<font color="#00ffff"><b>#defghijkl for square elimination</b></font>
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="search">search</a></b></font>
+
+<font color="#00ffff"><b>#Start with row elimination first</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>R<font color="#ff6060"><b>/</b></font>
+
+
+<font color="#00ffff"><b>#Mark active regions with (S)tart (E)nd pairs</b></font>
+
+
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="loop">loop</a></b></font>
+<font color="#00ffff"><b>#Rows</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^r</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>S</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>E</b></font><font color="#ff6060"><b>/</b></font>S<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^R</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^R</b></font><font color="#ff6060"><b>/</b></font>rS<font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>S.\{99\}</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font>E<font color="#ff6060"><b>/</b></font>
+
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#00ffff"><b>#Check to see if row elimination has finished</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>E</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ff6060"><b>{</b></font>
+        <font color="#00ffff"><b>#Yes, so do Column elimination</b></font>
+
+        <font color="#00ffff"><b>#Remove row markers</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[rS]</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+        <font color="#00ffff"><b>#Place column markers</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.\{11\}\)\<font color="#ff00ff"><b>(</b></font>.\{88\}\)</b></font><font color="#ff6060"><b>/</b></font>S<font color="#00ff00"><b>\1</b></font>E<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>C<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>}</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b>#Move all column markers across by 1 (11 chars)</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>c</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>S\<font color="#ff00ff"><b>(</b></font>[^E]*\)E\<font color="#ff00ff"><b>(</b></font>.\{11\}\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>S<font color="#00ff00"><b>\2</b></font>E<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^C</b></font><font color="#ff6060"><b>/</b></font>c<font color="#ff6060"><b>/</b></font>
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>c</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#00ffff"><b>#Check to see if there is an S anywhere in the first row. If not, then columns are done</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^c[^S]\{99\}</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#00ffff"><b>#Remove markers</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[cSE]</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+        <font color="#00ffff"><b>#Put in first square markers</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)</b></font><font color="#ff6060"><b>/</b></font>S<font color="#00ff00"><b>\1</b></font>E<font color="#00ff00"><b>\2</b></font>S<font color="#00ff00"><b>\3</b></font>E<font color="#00ff00"><b>\4</b></font>S<font color="#00ff00"><b>\5</b></font>E<font color="#00ff00"><b>\6</b></font><font color="#ff6060"><b>/</b></font>
+        <font color="#00ffff"><b>#Put in state machine state</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>d<font color="#ff6060"><b>/</b></font>
+    <font color="#ff6060"><b>}</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b>#Move square markers</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[e-m]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#00ffff"><b>#Start pos</b></font>
+    <font color="#00ffff"><b>#0			0</b></font>
+    <font color="#00ffff"><b>#33			33</b></font>
+    <font color="#00ffff"><b>#66			66</b></font>
+    <font color="#00ffff"><b>#297		255 + 42</b></font>
+    <font color="#00ffff"><b>#330		255 + 75</b></font>
+    <font color="#00ffff"><b>#363		255 + 108</b></font>
+    <font color="#00ffff"><b>#594		255 + 255 + 84</b></font>
+    <font color="#00ffff"><b>#627		255 + 255 + 117</b></font>
+    <font color="#00ffff"><b>#660		255 + 255 + 150</b></font>
+
+    <font color="#00ffff"><b>#Sed on OpenBSD requires that for \{X\}, 0 &lt; X &lt; 256</b></font>
+
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[SE]</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>l.\{255\}.\{255\}.\{150\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>S<font color="#00ff00"><b>\2</b></font>E<font color="#00ff00"><b>\3</b></font>S<font color="#00ff00"><b>\4</b></font>E<font color="#00ff00"><b>\5</b></font>S<font color="#00ff00"><b>\6</b></font>E<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>k.\{255\}.\{255\}.\{117\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>S<font color="#00ff00"><b>\2</b></font>E<font color="#00ff00"><b>\3</b></font>S<font color="#00ff00"><b>\4</b></font>E<font color="#00ff00"><b>\5</b></font>S<font color="#00ff00"><b>\6</b></font>E<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>j.\{255\}.\{255\}.\{84\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>S<font color="#00ff00"><b>\2</b></font>E<font color="#00ff00"><b>\3</b></font>S<font color="#00ff00"><b>\4</b></font>E<font color="#00ff00"><b>\5</b></font>S<font color="#00ff00"><b>\6</b></font>E<font color="#00ff00"><b>\7</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>i.\{255\}.\{108\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>S<font color="#00ff00"><b>\2</b></font>E<font color="#00ff00"><b>\3</b></font>S<font color="#00ff00"><b>\4</b></font>E<font color="#00ff00"><b>\5</b></font>S<font color="#00ff00"><b>\6</b></font>E<font color="#00ff00"><b>\7</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>h.\{255\}.\{75\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>S<font color="#00ff00"><b>\2</b></font>E<font color="#00ff00"><b>\3</b></font>S<font color="#00ff00"><b>\4</b></font>E<font color="#00ff00"><b>\5</b></font>S<font color="#00ff00"><b>\6</b></font>E<font color="#00ff00"><b>\7</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>g.\{255\}.\{42\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>S<font color="#00ff00"><b>\2</b></font>E<font color="#00ff00"><b>\3</b></font>S<font color="#00ff00"><b>\4</b></font>E<font color="#00ff00"><b>\5</b></font>S<font color="#00ff00"><b>\6</b></font>E<font color="#00ff00"><b>\7</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>f.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>S<font color="#00ff00"><b>\2</b></font>E<font color="#00ff00"><b>\3</b></font>S<font color="#00ff00"><b>\4</b></font>E<font color="#00ff00"><b>\5</b></font>S<font color="#00ff00"><b>\6</b></font>E<font color="#00ff00"><b>\7</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>e.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>S<font color="#00ff00"><b>\2</b></font>E<font color="#00ff00"><b>\3</b></font>S<font color="#00ff00"><b>\4</b></font>E<font color="#00ff00"><b>\5</b></font>S<font color="#00ff00"><b>\6</b></font>E<font color="#00ff00"><b>\7</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+
+<font color="#00ffff"><b>#Increment the state flag</b></font>
+<font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>defghijklm</b></font><font color="#ff6060"><b>/</b></font>efghijklmn<font color="#ff6060"><b>/</b></font>
+
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^n</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#00ffff"><b>#Squares have finished</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[nSE]</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+    <font color="#00ffff"><b>#If no substutions have taken place...</b></font>
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Z</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#done">done</a>
+
+    <font color="#00ffff"><b>#else, go back to elimination on rows</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>R<font color="#ff6060"><b>/</b></font>
+    <font color="#00ffff"><b>#Reset elminiation marker</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>z</b></font><font color="#ff6060"><b>/</b></font>Z<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#loop">loop</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b>################################################################################</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>###Elimination loop</b></font>
+<font color="#00ffff"><b># </b></font>
+<font color="#00ffff"><b>#Mark squares between SE pairs with aA insetad of xX</b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="markloop">markloop</a></b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#markloop">markloop</a>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>S\<font color="#ff00ff"><b>(</b></font>[^E]*\)X</b></font><font color="#ff6060"><b>/</b></font>S<font color="#00ff00"><b>\1</b></font>A<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>S\<font color="#ff00ff"><b>(</b></font>[^E]*\)x</b></font><font color="#ff6060"><b>/</b></font>S<font color="#00ff00"><b>\1</b></font>a<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#markloop">markloop</a>
+
+<font color="#00ffff"><b>#Perform elimination</b></font>
+
+<font color="#ffff00"><b>b</b></font> <a href="#elim">elim</a>
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="change">change</a></b></font>
+<font color="#00ffff"><b>#An elimination happened, so mark it with a z</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Z</b></font><font color="#ff6060"><b>/</b></font>z<font color="#ff6060"><b>/</b></font>
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="elim">elim</a></b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#elim">elim</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>A\)1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>-<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a-2</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>A.\)2</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>-<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a--3</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>A..\)3</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>-<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a---4</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>A...\)4</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>-<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a----5</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>A....\)5</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>-<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a-----6</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>A.....\)6</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>-<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a------7</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>A......\)7</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>-<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a-------8</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>A.......\)8</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>-<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a--------9</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>A........\)9</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>-<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#00ffff"><b>#Check for errors</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[aA]---------</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#bork">bork</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a1.*a1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#bork">bork</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a-2.*a-2</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#bork">bork</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a--3.*a--3</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#bork">bork</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a---4.*a---4</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#bork">bork</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a----5.*a----5</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#bork">bork</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a-----6.*a-----6</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#bork">bork</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a------7.*a------7</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#bork">bork</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a-------8.*a-------8</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#bork">bork</a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>a--------9.*a--------9</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#bork">bork</a>
+
+<font color="#00ffff"><b>#Mark newly solved squares as solved</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>A\<font color="#ff00ff"><b>(</b></font>-*[0-9]-*\)Y</b></font><font color="#ff6060"><b>/</b></font>a<font color="#00ff00"><b>\1</b></font>Y<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>t</b></font> <a href="#change">change</a>
+
+<font color="#00ffff"><b>#Unmark active squares</b></font>
+<font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>aA</b></font><font color="#ff6060"><b>/</b></font>xX<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>b</b></font> <a href="#loop">loop</a>
+<font color="#00ffff"><b>################################################################################</b></font>
+
+
+<font color="#00ffff"><b>#Inconsistent state</b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="bork">bork</a></b></font>
+<font color="#ffff00"><b>x</b></font>  
+<font color="#00ffff"><b>#Hold space empty -- first time through -- broken puzzle</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>Broken1!<font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>q</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#00ffff"><b>#Else, just go and try the next thing</b></font>
+<font color="#ffff00"><b>b</b></font> <a href="#next">next</a>
+
+
+<font color="#00ffff"><b>###Search</b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="done">done</a></b></font>
+<font color="#00ffff"><b>#No unsolved squares---puzzle is finished!</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
+
+
+
+<font color="#8080ff"><b>1000</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.\{33\}</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font>   <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.\{108\}</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>\
+</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.\{255\}.\{71\}</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>\
+</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[xXY]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+    <font color="#ffff00"><b>q</b></font>
+<font color="#ff6060"><b>}</b></font>  
+
+
+
+<font color="#00ffff"><b>#Hold space seperates puzzles with #</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>z</b></font><font color="#ff6060"><b>/</b></font>Z<font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b>#Append the puzzle to the queue</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>#<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>H</b></font>  
+<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+
+<font color="#00ffff"><b>#Move the end of the queue to the beginning</b></font>
+<font color="#00ffff"><b>#bredth first search</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.*\)\<font color="#ff00ff"><b>(</b></font>#[^#]*\)$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
+
+
+<font color="#00ffff"><b>#Next number to try is marked with a Q</b></font>
+<font color="#00ffff"><b>#Only X cells need to be tried. Fully searched</b></font>
+<font color="#00ffff"><b>#X cells are changed to K cells.</b></font>
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="next">next</a></b></font>
+<font color="#00ffff"><b>#Move the marker (if present)</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Q\<font color="#ff00ff"><b>(</b></font>[0-9]\)\<font color="#ff00ff"><b>(</b></font>-*\)\<font color="#ff00ff"><b>(</b></font>[0-9Y][^#]*\)$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font>Q<font color="#00ff00"><b>\3</b></font><font color="#ff6060"><b>/</b></font>
+
+<font color="#00ffff"><b>#Marker reached the end of the cell, flag cell and remove marker</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X\<font color="#ff00ff"><b>(</b></font>.........\)QY\<font color="#ff00ff"><b>(</b></font>[^#]*\)$</b></font><font color="#ff6060"><b>/</b></font>K<font color="#00ff00"><b>\1</b></font>Y<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b>#If necessary, place marker in next unchecked cell</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Q[^#]*$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>X-*\)\<font color="#ff00ff"><b>(</b></font>[0-9][-0-9]*Y[^#]*\)$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>Q<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
+
+
+
+
+<font color="#00ffff"><b>#Was this pattern exhausted?</b></font>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#[^X#]*$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+    <font color="#00ffff"><b>#Remove it and go again</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>#[^#]*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+
+    <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
+        <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>Broken!<font color="#ff6060"><b>/</b></font>
+        <font color="#ffff00"><b>q</b></font>
+    <font color="#ff6060"><b>}</b></font>
+    <font color="#ffff00"><b>b</b></font> <a href="#next">next</a>
+<font color="#ff6060"><b>}</b></font>  
+
+<font color="#ffff00"><b>x</b></font>  
+
+<font color="#00ffff"><b>#Get the top of the stack and put it in a form for processing</b></font>
+<font color="#ffff00"><b>g</b></font>  
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*#</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>K</b></font><font color="#ff6060"><b>/</b></font>X<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>XQ.........</b></font><font color="#ff6060"><b>/</b></font>x1--------<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X.Q........</b></font><font color="#ff6060"><b>/</b></font>x-2-------<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X..Q.......</b></font><font color="#ff6060"><b>/</b></font>x--3------<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X...Q......</b></font><font color="#ff6060"><b>/</b></font>x---4-----<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X....Q.....</b></font><font color="#ff6060"><b>/</b></font>x----5----<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X.....Q....</b></font><font color="#ff6060"><b>/</b></font>x-----6---<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X......Q...</b></font><font color="#ff6060"><b>/</b></font>x------7--<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X.......Q..</b></font><font color="#ff6060"><b>/</b></font>x-------8-<font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X........Q.</b></font><font color="#ff6060"><b>/</b></font>x--------9<font color="#ff6060"><b>/</b></font>
+<font color="#00ffff"><b>#Now attempt to solve this version of the puzzle</b></font>
+<font color="#ffff00"><b>b</b></font> <a href="#search">search</a>
+
+
+<font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="end">end</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X[-0-9]\{9\}Y</b></font><font color="#ff6060"><b>/</b></font>.<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>x-*\<font color="#ff00ff"><b>(</b></font>[0-9]\)-*Y</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.\{9\}</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>\
+</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Z</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+<font color="#ffff00"><b>q</b></font>  
+
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b># The End :-)</b></font>
+<font color="#00ffff"><b>#</b></font>
+<font color="#00ffff"><b>################################################################################</b></font>
+
+<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+### original script: <a href=""></a></b></font>
+
+</pre></body></html>
