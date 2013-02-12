@@ -206,17 +206,17 @@ r    @[yahoogroups-kill-sig|yahoogroups-kill-sig.sed]@ [@[colored|@local/scripts
 /  want some fun? try them all!  /{
 
 r        @[-|99 green bottles]@ [@[colored|local/games/99-green-bottles.sed.html]@] by Edward Rosten
-r           @[-|sudoku solver]@ [@[colored|local/games/sedoku.sed.html]@] by Edward Rosten
-r             @[-|tic tac toe]@ [@[colored|local/games/tictactoe.sed.html]@] by Graham Bell
-r         @[-|pong (1 player)]@ [@[colored|local/games/pong1player.sed.html]@] by Graham Bell
-r        @[-|pong (2 players)]@ [@[colored|local/games/pong2players.sed.html]@] by Graham Bell
-r                 @[-|sokoban]@ [@[colored|local/games/sokoban.sed.html]@] by Aurelio Jargas
 r                @[-|arkanoid]@ [@[colored|local/games/arkanoid.sed.html]@] by Aurelio Jargas
-r         @[-|towers of hanoi]@ [@[colored|local/games/hanoi.sed.html]@] by George Bergman
 r                @[-|connect4]@ [@[colored|local/games/connect4.sed.html]@] by Laurent Le Brun
 r           @[-|my mastermind]@ [@[colored|local/games/sedermind.sed.html]@] by Laurent Le Brun
 r             @[-|path solver]@ [@[colored|local/games/path.sed.html]@] by Laurent Le Brun
+r         @[-|pong (1 player)]@ [@[colored|local/games/pong1player.sed.html]@] by Graham Bell
+r        @[-|pong (2 players)]@ [@[colored|local/games/pong2players.sed.html]@] by Graham Bell
 r                  @[-|puzzle]@ [@[colored|local/games/puzzle.sed.html]@] by Laurent Le Brun
+r                 @[-|sokoban]@ [@[colored|local/games/sokoban.sed.html]@] by Aurelio Jargas
+r           @[-|sudoku solver]@ [@[colored|local/games/sedoku.sed.html]@] by Edward Rosten
+r             @[-|tic tac toe]@ [@[colored|local/games/tictactoe.sed.html]@] by Graham Bell
+r         @[-|towers of hanoi]@ [@[colored|local/games/hanoi.sed.html]@] by George Bergman
 }
 
 ########################################################################
