@@ -1,16 +1,16 @@
 #!/bin/sed -f
 # justify.sed - Aurelio Jargas <verde (a) aurelio net>
 #
-# it  gets  a text already wrapped on the desired number of columns
+# It  gets  a text already wrapped on the desired number of columns
 # and  add  extra  white  spaces, from left to right, word by word,
-# to  justify  all  the lines. there is a maximum of 5 spaces to be
-# inserted  between  the  words. if this limit is reached, the line
-# is  not  justified  (come  on,  more  than  5 is horrible). empty
-# lines  are  ignored.  btw, this comments were justified with this
+# to  justify  all  the lines. There is a maximum of 5 spaces to be
+# inserted  between  the  words. If this limit is reached, the line
+# is  not  justified  (come  on,  more  than  5 is horrible). Empty
+# lines  are  ignored.  BTW, this comments were justified with this
 # script &:)
 #
-# 20000715 1st release
-# 20000722 code cleaned
+# 2000-07-15 1st release
+# 2000-07-22 code cleaned
 
 # cleaning extra spaces of the line
 s/ \+/ /g
