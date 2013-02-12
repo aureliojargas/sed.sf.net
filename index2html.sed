@@ -212,7 +212,7 @@ s|^revchr_1.sed$|http://sed.sf.net/grabbag/scripts/revchr_1.sed|; t url
 s|^revchr_2.sed$|http://sed.sf.net/grabbag/scripts/revchr_2.sed|; t url
 s|^revlines.sed$|http://sed.sf.net/grabbag/scripts/revlines.sed|; t url
 s|^rot13.sed$|http://sed.sf.net/grabbag/scripts/rot13.sed|; t url
-s|^sedhttpd.sed$|http://awk.geht.net:8080/contrib/sedhttpd/sedhttpd0.2.txt|; t url
+s|^sedhttpd.sed$|http://www.oocities.org/mettw/personal/software/src/sedhttpd.txt|; t url
 s|^sm.sed$|http://aurelio.net/sed/programas/sm.sed|; t url
 s|^sodelnum.sed$|http://sed.sf.net/grabbag/scripts/sodelnum.sed|; t url
 s|^splitdig.sed$|http://sed.sf.net/grabbag/scripts/splitdig.sed|; t url
