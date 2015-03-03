@@ -69,14 +69,14 @@
 
     <font color="#00ffff"><b># make html tags for all</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>@\[\<font color="#ff00ff"><b>(</b></font>[^|]*\)|@\<font color="#ff00ff"><b>(</b></font>[^]]*\)]@</b></font><font color="#ff6060"><b>,</b></font>&lt;a href="<font color="#00ff00"><b>\2</b></font>"&gt;<font color="#00ff00"><b>\1</b></font>&lt;/a&gt;<font color="#ff6060"><b>,</b></font><font color="#00ff00"><b>g</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b># // address -&gt; bold</b></font>
 <font color="#ff6060"><b>\</b></font><font color="#ff6060"><b>,</b></font><font color="#8080ff"><b>^[[:blank:]]*/[^/].*/</b></font><font color="#ff6060"><b>,</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#00ffff"><b># author!</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>=</b></font><font color="#8080ff"><b> by [[:alpha:]][^/]\{1,\}</b></font><font color="#ff6060"><b>=</b></font>&lt;i&gt;<font color="#00ff00"><b>&amp;</b></font>&lt;/i&gt;<font color="#ff6060"><b>=</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>=</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[[:blank:]]*\)/\<font color="#ff00ff"><b>(</b></font>[^/&lt;]*\)</b></font><font color="#ff6060"><b>=</b></font><font color="#00ff00"><b>\1</b></font>/&lt;b&gt;<font color="#00ff00"><b>\2</b></font>&lt;/b&gt;<font color="#ff6060"><b>=</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b># author!</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b> by [[:alpha:]é,. ?-]\{1,\}$</b></font><font color="#ff6060"><b>|</b></font>&lt;i&gt;<font color="#00ff00"><b>&amp;</b></font>&lt;/i&gt;<font color="#ff6060"><b>|</b></font>
@@ -99,7 +99,7 @@
 </b></font>&lt;/pre&gt;&lt;/body&gt;&lt;/html&gt;
 <font color="#8080ff"><b>$</b></font> <font color="#ffff00"><b>q</b></font>
 
-<font color="#ffff00"><b>n</b></font>  
+<font color="#ffff00"><b>n</b></font>
 <font color="#ffff00"><b>b</b></font> <a href="#ini">ini</a>
 
 
@@ -421,7 +421,7 @@
 <font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Yiorgos Adamopoulos$</b></font><font color="#ff6060"><b>|</b></font>http://www.dbnet.ece.ntua.gr/~george/sed/OLD/<font color="#ff6060"><b>|</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
-<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Yao-Jen Chang$</b></font><font color="#ff6060"><b>|</b></font>http://main.rtfiber.com.tw/~changyj/sed/<font color="#ff6060"><b>|</b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^Yao-Jen Chang$</b></font><font color="#ff6060"><b>|</b></font>http://web.archive.org/web/20141115192529/http://main.rtfiber.com.tw/~changyj/sed/<font color="#ff6060"><b>|</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#url">url</a>
 <font color="#00ffff"><b>#other</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>^index2html$</b></font><font color="#ff6060"><b>|</b></font>http://sed.sf.net/index2html.sed<font color="#ff6060"><b>|</b></font>
@@ -432,7 +432,7 @@
 
 <font color="#ffff00"><b>b</b></font> <a href="#url">url</a>
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+<font color="#00ffff"><b>### colorized by <a href="http://aurelio.net/projects/sedsed/">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
 ### original script: <a href="http://sed.sf.net/index2html.sed">http://sed.sf.net/index2html.sed</a></b></font>
 
 </pre></body></html>
