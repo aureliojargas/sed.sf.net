@@ -33,8 +33,8 @@ To include a new script in the repository:
 5. Update `index.html` and `index2html.sed.html` files (see instructions above)
 
 
-[index.sed]:      https://github.com/aureliojargas/sed-website/blob/master/index.sed
-[index2html.sed]: https://github.com/aureliojargas/sed-website/blob/master/index2html.sed
+[index.sed]:      https://github.com/aureliojargas/sed.sf.net/blob/master/index.sed
+[index2html.sed]: https://github.com/aureliojargas/sed.sf.net/blob/master/index2html.sed
 [Aurelio Jargas]: http://aurelio.net/about.html
-[opening an issue ticket]: https://github.com/aureliojargas/sed-website/issues/new
+[opening an issue ticket]: https://github.com/aureliojargas/sed.sf.net/issues/new
 [when rendered by the browser]: http://sed.sf.net
