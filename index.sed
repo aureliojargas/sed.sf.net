@@ -259,7 +259,7 @@ s!     Eric Pement     ! @[=|Eric Pement]@ !
 s!   Laurent Le Brun   ! @[=|Laurent Le Brun]@                !
 s!    Paolo Bonzini    ! @[=|Paolo Bonzini]@                    !
 s! Tilmann Bitterberg  ! @[=|Tilmann Bitterberg]@  !
-s!    Yao-Jen Chang    ! @[=|Yao-Jen Chang]@      !
+s!    Yao-Jen Chang    ! @[=|Yao-Jen Chang]@ !
 s! Yiorgos Adamopoulos ! @[=|Yiorgos Adamopoulos]@ !
 
 
