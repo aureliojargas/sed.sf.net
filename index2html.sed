@@ -110,8 +110,8 @@ s|^GNU sed v4.x source code$|ftp://ftp.gnu.org/gnu/sed|; t url
 s|^HHsed v1.5 source code (Turbo C)$|http://www.pement.org/sed/sed15.zip|; t url
 s|^HHsed v1.5 for MS-DOS$|http://www.pement.org/sed/sed15x.zip|; t url
 s|^HHsed v1.5 for Windows$|http://www.pement.org/sed/sed15exe.zip|; t url
-s|^super sed v3.60 source code$|http://sed.sf.net/grabbag/ssed/sed-3.60.tar.gz|; t url
-s|^super sed v3.59 for Windows$|http://sed.sf.net/grabbag/ssed/sed-3.59.zip|; t url
+s|^super sed v3.62 source code$|http://sed.sf.net/grabbag/ssed/sed-3.62.tar.gz|; t url
+s|^super sed v3.62 for Windows$|http://sed.sf.net/grabbag/ssed/sed-3.62.zip|; t url
 s|^Complete list of available versions$|http://sed.sourceforge.net/sedfaq2.html#s2.2|; t url
 #doc
 s|^THE SED FAQ$|http://sed.sf.net/sedfaq.html|; t url
