@@ -120,7 +120,7 @@ s|^The sed one-liners$|http://sed.sf.net/sed1line.txt|; t url
 s|^GNU sed info$|http://directory.fsf.org/sed.html|; t url
 s|^The sed man page$|http://www.opengroup.org/onlinepubs/7908799/xcu/sed.html|; t url
 s|^sed, a stream editor$|http://www.gnu.org/software/sed/manual/html_mono/sed.html|; t url
-s|^Sed by example, Part 1$|http://www-106.ibm.com/developerworks/linux/library/l-sed1.html|; t url
+s|^Sed by example, Part 1$|http://www.ibm.com/developerworks/linux/library/l-sed1/index.html|; t url
 s|^Do it with sed$|http://sed.sf.net/grabbag/tutorials/do_it_with_sed.txt|; t url
 s|^A small tutorial about sed$|http://www.math.fu-berlin.de/~leitner/sed/tutorial.html|; t url
 s|^An introduction to sed$|http://www.cs.hmc.edu/tech_docs/qref/sed.html|; t url
