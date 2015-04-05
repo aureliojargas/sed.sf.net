@@ -104,12 +104,12 @@ t resett
 s|^GNU sed v3.02.80 source code$|ftp://alpha.gnu.org/pub/gnu/sed/sed-3.02.80.tar.gz|; t url
 s|^GNU sed v3.02.80 for Linux (RPM)$|http://aurelio.net/sed/sed-3.02.80-4cl.i386.rpm|; t url
 s|^GNU sed v3.02.80 for OS2$|http://www2s.biglobe.ne.jp/~vtgf3mpr/gnu/sed.htm|; t url
-s|^GNU sed v3.02.80 for Windows (3x, 9x, NT, 2K)$|http://www.student.northpark.edu/pemente/sed/sed3028a.zip|; t url
+s|^GNU sed v3.02.80 for Windows (3x, 9x, NT, 2K)$|http://www.pement.org/sed/sed3028a.zip|; t url
 s|^GNU sed v3.02 for HPUX$|http://hpux.connect.org.uk/hppd/hpux/Gnu/sed-3.02|; t url
 s|^GNU sed v4.x source code$|ftp://ftp.gnu.org/gnu/sed|; t url
-s|^HHsed v1.5 source code (Turbo C)$|http://www.student.northpark.edu/pemente/sed/sed15.zip|; t url
-s|^HHsed v1.5 for MS-DOS$|http://www.student.northpark.edu/pemente/sed/sed15x.zip|; t url
-s|^HHsed v1.5 for Windows$|http://www.student.northpark.edu/pemente/sed/sed15exe.zip|; t url
+s|^HHsed v1.5 source code (Turbo C)$|http://www.pement.org/sed/sed15.zip|; t url
+s|^HHsed v1.5 for MS-DOS$|http://www.pement.org/sed/sed15x.zip|; t url
+s|^HHsed v1.5 for Windows$|http://www.pement.org/sed/sed15exe.zip|; t url
 s|^super sed v3.60 source code$|http://sed.sf.net/grabbag/ssed/sed-3.60.tar.gz|; t url
 s|^super sed v3.59 for Windows$|http://sed.sf.net/grabbag/ssed/sed-3.59.zip|; t url
 s|^Complete list of available versions$|http://sed.sourceforge.net/sedfaq2.html#s2.2|; t url
@@ -127,8 +127,8 @@ s|^An introduction to sed$|http://www.cs.hmc.edu/tech_docs/qref/sed.html|; t url
 s|^A Non-interactive Text Editor$|http://sed.sf.net/grabbag/tutorials/sed_mcmahon.txt|; t url
 s|^Introduction to Unix's SED editor$|http://psr.rice.edu/sed.html|; t url
 s|^Tips on using sed on MS-DOS$|http://users.cybercity.dk/~bse26236/batutil/help/SED.HTM#sed|; t url
-s|^Using sed to create a book index$|http://www.student.northpark.edu/pemente/sed/bookindx.txt|; t url
-s|^Doing if/elseif/else with sed$|http://www.student.northpark.edu/pemente/sed/ifelse.txt|; t url
+s|^Using sed to create a book index$|http://www.pement.org/sed/bookindx.txt|; t url
+s|^Doing if/elseif/else with sed$|http://www.pement.org/sed/ifelse.txt|; t url
 s|^Example of state machine in sed$|http://aurelio.net/sed/programas/sm.sed|; t url
 s|^Program state in sed$|http://sed.sf.net/grabbag/tutorials/sed_state.txt|; t url
 s|^Using lookup tables with s///$|http://sed.sf.net/grabbag/tutorials/lookup_tables.txt|; t url
@@ -245,7 +245,7 @@ s|^sudoku solver$|http://www.edwardrosten.com/code/sed/sedoku.sed|; t url
 
 #tools
 s|^sd$|http://sed.sf.net/grabbag/scripts/sd.sh.txt|; t url
-s|^sdk$|http://www.student.northpark.edu/pemente/sed/sd.ksh.txt|; t url
+s|^sdk$|http://www.pement.org/sed/sd.ksh.txt|; t url
 s|^sedsed$|http://aurelio.net/projects/sedsed/|; t url
 s|^sedcheck$|http://lvogel.free.fr/sed/sedcheck.sed|; t url
 s|^bsed$|http://www.cskk.ezoshosting.com/cs/css/bin/bsed|; t url
@@ -256,7 +256,7 @@ s|^sed-users$|http://groups.yahoo.com/group/sed-users/|; t url
 s|^sed-br$|http://br.groups.yahoo.com/group/sed-br/|; t url
 #users
 s|^Aurelio Jargas$|http://aurelio.net/sed/|; t url
-s|^Eric Pement$|http://www.student.northpark.edu/pemente/sed/|; t url
+s|^Eric Pement$|http://www.pement.org/sed/|; t url
 s|^Laurent Le Brun$|http://laurent.le-brun.eu/geek|; t url
 s|^Tilmann Bitterberg$|http://www.bitterberg.de/tilmann/sed-en.html|; t url
 s|^Paolo Bonzini$|http://sed.sf.net/grabbag/|; t url
