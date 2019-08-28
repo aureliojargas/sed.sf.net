@@ -62,7 +62,7 @@ r                           @[-|SED FAQ]@ by DREAMWVR.COM
 r                @[-|The sed one-liners]@ by Eric Pement
 r                      @[-|GNU sed info]@ by FSF
 r                  @[-|The sed man page]@ by The Open Group
-r              @[-|sed, a stream editor]@ by Ken Pizzini
+r @[-|sed, a stream editor (GNU sed manual)]@ by Ken Pizzini
 r            @[-|Sed by example, Part 1]@ by Daniel Robbins
 r                    @[-|Do it with sed]@ by Carlos Jorge G. Duarte
 r            @[-|An introduction to sed]@ by Andrew M. Ross

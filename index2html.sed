@@ -119,7 +119,7 @@ s|^SED FAQ$|http://www.dreamwvr.com/sed-info/sed-faq.html|; t url
 s|^The sed one-liners$|http://sed.sf.net/sed1line.txt|; t url
 s|^GNU sed info$|http://directory.fsf.org/sed.html|; t url
 s|^The sed man page$|http://www.opengroup.org/onlinepubs/7908799/xcu/sed.html|; t url
-s|^sed, a stream editor$|https://www.gnu.org/software/sed/manual/sed.html|; t url
+s|^sed, a stream editor (GNU sed manual)$|https://www.gnu.org/software/sed/manual/sed.html|; t url
 s|^Sed by example, Part 1$|http://www.ibm.com/developerworks/linux/library/l-sed1/index.html|; t url
 s|^Do it with sed$|http://sed.sf.net/grabbag/tutorials/do_it_with_sed.txt|; t url
 s|^A small tutorial about sed$|http://www.math.fu-berlin.de/~leitner/sed/tutorial.html|; t url
