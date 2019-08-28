@@ -57,33 +57,33 @@ r  @[-|Complete list of available versions]@ by Eric Pement
 
 /  you must read these docs to understand the sed world  /{
 
-r                       @[-|THE SED FAQ]@ by Eric Pement
-r                           @[-|SED FAQ]@ by DREAMWVR.COM
-r                @[-|The sed one-liners]@ by Eric Pement
-r                      @[-|GNU sed info]@ by FSF
-r                  @[-|The sed man page]@ by The Open Group
+r                           @[-|THE SED FAQ]@ by Eric Pement
+r                               @[-|SED FAQ]@ by DREAMWVR.COM
+r                    @[-|The sed one-liners]@ by Eric Pement
+r                          @[-|GNU sed info]@ by FSF
+r                      @[-|The sed man page]@ by The Open Group
 r @[-|sed, a stream editor (GNU sed manual)]@ by Ken Pizzini
-r            @[-|Sed by example, Part 1]@ by Daniel Robbins
-r                    @[-|Do it with sed]@ by Carlos Jorge G. Duarte
-r            @[-|An introduction to sed]@ by Andrew M. Ross
-r     @[-|A Non-interactive Text Editor]@ by Lee E. McMahon
-r @[-|Introduction to Unix's SED editor]@ by F. Curtis Michel
-r       @[-|Tips on using sed on MS-DOS]@ by Benny Pedersen
-r  @[-|Using sed to create a book index]@ by Eric Pement
-r     @[-|Doing if/elseif/else with sed]@ by Eric Pement
-r   @[-|Example of state machine in sed]@ by Carlos Jorge G. Duarte
-r              @[-|Program state in sed]@ by Greg Ubben
-r     @[-|Using lookup tables with s///]@ by Greg Ubben
-r            @[-|A lookup-table counter]@ by Greg Ubben
-r                @[-|How to count words]@ by Greg Ubben
-r                   @[-|How add numbers]@ by Greg Ubben
-r   @[-|Analyzing a sed SQL interpreter]@ by Simon Taylor
-r     @[-|Graphical sed (state diagram)]@ by Al Aab
-r         @[-|Sed in (pseudo) microcode]@ by Carlos Jorge G. Duarte
-r          @[-|Proposal of a custom sed]@ by Simon Taylor
-r      @[-|Netscape frame-free with sed]@ by Paul Haeberli
-r       @[-|SED emulating UNIX commands]@ by Aurelio Jargas
-r         @[-|sed-HOWTO (in portuguese)]@ by Aurelio Jargas
+r                @[-|Sed by example, Part 1]@ by Daniel Robbins
+r                        @[-|Do it with sed]@ by Carlos Jorge G. Duarte
+r                @[-|An introduction to sed]@ by Andrew M. Ross
+r         @[-|A Non-interactive Text Editor]@ by Lee E. McMahon
+r     @[-|Introduction to Unix's SED editor]@ by F. Curtis Michel
+r           @[-|Tips on using sed on MS-DOS]@ by Benny Pedersen
+r      @[-|Using sed to create a book index]@ by Eric Pement
+r         @[-|Doing if/elseif/else with sed]@ by Eric Pement
+r       @[-|Example of state machine in sed]@ by Carlos Jorge G. Duarte
+r                  @[-|Program state in sed]@ by Greg Ubben
+r         @[-|Using lookup tables with s///]@ by Greg Ubben
+r                @[-|A lookup-table counter]@ by Greg Ubben
+r                    @[-|How to count words]@ by Greg Ubben
+r                       @[-|How add numbers]@ by Greg Ubben
+r       @[-|Analyzing a sed SQL interpreter]@ by Simon Taylor
+r         @[-|Graphical sed (state diagram)]@ by Al Aab
+r             @[-|Sed in (pseudo) microcode]@ by Carlos Jorge G. Duarte
+r              @[-|Proposal of a custom sed]@ by Simon Taylor
+r          @[-|Netscape frame-free with sed]@ by Paul Haeberli
+r           @[-|SED emulating UNIX commands]@ by Aurelio Jargas
+r             @[-|sed-HOWTO (in portuguese)]@ by Aurelio Jargas
 }
 
 ########################################################################
