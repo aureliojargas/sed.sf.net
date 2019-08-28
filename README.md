@@ -33,6 +33,11 @@ To include a new script in the repository:
 5. Update `index.html` and `index2html.sed.html` files (see instructions above)
 
 
+## Deploy
+
+The deploy is still an old school manual `scp` to the SourceForge's `htdocs` directory.
+
+
 [index.sed]:      https://github.com/aureliojargas/sed.sf.net/blob/master/index.sed
 [index2html.sed]: https://github.com/aureliojargas/sed.sf.net/blob/master/index2html.sed
 [Aurelio Jargas]: http://aurelio.net/about.html
