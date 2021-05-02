@@ -24,10 +24,10 @@
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> $</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
 
 <font color="#00ffff"><b># we'll only justify lines with less than 65 chars</b></font>
-<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^.\{65\}</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#"></a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^.\{65\}</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font>
 
 <font color="#00ffff"><b># backup of the 'stripped' line</b></font>
-<font color="#ffff00"><b>h</b></font>  
+<font color="#ffff00"><b>h</b></font>
 
 <font color="#00ffff"><b># spaces -&gt; pattern</b></font>
 <font color="#00ffff"><b># convert series of spaces to a internal pattern `n</b></font>
@@ -38,7 +38,7 @@
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>  </b></font><font color="#ff6060"><b>/</b></font>`2<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b> </b></font><font color="#ff6060"><b>/</b></font>`1<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#1space">1space</a>
-<font color="#ffff00"><b>b</b></font> <a href="#"></a>
+<font color="#ffff00"><b>b</b></font>
 
 <font color="#00ffff"><b># pattern -&gt; spaces</b></font>
 <font color="#00ffff"><b># restore the spaces converted to the internal pattern `n</b></font>
@@ -49,13 +49,13 @@
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>`2</b></font><font color="#ff6060"><b>/</b></font>  <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>`1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#check">check</a>
-<font color="#ffff00"><b>b</b></font> <a href="#"></a>
+<font color="#ffff00"><b>b</b></font>
 
 <font color="#00ffff"><b># check if we've reached our right limit</b></font>
 <font color="#00ffff"><b># if not, continue adding spaces</b></font>
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="check">check</a></b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^.\{65\}</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#s2p">s2p</a>
-<font color="#ffff00"><b>b</b></font> <a href="#"></a>
+<font color="#ffff00"><b>b</b></font>
 
 <font color="#00ffff"><b># here's the "magic":</b></font>
 <font color="#00ffff"><b># add 1 space to the first and minor internal pattern found.</b></font>
@@ -77,7 +77,7 @@
 <font color="#00ffff"><b># words, so let's restore the original line</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>`5</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>x</b></font>
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+<font color="#00ffff"><b>### colorized by <a href="https://aurelio.net/projects/sedsed/">sedsed</a>, a debugger and code formatter for sed scripts
 ### original script: <a href="http://aurelio.net/sed/programas/justify.sed">http://aurelio.net/sed/programas/justify.sed</a></b></font>
 
 </pre></body></html>

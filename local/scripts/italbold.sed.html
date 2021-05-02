@@ -50,11 +50,11 @@
         <font color="#ffff00"><b>b</b></font> <a href="#ital">ital</a>
     <font color="#ff6060"><b>}</b></font>
     <font color="#00ffff"><b># Else turn the "I" flag ON, insert &lt;i&gt; and go above.</b></font>
-    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
+    <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>I<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>x</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>_</b></font><font color="#ff6060"><b>|</b></font>&lt;i&gt;<font color="#ff6060"><b>|</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#ital">ital</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b># Now do the same with B and asterisks</b></font>
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="bold">bold</a></b></font>
@@ -70,13 +70,13 @@
     <font color="#ffff00"><b>x</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>|</b></font><font color="#8080ff"><b>\*</b></font><font color="#ff6060"><b>|</b></font>&lt;b&gt;<font color="#ff6060"><b>|</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#bold">bold</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
-<font color="#ffff00"><b>p</b></font>  
-<font color="#8080ff"><b>$</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#"></a>
+<font color="#ffff00"><b>p</b></font>
+<font color="#8080ff"><b>$</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font>
 
 <font color="#00ffff"><b># Error-checking routine</b></font>
-<font color="#ffff00"><b>g</b></font>  
+<font color="#ffff00"><b>g</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>&gt;&gt;<font color="#00ff00"><b>\
 </b></font>    +==============================================+<font color="#00ff00"><b>\
@@ -93,10 +93,10 @@
     <font color="#00ffff"><b># If /proc is supported, `w /proc/self/fd/2' writes to stderr</b></font>
     <font color="#00ffff"><b># For portability, we just use p</b></font>
     <font color="#ffff00"><b>p</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 <font color="#00ffff"><b>#----end of script----</b></font>
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+<font color="#00ffff"><b>### colorized by <a href="https://aurelio.net/projects/sedsed/">sedsed</a>, a debugger and code formatter for sed scripts
 ### original script: <a href="http://sed.sf.net/grabbag/scripts/italbold.sed">http://sed.sf.net/grabbag/scripts/italbold.sed</a></b></font>
 
 </pre></body></html>

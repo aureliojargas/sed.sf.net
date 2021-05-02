@@ -12,10 +12,10 @@
     <font color="#ffff00"><b>N</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[ 	*]\n[ 	*]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#join">join</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b># Do some selection to speed the thing up</b></font>
-<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&lt;[ 	]*\<font color="#ff00ff"><b>(</b></font>[aA]\<font color="#ff00ff"><b>|</b></font>[iI][mM][gG]\)</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#"></a>
+<font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&lt;[ 	]*\<font color="#ff00ff"><b>(</b></font>[aA]\<font color="#ff00ff"><b>|</b></font>[iI][mM][gG]\)</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font>
 
 <font color="#00ffff"><b># Remove extra spaces before/after the tag name, change img/area to a</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&lt;[ 	]*\<font color="#ff00ff"><b>(</b></font>[aA]\<font color="#ff00ff"><b>|</b></font>[iI][mM][gG]|[aA][rR][eE][aA]\)[ 	]\+</b></font><font color="#ff6060"><b>/</b></font>&lt;a <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
@@ -42,13 +42,13 @@
 
 <font color="#00ffff"><b># Print an URL, remove it, and loop</b></font>
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="loop">loop</a></b></font>
-<font color="#ffff00"><b>h</b></font>  
+<font color="#ffff00"><b>h</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*&lt;a href="\<font color="#ff00ff"><b>(</b></font>[^"]*\)".*$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>p</b></font>
-<font color="#ffff00"><b>g</b></font>  
+<font color="#ffff00"><b>g</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.*\)&lt;a href="\<font color="#ff00ff"><b>(</b></font>[^"]*\)".*$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#loop">loop</a>
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+<font color="#00ffff"><b>### colorized by <a href="https://aurelio.net/projects/sedsed/">sedsed</a>, a debugger and code formatter for sed scripts
 ### original script: <a href="http://sed.sf.net/grabbag/scripts/list_urls.sed">http://sed.sf.net/grabbag/scripts/list_urls.sed</a></b></font>
 
 </pre></body></html>

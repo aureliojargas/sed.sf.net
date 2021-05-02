@@ -22,9 +22,9 @@
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="addr">addr</a></b></font>
 <font color="#00ffff"><b># a 's' in the hold buffer indicates that the RE was part of a subst</b></font>
 <font color="#00ffff"><b># command. Since we're looking for addresses, clear the hold buffer.</b></font>
-<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>x</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
-<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>x</b></font>
 <font color="#00ffff"><b># skip &lt;address&gt;, &lt;address&gt;&lt;comma&gt;, &lt;address&gt;!,</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>[0-9!,$  ]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
 
@@ -32,7 +32,7 @@
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\/</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>\/_\/<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#rebeg">rebeg</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b># handle \xrex</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\\'*.</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
@@ -65,7 +65,7 @@
     <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>s</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#subst">subst</a>
     <font color="#ffff00"><b>x</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b># skip white space and any !</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>[!  ]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
@@ -102,7 +102,7 @@
     <font color="#00ffff"><b># flags</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>[0-9pg]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
     <font color="#00ffff"><b># w flag handled as the w command</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_y'*.</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_y\<font color="#ff00ff"><b>(</b></font>'*.\)</b></font><font color="#ff6060"><b>/</b></font>y<font color="#00ff00"><b>\1</b></font>_<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
@@ -121,7 +121,7 @@
     <font color="#ffff00"><b>b</b></font> <a href="#y2loop">y2loop</a>
     <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="y2end">y2end</a></b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>'*.\)\1</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b># :label, b label, t label, r file, w file (cmd &amp; flag), # comment</b></font>
 <font color="#00ffff"><b># all these include the end of line</b></font>
@@ -147,7 +147,7 @@
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>\\:*.\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
     <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#aloop">aloop</a>
     <font color="#ffff00"><b>b</b></font> <a href="#out">out</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b># skip whitespace</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>[  ]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
@@ -156,18 +156,18 @@
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_[;{]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_\<font color="#ff00ff"><b>(</b></font>[;{]\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>_<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#addr">addr</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>_$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#out">out</a>
 
 <font color="#00ffff"><b># weird case</b></font>
-<font color="#ffff00"><b>h</b></font>  
+<font color="#ffff00"><b>h</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[^_]*_</b></font><font color="#ff6060"><b>/</b></font>unknown construct: <font color="#ff6060"><b>/</b></font>
-<font color="#ffff00"><b>p</b></font>  
+<font color="#ffff00"><b>p</b></font>
 <font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
 </b></font>line was:
-<font color="#ffff00"><b>x</b></font>  
-<font color="#ffff00"><b>q</b></font>  
+<font color="#ffff00"><b>x</b></font>
+<font color="#ffff00"><b>q</b></font>
 
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="out">out</a></b></font>
 <font color="#00ffff"><b># remove the _</b></font>
@@ -176,7 +176,7 @@
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>'b</b></font><font color="#ff6060"><b>/</b></font>_<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>'a</b></font><font color="#ff6060"><b>/</b></font>'<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+<font color="#00ffff"><b>### colorized by <a href="https://aurelio.net/projects/sedsed/">sedsed</a>, a debugger and code formatter for sed scripts
 ### original script: <a href="http://sed.sf.net/local/scripts/bre2ere.sed">http://sed.sf.net/local/scripts/bre2ere.sed</a></b></font>
 
 </pre></body></html>

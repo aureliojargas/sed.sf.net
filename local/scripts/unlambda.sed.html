@@ -65,7 +65,7 @@
 
 <font color="#00ffff"><b># When parsing the program, the hold buffer contains: </b></font>
 <font color="#00ffff"><b># the line number, then a space, then the program parsed up to now</b></font>
-<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>x</b></font>
 
 <font color="#00ffff"><b># Initialize the hold buffer</b></font>
 <font color="#8080ff"><b>1</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>0 <font color="#ff6060"><b>/</b></font>
@@ -79,13 +79,13 @@
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[^ ]*i</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#inc">inc</a>
 
 <font color="#00ffff"><b># Back to the pattern space</b></font>
-<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>x</b></font>
 
 <font color="#00ffff"><b># Obtain a newline at the beginning of the pattern space. Successfully</b></font>
 <font color="#00ffff"><b># parsed input will go left of the newline. A space is added first for</b></font>
 <font color="#00ffff"><b># buggy sed whose G does not add a newline over an empty pattern space.</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font>
-<font color="#ffff00"><b>G</b></font>  
+<font color="#ffff00"><b>G</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^\n]*\)\<font color="#ff00ff"><b>(</b></font>\n\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="parse">parse</a></b></font>
@@ -100,7 +100,7 @@
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n\.[:@();|&lt;&gt;_`!#{}]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font>:a@b(c)d;e|f&lt;g&gt;h_i`j!k#l{m}n~<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>\n\)\.\<font color="#ff00ff"><b>(</b></font>.\)[^~]*\2\<font color="#ff00ff"><b>(</b></font>[^~]\)[^~]*~</b></font><font color="#ff6060"><b>/</b></font>,<font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 <font color="#00ffff"><b># .&lt;newline&gt;</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n\.$</b></font><font color="#ff6060"><b>/</b></font>r<font color="#ff6060"><b>/</b></font>
 <font color="#00ffff"><b># .x in the default case </b></font>
@@ -116,12 +116,12 @@
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[0-9]*\).*</b></font><font color="#ff6060"><b>/</b></font>Syntax error line <font color="#00ff00"><b>\1</b></font>:<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>p</b></font>
     <font color="#ffff00"><b>x</b></font>
     <font color="#ffff00"><b>q</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 <font color="#00ffff"><b># Continue while not at the end of this line</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n.</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#parse">parse</a>
 
 <font color="#00ffff"><b># Accumulate to the hold buffer</b></font>
-<font color="#ffff00"><b>H</b></font>  
+<font color="#ffff00"><b>H</b></font>
 
 <font color="#00ffff"><b># Go on parsing while the last line is not reached</b></font>
 <font color="#8080ff"><b>$</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>d</b></font>
@@ -131,7 +131,7 @@
 <font color="#00ffff"><b># interpreters have weird behaviour when the hold buffer is empty, </b></font>
 <font color="#00ffff"><b># make sure there is always a space in it.</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font>
-<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>x</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[^ ]* </b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 
@@ -315,7 +315,7 @@
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;*@</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;&gt;*\<font color="#ff00ff"><b>(</b></font>@@*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>!&gt;@<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#skiploop">skiploop</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b># If we haven't finished skipping one expression at the end of the </b></font>
 <font color="#00ffff"><b># pattern space, either there is a bug in this script, or the program </b></font>
@@ -323,7 +323,7 @@
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@|</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>Syntax error: unexpected end of file<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>q</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;&gt;*@@*[^@]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#skiploop">skiploop</a>
 
@@ -347,7 +347,7 @@
     <font color="#00ffff"><b># get a skip ref among the free skip ref list and replace the !</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>@\<font color="#ff00ff"><b>(</b></font>@*\)!\<font color="#ff00ff"><b>(</b></font>[^@!&gt;]*\)&gt;&gt;*\<font color="#ff00ff"><b>(</b></font>[^#]*#\)\<font color="#ff00ff"><b>(</b></font>[^,]*,\)</b></font><font color="#ff6060"><b>/</b></font>{<font color="#00ff00"><b>\4</b></font><font color="#00ff00"><b>\2</b></font>}<font color="#00ff00"><b>\4</b></font>&gt;<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\3</b></font><font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#skiploop">skiploop</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b># end of skip - get the action char from last !</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.\)!\<font color="#ff00ff"><b>(</b></font>[^&gt;]*\)&gt;*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font>&gt;<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
@@ -374,18 +374,18 @@
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;f</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>f:g&gt;<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#skip">skip</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;h</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>;<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>f:\<font color="#ff00ff"><b>(</b></font>[^;:]*\);\<font color="#ff00ff"><b>(</b></font>[^;:]*\);</b></font><font color="#ff6060"><b>/</b></font>&lt;<font color="#00ff00"><b>\2</b></font>`<font color="#00ff00"><b>\1</b></font>(<font color="#00ff00"><b>\2</b></font>)<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#incref">incref</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b># delete</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;z</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>)&lt;<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#delete">delete</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b># Continuation (1) - `c&lt;expr&gt;</b></font>
 <font color="#00ffff"><b># ---------------------------</b></font>
@@ -413,7 +413,7 @@
     <font color="#00ffff"><b># else create our ID as being 1 plus the biggest (leftmost) ID</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>[^;]*\);\<font color="#ff00ff"><b>(</b></font>[^;]*\);\<font color="#ff00ff"><b>(</b></font>[^|]*\)|\<font color="#ff00ff"><b>(</b></font>a*\)</b></font><font color="#ff6060"><b>/</b></font>(<font color="#00ff00"><b>\1</b></font>)`:&lt;<font color="#00ff00"><b>\2</b></font>%<font color="#00ff00"><b>\4</b></font>a%(<font color="#00ff00"><b>\3</b></font>)|<font color="#00ff00"><b>\4</b></font>a;;<font color="#00ff00"><b>\1</b></font>;<font color="#00ff00"><b>\3</b></font>|<font color="#00ff00"><b>\4</b></font><font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#incref">incref</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b># Continuation (2) - `&lt;cont&gt;&lt;expr&gt;</b></font>
 <font color="#00ffff"><b># --------------------------------</b></font>
@@ -439,7 +439,7 @@
     <font color="#00ffff"><b># first erase current state</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>[^;]*\);\<font color="#ff00ff"><b>(</b></font>a*;[^;]*\);\<font color="#ff00ff"><b>(</b></font>[^|]*\)</b></font><font color="#ff6060"><b>/</b></font>C:&lt;<font color="#00ff00"><b>\2</b></font>(<font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\3</b></font>)<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#delete">delete</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 <font color="#00ffff"><b># Called before running to check that the program contains exactly one</b></font>
 <font color="#00ffff"><b># expression</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&gt;?</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
@@ -456,7 +456,7 @@
     <font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
 </b></font>Syntax error: trailing garbage
     <font color="#ffff00"><b>q</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#ffff00"><b>b</b></font> <a href="#done">done</a>
 
@@ -482,7 +482,7 @@
     <font color="#00ffff"><b># parts as the continuation refcounts are only updated to</b></font>
     <font color="#00ffff"><b># the right).</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(\<font color="#ff00ff"><b>(</b></font>[^{%)]*{\)\<font color="#ff00ff"><b>(</b></font>[^,]*,\)\<font color="#ff00ff"><b>(</b></font>[^)]*}\)\2\<font color="#ff00ff"><b>(</b></font>[^#]*#\)\<font color="#ff00ff"><b>(</b></font>[^,]*,\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\5</b></font>(<font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\5</b></font><font color="#00ff00"><b>\4</b></font><font color="#ff6060"><b>/</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#incref">incref</a>
 <font color="#ffff00"><b>b</b></font> <a href="#left">left</a>
 
@@ -518,7 +518,7 @@
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>`:&lt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>_`<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#eval">eval</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b># Output functions all leave a '&lt;'</b></font>
 <font color="#00ffff"><b># Print the hold buffer and empty it.</b></font>
@@ -529,7 +529,7 @@
     <font color="#ffff00"><b>p</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>x</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 <font color="#00ffff"><b># Append the char to the hold buffer</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.\)\.:&lt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>&lt;<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
@@ -538,7 +538,7 @@
     <font color="#ffff00"><b>x</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n[^&lt;]*&lt;\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>x</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 <font color="#00ffff"><b># Append the converted char to the hold buffer</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.\),:&lt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>&lt;<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
@@ -549,7 +549,7 @@
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>\n\)[^&lt;]*&lt;\<font color="#ff00ff"><b>(</b></font>.\).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#00ff00"><b>\2</b></font>:a@b(c)d;e|f&lt;g&gt;h_i`j!k#l{m}n<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n\<font color="#ff00ff"><b>(</b></font>.\).*\<font color="#ff00ff"><b>(</b></font>.\)\1.*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>x</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b># Part of `&lt;cont&gt;&lt;expr&gt; handling - see explanation above</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>C:&lt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
@@ -561,25 +561,25 @@
     <font color="#ff6060"><b>}</b></font>
     <font color="#00ffff"><b># else remove the continuation but keep the free ID.</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>C:&lt;\<font color="#ff00ff"><b>(</b></font>a*\);\<font color="#ff00ff"><b>(</b></font>[^|]*\)\<font color="#ff00ff"><b>(</b></font>.*\)|\1;;\<font color="#ff00ff"><b>(</b></font>[^;]*\);\<font color="#ff00ff"><b>(</b></font>[^|]*\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\4</b></font>&lt;<font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\5</b></font><font color="#00ff00"><b>\3</b></font>|<font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>&lt;</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#left">left</a>
 
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="done">done</a></b></font>
 
 <font color="#00ffff"><b># flush output if pending</b></font>
-<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>x</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>..</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#00ffff"><b># remove the dumb first char</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^ </b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>p</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b># quit </b></font>
-<font color="#ffff00"><b>d</b></font>  
+<font color="#ffff00"><b>d</b></font>
 
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+<font color="#00ffff"><b>### colorized by <a href="https://aurelio.net/projects/sedsed/">sedsed</a>, a debugger and code formatter for sed scripts
 ### original script: <a href="ftp://quatramaran.ens.fr/pub/madore/unlambda/contrib/unlambda.sed">ftp://quatramaran.ens.fr/pub/madore/unlambda/contrib/unlambda.sed</a></b></font>
 
 </pre></body></html>

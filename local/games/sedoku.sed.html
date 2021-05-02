@@ -75,12 +75,12 @@
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>9</b></font><font color="#ff6060"><b>/</b></font>--------9<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.</b></font><font color="#ff6060"><b>/</b></font>123456789<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 
-<font color="#ffff00"><b>H</b></font>  
+<font color="#ffff00"><b>H</b></font>
 
 <font color="#8080ff"><b>1</b></font>,<font color="#8080ff"><b>8</b></font> <font color="#ffff00"><b>d</b></font>
 <font color="#00ffff"><b>#Empty the hold space for later</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
-<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>x</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 <font color="#00ffff"><b>#Mark known squares</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>X\<font color="#ff00ff"><b>(</b></font>-*[0-9]-*\)Y</b></font><font color="#ff6060"><b>/</b></font>x<font color="#00ff00"><b>\1</b></font>Y<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
@@ -110,7 +110,7 @@
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^r</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>S</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>E</b></font><font color="#ff6060"><b>/</b></font>S<font color="#ff6060"><b>/</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^R</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^R</b></font><font color="#ff6060"><b>/</b></font>rS<font color="#ff6060"><b>/</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>r</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>S.\{99\}</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font>E<font color="#ff6060"><b>/</b></font>
 
@@ -126,7 +126,7 @@
         <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\<font color="#ff00ff"><b>(</b></font>.\{11\}\)\<font color="#ff00ff"><b>(</b></font>.\{88\}\)</b></font><font color="#ff6060"><b>/</b></font>S<font color="#00ff00"><b>\1</b></font>E<font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
         <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>C<font color="#ff6060"><b>/</b></font>
     <font color="#ff6060"><b>}</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b>#Move all column markers across by 1 (11 chars)</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>c</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>S\<font color="#ff00ff"><b>(</b></font>[^E]*\)E\<font color="#ff00ff"><b>(</b></font>.\{11\}\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>S<font color="#00ff00"><b>\2</b></font>E<font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
@@ -143,7 +143,7 @@
         <font color="#00ffff"><b>#Put in state machine state</b></font>
         <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>d<font color="#ff6060"><b>/</b></font>
     <font color="#ff6060"><b>}</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b>#Move square markers</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^[e-m]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
@@ -169,7 +169,7 @@
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>g.\{255\}.\{42\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>S<font color="#00ff00"><b>\2</b></font>E<font color="#00ff00"><b>\3</b></font>S<font color="#00ff00"><b>\4</b></font>E<font color="#00ff00"><b>\5</b></font>S<font color="#00ff00"><b>\6</b></font>E<font color="#00ff00"><b>\7</b></font><font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>f.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>S<font color="#00ff00"><b>\2</b></font>E<font color="#00ff00"><b>\3</b></font>S<font color="#00ff00"><b>\4</b></font>E<font color="#00ff00"><b>\5</b></font>S<font color="#00ff00"><b>\6</b></font>E<font color="#00ff00"><b>\7</b></font><font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>e.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)\<font color="#ff00ff"><b>(</b></font>.\{33\}\)\<font color="#ff00ff"><b>(</b></font>.\{66\}\)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>S<font color="#00ff00"><b>\2</b></font>E<font color="#00ff00"><b>\3</b></font>S<font color="#00ff00"><b>\4</b></font>E<font color="#00ff00"><b>\5</b></font>S<font color="#00ff00"><b>\6</b></font>E<font color="#00ff00"><b>\7</b></font><font color="#ff6060"><b>/</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 
 <font color="#00ffff"><b>#Increment the state flag</b></font>
@@ -187,7 +187,7 @@
     <font color="#00ffff"><b>#Reset elminiation marker</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>z</b></font><font color="#ff6060"><b>/</b></font>Z<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#loop">loop</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b>################################################################################</b></font>
 <font color="#00ffff"><b>#</b></font>
@@ -244,12 +244,12 @@
 
 <font color="#00ffff"><b>#Inconsistent state</b></font>
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="bork">bork</a></b></font>
-<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>x</b></font>
 <font color="#00ffff"><b>#Hold space empty -- first time through -- broken puzzle</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>Broken1!<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>q</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 <font color="#00ffff"><b>#Else, just go and try the next thing</b></font>
 <font color="#ffff00"><b>b</b></font> <a href="#next">next</a>
@@ -270,7 +270,7 @@
 </b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[xXY]</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
     <font color="#ffff00"><b>q</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
 
 
@@ -278,8 +278,8 @@
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>z</b></font><font color="#ff6060"><b>/</b></font>Z<font color="#ff6060"><b>/</b></font>
 <font color="#00ffff"><b>#Append the puzzle to the queue</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>#<font color="#ff6060"><b>/</b></font>
-<font color="#ffff00"><b>H</b></font>  
-<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>H</b></font>
+<font color="#ffff00"><b>x</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 
 <font color="#00ffff"><b>#Move the end of the queue to the beginning</b></font>
@@ -312,12 +312,12 @@
         <font color="#ffff00"><b>q</b></font>
     <font color="#ff6060"><b>}</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#next">next</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 
-<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>x</b></font>
 
 <font color="#00ffff"><b>#Get the top of the stack and put it in a form for processing</b></font>
-<font color="#ffff00"><b>g</b></font>  
+<font color="#ffff00"><b>g</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*#</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>K</b></font><font color="#ff6060"><b>/</b></font>X<font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>XQ.........</b></font><font color="#ff6060"><b>/</b></font>x1--------<font color="#ff6060"><b>/</b></font>
@@ -339,14 +339,14 @@
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.\{9\}</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>&amp;</b></font><font color="#00ff00"><b>\
 </b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>Z</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
-<font color="#ffff00"><b>q</b></font>  
+<font color="#ffff00"><b>q</b></font>
 
 <font color="#00ffff"><b>#</b></font>
 <font color="#00ffff"><b># The End :-)</b></font>
 <font color="#00ffff"><b>#</b></font>
 <font color="#00ffff"><b>################################################################################</b></font>
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+<font color="#00ffff"><b>### colorized by <a href="https://aurelio.net/projects/sedsed/">sedsed</a>, a debugger and code formatter for sed scripts
 ### original script: <a href=""></a></b></font>
 
 </pre></body></html>

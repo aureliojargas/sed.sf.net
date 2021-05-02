@@ -85,14 +85,14 @@
 
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^.*\n</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font>error: "<font color="#00ff00"><b>&amp;</b></font>" is an invalid state<font color="#ff6060"><b>/</b></font>
-<font color="#ffff00"><b>q</b></font>  
+<font color="#ffff00"><b>q</b></font>
 
 <font color="#00ffff"><b>##########</b></font>
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="s0">s0</a></b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\n</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font>1<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#next">next</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>&gt;<font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>b</b></font> <a href="#pnext">pnext</a>
 
@@ -101,7 +101,7 @@
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\n</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font>2<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#next">next</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>:<font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>b</b></font> <a href="#pnext">pnext</a>
 
@@ -110,17 +110,17 @@
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\n</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.$</b></font><font color="#ff6060"><b>/</b></font>0<font color="#ff6060"><b>/</b></font>
     <font color="#ffff00"><b>b</b></font> <a href="#next">next</a>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^</b></font><font color="#ff6060"><b>/</b></font>|<font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>b</b></font> <a href="#pnext">pnext</a>
 
 <font color="#00ffff"><b>##########</b></font>
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="pnext">pnext</a></b></font>
 <font color="#00ffff"><b># common late processing may come here, and operate on /^.*\n/</b></font>
-<font color="#ffff00"><b>P</b></font>  
+<font color="#ffff00"><b>P</b></font>
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="next">next</a></b></font>
 <font color="#8080ff"><b>$</b></font> <font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
-<font color="#ffff00"><b>N</b></font>  
+<font color="#ffff00"><b>N</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^\<font color="#ff00ff"><b>(</b></font>.*\)\<font color="#ff00ff"><b>(</b></font>\n.*\)\n\<font color="#ff00ff"><b>(</b></font>.*\)$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\3</b></font><font color="#00ff00"><b>\2</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>b</b></font> <a href="#main">main</a>
 
@@ -130,9 +130,9 @@
 <font color="#00ffff"><b>#</b></font>
 
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="end">end</a></b></font>
-<font color="#ffff00"><b>d</b></font>  
+<font color="#ffff00"><b>d</b></font>
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+<font color="#00ffff"><b>### colorized by <a href="https://aurelio.net/projects/sedsed/">sedsed</a>, a debugger and code formatter for sed scripts
 ### original script: <a href="http://aurelio.net/sed/programas/sm.sed">http://aurelio.net/sed/programas/sm.sed</a></b></font>
 
 </pre></body></html>
