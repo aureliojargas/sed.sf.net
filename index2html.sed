@@ -138,7 +138,7 @@ s|^How add numbers$|http://sed.sf.net/grabbag/tutorials/greg_add.txt|; t url
 s|^Analyzing a sed SQL interpreter$|http://www.dbnet.ece.ntua.gr/~george/sed/OLD/sedql.html|; t url
 s|^Graphical sed (state diagram)$|http://www.dbnet.ece.ntua.gr/~george/sed/OLD/sed.logic.txt|; t url
 s|^Sed in (pseudo) microcode$|http://www.dbnet.ece.ntua.gr/~george/sed/OLD/sed-microcode.html|; t url
-s|^Proposal of a custom sed$|http://www.ptug.org/sed/custom_sed.html|; t url
+s|^Proposal of a custom sed$|http://sed.sourceforge.net/grabbag/tutorials/custom_sed.htm|; t url
 s|^Netscape frame-free with sed$|ftp://ftp.sgi.com/sgi/graphics/grafica/framefree/sed.html|; t url
 s|^SED emulating UNIX commands$|http://sed.sf.net/local/docs/emulating_unix.txt|; t url
 s|^sed-HOWTO (in portuguese)$|http://aurelio.net/sed/sed-HOWTO/|; t url
