@@ -32,6 +32,7 @@
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="gen">gen</a></b></font>
 <font color="#ffff00"><b>y</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>abcdefghijklmnopqrstuvwxyz12345678</b></font><font color="#ff6060"><b>/</b></font>bcdefghijklmnopqrstuvwxyz123456781<font color="#ff6060"><b>/</b></font>
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="l">l</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>([^1-8])([1-8])</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#l">l</a>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^(.*)(.)$</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\2</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^1(.)</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font>5<font color="#ff6060"><b>/</b></font>
@@ -39,7 +40,7 @@
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(....).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>\nGuess the code (4 digits between 1 and 8) [........]<font color="#ff6060"><b>/</b></font>
-<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>x</b></font>
 
 <font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
 </b></font><font color="#00ff00"><b>\
@@ -50,22 +51,22 @@
 <font color="#00ffff"><b># Tester user guess.</b></font>
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="check">check</a></b></font>
 
-<font color="#ffff00"><b>G</b></font>  
+<font color="#ffff00"><b>G</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n</b></font><font color="#ff6060"><b>/</b></font>:<font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\n.*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
 
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^(.*):\1$</b></font><font color="#ff6060"><b>/</b></font> <font color="#ffff00"><b>b</b></font> <a href="#vict">vict</a>
 
-<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>x</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.</b></font><font color="#ff6060"><b>/</b></font>*<font color="#ff6060"><b>/</b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>\.</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>!</b></font><font color="#ffff00"><b>b</b></font> <a href="#lose">lose</a>
-<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>x</b></font>
 
 <font color="#00ffff"><b># Correct digits</b></font>
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="loop1">loop1</a></b></font>
 <font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>([1-8]).{4}\1</b></font><font color="#ff6060"><b>/</b></font> <font color="#ff6060"><b>{</b></font>
     <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>(.)(.{4})\1</b></font><font color="#ff6060"><b>/</b></font> <font color="#00ff00"><b>\2</b></font>o<font color="#ff6060"><b>/</b></font>
-<font color="#ff6060"><b>}</b></font>  
+<font color="#ff6060"><b>}</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#loop1">loop1</a>
 
 <font color="#00ffff"><b># Digits with bad position</b></font>
@@ -77,36 +78,36 @@
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*:</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>[^ox]</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>g</b></font>
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="m">m</a></b></font>
+<font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>xo</b></font><font color="#ff6060"><b>/</b></font>ox<font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>t</b></font> <a href="#m">m</a>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>$</b></font><font color="#ff6060"><b>/</b></font>    <font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>^(....).*</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>\1</b></font><font color="#ff6060"><b>/</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font> =&gt; '<font color="#00ff00"><b>&amp;</b></font>'<font color="#ff6060"><b>/</b></font>
-<font color="#ffff00"><b>p</b></font>  
-<font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
-</b></font>
+<font color="#ffff00"><b>p</b></font>
+<font color="#ffff00"><b>i</b></font>
 <font color="#ffff00"><b>b</b></font> <a href="#end">end</a>
 
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="vict">vict</a></b></font>
 <font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
 </b></font> Victory is yours.
-<font color="#ffff00"><b>Q</b></font>  
+<font color="#ffff00"><b>Q</b></font>
 
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="lose">lose</a></b></font>
 <font color="#ffff00"><b>i</b></font><font color="#00ff00"><b>\
 </b></font> Loser. <font color="#00ff00"><b>\
 </b></font> Answer was:
-<font color="#ffff00"><b>x</b></font>  
+<font color="#ffff00"><b>x</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*:</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
-<font color="#ffff00"><b>q</b></font>  
+<font color="#ffff00"><b>q</b></font>
 
 <font color="#ff00ff"><b>:</b></font><font color="#ff00ff"><b><a name="end">end</a></b></font>
-<font color="#ffff00"><b>g</b></font>  
+<font color="#ffff00"><b>g</b></font>
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*\n</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font><font color="#00ff00"><b>p</b></font>
 
 <font color="#ffff00"><b>s</b></font><font color="#ff6060"><b>/</b></font><font color="#8080ff"><b>.*</b></font><font color="#ff6060"><b>/</b></font><font color="#ff6060"><b>/</b></font>
-<font color="#ffff00"><b>d</b></font>  
+<font color="#ffff00"><b>d</b></font>
 
-<font color="#00ffff"><b>### colorized by <a href="http://sedsed.sf.net">sedsed</a>, a SED script debugger/indenter/tokenizer/HTMLizer
+<font color="#00ffff"><b>### colorized by <a href="https://aurelio.net/projects/sedsed/">sedsed</a>, a debugger and code formatter for sed scripts
 ### original script: <a href="http://laurent.le-brun.eu/pub/sedermind.sed">http://laurent.le-brun.eu/pub/sedermind.sed</a></b></font>
 
 </pre></body></html>

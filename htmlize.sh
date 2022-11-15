@@ -11,7 +11,6 @@ url_database="index2html.sed"
 output_extension="html"
 
 unsupported="
-local/games/sedermind.sed: invalid SED command 'Q' at line 84 (unsupported by sedsed)
 local/scripts/html2iso.sed: sed: RE error: illegal byte sequence
 local/scripts/html_lc.sed: sed: RE error: illegal byte sequence
 local/scripts/html_uc.sed: sed: RE error: illegal byte sequence
@@ -20,6 +19,7 @@ local/scripts/iso2html.sed: sed: RE error: illegal byte sequence
 local/scripts/sodelnum.sed: sed: RE error: illegal byte sequence
 local/scripts/untroff.sed: sed: RE error: illegal byte sequence
 "
+unsupported=""
 
 get_script_url() {
 	local label="$1"
