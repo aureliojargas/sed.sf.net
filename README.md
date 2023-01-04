@@ -35,7 +35,16 @@ To include a new script in the repository:
 
 ## Deploy
 
-The deploy is still an old school manual `scp` to the SourceForge's `htdocs` directory.
+The deploy is still an old school manual `rsync` to the SourceForge's `htdocs` directory.
+
+    rsync --dry-run --verbose --archive --update --compress \
+          --exclude .git \
+          --exclude .gitignore \
+          --exclude README.md \
+          . \
+          aureliojargas,sed@web.sourceforge.net:/home/groups/s/se/sed/htdocs
+
+Remember to remove the `--dry-run` option to actually upload the files.
 
 
 [index.sed]:      https://github.com/aureliojargas/sed.sf.net/blob/master/index.sed
