@@ -2,3 +2,8 @@ Options Indexes
 
 Redirect permanent /local/scripts/sedindex2html.sed.html /index2html.sed.html
 Redirect permanent /local/debug/ /local/tools/
+
+# Point Sed FAQ and oneliners to Eric Pement's website
+Redirect temp /sed1line.txt https://www.pement.org/sed/sed1line.txt
+Redirect temp /sedfaq.txt   https://www.pement.org/sed/sedfaq.txt
+Redirect temp /sedfaq.html  https://www.pement.org/sed/sedfaq.html
