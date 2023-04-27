@@ -1,0 +1,50 @@
+#! /bin/sh
+#
+# fullgrep -- Print all occurrences of a regular expression in
+# a file.  Written by Hartmut Schaefer and Paolo Bonzini.
+#
+# The bulk of this shell script is this 3-line sed invocation:
+#
+#    /\n/P                  # Print matching text
+#    /\n/!s/REGEXP/\n&\n/   # If not
+#    D
+#
+# Note that the P and s/// commands are invoked alternatively: this
+# is what happens after a successful substitution:
+# - D deletes the skipped part of pattern space
+# - P prints the first line which contains the matched text
+#   because after the matched text there is a \n
+# - The s/// command is skipped
+# - D deletes the matched text and leaves no new-lines...
+# - ...so P is skipped and s/// looks for another occurrence.
+#
+# In other words, the loop could also be written like this:
+#
+#    s/REGEXP/\n&\n/
+#    /\n!/d
+#    s/[^\n]*\n//           # same as D but does not restart the program
+#    P
+#    D
+#
+# Ok, this version may be more clear...
+#
+# Also note that we cannot match .*REGEXP because it is greedy.
+
+SED="${SED:-sed}"
+if [ "$1" = -e ]; then
+  SED="$SED -r"
+fi
+
+if [ "$#" = 0 ]; then
+  echo Usage: $0 [-e] REGEXP [FILE...] >&2
+  exit 1
+fi
+
+regexp=$1
+shift
+$SED \
+  -e '/\n/P' \
+  -e '/\n/!s/'"$regexp"'/\
+&\
+/' \
+  -e D ${1+"$@"}

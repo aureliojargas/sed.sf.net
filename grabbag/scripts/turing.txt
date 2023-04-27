@@ -1,0 +1,294 @@
+
+           Implementation of a Turing Machine as Sed Script
+
+                     Christophe Blaess, 2001.
+
+
+  This Sed script emulates a Turing machine, reading its instruction
+  table on the standard input and writing the content of the tape on
+  the standard output.
+  
+
+Introduction
+------------
+
+A Turing machine is a very simple computation device, introduced by Alan
+Turing in 1935.  This  machine  is  made  of a magnetic tape and a read-
+write head,  which can move along the tape.  This tape is  divided  into
+cells, each of them could be  empty, or could contain a symbol  (letter,
+digit, etc.).  The tape is theorically infinite,  but the number of non-
+empty cells is finite  (this is important because we  can  always  start
+with a blank tape and use a finite number of program steps to initialize
+the tape).
+
+The  head  can move to the left or to the right one cell at a time.  The
+Turing  machine contains also a cell of memory that can accept a symbol.
+This memory represents the state of the machine.
+
+The behavior of the machine  at a given moment  is totally determined by
+its state  and the symbole lying in front of the read head.  The machine
+is programmable: we insert a list of instructions, i.e. a list of action
+to perform  for  each  state  and  each possible symbol.  An instruction
+contains a new symbol  to  write on the tape in place of the previous, a
+direction of movement for the head, and a new state for the machine.
+
+The machine act as follows:
+
+- The machine reads the content of the cell being in front of the head.
+  If there  isn't any instruction corresponding  to this symbol and to
+  the current state of the machine, it stops.
+
+- The  machine  writes on  the tape the new symbol as specified in the
+  selected instruction, erasing the previous content of the cell. This
+  can be the same symbol.
+
+- The machine moves the read-write head one step to the left or to the
+  right according to the direction  in the instruction.  In our imple-
+  mentation, we add the possibility to keep the head on the same cell.
+
+- The machine loads  its memory with  the  symbol representing the new
+  state. If there isn't any instruction for this state of the machine,
+  a  final  stable  state  has  been  reached,  and  the machine stops.
+  Otherwise the cycle restarts.
+
+The result of the execution of a  Turing  machine is the printing of the
+tape.  For  teaching  purposes,  we choose  to  display this tape at the
+begining of each cycle.
+
+
+The instructions are given as five characters strings:
+
+  - The first character is the current state,  i.e. the symbol corres-
+    ponding to the state of the machine at the beginning of the cycle.
+    In our implementation a symbol can be a letter,  a digit,  or  any
+    punctuation mark excepted `|', `#' and `:'.  At the beginning, the
+    state of the machine is always `0'.
+    
+  - The  second  character  is the symbol read on the tape.  The cells
+    contain any letter, digit, or punctuation sign except `|', `#' and
+    `:'. By default a blank cell appears as ` '.
+    
+The first two fields select an instruction,  the next ones represent the
+action to perform:
+
+  - The third character is the symbol to write on the tape in place of
+    the previous one.
+    
+  - The fourth is  the direction to move the head.  It can be  `L'  or
+    `l' to move to the left, `R' or `r' to move to the right,  or  ` '
+    to stay at the same place.
+    
+  - Finally,  the  fifth  character  represents  the  new state of the
+    machine to switch to at the end of the cycle.
+
+The instructions  are  given  on the standard input of the machine.  The
+machine  reads  them  all and stores them before starting, so we can put
+them in a script file.  We added the possibility  to put comments in the
+script file, beginning with a `#' and extending to the end of the line.
+
+The user can also give an initial tape, as a string  beginning with `|'.
+The head will be  automatically set in front of the  leftmost  cell.  Of
+course,  if no tape are given,  the script provides a blank one.  As the
+tape is theorically infinite,  we will extend it automatically as needed.
+
+
+Implementation
+--------------
+
+We will use the  Sed  buffer  as  a storage area containing all we need:
+tape, machine's state, instructions.  We will use the second buffer only
+for  storage  when  displaying  the  tape  at each cycle.  If you prefer
+displaying  the  content of the tape only at the end of the program, you
+can avoid totally use of the second buffer.
+
+This  script  was  written on the Gnu version of Sed, which one gives no
+limit for the size of the buffer,  except  the  total  amount  of memory
+available on the system. So we consider the tape as unlimited.
+
+The first character in the Sed  buffer  is  the  current  state  of  the
+machine  (initially   `0').  We  also  reserve  a  second  character  as
+temporary storage area for the symbole read by the head.
+
+Next comes the tape, as a character string terminated by a colon `:'. To
+mark  the  position  of the read head, the current cell is surrounded by
+two `|'.
+
+After the  tape are the instructions,  separated by colons.  To find the
+instruction corresponding  to the current  state,  we  will search for a
+substring beginning after a colon, and whose first two characters (state
+and current cell) are the same as the first two of the Sed buffer.
+
+The understanding of the script is not very easy,  but  the figure below
+describing  the  Sed  buffer  may  help  to read line by line our Turing
+machine emulator.
+
+
+   current state of the machine
+   |  content of the read cell
+   |  |
+   |  |         Tape              Instruction       Instruction
+   v  v <------------------->   <------------->   <------------->
+  [0][1][2]...[|][1][|]...[0][:][0][1][1][L][1][:][1][1][0][R][2][:]...
+              <------->          ^  ^  ^  ^  ^
+           read-write head       |  |  |  |  |
+                                 |  |  |  |  next state of the machine   
+                                 |  |  |  direction of movement
+                                 |  |  new symbol to write
+                                 |  symbol read on the tape
+                                 current state of the machine
+			       
+              Fig. 1 - Content of the Sed buffer.
+
+
+Usage
+-----
+
+To use our machine,  we send  the instruction table and the initial tape
+on its standard input,  using script files,  with ".tm" (Turing Machine)
+extension.  It is not very  easy  to  write  real  programs for a Turing
+machine.  But,  for  example, we  can see a script to increment a binary
+number.  The  number is written on the tape before starting the program.
+Our machine will use four states (`0',  `1',  `2',  and `3') and a final
+stable state `F'.
+
+
+State 0: We look for the number,  moving  the head to the right until
+encoutering a `1' or a `0'. When done we switch to state 1.  It takes
+three instructions:
+
+   +-----------+-----------+-----------+-----------+-----------+
+   |  Current  |  Symbol   | Symbol to |   Move    |   Next    |
+   |   state   |   read    |   write   |   Move    |   State   |
+   +-----------+-----------+-----------+-----------+-----------+
+   |     0     |    ' '    |    ' '    |     R     |     0     |
+   |     0     |    '0'    |    '0'    |     R     |     1     |
+   |     0     |    '1'    |    '1'    |     R     |     1     |
+   +-----------+-----------+-----------+-----------+-----------+
+
+If we find another symbol on the tape, the machine will automatically
+stop  (line 54 in the script "turing.sed"), but not on a final stable
+state.
+
+
+State 1:  We have found the number,  we will continue until the first
+space.  Then we move the head  backward one step,  to put it in front
+of the rightmost binary digit (least significant).
+
+   +-----------+-----------+-----------+-----------+-----------+
+   |  Current  |  Symbol   | Symbol to |   Move    |   Next    |
+   |   state   |   read    |   write   |   Move    |   State   |
+   +-----------+-----------+-----------+-----------+-----------+
+   |     1     |    ' '    |    ' '    |     L     |     2     |
+   |     1     |    '0'    |    '0'    |     R     |     1     |
+   |     1     |    '1'    |    '1'    |     R     |     1     |
+   +-----------+-----------+-----------+-----------+-----------+
+
+
+State 2:  We want to  increment the binary digit.  If it's a `0',  we
+overwrite it with a `1' and switch to next state.  If it's a `1',  we
+overwrite it with a `0', then move the head to the left (on the upper
+digit) and repeat the state 2.  If  we  have  found a space (the most
+significant digit was a `1'),  we overwrite it with a  `1' and switch
+to the next state.
+
+   +-----------+-----------+-----------+-----------+-----------+
+   |  Current  |  Symbol   | Symbol to |   Move    |   Next    |
+   |   state   |   read    |   write   |   Move    |   State   |
+   +-----------+-----------+-----------+-----------+-----------+
+   |     2     |    ' '    |    '1'    |     R     |     3     |
+   |     2     |    '0'    |    '1'    |     R     |     3     |
+   |     2     |    '1'    |    '0'    |     L     |     2     |
+   +-----------+-----------+-----------+-----------+-----------+
+
+
+State 3:  We move the  head along the tape to the right of the number
+for  aesthetic  reason  during  final display of the tape.  Then,  we
+switch to the final stable state `F'.
+
+   +-----------+-----------+-----------+-----------+-----------+
+   |  Current  |  Symbol   | Symbol to |   Move    |   Next    |
+   |   state   |   read    |   write   |   Move    |   State   |
+   +-----------+-----------+-----------+-----------+-----------+
+   |     3     |    ' '    |    ' '    |     R     |     F     |
+   |     3     |    '0'    |    '0'    |     R     |     3     |
+   |     3     |    '1'    |    '1'    |     R     |     3     |
+   +-----------+-----------+-----------+-----------+-----------+
+
+Let's see the full script,  with  an initial tape containing the decimal
+number 151, i.e. binary "10010111".
+
+inc.tm :
+
+   # This script allows a Turing machine to increment a binary number
+   
+   # The initial tape with the number:
+   | 10010111
+
+    # State 0
+    0  R0
+    011R1
+    000R1
+
+    # State 1
+    1  L2
+    100R1
+    111R1
+
+    # State 2
+    2 1R3
+    201R3
+    210L2
+
+    # State 3
+    3  RF
+    300R3
+    311R3 
+
+Here's a  sample run of the script.  We can see the state of the machine
+in parenthesis on the left, and the content of the tape with the current
+cell surrounded by two `|'.
+
+    $ ./turing.sed inc.tm
+    (0) | |10010111
+    (0)  |1|0010111
+    (1)  1|0|010111
+    (1)  10|0|10111
+    (1)  100|1|0111
+    (1)  1001|0|111
+    (1)  10010|1|11
+    (1)  100101|1|1
+    (1)  1001011|1|
+    (1)  10010111| |
+    (2)  1001011|1|
+    (2)  100101|1|0
+    (2)  10010|1|00
+    (2)  1001|0|000
+    (3)  10011|0|00
+    (3)  100110|0|0
+    (3)  1001100|0|
+    (3)  10011000| |
+    (F)  10011000 | |
+    Final state F reached... end of processing.
+    $ 
+
+binary 10011000 = decimal 152 : it works !
+
+Conclusion
+----------
+
+Writing  scripts  for  a  Turing  machine  is  an intellectual challenge
+sometimes quite complex.  The  goal  is not to write  real applications.
+It  would  be too difficult,  and  the  results  would  be  dramatically 
+inefficient.
+
+The  real  interest is the fact, as stated in the  Church-Turing thesis,
+that any computable task  (compilation, text processing, calculation...)
+can be written on a Turing machine.
+
+While  emulating  a Turing machine in a Sed script,  we proove that this
+language is sufficient to perform any computable task !
+
+
+                                Christophe Blaess <ccb@club-internet.fr>
+                                      http://perso.club-internet.fr/ccb/
+

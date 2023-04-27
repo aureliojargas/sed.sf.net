@@ -1,0 +1,6 @@
+#! /bin/sh
+
+# This script replaces cat -n. It uses sed to print the line number,
+# then groups lines two by two using N.
+
+sed -e "=" $@ | sed -e 's/^/      /; N; s/^ *\(......\)\n/\1  /'
