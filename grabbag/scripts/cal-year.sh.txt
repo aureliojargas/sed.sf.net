@@ -1,0 +1,67 @@
+#! /bin/sh
+
+DC=dc
+#DC="sed -nf /cygdrive/e/Projects/bag/scripts/dc.sed"
+
+if [ "x$1" = x ]; then
+  year=`date "+%Y"`
+else
+  year=$1
+fi
+
+leap=`echo $year | sed -n 's/00$//
+  # Test divisibility by 4
+  /[02468][048]$/d
+  /[13579][26]$/! s/.*/29/p' `
+
+# Transform year into a dc script that computes
+#   stacktop = stacktop-1
+#   z = stacktop / 100
+#   stacktop + stacktop / 4 - z + z/4 + 1
+# And prints stacktop % 7, 12 times
+sed1='s,$, 1-dd100/sz4/+lz-lz4/+1+d7/7*-pppppppppppp,'
+
+# Make the real calendar
+sed2='
+  # Add the blanks to the first line, depending on the week-day
+  1!g
+  /^[1-6]/ s/$/    /
+  /^[2-6]/ s/$/    /
+  /^[3-6]/ s/$/    /
+  /^[4-6]/ s/$/    /
+  /^[5-6]/ s/$/    /
+  /^6/     s/$/    /
+  s/^[0-6]//
+
+  # Then add the days
+  s/$/  1   2   3   4   5   6   7   8   9  10  11  12  13  14 /
+  s/$/ 15  16  17  18  19  20  21  22  23  24  25  26  27  28  29 /
+
+  # Pick the number of days in the month
+  2 s/ '"$leap"' $//
+  2!s/$/ 30  31 /
+  4 s/ 31 //
+  6 s/ 31 //
+  9 s/ 31 //
+  11 s/ 31 //
+
+  # Provide a little sugar
+  =
+  i\
+Sun Mon Tue Wed Thu Fri Sat
+  a\
+
+  # Split the calendar in 27-character lines
+  s/\([^\n]\{27\}\) /\1\
+/g
+  
+  # Save the blanks in the last line, so that they we use
+  # them for the next month, and print the last line
+  h
+  s/.*\n//
+  s/./ /g
+  x
+'
+
+# Go!
+echo $year | sed "$sed1" | $DC | sed "$sed2"

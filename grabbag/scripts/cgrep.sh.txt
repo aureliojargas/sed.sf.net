@@ -1,0 +1,61 @@
+#! /bin/sh
+#  cgrep - multi-line context grep using sed
+#  Created by Greg Ubben, 10 Dec 1993  (rev 17may02)
+#  Usage:  cgrep [-context] pattern [file...]
+#
+#  Cgrep finds all occurrences of <pattern> in <file...>, showing <context>
+#  additional lines of context above and below each occurrence.  <context>
+#  must be at least 1, and defaults to 2 lines.  Each new block of context
+#  is preceded by the line number of the first occurrence within that block.
+#  Overlapping contexts are output as one large block.  <pattern> must be a
+#  basic grep-style regular expression (regex).  Note that \n and .* will
+#  match across lines -- "foo.*bar" will find "foo" within n lines of "bar".
+#
+#  See "Unix Power Tools", 2nd ed. for another explanation of this script.
+
+n=3
+case $1 in -[0-9]*)
+	n=`expr 1 - "$1"`
+	shift
+esac
+re=${1?}; shift
+
+#  Escape the slashes, convert an empty regex into a dummy one (^), and
+#  change ^foo to \nfoo (though that doesn't work on the first line).
+#  We use expr vs echo, since some echos interpolate backslashes.
+#
+re=`expr "X${re:-^}" : "X\(.*\)" | sed 's:/:\\\\/:g; /../s:^^:\\\\n:'`
+
+sed -n "
+	1b start
+
+	:top
+	#  If the pattern is in the window, print each subsequent line until
+	#  the pattern goes out of view again (providing n lines of trailing
+	#  context).  Note that h;n;H;g effectively emulates an N command.
+	/$re/{
+		h; n; p; H; g
+		b endif
+	}
+		#  Advance the window, part 1:  Get a new line in.
+		N
+
+		:start
+		#  If we get here, the window did not contain the string.
+		#  So if the pattern matches now, then it has just come into
+		#  view via the N command above.  We print the entire window,
+		#  providing up to n lines of previous context.  Subsequent
+		#  iterations will succeed matching the regex the first time
+		#  and print the following context until the pattern scrolls
+		#  out of view.  // is short for the previous regex above.
+		#  Unfortunately, there is no way to fancy up the = output.
+		//{ =; p; }
+
+	:endif
+	#  Advance the window, part 2:  The D kicks in only once the first
+	#  n lines of input have been accumulated.  Else, we skip that step
+	#  to prime the window.
+	$n,\$D
+	b top
+" "$@"
+

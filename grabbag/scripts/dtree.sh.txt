@@ -1,0 +1,21 @@
+#! /bin/sh
+
+# dtree: prints a directory tree from the current directory downwards
+#        or specify a directory from which to print
+
+# e.g.   dtree
+# e.g.   dtree mydir
+
+# Create variable equal to selected directory (or current if none specified)
+dir=${1-.}
+
+# Change to the appropriate directory
+(cd $dir; pwd)
+
+find $dir -type d -print | sort -f | sed -e "
+        s:^$1::
+        /^$/d
+        /^\.$/d
+        s:[^/]*/\([^/]*\)$:|-----\1:
+        s:[^/]*/:|     :g"
+

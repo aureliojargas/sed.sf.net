@@ -1,0 +1,62 @@
+---------- Forwarded message ----------
+Date: Thu, 27 Feb 1997 14:15:15 -0500 (EST)
+From: Greg Ubben <gsu@romulus.ncsc.mil>
+To: af137@torfree.net
+Subject: dc.sed
+
+Seders,
+
+    Here is the big sed project I've been working on for fun -- a complete
+implementation of the UNIX dc command!  If you've never used it before,
+dc is an arbitrary precision reverse-polish (stacking) "desk" calculator.
+Besides supporting calculations on very long numbers, it also handles
+non-decimal input and output bases (even negative and fractional bases),
+and has a set of stackable registers in which can be stored numbers,
+strings, or executable macros.  For details on operating dc, see the dc
+manual page on any UNIX system or on the web (one URL you can use is
+http://www.delorie.com/gnu/docs/bc/dc.1.html).  But here's a short demo:
+
+$ ./dc.sed	# start running dc.sed interactively
+10k	# set the scale (fractional digits) to 10
+_375 2.5 .716 +/p# compute and print -375 / (2.5 + .716)
+	# hit return again to see result
+sa	# store the last result (still on stack) in register a
+la d *p	# load register a, duplicate, square, and print
+	# hit return again to see result
+vp	# now take square root and print
+q	# we're done - quit (hit return twice)
+
+    Note that because sed reads ahead a line, you have to hit RETURN twice
+to see the effects of your last command.  Of course, the script is limited
+by the size of your sed's buffer.  This is about 4000 characters on SunOS
+-- enough for you to sling around 500-digit numbers if there's not much on
+the stack or in registers, and you don't mind waiting a few hours for your
+answer.  As far as I know, dc.sed is actually less buggy than the UNIX and
+GNU versions, barring the memory and speed limitations.  Let me know if you
+find any bugs.
+
+    This script is actually surprisingly fast using SunOS 4.1.4 /bin/sed.
+On my Sun host, it calculates 10k2vp (sqrt(2) to 10 places) in just a
+couple seconds.  However GNU sed 2.05 (compiled with cc -O2) was 168 times
+slower.  (304 times slower with cc -g)  In real time, I watched a 1-hour
+TV show waiting for GNU sed to finish the calculation.  I'd be interested
+in hearing experiences running it on other sed implementations.  It should
+give any sed a good work-out, and would make a good test to profile GNU
+sed against to find the bottlenecks.
+
+    Another limitation you may run into is the number of sed commands.
+I had to really squeeze to get this script to fit into the 199-command
+limit on SunOS.  If your sed has lower limits, you may be out of luck.
+
+    What few explanatory comments there were have been removed from this
+copy of the script just to make it more obfuscated and interesting.  :-)
+I may post a better-commented version later if there's interest.  If you
+want to try to tinker, here's an exercise:  see if you can add a "pi"
+command that will push the number 3.14159265 on the stack.  As an advanced
+(difficult) exercise for hard-core hackers, try implementing associative
+arrays per my comments in the script.  In any case, enjoy, and never again
+let it be said that sed can't do arithmetic.
+
+Next time:  perl.sed  (whfg xvqqvat)
+
+Greg

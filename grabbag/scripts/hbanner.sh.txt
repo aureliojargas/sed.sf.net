@@ -1,0 +1,45 @@
+#! /bin/sh -
+
+## (c) Carlos Duarte ## Created: 28-Sep-96 ## Updated: - ##
+
+#:%s/60/60/gp
+# replace 60 by actual number of lines on screen
+# and the s/.*/.*.*/ ... in a way to give 60 chars
+
+banner -w60 $* | sed '
+
+1i\
+%[H%[J%[60;1H
+
+s/^ *$/%[C/
+tn
+
+s/./&%[A%[D/g
+
+s/$/%[60B%[C/
+
+:n
+
+80,${
+i\
+%7%[1;1H%[P
+x
+s/.*/.*.*.*/
+s/.*/&&&&&&&&&&/
+s/..//
+ta
+:a
+i\
+%[B%[P
+s/.//
+ta
+i\
+%8
+
+x
+
+}
+
+$s/$/%[60;1H/
+
+' | tr -d '\n' | tr % '\033'
