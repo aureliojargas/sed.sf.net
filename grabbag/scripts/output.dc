@@ -1,0 +1,77 @@
+#  dc code to output a number in any base     Greg Ubben, 1 Feb 1997
+#  Uses 4 registers:  a,b,c,d
+
+KSa 0k				# save scale, then set to 0 for later truncs
+d				# save original number
+[[-]P sa0la-]Sa d0>a		# if <0, print "-" and negate number
+[0P]sa d0=a			# if 0, just print and fall thru to end
+
+[A*2+]sa			# add 1 for the "-" if negative
+O t d0>a 1-Z Sd			# calculate and store field width
+
+[
+    #  Output a large-base digit group.  Modifies register c.
+    #  The field width is stored in register d under this macro.
+    [
+	[[ ]P]sc lb 1 !=c
+	Sb Ld lb t Z
+	[ [[-]P 0lb-sb]sc lb0>c 1+ ]sc
+	lb 0 !<c
+	[0P 1+ d ld >c]sc
+	d ld >c
+	sc Sd Lb P
+    ]q
+]Sb
+
+#  Output in unary for bases between -1 and 1 inclusive.
+[
+    t [1P 1- d0<c]sc d0<c
+]Sc
+
+O_1>b O1!<c O[16]<b OX0<b
+
+    #  Pop top number (0-15) and print as hex digit.  Modifies register c.
+    [
+	[q]sc
+	[
+	     d Sb dA>c
+	    [A]sb dA=c
+	    [B]sb dB=c
+	    [C]sb dC=c
+	    [D]sb dD=c
+	    [E]sb dE=c
+	    [F]sb
+	]x
+	sc Lb P
+    ]
+~
+#  As I recall, ~ is a dc.sed trick that just saves a few characters by
+#  creating a new input stack item (which we can "break" out of) explicitly
+#  instead of using another []x.
+Sd
+
+#  stack=origN,workN  a=scale,???  b=???  c=???  d=width,digit()
+
+#  print integral digits, using recursion stack to output in reverse order
+
+# -35.2735			b = .0625  35
+#    .2735			c = .03
+[
+    dt dZOZ+k 1O/ T dsb [.5]* [.1]OX^* dZk dXK- 1+ kt sc 0k dSb-
+    [Lb d lb*lc+ t dSb O*- lb0!=a ldx] dsax
+    Lb sb
+]sa
+d 1 !>a
+
+#  print any fractional digits
+
+[
+    [.]P OX+ sb 1
+    [Sb O* dtd ldx - LbO* d Zlb !<a] dsax
+]sa
+dX d0<a sb
+
+sa saLa sbLb scLc sdLd sdLd	#  pop stack, a, b, c, d, d
+Lak				#  pop scale
+
+[]pP				#  print the final newline
