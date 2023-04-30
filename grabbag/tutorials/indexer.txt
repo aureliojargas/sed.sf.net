@@ -1,0 +1,307 @@
+---------- Forwarded message ----------
+Date: Sat, 15 Mar 1997 03:10:29 -0600
+From: Eric Pement <epement@jpusa.pr.mcs.net>
+To: Al Aab <af137@freenet.toronto.on.ca>
+Subject: using sed to make indexes for books (long)
+
+SUBJECT: using sed to make indexes for books (long)
+
+   I work with book- and magazine-publishing, and some time ago I
+needed to create an index for a book after typesetting. On our proof
+pages (hard copy), we used a yellow marker to highlight the terms we
+wanted to index, and then several volunteers used the computer to enter
+the terms and the page numbers, separating them with a semicolon. Each
+term was entered on one line. The initial input file looked something
+like this:
+
+     Buddhism, Zen; 1
+     atheism; 1
+     dualism; 1
+     Solomon; 2
+     Lausanne Covenant; 4
+     Lewis, C.S.; 4
+     Lausanne Covenant; 5
+     Mormonism; 6
+     Latter-day Saints; 6
+     Trinity; 6
+     Lausanne, Switzerland; 8
+     Trinity; 8
+     . . . .
+
+   Note that the data was entered in the order that we completed each
+page or chapter. Next, we sorted the file with a sort utility:
+case-insensitive and numeric-aware (i.e., the number "3" must come
+before "19"; in a normal ASCII sort, "19" would appear before "3"). To
+get a sort which satisfied both conditions was extremely difficult,
+even using the GNU sort program (the manual pages for GNU sort don't
+explain the switches very well). The proper syntax to use is:
+
+     sort -t";" +0f -1 +1n input.file
+
+   Briefly explaining the switches, -t";" sets the field delimiter to
+be a semicolon. Fields are numbered beginning at zero (0), not one.
+Thus, "+0f -1" means the first sort key will begin at field 0 (the 1st
+field, to normal people) and end before reaching field 1, and be
+case-insensitive ("f" for folded).  "+1n" means that the next sort key
+will begin at field 1 (the 2nd field) and, being followed by no "-NUM"
+value, will continue to the end of the line. The "n" means this field
+will be sorted according to numeric values, even including decimal
+points, instead of in ASCII order.
+
+   If you use other sort utilities, the command syntax will probably
+differ. The entries for the sorted file now looked like this:
+
+     Adam; 13
+     Adam; 21
+     Adam; 30-32
+     agnosticism; 9
+     agnosticism; 120
+     atheism; 1
+     atheism; 9
+     atheism; 40-41
+     atheism; 118
+     Bible; 3
+     Bible; 11-14
+     Bible; 22
+
+   We wanted to convert the data shown above to look like this, in a
+format ready for printing:
+
+     Adam, 13, 21, 30-32
+     agnosticism, 9, 120
+     atheism, 1, 9, 40-41, 118
+     Bible, 3, 11-14, 22
+     . . .
+
+   Four years ago I used an awk script to perform this conversion, but
+I have now realized that a sed script could do this simply and with
+fewer lines of code. The sed script I came up with to perform this
+conversion looked like this (at first, anyway):
+
+     # INDEXER.SED v1.0 - indexes sorted input file
+     # Annotated for seders mailing list
+     {               # on every line of the file...
+       :loop
+       $! N          # if not the last line, get the Next line
+       s/^\([^;]*;\) \(.*\)\n\1 \(.*\)/\1 \2, \3/
+       t loop        # if previous substitution occurred, goto :loop
+       s/;/,/        # replace the semicolon with a comma
+       P             # print first line of pattern buffer
+       D             # delete 1st line of buffer & redo the loop
+     }
+
+   This script works! Well, sort of. As long as the input file is
+perfectly formatted, the script works fine. But I discovered that if
+*one* line anywhere in the file was in error, the script would fail to
+change every other line after that. Consider the two following sets of
+input files (made very short for explanation here):
+
+  ===SET 1======      ===SET 2======
+  Adam; 13            Adam; 13
+  Adam; 21            Adam; 21
+  Adam; 30-32         Adam; 30-32
+  agnosticism; 9      agnosticism; 9
+  agnosticism; 120    agnosticism; 120
+  atheism; 9          atheism, 9        # this line differs in SET2
+  atheism; 40-41      atheism; 40-41
+  atheism; 118        atheism; 118
+  Bible; 3            Bible; 3
+  Bible; 11-14        Bible; 11-14
+  Bible; 22           Bible; 22
+  binitarian; 82      binitarian; 82
+
+Now, compare the output produced by "sed -f INDEXER.SED set1 set2":
+
+  Adam, 13, 21, 30-32       Adam, 13, 21, 30-32
+  agnosticism, 9, 120       agnosticism, 9, 120
+  atheism, 9, 40-41, 118    atheism, 9
+  Bible, 3, 11-14, 22       atheism, 40-41
+  binitarian, 82            atheism, 118
+                            Bible, 3
+                            Bible, 11-14
+                            Bible, 22
+                            binitarian, 82
+
+   As you can see, the absence of a single semicolon (;) from a line
+which requires it throws off the entire rest of the script. At first,
+it doesn't seem obvious why this should be so, but look at the script
+more carefully:
+   1  {
+   2    :loop
+   3    $! N
+   4    s/^\([^;]*;\) \(.*\)\n\1 \(.*\)/\1 \2, \3/
+   5    t loop
+   6    s/;/,/
+   7    P
+   8    D
+   9  }
+
+  See the search pattern in line 4: /^\([^;]*;\) \(.*\)\n\1 \(.*\)/
+This looks for the beginning of the line "^", followed by one or more
+words which end in a semicolon "\([^;]*;\)", eventually followed by
+another newline and that same set of words with its semicolon.
+
+   The \(...\) syntax indicates that the expression matched within the
+grouping may be re-used within the expression by \NUM, where the
+numbering begins with 1. What we're really doing is checking the next
+line to see if it starts with the same word (or group of words) that
+the previous line started with. If so, the search expression will match.
+
+   The replacement pattern, /\1 \2, \3/, is found at the latter half of
+line 4. Thus, if 2 lines are in the pattern buffer and both lines begin
+with the same word(s), the substitution will delete the newline "\n"
+and the set of words on line 2. The net result is that the page numbers
+on line 2 will be appended to the end of line 1, and the second line
+will be discarded.
+
+   When the line with the missing semicolon is reached by the script,
+it will wind up on the second "half" of the pattern, i.e., it will come
+after the newline (\n). Since the pattern doesn't match, no
+substitution will be performed and branch command in line 5 will be
+skipped. In sed, "t label_name" implies that a substitution
+"s/oldpattern/newpattern/" appears on the previous line. If the
+substitution is True (i.e., it was performed), then the script branches
+to the label named after the "t".
+
+   Whenever the script reaches line 6, we must have a 2-line pattern in
+the pattern buffer. The first line contains an index term, followed by
+a semicolon, followed by possibly a long string of page numbers. The
+second line is supposed to have a DIFFERENT index term, followed by a
+semicolon, and a page number. The command in line 6 "s/;/,/" replaces
+the first semicolon in the pattern buffer, which normally will be on
+the first line. Lines 7 and 8 print the first line ONLY to the console,
+and then deletes the first line ONLY from the pattern buffer. The 2nd
+line remains in the pattern buffer and the cycle is repeated from the
+top.
+
+   However, a bad line (one without a semicolon) will be stuck in the
+pattern buffer.  Eventually, it will make its way to the top of the
+pattern buffer, and be followed by a good line (with a semicolon). The
+search expression will not match, and the program will flow to line 6
+again. However, since there was no semicolon in line 1 of the pattern
+buffer, the "s/;/,/" command will delete the semicolon in the line 2
+of pattern buffer, prematurely! Every succeeding line will have its
+semicolon deleted, before the looping section in lines 2-5 is able to
+properly evaluate it!  Thus, all the lines of the rest of the file
+will be skipped.
+
+   I have spent far more hours on this exercise than I care to admit,
+especially since my book was printed four years ago. What's the fix
+for this problem?  There are two.
+
+   The first fix is to check for bad input data by prepending something
+like this to the top of the script:
+
+  # INDEXER.SED, v1.1a - indexes sorted input file
+  /;/! {                                  # get lines without a ';'
+     i\
+     ******************************* \
+     ERROR - Each line of the input  \
+     file MUST have a semicolon!     \
+     ******************************* \
+     ^G \                                 # use a control-char here
+     Offending line occurs at this line number:
+     =                                    # print line number & line
+    q                                     # quit this script
+  }
+  {
+    :loop
+    . . . . . # rest of script continues as before
+  }
+
+   This processes the input file, but if it reaches any lines without
+the required semicolon, it issues an error message to the screen,
+indicates the line number of offending line (a good use of the "="
+instruction), and then quits the script entirely ("q").
+
+   By the way, if you want sed to ring the "bell" of your computer to
+alert you to an error condition, embed a true Ctrl-G (07 hex) within
+the script and sed will cause the computer to beep briefly. For this
+message, I have used a 2-character combination (caret and capital G)
+within the script, but you must embed a true Control-G in your scripts
+to get your computer to beep at you.
+
+   If you get real paranoid, you may also check for lines with two
+semicolons, /;.*;/, since this would also damage the output file.
+
+   The second "fix" is to print the offending line as is, and alter the
+substitution command on line 6 of the script to only replace semicolons
+which occur BEFORE the newline. Thus, instead of:
+
+     s/;/,/        # substitution can occur after a newline \n
+
+we could say:
+
+     s/^\(.[A-Za-z"'{}() .,/?-]*\);/\1,/   # must be in first line
+
+   This is a more complex expression, but it does not halt the script,
+as does the other fix. It has the disadvantage of printing "bad" lines,
+not incorporating them into the flow of concatenated page numbers.
+Personally, I would opt for the first solution, that of halting the
+file if it encounters improper input lines. Thus, for me the formal
+solution using sed would look like this:
+
+  #---INDEXER.SED v1.2, by Eric Pement <epement@jpusa.pr.mcs.net>------
+  # Sed script to alter files with lines with this input format:
+  #    Christ, as "firstborn"; 22
+  #    Christ, as "firstborn"; 155
+  #    Christ, as "firstborn"; 194
+  # into one which replaces the semicolon with a comma, combining the
+  # page numbers into one line, like so:
+  #    Christ, as "firstborn", 22, 155, 194
+  # It is essential that the input file be sorted prior to running this
+  # script, and each line of the input file contain only 1 semicolon.
+  # GNU sort syntax:
+  #          sort -t";" +0f -1 +1n input.file > input.sort
+  #
+  # SYNTAX:  sed -f INDEXER.SED input.sort > output.file
+  #
+  # The following command causes abort at lines missing a semicolon:
+  /;/! {
+     i\
+     ******************************* \
+     ERROR - Each line of the input  \
+     file MUST have a semicolon!     \
+     ******************************* \
+     ^G \
+     Offending line occurs at this line number:
+     =
+     q
+  }
+  # Following command causes abort at lines with 2 semicolons:
+  /;.*;/ {
+     i\
+     ******************************* \
+     ERROR - There may be only ONE   \
+     semicolon on each line!         \
+     ******************************* \
+     ^G \
+     Offending line occurs at this line number:
+     =
+     q
+  }
+  # Main body of sed script follows:
+  {
+    :loop
+    $! N
+    s/^\([^;]*;\) \(.*\)\n\1 \(.*\)/\1 \2, \3/
+    t loop
+    s/;/,/
+    P
+    D
+  }
+  #------------------END of SCRIPT----------------------------
+
+   Though I've gone on at great length about this, I hope that this
+has been a helpful exercise into seeing how sed can be used to assist
+the making of indexes for books. Feel free to contact me via e-mail if
+you have any questions or pointers on this matter.
+
+                            Kind regards,
+
+                            Eric Pement
+--
+Eric Pement <epement@jpusa.pr.mcs.net>
+senior editor, Cornerstone magazine
+939 W. Wilson Ave., Chicago, IL  60640-5706
+tel: 773/561-2450, x2084   fax: 773/989-2076

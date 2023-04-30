@@ -1,0 +1,220 @@
+                F. Curtis Michel
+
+The related command 'awk' and 'sed' are often used to fix problems
+in files.
+Loosely speaking, 'awk' TRANSFORMS files while 'sed' SUBSTITUTES in files
+(but there are overlaps and other uses --- the above is just a rough quide).
+For example, if you have a data file with 8 columns of numbers and you
+want to plot column 5 as 'x' against column 3 as 'y', you would simply
+write
+
+awk '{ print $5, $3}' infile > outfile
+
+(Caution: if you write { print $5 $3} without the comma or some other indicator
+for spacing you get the two sets of numbers glued together without spacing.)
+
+In contrast, if you had a piece of text that was a history of Truman and
+you wanted to turn it in as a history of Clinton, you would write an 'sed'
+command like
+
+sed 's/Truman/Clinton/g' infile > outfile
+
+which shows that there is a difference in syntax (no { and }).
+Infact, you should INSTEAD always write
+
+sed -f cmdfile infile | more
+
+which says to read the command line from the file (the '-f') that follows
+immediately 'cmdfile' and apply them to 'infile' and then show you the
+output.
+The reason is that you will almost NEVER get the command line right the
+first time!
+So you don't want a bunch of files with the mistakes in them, and on
+unix machines you fix 'cmdfile' in one window while rerunning the 'sed'
+in another using !!.
+
+The 'sed' program takes the 'infile' A LINE AT A TIME and applies to that
+ONE LINE, ALL of the commands in 'cmdfile' in the order that they are
+written.
+If the problems with the file depend on what's on other lines (like LaTeX
+which creates environments), 'sed' will not be a quick fix.
+For example you cannot take 'times' (meaning math multiplication) in
+troff and substitute '\times' because the line-at-a-time substitution doesn't
+know when you are or are not in the equation environment.
+If you do you'll also get '\times' in the text (ditto with 'sum', 'over', etc.).
+
+The Truman -> Clinton example is deceptive because a big problem arises
+from the meta-symbols, which differ all over the place.
+
+EXAMPLE:  You are writing LaTeX documents and after a ton of work on
+numerous documents you discover the typo
+
+        The class is 50sure that it will fill up.
+
+and you trace it to the lines
+
+        The class is 50% full at this time but I'm
+        sure it will fill up.
+
+The problem is that LaTeX interprets % as a comment, and you have to
+PROTECT (the literal symbol) or ESCAPE (the meaning as a comment) by
+writing instead:
+
+        The class is 50\% full at this time but I'm
+        sure it will fill up.
+
+One solution would be to 'sed' all the files to fix them up, particularly
+because it would be difficult to spot this particular type of typo.
+
+The substitution pattern as we have seen is of the form
+
+        s/      /       /
+
+where the first /       / encloses what's to be changed and the second
+is the replacement:/Truman/Clinton/.
+So the first line of the 'cmdfile' you might write looks like
+
+s/%/\%/         (WRONG!)
+
+The problem here is that while '%' is only a special symbol in LaTeX,
+'\' is special to both LaTeX and 'sed', so you must write
+
+s/%/\\%/        (Almost)
+
+which correctly changes the First '%' to '\%' in every sentence, but not
+the next one if there is a next one.
+To be sure that you get all of them, you need
+
+s/%/\\%/g       (OK so far)
+
+Unfortunately, 'sed' does what you say and not what you mean, and if
+you have a real comment like
+
+        %The stuff above is all wrong, I've got to redo it.
+
+LaTeX will now print it out for everyone to see (the '%' is changed to '\%' )!
+One way around it is to use the feature that allows 'sed' to determine if
+a sentence is even worth looking at, which has the syntax
+
+/       /
+
+For example,
+
+/Truman/d
+
+would take every sentence containing 'Truman' and delete them!
+To remove just the name from the sentence it is necessary to substitute
+nothing for it:
+
+s/Truman//
+
+(but this would leave two spaces where 'Truman' had been.)
+Now we can write
+
+/^\\%/
+
+to look for all lines that begin ('^' means the beginning of the line,
+'$' means the end) with a comment MISTAKENLY PROTECTED, and then remove
+that undesired step, so now our 'cmdfile' looks like
+
+s/%/\\%/g
+/^\\%/s/\\//
+
+which says to substitute for the '\' (which must be protected '\\')
+and replace it with nothing, i.e., what's in between the '//'.
+
+We are almost done, except for the horrifying realization that from time to
+time we actually remembered to protect the  '%' when meaning percentage.
+
+Thus a line in the original text:
+
+        At least 10\% of the people never get the word.
+
+becomes
+
+        At least 10\\% of the people never get the word.
+
+And the second protection undoes the first, so this is treated by
+LaTeX as a comment!!
+
+So we now need to remove these "overprotections" with a third line:
+
+s/%/\\%/g
+/^\\%/s/\\//
+s/\\\\%/\\%/g
+
+Hopefully it will now be clear why to edit 'cmdfile' after inspecting the
+results.
+Note that the resultant command file looks like gibberish, so you
+might consider commenting it, so you know what it does a year from now:
+
+s/%/\\%/g
+#protects '%' in LaTeX text
+/^\\%/s/\\//
+#protects true %-comments begining sentences
+s/\\\\%/\\%/g
+#protects altready protected '%' in text
+
+but 'sed' doesn't like comments in-line, so they have to preceed or follow.
+
+EXAMPLE
+
+Again from LaTeX, there is probably a reason that so many manuals lack
+indices: it's a pain in LaTeX where you're supposed to type lines like
+
+        ... so the first peeve\index{peeve} of the PPP is ...
+
+Like anyone wants to type the same word twice and encase one of them
+in '\index{}'.
+This is truly dumb, so let's suppose instead you have gone through
+the MINIMUM effort towards an index, which would be to compile a list of words
+to be indexed in a file 'indexlist':
+
+        ...
+        junk food
+        peeve
+        pimple
+        ...
+
+What you need in the way of an 'cmdfile' is instead a series of
+commands
+
+...
+s/junk food /junk\\index{junk food} /
+s/peeve /peeve\\index{peeve} /
+s/pimple /pimple\\index{pimple} /
+...
+
+which should now be fairly obvious.
+We leave off the 'g' global although it might be argued that it should
+be there in case the sentence gets broken up by editing, but indexing
+is likely to be the last thing you do (if any lazy b.tts ever indexed!).
+
+But typing up this 'cmdfile' is even more brain-dead because every word
+has to be typed THREE times, plus ...
+
+So what we can do is use 'awk' to TRANSFORM the 'indexlist' into the
+'cmdfile' (of course we'd call it 'makeindex' or something else):
+
+awk -f makecmd indexlist > cmdfile
+
+where 'awk' commands can also conveniently be placed in a file too:
+The 'makecmd' file is almost straightforward, but there are still
+sublties; it is just one line:
+
+{print   "s/"   $0   " /"   $0   "\\\index{"   $0   "} /"    }
+
+where I've padded extra unnecessary but harmless spaces to emphasize
+what the quotes do enclose and don't enclose.
+Here 'print' prints the literal 's/', then $0 stands for the entire line
+up to the newline, which then adds the word(s) for the first time,
+than a literal ' /' (note the space), and so on to
+build up the 'cmdfile' line.  Although the '\' are inside quotes,
+they still had to be protected (but only once, so it's \\\ not \\\\ or \\)(!).
+Needless to say I did not get this one right on the first try!
+
+You might wonder why the space after each index item.
+That's so you can run and updated 'cmdfile' program again on an already
+indexed file, because it produces output that will not itself be seem
+by the program.  Thus the old indexed items stay and any new ones are
+added.  But now maybe I should add the 'g's.

@@ -1,0 +1,87 @@
+---------- Forwarded message ----------
+Date: Wed, 19 Feb 1997 21:25:14 -0500 (EST)
+From: Greg Ubben <gsu@romulus.ncsc.mil>
+To: af137@torfree.net
+Subject: add.sed
+
+Seders,
+
+    Here's the script to add a list of decimal numbers.  It works much
+look the wc.sed script I posted last week; the running total is stored
+in the same "analog" format internally.  But unlike wc.sed, the input
+is not already in an analog format, so the loop you see is used to
+convert each digit to analog (e.g., 6 = aaaaaa), starting with the units
+place, and adding each resulting string to the appropriate place of the
+total as it is converted.  (Remember, adding in analog means appending
+the two strings of a's together, and if the result is longer than 10
+characters, replacing the first 10 a's with a "b" to do the carry.)
+
+    There is one interesting trick used to keep track of which position
+of the total we're working with.  Rather than trying to add a's to the
+units position, then b's to the 10's position, then c's to the 100's
+position, etc., we rotate the meanings of the letters so that the a's
+are always in the position being added.  This rotation is done using the
+y/hgfedcba/gfedcbah/ command; as you can see, after 8 translations the
+letters will be back in their original positions.  Even if the input
+number is only 4 digits long, the loop still executes 8 times to rotate
+the letters back, with nothing being added on the last 4 iterations
+except perhaps a carry being propagated.
+
+    I've added some comments to the ends of the lines this time to help
+explain what's going on.  They will need to be removed before you can
+run the script, since this is not legal syntax.  Again, I suggest you
+add a few p commands to the script if you want to get a better idea
+what's going on.  A good place is inside the loop right after the :a,
+and also after the /^h/ at the end of the loop.  Two lines will be output
+for each p since there is a newline in the pattern space at this point.
+
+If you have any questions on this or any previous scripts, don't
+hesitate to ask; I can either reply individually or to the list.
+
+Next time:  multiplication, division, square roots, etc.
+
+Greg
+---
+
+
+
+#!/bin/sed -f
+#  add.sed - add a list of decimal numbers (in domain 0-99999999)
+#  Written by Greg Ubben on 15 March 1989
+
+1{
+	h
+	s/.*/hgfedcba/          # initialize total in hold space to 00000000
+	x
+}
+H                           # append digital input number to analog total
+g
+:a
+	s/9$/aaaaaaaaa/
+	s/8$/aaaaaaaa/
+	s/7$/aaaaaaa/
+	s/6$/aaaaaa/
+	s/5$/aaaaa/             # convert last digit to analog
+	s/4$/aaaa/
+	s/3$/aaa/
+	s/2$/aa/
+	s/1$/a/
+	s/0$//
+	s/\(aa*[^a]*\)\(a*\)/\2\1/ # combine with corr. totals place
+	s/a\{11\}/ba/           # reduce (carry) if more than 10
+	y/hgfedcba/gfedcbah/    # rotate totals places for next digit
+/^h/!ba                     # loop 8 times, until "a" is back in units position
+s/.$//                      # delete the \n that was between the two numbers
+h                           # save total so next number can be read in
+$!d                         # if not EOF, loop to read in next number
+s/\([a-z]\)\1\1\1\1\1\1\1\1\1/9/g
+s/\([a-z]\)\1\1\1\1\1\1\1\1/8/g
+s/\([a-z]\)\1\1\1\1\1\1\1/7/g
+s/\([a-z]\)\1\1\1\1\1\1/6/g
+s/\([a-z]\)\1\1\1\1\1/5/g
+s/\([a-z]\)\1\1\1\1/4/g     # convert analog total to digits
+s/\([a-z]\)\1\1\1/3/g
+s/\([a-z]\)\1\1/2/g
+s/\([a-z]\)\1/1/g
+s/\([a-z]\)/0/g
+s/^0*\(.\)/\1/              # strip leading 0's

@@ -1,0 +1,2136 @@
+Date: Wed Sep 25 13:11:26 1996
+Path: news.demon.co.uk!dispatch.news.demon.net!demon!usenet2.news.uk.psi.net!uknet!usenet1.news.uk.psi.net!uknet!EU.net!Portugal.EU.net!news.rccn.net!news.ist.utl.pt!beta.ist.utl.pt!L38076
+From: L38076@beta.ist.utl.pt (Carlos Jorge G.duarte)
+Newsgroups: comp.editors
+Subject: do-it-with-sed (long)
+Date: 24 Sep 1996 17:18:28 GMT
+Organization: Instituto Superior Tecnico
+Lines: 2137
+Distribution: inet
+Message-ID: <529554$sc4@ci.ist.utl.pt>
+NNTP-Posting-Host: beta.ist.utl.pt
+X-Newsreader: TIN [version 1.2 PL2v [AXP/VMS]]
+
+Hi everyone, this is a little (~50k) document on how to use doc, and
+with some trailing examples.
+
+Here it is now, after my name
+
+-- Carlos
+
+----
+:r! sed -ne '/^-----/{;n;h;n;/^----/{;g;/^.\{72\}$/s/ */  /;p;};}' %
+
+Introduction
+Regular expressions
+Using sed
+Sed resume
+Sed commands
+Examples
+  Squeezing blank lines (like cat -s)
+  Centering lines
+  Delete comments on C code
+  Increment a number
+  Get make targets
+  Rename to lower case
+  Print environ of bash
+  Reverse chars of lines
+  Reverse lines of files
+  Transform text into a C "printf"able string
+  Prefix non-blank lines with their numbers (cat -b)
+  Prefix lines by their number (cat -n)
+  Count chars of input (wc -c)
+  Count lines of input (wc -l)
+  Count words of input (wc -w)
+  Print the filename component of a path (basename)
+  Print directory component of a path (dirname)
+  Print the first few (=10) lines of input
+  Convert a sed script to a bash-command-line command
+  Print last few (=10) lines of input
+  The tee(1) command in sed
+  Print uniq lines of input (uniq)
+  Print duplicated lines of input (uniq -d)
+  Print only duplicated lines (uniq -u)
+Index of sed commands
+Author and credits and date etc...
+
+========================================================================
+
+------------
+Introduction
+------------
+
+This is a little document to help people using sed, not very fancy
+but better than nothing :-)
+
+There are several uses for sed, some of them totally exotic.
+
+Most of scripts that appear through the text are useless, as
+there are (UNIX) utilities that do the same job (and more)
+faster and better.  They are intended to show real examples
+of sed, and to show also the power of sed, as well its
+weaknesses.
+
+========================================================================
+
+-------------------
+Regular expressions
+-------------------
+
+To know how to use sed, people should understand regular expressions (RE for
+short).
+
+This is a brief resume of regular expressions used in SED.
+
+c       a single char, if not special, is matched against text.
+
+*       matches a sequence of zero or more repetitions of previous char,
+        grouped RE, or class.
+
+\+      as *, but matches one or more.
+
+\?      as *, but only matches zero or one.
+
+\{i\}   as *, but matches exactly <i> sequences (a number, between
+        0 and some limit -- in Henry Spencer's regexp(3) library,
+        this limit is 255)
+
+\{i,j\} matches between <i> and <j>, inclusive, sequences.
+
+\{i,\}  matches more thanor equal to <i> sequences.
+
+\{,j\}  matches at most (or equal) <j> sequences.
+
+\(RE\)  groups RE as a whole, this is used to:
+
+                - apply postfix operators, like `\(abcd\)*'
+                  this will search for zero or more whole
+                  sequences of "abcd", if `abcd*', it would
+                  search for "abc" followed by zero or more "d"s
+
+                - use back references (see below)
+
+.       match any character
+
+^       match the null string at beginning of line, i.e. what
+        what appears after ^ must appear at the
+        beginning of line
+
+        e.g. `^#include' will match only lines where "#include" is
+        the first thing on line, but if there are one or two spaces
+        before, the match fail
+
+$       the same as ^, but refers to end of line
+
+\c      matches character `c' -- used to match special chars,
+        referred above (and some more below)
+
+[list]  matches any single char in list. e.g. `[aeiou]' matches
+        all vowels
+
+[^list] matches any single char NOT in list
+
+        a list may be composed by <char1>-<char2>, and means
+        all chars between (inclusive) <char1> and <char2>
+
+        to include `]' in the list, make it the first char
+        to include `-' in the list, make it the first or last
+
+RE1\|RE2
+        matches RE1 or RE2
+
+\1 \2 \3 \4 \5 \6 \7 \8 \9, => \i
+        matches the <i>th \(\) reference on RE, this is called
+        back reference, and usually it is (very) slow
+
+Notes:
+------
+        - some implementations of sed, may not have all REs mentioned,
+          notably `\+', `\?' and `\|'
+
+        - the RE is greedy, i.e. if two or more matches are detected, it
+          selects the longest, if there are two or more selected with
+          the same size, it selects the first in text
+
+Examples:
+---------
+
+        `abcdef'        matches "abcdef"
+        `a*b'           matches zero or more "a"s followed by a single "b",
+                          like "b" or "aaaaaab"
+        `a\?b'          matches "b" or "ab"
+        `a\+b\+'        matches one or more "a"s followed by one or more
+                          "b"s, the minimum match will be "ab", but
+                          "aaaab" or "abbbbb" or "aaaaaabbbbbbb" also
+                          match
+        `.*'            all chars on line, of all lines (including empty
+                          ones)
+        `.\+'           all chars on line, but only on lines containing
+                          at least one char, i.e. empty lines will not
+                          be matched)
+
+        `^main.*(.*)'   search for a line containing "main" as the first
+                          thing on the line, that line must also
+                          contain an opening and closing parenthesis
+                          being the open paren preceded and followed
+                          by any number of chars (including none)
+
+        `^#'            all lines beginning with "#" (shell and
+                        make comments)
+
+        `\\$'           all lines ending with a single `\' (there are
+                          two for escaping `\') -- line continuation
+                          in C and make, and shell, etc...
+
+        `[a-zA-Z_]'     any letters or digits
+
+        `[^     ]\+'    (a tab and a space) -- one or more sequences
+                          of any char that isn't a space or tab.
+                          Usually this means a word
+
+        `^.*A.*$'       match an "A" that is right in the center of the
+                          line
+
+        `A.\{9\}$'      match an "A" that is exactly the last tenth
+                          character on line
+
+        `^.\{,15\}A'    match the last "A" on the first 16 chars of the
+                          line
+
+========================================================================
+
+---------
+Using sed
+---------
+
+The usual format of sed is:
+
+        sed [-e script] [-f script-file] [-n] [files...]
+
+files...
+        are the files to read, if a "-" appears, read from stdin,
+        if no files are given, read also from stdin
+
+-n
+        by default, sed writes each line to stdout when it reaches
+        the end of the script (being whatever on the line)
+        this option prevents that. i.e. no output unless there
+        is a command to order SED specifically to do it (like p)
+
+-e
+        an "in-line" script, i.e. a script to sed execute given on the
+        command line. Multiple command line scripts can be given,
+        each with an -e option, in fact, -e is only needed when more
+        than one script is present (specified by a previous -e or -f
+        option)
+
+-f
+        read scripts from specified file, several -f options
+        can appear
+
+- Scripts are concatenated as they appear, forming a big script.
+- That script is compiled into a sed program.
+- That program is then applied to each line of given files (the
+    script itself can change this behavior).
+- The results are always written to stdout, although same commands
+    can send stuff to specific files
+- Input files are seen as one to sed, i.e. `sed -n $= *' gives the
+    number of lines of ALL *, something like `cat * | wc -l'
+
+I usually use (sorry the pleonasm!) sed in the following ways:
+
+---- in shell scripts, invoking sed like this
+
+#!/bin/sh
+
+sed [-n] '
+
+whole script
+
+'
+
+---- as an executable itself, like
+
+#!/usr/bin/sed -f
+
+or
+
+#!/usr/bin/sed -nf
+
+---- on the command line, as being part of a shell script, or in an
+     alias (tcsh), or in a function (bash, sh, etc)
+
+For the command line, there are two things to know, there is no
+need on using one -e for each command, although that can be done.
+
+Commands may be separated by semi-colons `;', with some exceptions.
+
+Example: sed '/^#/d;/^$/d;:b;/\\$/{;N;s/\n//;bb;}'
+
+        this would
+
+                /^#/d   delete all lines beginned with `#' (comments?)
+                /^$/d   delete all empty lines (/./!d could be used instead)
+                :b
+                /\\$/{
+                        N
+                        s/\\\n//
+                        bb
+                }
+                        would join all lines ended with `\', after deleting
+                        the `\' it self
+
+                the format of this explained script (except the
+                descriptions themselves) could be used in a file script,
+                but can also be given to sed on one line, without using
+                lots of '-e's
+
+Though, there are exceptions to this `;' ending rule: the direct text
+handling and read/write commands.
+
+There are functions, that handle user text directly (insert, append, change).
+The format of that text is
+
+command\
+first line\
+second line\
+...\
+last line
+
+        no ending \ for the last line
+
+example in a sed script file:
+
+/#include <termios\.h>/{
+        i\
+        #ifdef SYSV
+        a\
+        #else\
+        #include <sgtty.h>\
+        #endif
+}
+
+        that would search for lines `#include <termios.h>' and then
+        would write
+
+#ifdef SYSV
+#include <termios.h>
+#else
+#include <sgtty.h>
+#endif
+
+Now, for writing the same script on one line, the -e mechanism
+is needed... what follows each -e can be considered as an input
+line from a sed script file, so nothing kept us from doing
+
+sed -e '/#include <termios\.h>/{' \
+    -e 'i\' \
+    -e '#ifdef SYSV' \
+    -e 'a\' \
+    -e '#else\' \
+    -e '#include <sgtty.h>\' \
+    -e '#endif' \
+    -e '}'
+
+on the command line, of course the trailing `\'s could be omitted if
+we wrote all of this on one line and thus, getting a fast edit-and-test
+working
+
+and of course, lines that don't need to be alone can be joined with
+the `;' mechanism... rewriting the above, we could get something
+like:
+
+sed -e '/#include <termios\.h>/{;i\' -e '#ifdef SYSV' -e 'a\' -e '#else\' \
+    -e '#include <sgtty.h>\' -e '#endif' -e '}'
+
+NOTE that this fancy work out on the shell command line can be a real
+pain due to quoting mechanism of shell's.  For [ba]sh the above should
+be fine, but for [t]csh for instance, the '...\' would quote the '
+and mess everything up.
+
+--
+
+Generally speaking, we can put the above in the following manner:
+
+1. sed commands are usually on one line
+
+2. if we want more (multi-line commands), then we must end the
+   first line with an `\' -- this is not the same as the classic
+   trailing `\' in C or make, etc... this one says: "Ei sed! This
+   command has more than one line.", whereas C, make, etc, say: "Ei
+   make, (g)cc, etc... this line is so huge that I wrote its
+   continuation on the next line!"
+
+3. if a command is one line only, it can be separated by a `;'
+
+4. if it is a multi-line, then it must contain all of its line
+   (except the first) by themselves
+
+...and...
+
+5. on command line, what follows a `-e' is like a whole line in
+   a sed script
+
+--
+
+The insert etc... commands deal with text so, obviously, they are
+multi-line commands by default. i.e. at least two lines: one for the
+command, and other for text (which can be empty), but any other
+command may be a potential multi-liner
+
+The read/write commands are exceptions: they need a whole (last)
+line for themselves. i.e. after the `r' or `w' the rest of
+the line is treated like a filename. So, after this one, nothing
+more can happen (but before can).
+
+========================================================================
+
+----------
+Sed resume
+----------
+
+Input
+-----
+
+Sed input are files (stdin by default), and are seen as a whole.
+
+For instance,
+
+        sed -f some_script /etc/passwd /etc/passwd
+
+is exactly the same as
+
+        ( cat /etc/passwd; cat /etc/passwd ) | sed -f some_script
+
+or
+
+        cat /etc/passwd > foo
+        cat /etc/passwd >> foo
+
+        cat foo | sed -f some_script
+
+or yet
+
+        sed -f some_script foo
+
+i.e. lines from files are read, but no kind of information exists
+to keep track of where they come from.
+
+Description
+-----------
+
+Sed read lines from its input, and applies some actions (or commands,
+or functions-- a matter of choice) to them.
+
+By default, the print command is applied before the next line is read.
+
+So
+        sed '' /etc/passwd
+
+will be like
+
+        cat /etc/passwd
+
+i.e. each line of /etc/passwd is written after being read.
+
+An equivalent form is
+
+        sed -n 'p' /etc/passwd
+
+The general format of an action/function/command is
+
+        [first_address][,second_address] <function> [arguments] [\]
+
+first_address
+        specifies that <function> should be executed only on lines
+        at those addresses (more of these below).
+        By default, <function> will be executed on ALL lines
+
+first_address,second_address
+        when second_address is specified, first_address must also exist,
+        and the format is as above.
+        <function> will be applied to all lines that match the formed
+        range (including bounds)
+
+function
+        see list of them below
+
+arguments
+        are particular to each function, some functions don't even
+        have arguments
+
+\
+        a sed function is a one-line function, but there are some
+        exceptions-- in that case, a `\' must be on the end of the
+        line to tell sed that the specified function is composed
+        of more than one line
+
+        Note that this is not the classical `\', that we are used
+        to see on C, make, sh, etc... this is not continuation
+        on the next line-- a sed command is read until a line
+        which does not end in a `\' is found. Usually, the line
+        that contains the command satisfies this, but if a command
+        extends itself across lines, then all except the line
+        must end with `\' (more about these on i(nsert), a(append),
+        c(hange) and s(ubstitute) commands)
+
+Applying commands
+----------------
+
+The commands are gathered into a big command buffer.
+
+They are fetched as they appear on script's input, either being
+fetched from command line, or from files.
+
+All leading space is ignored (more about this on i(nsert), and
+company).
+
+Then, the big command buffer is compiled into a sed program.
+This sed program will be very fast (it is byte code) - that's
+why sed is a fast and convenient program.
+
+Each command of the program will be applied to the current line
+if there is nothing that prevents this (like specifying an
+address that does not match the current line).
+
+Commands are applied one by one, sequentially, and [possibly]
+transformations on the line are "applied" before the next
+command is executed.
+
+Sequence can be changed with some commands (more on this
+below-- b(ranch) and t(est)).
+
+Pattern space
+-------------
+
+Well, I have been referring to the input of each sed command
+as a "line".
+
+Actually this is not correct, because a sed command can be applied
+to more than one line, or even on some parts of several lines.
+
+The input of each sed command, is called "pattern space".
+
+Usually the pattern space is the current line, but this behavior
+can be changed with sed commands (N,n,x,g and G).
+
+Addresses
+---------
+
+There are two kinds of addresses: line addresses and context
+addresses.
+
+Each line read is counted, and one can use this information to
+absolutely select which lines commands should be applied to.
+
+For instance:
+
+        30=     will write "30" if there are at least 30 lines
+                on input, because the `=' command (print current
+                line) will only be executed on line 30
+
+        30,60=  will write "30", "31"... "60" with the same conditions
+                as above. i.e. input must contain more than or equal
+                to N lines, to the number N to be written
+
+        $=      will write down the number of the last line, a kind
+                of `wc -l'
+
+So, resuming:
+
+        1       first line
+        2       second line
+        ...
+        $       last line
+        i,j     from i-th to j-th line, inclusive. j can be $
+
+The second kind of addresses are context, or RE, addresses.
+They are regular expression,s and commands will be executed
+on all pattern spaces matched by that RE.
+
+Examples:
+
+        /.\{73,\}/d     will delete all lines that have more than 72
+                        characters
+
+        /^$/d           will delete all empty lines
+
+        /^$/,/^$/d      delete from first empty line seen to the next
+                        empty, eating everything appearing in the middle
+                        (not very useful)
+
+The context addresses can be mixed up with line addresses, so:
+
+        1,/^$/d         delete leading blank lines, i.e. the
+                        first output line will be non empty
+
+Resume:
+-------
+
+- commands may take 0, 1 or 2 addresses
+- if no address is given, a command is applied to all pattern spaces
+- if 1 address is given, then it is applied to all pattern spaces
+    that match that address
+- if 2 addresses are given, then it is applied to all formed pattern spaces
+    between the pattern space that matched the first address, and the next
+    pattern space matched by the second address.
+
+    If pattern spaces are all the time single lines, this can be said
+    like, if 2 addrs are given, then the command will be executed on
+    all lines between first addr and second (inclusive)
+
+    If the second address is an RE, then the search starts only on
+    the next line. That's why things like this work:
+
+            /foo/,/foo/<cmd>
+
+========================================================================
+
+------------
+Sed commands
+------------
+
+The following description is arranged in this way:
+
+(arg-number)<function> -- mnemonic, short description
+
+        full description
+
+At the end of the file (after examples) is an index of all
+commands, sorted by name (i.e. letter) with the short description
+and mnemonic.
+
+Line-oriented commands
+----------------------
+
+(2)d -- d(elete), delete lines
+
+        - delete (i.e. don't write) specified lines
+        - execution re-starts at the beginning of the script
+
+        this is somehow like
+
+                s/.*//
+                b
+
+(2)n -- n(ext), next line
+
+        - jumps to next line. i.e. pattern space is replaced with the contents
+          of the next line
+        - execution is prosecuted in the command following the `n' command
+
+Text commands
+-------------
+
+(1)a\
+<text> -- a(ppend), append lines
+
+        - add <text> after the specified line (if address isn't given, then
+          <text> will be added after EACH line of input that executes
+          this, of course)
+
+        - <text> can have any number of lines, the general format is
+
+        a\
+        1st line\
+        2nd\
+        ...\
+        last line
+        `next command'
+
+        - suppose that we have
+
+                sed -e '$a\' -e '<the end>'
+
+          then a single line containing "the end" is appended to the file.
+          If we do
+
+                -e 's/.*//'
+
+          as the first command, then the only thing we will see on output
+          will be "the end", after a bunch a blank lines. i.e. <text>
+          is written after the line has been processed, but this doesn't
+          mean that the line will be written. Usually this is what
+          happens, but nothing imposes it.
+
+(1)i\
+<text> -- (i)nsert, insert lines
+
+        - works like the append command, but <text will be inserted
+          before specified line
+
+(2)c\
+<text> -- (c)hange, change lines
+
+        - this will delete current pattern space, and replace it
+          with 'text'
+
+        - this is roughly the same as insert then delete, or
+          append then delete, or
+
+                        s/.*/<text>/
+                        b
+
+        note : sed doesn't honor leading spaces, so the leading spaces
+               in <text> will be removed
+
+               To avoid this behavior, a `\' can be placed before
+               the first space that one wants to see written. That
+               way the space is conveniently escaped and will
+               be treated like a normal char.
+
+               GNU sed (as version 2.05) doesn't honor this ignoring-
+               -leading-space procedure
+
+        note2: <text> in not processed by the sed program, i.e.
+               we insert/change/append raw text directly to output
+
+Substitution
+------------
+
+This command is so often used that it deserves a whole section!
+
+(2)s/RE/<replacement>/[flags] -- (s)ubstitute, substitute
+
+        - on specified lines, text matched by RE, if any, is replaced
+          by <replacement>
+
+        - if replacement is done, the flag that permits the `test'
+          command to be performed is set (more about this on
+          `t' command)
+
+        - the `/' separator, in fact could be ANY character. Usually
+          it is `/' due to the fact that almost every program with
+          regular expressions can use it. Exceptions are
+          grep and lex, that don't use any char as a delimiter.
+
+        - <replacement> is raw text. The only exceptions are:
+
+                &       it is replaced by all text matched by RE
+                        Being so, then
+                                s/RE/&/
+                        is a null op, whatever the RE, except for
+                        setting the test flag
+
+                \d      where `d' is a digit (see below for more),
+                        is replaced by the d-th grouped \(\) sub-RE
+
+                        some implementations of sed (more precisely,
+                        some implementations of regex(3) library, that
+                        some implementations of sed use), limit `d'
+                        to be a single digit (1-9). Others, such as GNU
+                        sed (2.05 at least) accept a valid number.
+
+                        GNU sed also accepts and understands `\0'
+                        as a `&'. i.e. the whole matched RE.
+                        I don't know if this behavior is standard.
+
+                        If there isn't a d-th grouped \(\), then
+                        \d is replaced by the null string.
+
+                \c      where `c' is any char except digits, quote `c'
+
+                Note that besides the above, _all_ other text is raw,
+                so `\n' or `\t' doesn't work as one might expect. To
+                insert a newline for instance, one must do
+
+                        s/foo/bar-on-this-line\
+                        foo-on-next/
+
+        - <flags> are optional, and can be combined
+
+                g       replace all occurrences of RE by <replacement>
+                        (the default is to replace only the first)
+
+                p       write the pattern space only if the substitution was
+                        successful
+
+                w <file>
+                        work as `p' flag, but the pattern space is written
+                        to <file>
+
+                d       where `d' is a digit, replace the d-th occurrence,
+                        if any, of RE by <replacement>
+
+Output and files
+----------------
+
+(2)p -- (p)rint, print
+
+        - write specified lines to output
+
+(2)l -- (l)ist, list
+
+        - this works more or less like vi's :list, i.e. it prints
+          specified lines, but shows some special characters in \c format
+          like \n and \t
+
+        - useful to debug sed scripts :-)
+
+        note: the list command is present in GNU sed 2.05 (actually,
+              the only reason I know about its existence is by
+              reading the GNU sed source) -- therefore it may be an
+              extension to POSIX sed (?)
+
+(2)w <filename> -- w(rite), write to <filename>
+
+        - write specified lines to <filename>
+
+(1)r <filename> -- r(read), read the contents of <filename>
+
+        - insert contents of <filename> after specified line
+
+        - there is no way of adding contents of <filename> before
+          first line, but if someone wants that, then include
+          <filename> before the other input
+
+        - if file cannot be opened, sed continues as though the
+          command doesn't exist. i.e. it silently fails
+
+Multiple lines
+--------------
+
+(2)N -- (N)ext, (add) next line
+
+        - next line of input is added to current pattern space, and
+          a `\n' gets embedded in the pattern space
+
+(2)D -- (D)elete, delete first part of the pattern space
+
+        - delete everything up to (inclusive) the first newline
+          and then jumps to beginning of script, with next line
+          loaded
+
+        - if just one line is being edited, then `D' is the same as `d'
+
+(2)P -- (P)rint, print first part of the pattern space
+
+        - writes everything up to (inclusive) the first newline
+
+        - if pattern space is a single line, then `P' is the same as `p'
+
+Hold buffer
+-----------
+
+Sed contains one buffer, where it can keep temporary stuff to work on
+later.
+
+(2)h -- (h)old, hold pattern space
+
+        - copy current pattern space to hold buffer, overwriting
+          whatever was in it
+
+(2)H -- (H)old, hold pattern space -- append
+
+        - add current pattern space to the _end_ of hold buffer (if hold
+          space is empty, then this is like `h')
+
+(2)g -- (g)et, get contents of hold area
+
+        - copy the contents of hold space to current pattern space
+        - pattern space is overwritten
+
+(2)G -- (G)et, get contents of hold area -- append
+
+        - adds contents of hold space to the _end_ of current pattern space
+
+(2)x -- e(x)change, exchange
+
+        - exchanges current pattern space with hold buffer
+
+Control flow
+------------
+
+(2)!<command> -- Don't
+
+        - negate address specification of next command
+        - note that if we omit the address, then we mean ALL lines,
+          so, negation of all is nothing. i.e.
+
+                sed '!s/foo/bar/'
+
+          will be as good as nothing
+
+          Already,
+
+                sed '/./!d'
+
+          has a different meaning: delete all empty lines. Why? Because
+          `/./' matches any char, therefore `/./!' matches no char at all.
+
+        - this can be applied to negate 0, 1 or 2 addresses, negating 0
+          doesn't make much sense (as indicated above), but negating 1 or
+          2 addresses proves to be highly useful. Sometimes it is
+          easier to construct an RE that does not match what we want
+          than the other way.
+
+(2){ -- {} as in C or sh(1), Grouping
+
+        - groups a set of commands that are executed on the specified lines
+
+        - the first command of the group may appear right after the `{'
+          (i.e. on the same line) -- usually it is kept on the next line
+
+        - the closing `}' must appear on one line by itself
+
+        - `{...}' can be nested
+
+                addr1,addr2{
+                        cmds...
+                }
+
+          can be replaced by
+
+                addr1,addr2 first_grouped_cmd
+                addr1,addr2 second_grouped_cmd
+                ...
+                addr1,addr2 last_grouped_cmd
+
+(0):<label> -- `:' usual markers of labels (C, asm, ...), place a label
+
+        - mark a place with a label, to where `t' and `b' commands can
+          jump to
+
+        - note that trailing space is sensitive (space between command
+          and arguments isn't however), so (output a-la vi :list)
+
+                :label_name  $
+
+                b label_name$
+
+          The branch will fail because there isn't any label called
+          "label_name" or "label_name  ".
+
+(2)b<label> -- (b)ranch, branch to label
+
+        - do an unconditional branch to specified label
+
+        - A label is not mandatory. If it is not given, the default is
+          to jump to the end of the script. i.e. nothing more is done
+          on this line.
+
+(2)t<label> -- (t)est, test substitutions
+
+        - works like `b', but the jump is only done if a previous
+          substitution has been successfully done (on current pattern
+          space)
+
+        - the flag that determines if the jump is given on not
+          is:
+                - set on a successful substitution (whatever it was)
+                  and reset
+
+                - reset after `t' been executed
+                - reset after reading a new line
+
+        warning:
+                a common mistake is doing something like
+
+                        /./!b
+
+                        s/!/!!/g
+                        s/^/-!-/
+                        s/$/-!-/
+
+                        :a
+                        s/-!-\([^!]\|!!\)\(.*\)\([^!]\|!!\)-!-/\3-!-\2-!-\1/
+                        ta
+
+                        s/-!-//g
+                        s/!!/!/g
+
+                (this is a sed script to reverse all chars on each line)
+
+                Note that `ta' will be _always_ executed at least one time
+                and that's not what we intend (at least, what I intend).
+
+                In fact, before `ta' and its related substitution are three
+                others substitutions, and from those three the last will
+                _always_ be successful. So, either the `s' right before `ta'
+                will succeed or not, the flag will be set, and `ta'
+                will jump anyway.
+
+                To correct the situation, a fake `ta' is inserted after the
+                label.
+
+Miscellaneous
+-------------
+
+(0)# -- comment
+
+        - comment. The whole line is ignored.
+
+(2)y/<list1>/<list2>/ -- (y)?, translates
+
+        - remaps all characters presents on <list1> by the character
+          with the same index on <list2>
+
+        - the size of <list1> must be the same as <list2>
+        - all characters are literals. i.e. no ranges, etc...
+        - the separator `/' may be replaced by any other char
+
+        to remap uppercase to lower case do
+
+                y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/
+(1)= -- `=' like vi/ed, equals
+
+        - writes current line to output
+
+(1)q -- (q)uit, quit
+
+        - ends sed program. i.e. no further lines will be read, and
+          current line ends command execution here.
+
+========================================================================
+
+--------
+Examples
+--------
+
+Here are some (exotic) examples of sed use.
+
+------------------------------------------------------------------------
+                  Squeezing blank lines (like cat -s)
+------------------------------------------------------------------------
+
+        Leaves a blank line at the beginning and end, if there are there
+        some already.
+
+#!/usr/bin/sed -f
+
+# on empty lines, join with next
+:x
+/^\n*$/{
+N
+bx
+}
+
+# now, squeeze all '\n', this can be also done by: s/^\(\n\)*/\1/
+s/\n*/\
+/
+
+        leaves only at end
+
+#!/usr/bin/sed -f
+
+#delete all leading empty lines
+1,/^./{
+/./!d
+}
+
+# find an empty line, keep it, and remove all following empty lines
+:x
+/./!{
+N
+s/^\n$//
+tx
+}
+
+        Squeeze all, and remove all leading and trailing blank lines.
+        This is also the fastest.
+
+#!/usr/bin/sed -nf
+
+# delete all blanks
+/./!d
+
+# get here: so there is a non empty
+:x
+# print it
+p
+# get next
+n
+# got chars? print it again, etc...
+/./bx
+# no, don't have chars: another empty line
+:z
+# get next
+n
+# also empty? then ignore it, and get next... this will remove ALL empty
+# lines, if we get to end, sed script will finish on n(ext) command
+# so no trailing empty lines are written
+/./!bz
+
+# all empty lines were deleted/ignored, but we have a non empty, as
+# what we want to do is to squeeze, insert a blank line artificially
+i\
+
+bx
+
+------------------------------------------------------------------------
+                            Centering lines
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -f
+# center all lines of a file, on a 80 columns width
+#
+# to change that width, the number in \{\} must be replaced, and the number
+# of added spaces also must be changed
+#
+
+# del leading and trailing spaces
+y/      / /
+s/^ *//
+s/ *$//
+
+# add 80 spaces to end of line
+s/$/          /
+s/ *$/&&&&&&&&/
+
+# keep 1st 80 chars
+s/^\(.\{80\}\).*$/\1/
+
+# split trailing spaces, into two halves, 1st for beg, 2nd to end of line
+s/\( *\)\1$/#\1%\1/
+s/^\(.*\)#\(.*\)%\(.*\)$/\2\1\3/
+
+------------------------------------------------------------------------
+                       Delete comments from C code
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -f
+
+# if no /* get next
+/\/\*/!b
+
+# here we've got an /*, append lines until get the corresponding
+# */
+:x
+/\*\//!{
+N
+bx
+}
+
+# delete /*...*/
+s/\/\*.*\*\///
+
+------------------------------------------------------------------------
+                           Increment a number
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -f
+
+# algorithm by :
+# Bruno <Haible@ma2s2.mathematik.uni-karlsruhe.de>
+
+# incrementing one number, is just add 1 to first digit, i.e. replacing
+# it by the following digit
+#
+# there is one exception, when carry does happen, on that case, all
+# following digits must be added with one
+#
+# now this solution by `Bruno <Haible@ma2s2.mathematik.uni-karlsruhe.de>'
+# is very clever and smart
+#
+# the only way to happen carry, is when the first digit is a 9
+# all others cases are just fine
+#
+# for a number beginning with any digit except 9, just replace it (the digit)
+# by the next digit, for each number beginning with a 9, just "remove" it and
+# proceed as above for all others, i.e. all leadings 9s are "removes" until
+# a non-9 is found, if any 9 did not remain, a 0 is insert
+
+# replace all leading 9s by _ (any other char except digits, could be used)
+#
+:d
+s/9\(_*\)$/_\1/
+td
+
+# if there aren't any digits left, add a MostSign Digit 0
+#
+s/^\(_*\)$/0\1/
+
+# incr last digit only - there is no need for more
+#
+s/8\(_*\)$/9\1/
+s/7\(_*\)$/8\1/
+s/6\(_*\)$/7\1/
+s/5\(_*\)$/6\1/
+s/4\(_*\)$/5\1/
+s/3\(_*\)$/4\1/
+s/2\(_*\)$/3\1/
+s/1\(_*\)$/2\1/
+s/0\(_*\)$/1\1/
+
+# replace all _ to 0s
+#
+s/_/0/g
+
+------------------------------------------------------------------------
+                            Get make targets
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -nf
+
+# make-targets
+#
+# tries to catch all targets on a Makefile
+#
+# the purpose of this is to be used on the complete [make] feature
+# of tcsh... so it should be simple and fast
+#
+# this is not a shell script, exactly for that reason... hopefully
+# the kernel will interpret this executable as a sed script and
+# feed it directly to it
+#
+# the name of the makefile, unfortunelly, must be hard coded on the
+# complete code, and it is "Makefile"
+
+# take care of \ ended lines
+:n
+/\\$/{
+        N
+        s/\\\n//
+        bn
+}
+
+y/      / /
+
+# delete all comments
+/^ *#/d
+s/[^\\]#.*$//
+
+# register variables, the only ones in here are the ones of form
+#
+#       VAR = one_word_def
+#
+# in that way, most vars will be skipped, and things like
+#
+#       SED_TARGET = sed
+#
+# will still work
+#
+
+/\([A-Za-z_0-9-]\+\) *= *\([A-Za-z_0-9./-]\+\) *$/{
+
+        s/ //g
+        s/$/ /
+        H
+        b
+}
+
+# now, perform the substitution
+
+/\$[({][A-Za-z_0-9-]\+[)}]/{
+
+        s/$/##/
+        G
+        s/\(\$[{(]\)\([A-Za-z_0-9-]\+\)\([)}]\)\(.*\)##.*\2=\([A-Za-z_0-9./-]\+\).*/\5\4/g
+}
+
+# finally, print the targets
+
+tt
+:t
+s/^\([A-Za-z_0-9./-]\+\)\(\( \+[A-Za-z_0-9./-]\+\)*\) *:\([^=].*\)\?$/\1\2/
+tx
+
+d
+
+# now, this a final selection of targets to be print
+# kind of 'prog | grep -v ...'
+
+# don't print *.[hco] targets cause in most cases that makes very long output
+:x
+/\.[och]$/!p
+
+------------------------------------------------------------------------
+                          Rename to lower case
+------------------------------------------------------------------------
+
+        This is a very abusive use of sed.  We transform text, and
+        transform it to be shell commands, then just feed them to shell.
+
+        The main body of this is the sed script, which remaps the name
+        from lower to upper (or vice-versa) and even check out
+        if name remaped name is the same as the original name
+
+#!/bin/sh -
+# rename files to lower/upper case...
+#
+# usage:
+#       move-to-lower *
+#       move-to-upper *
+# or
+#       move-to-lower -r .
+#       move-to-upper -r .
+#
+
+help()
+{
+        cat << eof
+Usage: $0 [-n] [-r] [-h] files...
+
+-n      do nothing, only see what would be done
+-r      recursive (use find)
+-h      this message
+files   files to remap to lower case
+
+Examples
+
+       $0 -n *              (see if everything is ok, then...)
+       $0 *
+
+       $0 -r .
+
+eof
+}
+
+apply_cmd='sh'
+finder='echo $* | tr " " "\n"'
+files_only=
+
+while :
+do
+        case "$1" in
+                -n) apply_cmd='cat' ;;
+                -r) finder='find $* -type f';;
+                -h) help ; exit 1 ;;
+                *) break ;;
+        esac
+        shift
+done
+
+[ "$1" ] || {
+
+        echo Usage: $0 [-n] [-r] files...
+        exit 1
+}
+
+LOWER='abcdefghijklmnopqrstuvwxyz'
+UPPER='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+case `basename $0` in
+        *to-lower*)
+                FROM=$UPPER; TO=$LOWER ;;
+        *to-upper*)
+                TO=$UPPER; FROM=$LOWER ;;
+        *lower*)
+                FROM=$UPPER; TO=$LOWER ;;
+        *upper*)
+                TO=$UPPER; FROM=$LOWER ;;
+        *)
+                FROM=$UPPER; TO=$LOWER ;;
+esac
+
+eval $finder | sed -n '
+
+# remove all trailing /s
+s/\/*$//
+
+# add ./ if there are no path, only filename
+/\//!s/^/.\//
+
+# save path+filename
+h
+
+# remove path
+s/.*\///
+
+# do conversion only on filename
+y/'$FROM'/'$TO'/
+
+# swap, now line contains original path+file, hold space contains conv filename
+x
+
+# add converted file name to line, which now contains something like
+# path/file-name\nconverted-file-name
+G
+
+# check if converted file name is equal to original file name, if it is, do
+# not print nothing
+/^.*\/\(.*\)\n\1/b
+
+# now, transform path/fromfile\ntofile, into mv path/fromfile path/tofile
+# and print it
+s/^\(.*\/\)\(.*\)\n\(.*\)$/mv \1\2 \1\3/p
+
+' | $apply_cmd
+
+------------------------------------------------------------------------
+                         Print environ of bash
+------------------------------------------------------------------------
+
+#!/bin/sh
+
+# penv -- print environ vars of bash
+
+set | sed -n '
+
+:x
+
+# possible start of functions section
+/^.*=() /{
+
+# save it, on case this is a var like FOO="() "
+h
+n
+        # next line isnt {, so this was really a var like FOO
+        # print it, and process next line
+        /^{/!{
+
+        x
+        p
+        x
+        bx
+
+        }
+
+        # all right, start of fn section...
+
+#       :z
+#       /\({[^{}]}\)\+/d
+#
+#       N
+#       bz
+
+        # the above work allright, but since after fns, nothing more come
+        # we can just quit
+        q
+
+}
+
+p
+
+'
+
+------------------------------------------------------------------------
+                         Reverse chars of lines
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -f
+
+# reverse all chars of each line, keep line ordering
+
+# ignore empty lines, i.e. nothing to reverse
+/./!b
+
+# escape ! by doubling it, place markers at beginning and end of line
+# the markers are -!- which can never happen after the escaping of !
+s/!/!!/g
+s/^/-!-/
+s/$/-!-/
+
+# swaps first char after first maker, with first char before last marker
+# and then advance the markers through the swapped chars
+ta
+:a
+s/-!-\([^!]\|!!\)\(.*\)\([^!]\|!!\)-!-/\3-!-\2-!-\1/
+ta
+
+# delete markers, and then unescape the !s
+s/-!-//g
+s/!!/!/g
+
+------------------------------------------------------------------------
+                         Reverse lines of files
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -nf
+
+# reverse all lines of input, i.e. first line became last, ...
+
+# first line is pasted into buffer
+1{h;b;}
+
+# for all other lines, the buffer (which contains all previous)
+# is appended to current line, so, the order is being reversed
+# on the buffer, after that is done, store everything on the buffer
+# again
+G;h
+
+# the last line (after have done the above job) get the contents
+# of buffer, and print it
+${g;p;}
+
+------------------------------------------------------------------------
+              Transform text into a C "printf"able string
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -f
+
+# The purpose of this script is to construct C programs like this
+#
+#       printf("\
+# common text
+# ...
+#
+#
+# ...
+# last line of text
+#
+# and then pipe trought this filter the portion between printf and the last
+# line of text, and get a valid C statement
+#
+# That's why, " is placed on last line, and not in first, for eg
+
+# escape all special chars " and \ inside a string...
+s/["\\]/\\&/g
+
+# adds a \n\ to the end of each line, except the last, which gets \n"
+s/$/\\n/
+$!s/$/\\/
+$s/$/"/
+
+------------------------------------------------------------------------
+           Prefix non blank lines with their numbers (cat -b)
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -nf
+
+# copy all lines of input, prefixing only non blank lines by its number,
+# kind of `cat -b'
+
+# init counter
+1{
+        x
+        s/^/0/
+        x
+}
+
+# for blanks, don't incr count, but print
+/./!{
+        p
+        b
+}
+
+# for the rest is the same as a `cat -n'
+x
+:d
+s/9\(_*\)$/_\1/
+td
+s/^\(_*\)$/0\1/
+s/8\(_*\)$/9\1/
+s/7\(_*\)$/8\1/
+s/6\(_*\)$/7\1/
+s/5\(_*\)$/6\1/
+s/4\(_*\)$/5\1/
+s/3\(_*\)$/4\1/
+s/2\(_*\)$/3\1/
+s/1\(_*\)$/2\1/
+s/0\(_*\)$/1\1/
+s/_/0/g
+
+s/^/      /
+s/^.*\(......\)/\1/
+
+G
+s/\n/  /p
+s/^ *//
+s/  .*//
+h
+
+------------------------------------------------------------------------
+                 Prefix lines by their number (cat -n)
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -nf
+
+# copy all lines of input, prefixed by its number, kind
+# of `cat -n'
+
+# switch to buffer
+x
+
+# init the counting
+1{
+        s/^/0/
+}
+
+# increment the count: first line == number 1
+:d
+s/9\(_*\)$/_\1/
+td
+s/^\(_*\)$/0\1/
+s/8\(_*\)$/9\1/
+s/7\(_*\)$/8\1/
+s/6\(_*\)$/7\1/
+s/5\(_*\)$/6\1/
+s/4\(_*\)$/5\1/
+s/3\(_*\)$/4\1/
+s/2\(_*\)$/3\1/
+s/1\(_*\)$/2\1/
+s/0\(_*\)$/1\1/
+s/_/0/g
+
+# format the number like printf's `"%6d"'
+s/^/      /
+s/^.*\(......\)/\1/
+
+# append the line to the number, and write: "<number>  <line>"
+# note: this is the format of gnu-cat
+G
+s/\n/  /p
+
+# after printing the line, transform the line into the number, and
+# store it on buffer again
+s/^ *//
+s/  .*//
+h
+
+------------------------------------------------------------------------
+                      Count chars of input (wc -c)
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -nf
+
+# count all chars of input, kind of `wc -c'
+
+# the buffer hold the count
+x
+
+1{
+        s/^/0/
+}
+
+# we have a line, so at least there is one char: the `\n'
+tx
+:x
+s/9\(_*\)$/_\1/
+tx
+s/^\(_*\)$/0\1/
+s/ \(_*\)$/0\1/
+s/8\(_*\)$/9\1/
+s/7\(_*\)$/8\1/
+s/6\(_*\)$/7\1/
+s/5\(_*\)$/6\1/
+s/4\(_*\)$/5\1/
+s/3\(_*\)$/4\1/
+s/2\(_*\)$/3\1/
+s/1\(_*\)$/2\1/
+s/0\(_*\)$/1\1/
+s/_/0/g
+
+# get back to the line
+x
+
+# for each char in the line, increment the count
+tc
+:c
+s/.//
+x
+tx
+
+# on last line, all is done, so print the count, and quit
+${p;q;}
+
+# put current line (which has been swapped with the count) to the buffer
+h
+
+------------------------------------------------------------------------
+                      Count lines of input (wc -l)
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -nf
+
+# count lines of input, kind of `wc -l'
+
+$=
+
+------------------------------------------------------------------------
+                      Count words of input (wc -w)
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -nf
+
+# count all words on input
+# words are separated by tabs, newlines and spaces
+
+# the buffer hold the count
+1{;x;s/^/0/;x;}
+
+s/^[     ]*/\
+/
+ts
+:t
+s/^/w/
+ts
+:s
+s/^\(.*\n\)[^   ]\+[    ]*/\1/
+tt
+
+s/\n.*$//
+
+# the above, replaced all words by `w', and delete everything else
+# except newlines, so, now the job to do, is only of counting chars
+#
+# from this on, this is the same os count-chars, by first we must
+# delete one char (to keep up with the extra newline)
+/./!{;${;g;p;q;};d;}
+s/.//
+
+x
+# we have a line, so at least there is one char: the `\n'
+tx
+:x
+s/9\(_*\)$/_\1/
+tx
+s/^\(_*\)$/0\1/
+s/ \(_*\)$/0\1/
+s/8\(_*\)$/9\1/
+s/7\(_*\)$/8\1/
+s/6\(_*\)$/7\1/
+s/5\(_*\)$/6\1/
+s/4\(_*\)$/5\1/
+s/3\(_*\)$/4\1/
+s/2\(_*\)$/3\1/
+s/1\(_*\)$/2\1/
+s/0\(_*\)$/1\1/
+s/_/0/g
+
+# get back to the line
+x
+
+# for each char in the line, increment the count
+tc
+:c
+s/.//
+# put count on line
+x
+tx
+
+# update buffer with count
+h
+
+# on last line, all is done, so print the count
+$p
+
+------------------------------------------------------------------------
+           Print the filename component of a path (basename)
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -f
+
+# usage: fbasename file
+# or
+# usage: find path -print | fbasename
+#
+#
+# this is a basename, but read filenames from stdin, each line
+# contains the path and a possible suffix
+#
+# this will produce one output line per input line, with
+# the filename component of path, with the (possible) suffix
+# removed
+
+s/^[    ]*//
+s/[     ]*$//
+
+tc
+:c
+
+s/[     ][      ]*/\
+/
+ta
+
+s/\/*$//
+s/.*\///
+b
+
+:a
+
+h
+s/.*\n//
+x
+s/\n.*//
+
+s/\/*$//
+s/.*\///
+
+tb
+:b
+G
+s/^\(.*\)\(.*\)\n\2$/\1/
+t
+
+P
+d
+
+------------------------------------------------------------------------
+             Print directory component of a path (dirname)
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -f
+
+# usage: find path -print | fdirname
+#
+# fdirname acts like dirname, but read files from stdin
+
+# print the directory component of a path
+
+# special case: `/' is given
+/^\/$/c\
+/
+
+# strip trailing `/'s if any
+s/\/*$//
+# strip trailing filename
+s/[^/]*$//
+
+# if get no chars after these, then we have current dir (things like
+# `bin/ src/' were given
+/./!c\
+.
+
+# delete the trailing `/'
+# ("/usr/bin/ls" --> "/usr/bin/", this makes "/usr/bin")
+s/\/$//
+
+------------------------------------------------------------------------
+                Print the first few (=10) lines of input
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -f
+
+# display first 10 lines of input
+
+# the number of displayed lines can be changed, by changing the number
+# before the `q' command to `n' where `n' is the number of lines wanted
+
+10q
+
+------------------------------------------------------------------------
+          Convert a sed script to a bash-command-line command
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -nf
+
+# converts a sed script (like this) to a (one-line) command line
+# sed expression
+#
+# usually, writing sed expressions on command line permit a very
+# fast development of the idea, but less readability
+#
+# this permits to convert (small) sed scripts, and incorporate
+# them on alias, for instance
+#
+# Rules are:
+#
+# - ignore lines beginned by [space] # -- comments (see note1)
+# - delete all beginning white space (see below: note1)
+# - empty lines are ignored (see below: note1)
+# - `'' and `!' chars are escaped (__!!__see below__!!_ :note2)
+# - commands across lines (terminated with `\'), see each line
+#     of it to go to a -e 'line'
+# - all other commands, are tried to go on a single -e '...'
+#     by being separated by `;'
+#
+# note1:
+#       for one-line commands only, or, by other words, only
+#       for the first line of each command
+#
+#       if a command is multi-line, then all lines, except first
+#       are read literally to a -e 'line', so blank lines, and
+#       line beginned with `#' and beginning white space, are
+#       all preserved (useful for an `i', `c', `a' command)
+#
+# note2:
+#       the output is designed for bash
+#       for tcsh it should work also, but....
+#
+#       the particularities for bash are:
+#         - `'' escapes everything, except `'' and `!' (this
+#           one was introduced by history mechanism, for instance,
+#           there's no away of quoting the `!' (as bash 1.14.5)
+#           in this expression: echo 'Hi!Good day.'
+#
+#       so, both `!' and `'' are escaped on the following way
+#
+#       close the preceding `'' with a `'', then escape the
+#       offensive char with `\<char>', then reopen a escaped
+#       expression with another `'', so, if I had
+#
+#               /./!d
+#
+#       this would become
+#
+#               '/./'\!'d'
+#
+#       and if I had
+#
+#               s/'\([^']P\)'/\1/
+#
+#       would be
+#
+#               's/'\''\([^'\'']P\)'\''/\1/'
+#
+#       and all of these is good for the bash command line
+#
+# bugs:
+#       - the objective is to produce the smaller command line
+#         possible, this is failed on not-text multi-line commands,
+#         for instance
+#
+#               s/.*\
+#               /<here was a newline>/
+#
+#         will be translated to
+#
+#               -e 's/.*\' -e '/<here was a newline>/' -e '...'
+#
+#         and, of course, the `...' could be added to the end
+#         of `/<here was a newline>/' with a prefixed `;'
+#
+#         this is nasty to do, due to the `i\' etc.. commands
+#         which the last line can NOT be concatenated with a
+#         suffixed `;' to the next command
+#
+#
+#       - the r(ead) and w(rite) commands, needs a whole line
+#         for themselves, currently they are not checked, and
+#         are treated like ordinary commands, which is wrong
+#         e.g.
+#               r foo
+#               s/foo/bar/
+#               ...
+#
+#         is converted to
+#
+#               'r foo;s/foo/bar/;...'
+#
+#         which would try to read the file named `foo;s/foo/bar/'
+#         and thats not what was pretended
+#
+
+# init the buffer (what will be the command line)
+# if #!/usr/bin/sed -n --> line starts with sed -ne '
+# else starts with sed -e
+1{
+        /#!.*sed.*-[^ ]*n/ba
+
+        x
+        s/^/sed -e '/
+        bd
+:a
+        x
+        s/^/sed -ne '/
+:d
+        x
+}
+
+# leading spaces go, so comment lines and empty lines
+s/^[     ]*//
+/^#/be
+
+/./!be
+
+# quote '! chars special to bash
+s/['!]/'\\&'/g
+
+# on sed multi-line commands, read the following literally and
+# and each one, involved on a -e 'line' to command line
+/\(\\\\\)*\\$/{
+        :c
+        s/$/' -e '/
+        N
+        /\(\\\\\)*\\$/bc
+        s/$/' -e '/
+        bb
+}
+
+# if normal line, then append a `;' and go on
+s/$/;/
+
+# add to existent command line
+:b
+H
+
+# at the end,
+# - delete all `\n's lying around
+# - remove last ; if there is one
+# - remove un-necessary -e '' (i.e. all -e '' that are not preceded
+# by something terminated with \' (literally)
+:e
+${
+        x
+        s/\n//g
+        s/;\?$/'/
+        s/\([^\\]'\) -e ''/\1 /g
+        p
+}
+
+------------------------------------------------------------------------
+                  Print last few (=10) lines of input
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -f
+
+# this is a tail command, it displays last 10 lines of input
+# if there are 10 or more, if less than that, displays all
+
+# to change number of displayed lines, the "$b;N" number of
+# statements after the "1{" must be changed to `n-2', where `n'
+# is the number of pretended lines, e.g. if want 10 lines,
+# should have 8 `$b;N'
+
+# to do that with vi, just goto the first `$b,N' and do `d/^}/-2 dd 8p'
+
+1{
+        $b;N
+        $b;N
+        $b;N
+        $b;N
+        $b;N
+        $b;N
+        $b;N
+        $b;N
+}
+
+$b;N
+
+$!D
+
+------------------------------------------------------------------------
+                       The tee(1) command in sed
+------------------------------------------------------------------------
+
+#!/bin/sh -
+
+# emulation of tee using sed, and a sh(1) for cycle
+
+cmd=
+for i
+do
+        cmd="$cmd -e 'w $i'"
+done
+
+eval sed $cmd
+
+------------------------------------------------------------------------
+                    Print uniq lines of input (uniq)
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -f
+
+# print all uniq lines on a sorted input-- only one copy of a duplicated
+# line is printed
+# like `uniq'
+
+:b
+$b
+N
+/^\(.*\)\n\1$/{
+        s/.*\n//
+        bb
+}
+
+$b
+
+P
+D
+
+------------------------------------------------------------------------
+               Print duplicated lines of input (uniq -d)
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -nf
+
+# print all duplicated uniq lines on a sorted input
+# like `uniq -d'
+
+$b
+N
+/^\(.*\)\n\1$/{
+        s/.*\n//
+        p
+        :b
+        $b
+        N
+        /^\(.*\)\n\1$/{
+                s/.*\n//
+                bb
+        }
+}
+
+$b
+
+D
+
+------------------------------------------------------------------------
+             Print only and only duplicated lines (uniq -u)
+------------------------------------------------------------------------
+
+#!/usr/bin/sed -f
+
+# print all uniq lines on a sorted input-- no copies of duplicated
+# lines are printed
+# like `uniq'
+
+$b
+N
+/^\(.*\)\n\1$/!{
+        P
+        D
+}
+
+:c
+$d
+s/.*\n//
+N
+/^\(.*\)\n\1$/{
+        bc
+}
+D
+
+========================================================================
+
+---------------------
+Index of sed commands
+---------------------
+
+(2)!<cmd>       -- Don't apply to specified addresses
+(0)#            -- comment
+(0):<label>     -- place a label
+(1)=            -- display line number
+(2)D            -- delete first part of the pattern space
+(2)G            -- append contents of hold area
+(2)H            -- append pattern space on buffer
+(2)N            -- append next line
+(2)P            -- print first part of the pattern space
+(1)a            -- append text
+(2)b<label>     -- branch to label
+(2)c            -- change lines
+(2)d            -- delete lines
+(2)g            -- get contents of hold area
+(2)h            -- hold pattern space
+(1)i            -- insert lines
+(2)l            -- list lines
+(2)n            -- next line
+(2)p            -- print
+(1)q            -- quit
+(1)r <file>     -- read the contents of <file>
+(2)t<label>     -- test substitutions and branch on successful substitution
+(2)w <file>     -- write to <file>
+(2)x            -- exchange buffer space with pattern space
+(2){            -- group commands
+(2)s/RE/<replacement>/[flags]   -- substitute
+(2)y/<list1>/<list2>/           -- translates <list1> into <list2>
+
+========================================================================
+
+----------------------------------
+Author and credits and date etc...
+----------------------------------
+
+Author:
+        the "I"s on this text, means I: Carlos Duarte <cgd@teleweb.pt>
+
+Credits:
+        - The regular expressions were learned by reading re_format(7)
+          by Henry Spencer, version "@(#)re_format.7 8.2 (Berkeley) 3/16/94"
+
+        - The sed resume was adapted from the usd-doc paper on sed,
+          by Lee E. McMahon, version "@(#)sed 6.1 (Berkeley) 5/22/86",
+          originally at "August 15, 1978"
+
+        - The algorithm to increment a number was taken
+          from GNU source code of gettext library, and is
+          from: Bruno Haible <Haible@ma2s2.mathematik.uni-karlsruhe.de>
+
+        - The rest of stuff is mine
+
+        - Some minor language corrections by Casper Boden-Cummins
+          <bodec@sherwood.co.uk>
+
+Date:
+        this was started on 7-Sep-96

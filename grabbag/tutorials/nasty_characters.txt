@@ -1,0 +1,38 @@
+> When I use s' /'/'g to replace " /" by "/"
+> it doesn't do anything? Using defaults, no switches. How 
+> can I get rid of single space forward slash for a
+> forward slash only, please?
+
+Did you wrap the expression in double quotes, like you should have?
+
+   sed "s' /'/'g" infile >outfile
+
+You could also use a different delimiter, if you like:
+
+   sed "s| /|/|g" infile >outfile
+
+If you still don't get any visible results, there are some less
+probable explanations. You could have true tabs (0x09) instead of
+spaces in the input file; so you could be trying to replace spaces
+when you should be trying to replace a tab (not likely, but it can
+happen). The 0x09 is programmer's notation for 9 hexadecimal.
+
+The input file might have a pseudo-space: 0xFF looks just like a
+space from a DOS prompt. From a DOS or a CMD window, it is entered
+by typing ALT-255 from the numeric keypad. When you send the file
+to the DOS or CMD screen with the TYPE or MORE commands, the space
+(0x20) and the pseudo-space (0xFF) appear to be identical. The
+only way to tell them apart is with a program that can dump to
+hex or octal, or you can use sed's "l" (lower-case L) command:
+
+   sed -n l infile
+
+The value of FF in hex is 377 in octal, so you should see a "\377"
+in sed's output if there are any 0xFF characters hiding in the file.
+This is probably more than you needed to know, but I thought I'd
+cover all the bases this time.
+
+--
+Eric Pement
+
+
