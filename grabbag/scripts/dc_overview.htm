@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+  <head><script type="text/javascript" src="/_static/js/bundle-playback.js?v=1WaXNDFE" charset="utf-8"></script>
+<script type="text/javascript" src="/_static/js/wombat.js?v=txqj7nKC" charset="utf-8"></script>
+<script type="text/javascript">
+  __wm.init("https://web.archive.org/web");
+  __wm.wombat("http://sed.sourceforge.net/grabbag/scripts/dc_overview.htm","20211026153130","https://web.archive.org/","web","/_static/",
+	      "1635262290");
+</script>
+<link rel="stylesheet" type="text/css" href="/_static/css/banner-styles.css?v=S1zqJCYt" />
+<link rel="stylesheet" type="text/css" href="/_static/css/iconochive.css?v=qtvMKcIJ" />
+<!-- End Wayback Rewrite JS Include -->
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+    <title>Overview of How the dc.sed Script Works</title>
+  </head>
+
+  <body>
+    <h1 align="center">Overview of How the <code>dc.sed</code> Script Works</h1>
+
+    <h2 align="center">Greg Ubben, 5 March 2001</h2>
+
+    <blockquote>
+      <hr align="left" width="10%" noshadow="">
+      <i>[<code><a href="dc.sed">dc.sed</a></code> is an arbitrary precision and radix RPN
+      calculator written in the <code>sed</code> stream-editor "language". It was posted to the
+      "seders" mailing list in February 1997. I assume knowledge of the Unix <code><a href="dc.1.txt">dc</a></code> command and regular expressions here.]</i> 
+      <hr align="left" width="10%" noshadow="">
+    </blockquote>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; As you probably know, <code>sed</code> only has one long
+    text buffer (also called the pattern space), plus one alternate buffer (the hold space). This
+    buffer is usually limited to several thousand characters on traditional Unix versions of
+    <code>sed</code>. Between operations, the numbers are stored in this buffer in normal decimal
+    format. The buffer is partitioned into various parts using <code>|</code> and <code>~</code> as
+    delimiters so that any amount of numbers can be kept on the stack and also in various
+    <code>dc</code> register stacks. The actually format of the buffer is:</p>
+<pre>
+    &lt;stack&gt;|P|K0|I10|O10|ra&lt;stack&gt;|rx&lt;stack&gt;|rZ&lt;stack&gt;|?&lt;input-stack&gt;
+</pre>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; where <i>&lt;stack&gt;</i> is a sequence of 0 or more
+    numbers or strings, each followed by a tilde (<code>~</code>). (The stack items cannot contain
+    <code>|</code> or <code>~</code>.) The first stack is the working stack, <code>|P</code> is any
+    partial output line (which we need to buffer since <code>sed</code> can't print a partial
+    line), <code>|K</code> is the current scale, <code>|I</code> the current input base,
+    <code>|O</code> the current output base, <code>|rx</code> is register <i>x</i>, and
+    <code>|?</code> is the input stack. For example, if pushing <i>365</i> and <i>-3.14</i> on the
+    stack and storing <i>66411</i> in register <i>b</i>, you would have these before and after
+    buffer contents:</p>
+<pre>
+    |P|K0|I10|O10|? 365 _3.14 66411sb
+    -3.14~365~|P|K0|I10|O10|rb66411~|?
+</pre>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; To summarize how the calculations are done, I guess you
+    could say the core routines temporarily convert the working digits to "analog" format (e.g.,
+    <i>6</i>=<code>aaaaaa</code>) where regular expressions can work with them easier. And the
+    other routines are implemented in high-level <code>dc</code> code that is "boot-strapped" from
+    <code>sed</code>. <code>sed</code>'s hold space is used to store the rest of the buffer during
+    low-level operations so only the part you're currently working with is present.</p>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; There are two core routines: addition/subtraction and
+    multiplication. Almost everything else is built on top of these. You could say the add/sub uses
+    a "number line" to do the math. After much frustration (one of the reasons I stopped on it for
+    over a year (the other reason being once I saw the whole thing could be done, I lost interest
+    in it a bit)), I was able to come up with an algorithm that had enough similarity in the
+    addition and subtraction that I could use the same code for both, but just starting with a
+    different "lookup table". I needed this because I wanted to stay within the 199-command limit
+    that traditional Unix <code>sed</code> implementations have. (I kept track of how close I was
+    to this command limit all during development, and ended up with none to spare, though I've
+    since identified several places I could crunch out room for a few more if I had to.)</p>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; As I recall, the add/sub first starts out by normalizing
+    the two numbers a bit, reducing the number of cases. E.g., <nobr><i>-5 - -8</i></nobr> and
+    <nobr><i>8 + -5</i></nobr> are both the same as <nobr><i>8 - 5</i></nobr>. And it handles
+    <code>dc</code>'s comparison (&lt;,=,&gt;) functions at this point, since a comparison needs to
+    be done here anyway to determine which order to subtract the numbers in (since my combined
+    add/sub algorithm requires the smaller absolute value to be subtracted from the larger one). To
+    compare, it starts at the decimal point (or right end if no decimal) of each number and works
+    to the left until it reaches the left end of one of the numbers. If there's any left over (one
+    number is longer), that's the larger one.</p>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; Otherwise it uses an interesting technique (originally
+    used in my <code>sort.sed</code>) to find the first digit that differs in the two numbers and
+    compare which is greater. The technique is basically to append a "lookup table" to the buffer.
+    For example, if <code>"38;0123456789"</code> can be matched by the (extended) regular
+    expression <code>/^(.)(.).*\1.*\2/</code>, that means the first two digits (<i>3</i> and
+    <i>8</i>) are in ascending order, as it found them in the lookup table in that order. Except
+    this regular expression is combined with the part that skips the leading digits the two numbers
+    have in common (which comes out pretty slick using the powerful back- referencing and
+    backtracking features of regexes).</p>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; This same lookup-table technique is used in quite a few
+    places in the script. It really cuts down on the number of <code>sed</code> commands since you
+    just need two <code>s///</code> commands -- one to append the lookup table, and a complex one
+    to do the lookup and replace (removing the table at the same time). For example, if the
+    <code>sed</code> buffer contained a single digit (say 7) and I wanted to convert it to analog,
+    I'd first append a lookup table to it like this:
+    <code><nobr>s/$/9876543210aaaaaaaaa/</nobr></code> Then the regular expression just needs to
+    find the digit in the lookup table (using a back-reference), skip 9 characters further, and the
+    rest of the a's after that will be the result. Here is the substitute command to do this (in
+    extended regular expression syntax to avoid all the ugly backslashes):
+    <code><nobr>s/(.).*\1.{9}//</nobr></code> This leaves just <code>aaaaaaa</code> in the buffer
+    if the first digit was a 7. The conversion back works pretty much the same way:</p>
+<pre>
+                # start with:    aaaaaaa
+    s/$/9876543210/     # append table:  aaaaaaa9876543210
+    s/.{9}(.).*/\1/     # final result:  7
+</pre>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; Anyway, getting back to the add/sub, it then starts back
+    at the decimal point and iterates to the right through the factions of the two numbers until it
+    finds the number with the shorter fraction. This is because you have to start
+    adding/subtracting on the right side at the same decimal position. (An explicit iteration loop
+    is needed because a regular expression can't say "take the length of this string of characters
+    here and find the same number of characters at a point later on in the string" (unless they are
+    all the same character).) The result gets initialized with any extra fraction to the right. For
+    example, in <i>3.14159 + 36.75</i>, the result gets initialized with the <i>159</i>. Finally,
+    the main add/sub loop starts working, adding or subtracting one digit at a time leftwards
+    (depending on which lookup table was appended earlier).</p>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; It uses what you could call a "dynamic double" lookup
+    trick to add/sub the two digits. Basically, if you're adding the digits <i>5</i> and <i>8</i>,
+    it looks both up (at the same time) in the double lookup table
+    <code>"9876543210;9876543210"</code> and gets the remaining digits for each following that
+    position. So you'd get <code>43210</code> and <code>76543210</code> for <i>5</i> and <i>8</i>.
+    Then these are concatenated with another fixed table to get
+    <code>43210765432109876543210</code>. If you then start at the left side of that and count 10
+    characters in, you get the one's digit sum (<i>3</i>). And if there are more than 10 digits
+    remaining after that, it means you have a carry. A carry is just used to make the above table
+    one character longer on the next iteration (since a longer left side results in a higher digit
+    being looked up).</p>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; Fortunately I was able to find an algorithm and format
+    for the tables that allowed the same code to work the same way for subtraction -- but just
+    using <code>"9876543210;0123456789"</code> for the first table instead. It was one of several
+    eureka moments, as I found the borrow was able to work the exact same way as the carry did for
+    addition. The add/sub was probably the hardest, most frustrating part of the whole script since
+    there were so many ways to go. And it's also the ugliest part of the code (if you could call
+    any of it pretty :).</p>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; The multiplication routine starts with a loop that
+    creates a product template (e.g., position of decimal point) based on the current scale and the
+    scale (number of fraction digits) in each factor. I found a technique in Knuth for multiplying
+    from right to left getting a product digit at a time, instead of keeping all the intermediate
+    products as you do on paper. It's just multiplying the individual digits in a different order
+    allowing you to progress a column at a time leftwards instead of a row at a time -- nothing
+    earth-shattering. Then to multiply two digits, say <i>3*5</i>, you just generate an analog
+    string of length 3 (the first factor) using the lookup-table trick and repeat it 10 times to
+    get this intermediate lookup table:</p>
+<pre>
+    9aaa8aaa7aaa6aaa5aaa4aaa3aaa2aaa1aaa0
+</pre>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; Then you find the other factor (5) in this table and take
+    all the <code>a</code>'s past that point. There will be 15 <code>a</code>'s left (3*5). These
+    digit products are kept in a reduced analog format where, for example, the number 427 would be
+    represented as <code>ccccbbaaaaaaa</code>. This allows each digit product to be efficiently
+    added to the next. You just concatenate the <code>a</code>'s from the next, if there are more
+    than 10 you turn the first 10 into a <code>b</code>, and if there are more than 10
+    <code>b</code>'s you turn the first 10 <code>b</code>'s into a <code>c</code>. When done adding
+    all the digit products for the current column, you turn the <code>a</code>'s (one's place) back
+    into a digit using a lookup table and put it in the product. And the remaining <code>b</code>'s
+    and <code>c</code>'s (tens and hundreds) are carried over to be included in the next column as
+    <code>a</code>'s and <code>b</code>'s (ones and tens). When there are no <code>a</code>'s or
+    <code>b</code>'s remaining carried over, your product is complete.</p>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; For division, Knuth was a real life-saver. He covered
+    something called Newton's 2nd-order reciprocal method where you can calculate the reciprocal of
+    any number (<i>n</i>) by taking an initial guess (<i>g</i>) and then repeatedly doing <i>g = 2g
+    - ngg</i> on it until it stabilizes. (And the multiplication and subtraction routines needed
+    for this are already available.) Then you just multiply by this reciprocal when done. The
+    <code>sed</code> loop in the divide routine is just used to get an initial guess that's in the
+    right ball park. Basically, if you have an n&gt;1 that has 30 digits to the left of the decimal
+    point, the initial guess is <i>.000...0001</i> with 30 zeros to the right of the decimal point.
+    And vice versa. At this point control is passed to <code>dc</code> commands pushed on the input
+    stack to compute the quotient using Newton's method.</p>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; Likewise, I used Newton's square root algorithm too. I
+    first use <code>sed</code> to generate an initial guess (g) by simply deleting half the digits
+    in the number n (or half the leading zeros if n &lt; 1). Then boot-strap to <code>dc</code>
+    code which repeatedly does <i>g = (g + n/g) / 2</i> until <i>g</i> stops decreasing. Amazingly,
+    the very first test of this routine (<code>8k2v</code>) was right on the mark even though the
+    square root and divide routines were still buggy. A testament to the reliable convergence of
+    Newton's algorithm I think. Ken Pizzini (<acronym>GNU</acronym> <code>sed</code> POC) later found a
+    precision glitch in certain cases when the scale is 0 (e.g., <code>16v</code>,
+    <code>224v</code>) that I corrected in the <a href="https://web.archive.org/web/20211026153130/http://www.perl.com/language/ppt/src/dc/">Perl
+    version</a> and in the 1.1 version.</p>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; I could have saved a few <code>sed</code> commands by
+    implementing the exponential function totally in <code>dc</code> using a binary algorithm. But
+    I already had a version coded in <code>sed</code> that calculates the power using an
+    interesting decimal lookup-table method (where what you're looking up is actually the
+    <code>dc</code> code needed to raise a number to a given power from 0 to 9), and didn't want to
+    throw all that work out. In this algorithm, <i>x^736</i> is computed as <i>((x^7) ^ 10 * x^3) ^
+    10 * x^6</i>, which averages 7.1 multiplies per digit. One of the hardest parts of this
+    function was figuring out the algorithm to calculate the precision of the result correctly
+    (something <acronym>GNU</acronym> <code>dc</code> didn't get right (at the time)). That's what a
+    lot of the <code>dc</code> code here is doing. As in most places, not being a mathematician, I
+    figured this out empirically by just writing a bunch of examples on paper and seeing what
+    precision was needed in the various cases.</p>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; When I started out on the <code>dc.sed</code> adventure,
+    I never planned to include the radix conversions, thinking that part was just too complex and
+    I'd never be able to fit it in the 199-command <code>sed</code> limit even if it were possible.
+    But completing the above fundamental routines freed up my mind to rethink this. I found that
+    the same techniques of boot- strapping most of the work up to higher-level <code>dc</code> code
+    could be used effectively here too. The routine to convert non-decimal input to decimal
+    required some initial lookup-table <code>sed</code> code to generate the <code>dc</code>
+    commands used to do the actual conversion. But it turned out the opposite conversion to a
+    non-decimal output base could be done *entirely* in <code>dc</code> -- albeit a 6-line-long
+    <code>dc</code> incantation. (Commented <code>dc</code> source for this is available <a href="output.dc">here</a>.) The first test of this code was <code><nobr>100o
+    _1234567.1234567p</nobr></code> (at 1:43am Feb 2, 1997 :), and surprisingly worked
+    flawlessly.</p>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; A few words on the other routines, for completeness...
+    The string input routine is mainly matching [arbitrarily-nested [brackets]] to find the end of
+    the string, which may involve reading multiple lines of input. I added array routines
+    implemented in boot-strapped <code>dc</code>, but later thought they might actually be better
+    implemented in <code>sed</code> instead. One of my favorite sections is the :count routine
+    which is used for the three <code>dc</code> functions that need to count things. I optimized
+    quite a bit of code out of here and am pretty sure it can't be reduced even one character
+    further. It uses the same basic analog counting method as is used in the middle of the multiply
+    routine. The register routines were one of the first things added to <code>dc.sed</code>, and
+    are really what got me interested when I envisioned how they could be implemented in
+    <code>sed</code>.</p>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; The :break routine (<code>Q</code> command) involves a
+    decrement counter to remove n items from the input stack, using yet another lookup table
+    algorithm. (The :trunc and multiplication precision routines also involve loops controlled by
+    decrement counters that use the same algorithm. :trunc, incidentally, is a special
+    <code>dc</code> function that is kind of the opposite of the boot-strapping-<code>dc</code>
+    technique -- I used it in several places to "call back" to <code>sed</code> to do a function
+    that couldn't be done in <code>dc</code>.)</p>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; <code>dc.sed</code> was all designed and coded on scratch
+    paper. Although to a computer scientist it may seem weird doing math using only string
+    manipulations, I think it's best compared to the problem of designing the mechanical
+    calculators (some of which were sophisticated enough to include square root functions). Though
+    I didn't have to worry about inertia. And besides the enjoyment of the hack challenge, I can
+    think of one reusable part: the boot-strapping-<code>dc</code> technique would actually be
+    practical to simplify a C implementation of <code>dc</code>.</p>
+
+    <p align="justify">&nbsp;&nbsp;&nbsp; See Also:</p>
+
+    <blockquote>
+      <dl>
+        <dt><a href="https://web.archive.org/web/20211026153130/http://sed.sf.net/grabbag/scripts/">http://sed.sf.net/grabbag/scripts/</a></dt>
+
+        <dd>Current location of <code>dc.sed</code> 1.1</dd>
+
+        <dt><a href="https://web.archive.org/web/20211026153130/http://sed.sf.net/grabbag/tutorials/">http://sed.sf.net/grabbag/tutorials/</a></dt>
+
+        <dd>Nitty-gritty details of lookup tables and counters in <code>sed</code></dd>
+
+        <dt><a href="https://web.archive.org/web/20211026153130/http://www.perl.com/language/ppt/src/dc/">http://www.perl.com/language/ppt/src/dc/</a></dt>
+
+        <dd>dc.pl - the Perl translation</dd>
+      </dl>
+    </blockquote>
+  </body>
+</html>
+
+<!--
+     FILE ARCHIVED ON 15:31:30 Oct 26, 2021 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 22:42:08 Apr 26, 2023.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<!--
+playback timings (ms):
+  captures_list: 79.783
+  exclusion.robots: 0.098
+  exclusion.robots.policy: 0.088
+  cdx.remote: 0.067
+  esindex: 0.008
+  LoadShardBlock: 54.671 (3)
+  PetaboxLoader3.datanode: 3526.23 (6)
+  load_resource: 3685.107 (2)
+  PetaboxLoader3.resolve: 143.122 (2)
+  loaddict: 51.396
+-->

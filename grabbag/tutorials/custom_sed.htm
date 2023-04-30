@@ -1,0 +1,479 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+  <head><script type="text/javascript" src="/_static/js/bundle-playback.js?v=1WaXNDFE" charset="utf-8"></script>
+<script type="text/javascript" src="/_static/js/wombat.js?v=txqj7nKC" charset="utf-8"></script>
+<script type="text/javascript">
+  __wm.init("https://web.archive.org/web");
+  __wm.wombat("http://sed.sourceforge.net/grabbag/tutorials/custom_sed.htm","20211006103814","https://web.archive.org/","web","/_static/",
+	      "1633516694");
+</script>
+<link rel="stylesheet" type="text/css" href="/_static/css/banner-styles.css?v=S1zqJCYt" />
+<link rel="stylesheet" type="text/css" href="/_static/css/iconochive.css?v=qtvMKcIJ" />
+<!-- End Wayback Rewrite JS Include -->
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+    <title>Custom sed Proposal</title>
+    <meta name="GENERATOR" content="Mozilla/3.0Gold (Win95; I) [Netscape]">
+  </head>
+
+  <body>
+<pre>
+  
+  name:     $RCSfile: custom_sed.spec,v $
+  process:  Outline of the proposed custom sed, to be based on the existing 
+            GNU sed 2.05
+  author:   Simon Taylor
+  revision: $Id: custom_sed.spec,v 1.2 1998/05/01 11:27:29 simon Exp simon $
+-------------------------------------------------------------------------------
+
+  <b>1.0 Overview
+
+</b>      1.1 General 
+      
+          From the outset our main aim should be to produce a custom sed 
+          for our own purposes that is always capable of running existing 
+          sed scripts portably and efficiently. 
+
+          The custom sed will be freely available in source form to anyone 
+          who wants it, subject to the terms of the typical GNU GPL 
+          (General Public License).
+
+          Changes should be to enhance the sort of program sed already is, 
+          (ie: small, fast and powerful), and not to turn it into an awk 
+          or a perl.
+
+      1.2 Portability
+
+          The changes should be portable to all contemporary Unixes and if 
+          the underlying GNU code permits, to the DOS/Windows environments.
+
+      1.3 How the document is structured
+      
+          The proposed changes are broken up into two groups. The first of
+          these groups, section 2.0, covers items that have been requested
+          by a number of seders, and which seem likely to be implemented
+          in a realistic timeframe. The second group, covered in section 3.0,
+          is a list of the balance of items that may be addressed at a later
+          date. Section 4 covers testing.
+      
+ <b>2.0 Implementation Wish List - To do now
+</b>  
+      2.01 'r' command, read file into pattern space
+
+           (Al Aab)
+           A form of r (super r ?), to get a file into the pattern 
+           space (or the hold space).  As is, r is 1 of the least 
+           used/useful sed commands, but if you could implement a 
+           super-r then you could merge several input files.
+
+           (Greg Ubben)
+           I think it was suggested to have the r command read into the 
+           pattern space where the text can be manipulated.  Rather than this 
+           (slurping a whole file into the pattern space), maybe add an f 
+           (file) or e (edit) command that will essentially switch the 
+           input stream to the named file.  Then you can process each line 
+           separately.  Might push this file (like .so in nroff), returning 
+           to the original stream when the end is reached.
+           This one needs to be thought out a lot more -- I just thought of it.
+
+      2.02 Case insensitivity
+
+           (Al Aab and others)
+           An new 'i' flag to the s command and on the command line
+
+           s/RE/replacement/i    # meaning match RE regardless of case.
+           /match/i              # as above
+           sed -i ...            # meaning everything should be 
+                                 # case-insensitive till the next -e
+
+      2.03 Debugger
+
+           2.03.01 -d0 print parameters and exit
+           
+                   (Doug McClure)
+                   An option to print the parameters passed to sed.
+                   This would help debug scripts that are mangled by the 
+                   shell process. The -d0 flag would output the parameters
+                   passed to sed and then exit.
+
+           2.03.02 -d1 print a trace of sed commands encountered
+          
+                   (Simon Taylor)
+                   An option to output a simple indicator of each sed command
+                   (and flags) processed by sed. For instance, the processing
+                   of sed 's/abc/def/g' would result in the debugging output:
+                   
+                   Command: s  Flag(s): g
+                   
+                   being output on the stderr stream.
+                   
+          2.03.03  Print better error messages. 
+          
+                   (Doug McClure)
+                   sed often complains about extra garbage, but it would be
+                   helpful if it would print where it detected the garbage as 
+                   it began parsing. 
+
+                   (Simon Taylor)
+                   The error messages output by the GNU gawk program are an
+                   outstanding example of how user-friendly error recovery can
+                   be. However, this is often not a trivial programming task.
+
+      2.04 Extending the 'y' command (y/a-z/A-Z/)
+
+           (Greg Ubben/Al Aab))
+           Modify the 'y' to enable character ranges 
+          
+                  y/a-z/A-Z/
+
+      2.05 White space = space/s, tab/s, nl/s
+
+           (Al Aab)
+           Suggest "\s" to mean any of \t, space, \r, \f or \n
+          
+      2.06 Use of \n and \t
+
+           (Al Aab and others)
+           Enhance sed to accept \n and \t in the replacement part of a 
+           s/... /.../
+
+           (See 2.09 also)
+
+      2.07 New command-line switches:
+
+           (Eric Pement)
+           --traditional
+           --compat
+            -c   Compatibility mode. Disables new features to permit 
+                 compatible operation with traditional sed syntax.
+           
+            -E   Within regular expressions ONLY, support for Extended regexps
+                 (like egrep), so that braces {..} and parens (..) do not need
+                 to be preceded by the backslash as normally. Extended regexp
+                 syntax should be consisted with GNU grep.
+
+            -H   If hold space is empty, do not append leading newline to hold
+                 space when using the H command.
+
+           --help
+           --usage
+            -h
+                 Brief message explaining syntax of sed commands and switches.
+
+      2.08 New regexp operators:
+
+           (Eric Pement)
+           +  one or more of the previous atom. Equivalent to  \{1,\}
+           ?  zero or one of the previous atom. Equivalent to  \{0,\1}
+
+           with Perl-style minimal pattern matching:
+           *?   minimal match of *
+           +?   minimal match of +
+           ??   minimal match of ?
+
+            |   matches the regexp on either side of the bar
+
+           \(...\)  - in standard GNU sed, or
+            (...)   - with the -E switch
+                 should support grouping as well as backreferences.
+                 I.e., sed -E "/foo(bar){5}/d"  should be valid syntax
+                 to delete lines matching "foobarbarbarbarbar".
+          
+      2.09 New regexp metacharacters:
+
+           (Eric Pement)
+           \\   - literal backslash
+           \a   - alert (^G)
+           \e   - escape
+           \f   - formfeed
+           \r   - carriage return
+           \t   - tab
+           \v   - vertical tab
+           \xhh - the ASCII character corresponding to 2 hex digits hh.
+           \ooo - the ASCII character corresponding to 3 octal digits ooo
+           |    - match the regexp on either side of the vertical bar
+        
+           Regexp metacharacters should be usable in pattern matching
+           (/match/) and in the LHS and RHS of a substitution (s/LHS/RHS/)!
+           Especially, GNU sed should support hex and octal notation.
+
+      2.10 New sed commands:
+
+           (Eric Pement)
+           ~    Print current line number without a trailing newline
+
+           E    Erase first line of pattern space (like D), but return to loop
+                at top of the current brace level instead of at top of script
+
+         q NUM  Optional numeric argument, NUM, sets exit code when quitting
+                E.g, 'q5' or 'q 5' exits script with errorlevel 5
+
+         Q NUM  Quit applying sed script to input file, but continue printing
+                the rest of the file to stdout (unless -n is used). Accepts an
+                optional numeric argument, NUM, to set exit code.
+
+         v NUM  Requires GNU sed version NUM or higher to run. If NUM is
+                omitted, requires GNU sed to run (if run on normal seds, 'v'
+                will generate an error anyway).
+
+           z    Zero out hold space. Same as "{x;s/.*//;x}"
+
+      2.11 Other wishes (features already in HHsed):
+
+           (Eric Pement)
+           * a, c and i commands don't insist on a leading backslash '\n' in 
+             the text.
+
+           * r and w commands do not insist on whitespace before the filename.
+
+           * The g, P, p and 'n' options on s commands may be given in any 
+             order.
+
+             On the s command, an option P is allowed: Print the first line of 
+             the current text buffer if a replacement was made.
+
+           * Escape sequences are valid in all contexts except file names and
+             labels.
+
+           * The full range of characters are allowed all 256 values.
+          
+           * The W command (write first line of pattern space to file).
+
+           W [wfile]   Write the first line of the current text buffer to 
+                       'wfile'. If no 'wfile' is given standard output is used.
+
+           * The T command (branch on last substitution failed).
+          
+           T [label]   Branch to the ':' command with the given 'label' if no s 
+                       commands have succeeded since the last input line or t 
+                       or T command. Branch to the end of the script if no 
+                       'label' is given.
+          
+           * The second address [of a range address] may be in the form of 
+             '+number'. This means that the command will stay selected for 
+             number lines after the first address is satisfied.
+          
+           * The empty RE "//" is allowed as a first address if a previous RE 
+             has been compiled.
+          
+      2.12 Several pattern/hold spaces
+
+           With attendant commands to use those spaces/buffers
+
+           (Greg Ubben)
+           Allow h/H/g/G/x commands to be followed by a single digit to allow 
+           up to 10 named buffers (besides the normal hold space).  Sure you 
+           could allow more, but allowing arbitrary names like awk/Perl 
+           variables gets out of the spirit of sed.  
+
+           or, as a variation,
+
+           (Al Aab)
+           a stack of pattern/spaces
+           with commands:
+            push
+            pop
+            swap
+
+      2.13 Allow addresses to specify file 'n' of a multiple file input
+           stream.
+           
+           (Greg Ubben)
+           A feature which I suggested years ago to the GNU sed maintainer
+           would overcome a sed limitation when processing multiple files.  
+           Currently sed has no way of telling where one file ends and 
+           another starts.  It just looks like one long stream of text.  
+           So you can't write a script to extract the Subject: header 
+           out of a series of news articles, for instance, because it 
+           wouldn't know if it was in the body of an article or the header 
+           of the next.  I think the syntax I suggested involved using a 
+           period in line number addressing to denote a line number relative 
+           to the current file rather than to the entire stream.  So:
+
+               5        line 5 of entire stream (occurs no more than once)
+               .5       5th line of each file
+               $        end of entire stream (occurs exactly once)
+               .$       last line of current file
+               .1,/^$/  extract headers of a series of messages
+               
+           I also suggested a number followed by a period to denote a file 
+           number, so:
+               
+               3.18     means the 18th line of the 3rd file
+               3.$      last line of 3rd file
+               3.       could be short for 3.1,3.$ when used as only address, or
+                        3.1 when used as address1, or 3.$ when used as address2
+                        Or could be considered illegal syntax.
+               $.18     18th line of last file
+               2.13,5.3 from file 2, line 13 to file 5, line 3
+               
+           This should be easy to implement and seems to fit into the spirit 
+           of sed.
+               
+      2.14 Determining r and w file names at run time
+
+           (Greg Ubben and others)
+           Another common thing you have to use awk/Perl for, is writing 
+           files whose names are determined at run-time from the contents 
+           of the input.  Such as splitting C functions in one big program 
+           out into separate .c files named for each function.  Just can't 
+           be done in sed.  One way to implement this would be to have an RE 
+           syntax that remembers the text as the filename to use (e.g., 
+           \(\(...\)\), though that's pretty ugly), which could occur in a 
+           /pattern/ address or in a s/// command, and if you use a w 
+           command without a filename given, it uses the last text matched 
+           by this RE syntax as the filename.  For consistency, r command 
+           should allow this too, though not real useful there.
+
+           The r/w commands would be dynamic in this case -- opening/closing 
+           at runtime rather than staying open as it works now.  So you 
+           could write 1000 lines at the beginning of a file, and read them 
+           back later in the file.  If no previous RE has set the filename, 
+           might default it to a temporary scratch filename.
+
+      2.15 A BEGIN address
+
+           Add the ability to specify a sed action at the position in the 
+           stream before the first line is read. ie:
+
+           0{ blah; blah; }
+           
+      2.16 Enhanced y command
+
+           (Greg Ubben)
+           Add a Y command, in the spirit of P and D, that works like 
+           y///, except it only transforms up to the first newline.
+           Allows you to move text to be transformed up to the front to 
+           transform only part of a line, rather than having to move 
+           stuff you don't want changed out to the hold space like we do 
+           now.  May not be useful enough to warrant adding it -- just 
+           an idea.  Could do same thing with S///g command.  Actually, 
+           what we *really* need are allowing \u, \U, \l, \L etc. on the 
+           RHS of a s/// for changing case -- then you can leave the
+           y/// command as it is.
+
+  <b>3.0 Implementation Wish List - To consider later
+
+</b>      3.01 Ability to split files into several, f0000, f0001, ... , fnnnn
+
+           sed     -o "anyheader" myfile
+           should chop myfile into subfiles myfile.000, myfile.001, ...
+           each subfile has line 1 staring with the substring "anyheader"
+ 
+      3.02 Near search/replace
+
+           Al suggests:
+           
+           "RE1 and RE2, if they are within n lines of each other, a la 
+           Boolean near of altavista power search"
+
+           Comments anyone?
+
+      3.03 Paragraph processing
+
+           Various suggestions to enable sed to support different kinds of
+           record separators.
+
+      3.04 String back-reference, dynamically
+
+           Extending the back-reference \1,\2, ... ,\9
+
+           * NEED INPUT *
+
+      3.05 The ability to deal with the null character (hex/octal/decimal zero).
+
+           Extend sed so that is can read input that includes (and is
+           not terminated by) the null character. Other suggestions to
+           extend sed to operate against true binary data.
+
+      3.06 Self-modification
+
+           * NEED INPUT *
+
+      3.07 Nor, nand, exclusive or
+
+           * NEED INPUT *
+
+  <b>4.0 Testing
+
+</b>      It is vital that we start with a set of test scripts that broadly 
+      define the agreed behavior of the notional 'standard' sed.
+
+      Each of the sed commands should be represented by one or more test
+      scripts and a corresponding results file. ie: for the 'p' command, we
+      might have a test case as simple as:
+
+      sed '3,6p' some_file
+
+      And a test result file that contains the expected output.
+
+      This is a trivial example, but for regression testing it is vital 
+      that we can run each iteration of the custom sed through as large
+      a set of automated tests as possible.
+
+      The sed one liners might be a good place to start. 
+
+      I already have a mechanism to run the tests, all we need is the 
+      group to supply test cases and results that we all agree are 
+      'standard'.
+
+ <b>5.0 Distribution
+
+</b>      Initially via the seders mailing list and associated WWW sites.
+
+ <b>6.0 Input
+
+</b>      This specification is based on ideas submitted by members of the
+      seders mailing list, particularly the following, (more submissions 
+      are always welcome).
+
+      Al Aab
+      Edgar Allen
+      Otavio Exel
+      Brendan Macmillan
+      Dennis Marti
+      Doug McClure
+      Eric Pement
+      Greg Ubben
+
+------------------------------------------------------------------------------
+$Log: custom_sed.spec,v $
+Revision 1.2  1998/05/01 11:27:29  simon
+Created section 2 for items more likely to be implemented in
+the near future, and section 3 for those to be considered
+later.  Expanded on "r" command changes, added paragraphs for
+multiple pattern and hold spaces, distinguishing multiple files on
+input, dynamically determining file names for the "r" and "w"
+commands, a proposed BEGIN address and an enhanced "y" command.
+Also attempted to attribute the authors of suggestions where possible.
+
+Revision 1.1  1998/04/22 12:12:36  simon
+Modified description of 'r' wish list item, also added
+new item re multiple pattern/hold spaces.
+
+Revision 1.0  1998/04/21 12:19:27  simon
+Initial revision
+</pre>
+  </body>
+</html>
+
+<!--
+     FILE ARCHIVED ON 10:38:14 Oct 06, 2021 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 22:45:04 Apr 26, 2023.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<!--
+playback timings (ms):
+  captures_list: 277.957
+  exclusion.robots: 0.119
+  exclusion.robots.policy: 0.107
+  cdx.remote: 0.084
+  esindex: 0.012
+  LoadShardBlock: 222.017 (3)
+  PetaboxLoader3.datanode: 237.48 (4)
+  load_resource: 59.606
+  PetaboxLoader3.resolve: 24.21
+-->
