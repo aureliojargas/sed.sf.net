@@ -1,0 +1,99 @@
+> the same line. I'd like to find some way to recognize or remember 
+> whether a subsitution has been performed that crosses line boundaries.
+
+    This is a good one.  I won't post a solution unless no one else does,
+but I would like to offer a general "law" of sed that comes up in problems
+like this.  And that is, there are only three (3) ways in sed to maintain
+state (or memory) between input lines:
+
+1.  Buffer contents - something is left over in the pattern space or the
+    hold space between lines that you can use to control your actions on
+    subsequent lines.  Unlike 2 and 3, this can remember non-boolean state.
+
+2.  Program context - upon encountering a start condition, you go into an
+    explicit loop in a portion of your script, using the n or N commands
+    to read subsequent input until the end condition is encountered.
+
+3.  Line ranges - few people know this trick, but every line range is
+    really a little boolean flag which you can use to your advantage
+    if you think of it as such.  This technique is usually more elegant
+    than hacks involving method 2.
+
+    Knowing this makes it easier to run through the options when you
+encounter a problem like this.  Here is a contrived example demonstrating
+all 3 methods.  The object is to remove all uuencoded data from a file
+(say because we don't want it to clutter up the indexes of a full-text
+database).  For simplicity, we'll say that uuencoded data begins at a
+line beginning with "begin" and ends with a line beginning with "end".
+So our sed script needs to "remember" whether it is inside a begin-end
+section.  The begin/end lines themselves should be output.
+
+Method #1 (buffer contents):
+
+        /^end/ h
+        x
+        /^begin/{ x; d; }
+        x
+        /^begin/ h
+
+        Here, we use the hold space as a boolean flag -- if the hold
+        space matches /^begin/ then we're inside a begin-end section
+        and we don't output the current input line.  The h command is
+        used to set/reset the flag; exactly where we position these
+        h commands in the flow of the script depends on the boundary
+        cases of whether we want to output the "begin" and "end" lines.
+
+Method #2 (program context):
+
+        #n  run this script using the sed -n flag
+        /^begin/{
+                p
+                : loop
+                n
+                /^end/!b loop
+        }
+        p
+
+        This is pretty clear.  I tend to try to avoid explicit loops when
+        possible however.  And this method doesn't work so well when you
+        need to remember more than one independent condition at once.
+
+Method #3 (line range):
+
+        /^begin/,/^end/{
+                /^begin/b
+                /^end/b
+                d
+        }
+
+        This comes out pretty naturally as a line range, so you don't have
+        to think of it as a boolean flag, but there are places where it
+        isn't so obvious.  This is usually when you just want to remember
+        if you've seen something earlier in the file.  In that case, you
+        anchor one end of the range to the beginning or the end of the
+        file (so that it can only happen once).  For example:
+
+                /MARK/,${ HAVE-SEEN-MARK-EARLIER }
+        or      1,/MARK/!{ HAVE-SEEN-MARK-EARLIER }
+
+        depending on whether you want to include the line containing
+        MARK in the range (and on whether "MARK" can occur on the first
+        line -- the latter may fail if it does).  That's another common
+        technique with line ranges -- if you have an "off-by-one" problem,
+        you can usually fix it by inverting and negating the line range
+        (e.g., changing /MARK/,$ to 1,/MARK/!).  I might have been able
+        to do something like this in the code above, but instead I just
+        added special cases for the "begin" and "end" lines themselves,
+        which makes the above look not-so-elegant in this case.
+
+    It's usually pretty clear whether you want to use method #1 or methods
+#2 or #3 -- if the state is just a boolean condition as in the above example,
+#1 is overkill and you usually decide between #2 or #3.  If you do go with
+method #1, your next decision is whether you want to keep data between lines
+using the hold space, or just using the pattern space (and the N command).
+
+Until next time...
+
+Greg
+
+

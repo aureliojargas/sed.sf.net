@@ -1,0 +1,160 @@
+---------- Forwarded message ----------
+Date: Tue, 19 Nov 1996 05:34:17 -0500 (EST)
+From: Greg Ubben <gsu@romulus.ncsc.mil>
+To: af137@freenet.toronto.on.ca
+Subject: Part 1: Using lookup tables with s///
+
+Fellow seders,
+
+    Because the sort/delimit/number script I posted last week is so
+complicated, it's going to take far more words than code to explain
+it.  So I'm going to try to approach the explanation in at least three
+parts.  I'll first go over a general technique used in both the sort
+and the counter, then I'll explain how the counter works (since it is
+simpler than the sort), then barring any unforseen pianos, I'll explain
+the sort last.  My approach to explaining things can be rather lengthy
+as I try to generalize a lot, and also go over the many alternative
+ways that things could be done, so that you understand the trade-offs
+and learn more than just this one silly problem.  Hopefully the depth
+will be a good compromise for everyone.  If there's anything you have
+any questions on or need more explanation on, you can e-mail me and
+I'll elaborate on that in the next part.
+
+    The first thing to note is that both the sort and the counter
+algorithms use "lookup tables", just like the case-conversion method
+which I described in one of the first newsletters.  Lookup tables
+rely on using the powerful \( \) and \d (\1,\2, etc.) back-reference
+operators in the s/// (substitute) command -- in particular, the fact
+that you can use the \d later on in the same pattern itself to find
+another instance of a previously matched string.
+
+    Basically, you first append the lookup table to the pattern space.
+Then you need some kind of * pattern between the \(key\) you're looking
+up and the lookup table, to skip over the text in between.  You can
+think of this * as the search operator.  Then once you've looked it up,
+you usually want to get something back from the table, so you have
+another \(\) next to the \d.  (You can equate this to looking something
+up in an associative array in awk.)  Then you just put the things back
+in the right order.  You may need additional \(\) to save additional
+portions of the pattern space that you need to put back.  You can either
+choose to put the lookup table back to be used again next time, or you
+can delete it and add it back next time you do another lookup.
+
+    Here's a short example to help tie the above together.  Say you
+have a single digit in the pattern space and you want to convert that
+to the alphabetic name of the digit using the table lookup method
+(vs using 10 substitute commands).  For example, convert "5" to "five".
+Here's one way to do it:
+
+    #  append the lookup table
+    s/$/0zero1one2two3three4four5five6six7seven8eight9nine/
+    #  lookup the key (digit) and replace with the value
+    s/\(.\).*\1\([^0-9]*\).*/\2/
+
+    Take some time to understand this code, referring to the explanation
+above.  In this case we delete the lookup table -- the second .* is used
+to consume the remainder of the table.  After you understand it, I'll go
+over the many variations.
+
+Variations:
+
+    First, the \(\) pattern that matches the key you want to lookup can
+obviously vary greatly.  You often have patterns in front of it to skip
+leading text.  In this case, \(.\) is about as simple as you can get,
+since I'm assuming that the first character will be a digit.  Second,
+the .* that skips to the lookup table often relies on the fact that a
+* wildcard will always push as far to the right as possible (in standard
+"greedy" REs), and the lookup table is at the end.  So as long as we
+know that the key will be found in the table, we don't have to worry
+about anything in the text we're skipping over messing things up.  If
+you put the table somewhere other than at the end of the pattern space,
+then you'll probably need to put a delimiter on the end of it (eg, ";")
+and use something like [^;]* instead of .* to ensure the lookup doesn't
+go past the table and into the arbitrary text following it.
+
+    The lookup table itself can come in many variations.  I could have
+used something fancy like "0=zero;1=one;2=two;3=three;4=four;...", but
+why complicate things with extra characters when "0zero1one2two..." works?
+The keys use different characters than the values in this case, so they
+can't be mixed up, and you can unambiguously tell where a value ends.
+Another variation is to put the values first:  zero0one1two2three3...
+This means that instead of doing the lookup using \1\([^0-9]*\), you'd
+have to use \([^0-9]*\)\1 -- kind of like putting the cart before the
+horse.  It works, but it is not "natural", making it hard to understand,
+and the RE routines have to work harder, as they find a lot of false
+hits with the [^0-9]* and have to backtrack a lot before they find the
+\1.  I do it backwards like this in my counter "\(.\)\1" only because
+it happens to make the lookup table come out a little cleaner in this
+case, and not much back-tracking is involved.  To get really crazy,
+you can even put the entire lookup table in front of the thing you're
+looking up, so that the meanings of the first \(\) and the \1 are
+essentially reversed:
+
+    s/^/0zero1one2two3three4four5five6six7seven8eight9nine;/
+    s/[^;]*\([0-9]\)\([^0-9]*\)[^;]*;\1/\2/
+
+Why you'd want to do this, I don't know -- it has the same problems
+as putting the keys/values backwards, plus you usually need to tighten
+up the .* search operator (eg, the [^;]* above) to prevent it from
+finding the last match on the line.
+
+    But wait, that's not all.  You can string several lookups together in
+the same s/// command!  I use two such lookups in the counter.  All you
+need to do is put some kind of .* between the two to get from one to the
+other, and of course you must ensure that both lookups succeed, or else
+the whole s/// will fail.  Keep in mind that you are limited to no more
+than 9 back-references in a single RE.  This is an important milestone,
+and deserves another example.  I'm going to modify the first example
+so that it now converts a 2-digit number in the range 20-99 into its
+spelled-out name, using two lookup tables:
+
+    #  append the lookup tables in two steps (for readability)
+    s/$/2twenty3thirty4forty5fifty6sixty7seventy8eighty9ninety/
+    s/$/01-one2-two3-three4-four5-five6-six7-seven8-eight9-nine/
+    #  do the two lookups and concatenate the results together
+    s/\(.\)\(.\)[^0]*\1\([^0-9]*\).*\2\([^0-9]*\).*/\3\4/
+
+    Take some time to examine and understand this.  For simplicity,
+there is no error-checking.  I assume there is valid input and so use .
+vs [0-9] to match it, and don't anchor it to the beginning of the line.
+Using [^0]* vs .* keeps the first lookup from straying into the second
+table.  I could have put an explicit delimiter like ; between the
+tables, but it turned out that the 0 that started the second table
+worked just as well, since it doesn't appear in the first table.
+A similar situation is often the case in "real" code.
+
+    As an aside, a couple things to think about on what you *can't* do
+with back-referencing...  You can't look up two things in the same table
+at the same time, of course (unless one is known to follow the other).
+You would either need to have to copies of the table, or do it in two
+separate s/// commands.  Also, if you think of \(\)...\1 as a string
+equality (==) test, note that you can't directly test for inequality,
+greater-than, less-than, etc. the same way.  Only equality.
+
+    One hint on working with the \( \) back-reference operators
+-- this is a god-awful ugly syntax and makes it twice as hard to
+understand a complicated expression.  When I'm designing a complicated
+pattern on paper using back-refs, I leave out the \( \) and simply
+underline each section I want to back-reference (some sections will
+have multiple underlines if you nest the back-refs).  Sometimes I'll
+even number the underlines with subscripts, and use a "2" with a circle
+around it vs the "\2" notation for the other part.  This makes things
+so much easier to understand, and I'd recommend you do the same when
+writing complicated REs, or as a first step when trying to reverse-
+engineer someone else's RE.  :-)  Only put in the \(\)s as a final step.
+Also, be sure to write out a typical example of what the pattern space
+looks like, including the lookup table, immediately above the expression
+you're working on.  I'll sometimes put this in a sed comment right next
+to the expression.
+
+    Well, that's about it on the technique of using lookup tables with
+the sed substitute command.  This is one of the most powerful things
+you can do with s///.  Alas, I have to say that this is mostly only good
+for fun and for learning REs better.  Having to resort to this technique
+probably indicates you should be tackling the problem in another language
+if you are serious about it.  But what fun it is!  Based on this initial
+tutorial, I'll try to explain next time how the counter works (though you
+can maybe figure it out by now), and if I have time and you're interested
+(one person expressed interest), how I approached the problem.
+
+Greg

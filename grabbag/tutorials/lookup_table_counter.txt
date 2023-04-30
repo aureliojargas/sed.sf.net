@@ -1,0 +1,200 @@
+---------- Forwarded message ----------
+Date: Tue, 26 Nov 1996 23:29:35 -0500 (EST)
+From: Greg Ubben <gsu@romulus.ncsc.mil>
+To: af137@freenet.toronto.on.ca
+Subject: Part 2: A lookup-table counter
+
+    In part 1, I described how lookup tables could be used to create
+powerful s/// commands in sed.  Here, I'll explain how this technique
+was used to design the 2-instruction sed counter used in the sort/
+delimit/number script previously posted.  I'll try to do this in
+stages so you can see not only how it works, but how it evolved as well.
+
+    Not being a mathematician, I approached the problem by first listing
+a typical series of numbers in a column, and observing what happens as
+the numbers increase.  In fact, the actual examples I used were 267..272,
+and 297..302.  (An aside:  I think it's important to pick a good general
+example when solving problems this way.  I didn't want to get into
+special cases like very small numbers or widening the number (99..100)
+yet, but I did want to include some 9's rolling over -- 262..268 was a
+bit *too* simple.)  I then circled the digits that changed (7,8,6,0,1,2
+in the first example), and recognized that there was always only *one*
+digit that significantly changes in every case.  The other digits either
+stay the same or are simply 9's changing to 0's.  The significant digit
+that is incremented in every case is simply the last non-9 digit in the
+number.  So the first step is to make a regular expression (RE) that
+matches the last non-9 digit.
+
+    One of the tricks you've probably learned if you've worked with
+standard (greedy-style) REs for long, is that there are only two ways
+to say "I want the *last* occurrence of something" in a line.  You
+either have to put some kind of .* closure in front of the thing you're
+matching to push it as far to the right as possible, or you have to
+anchor the pattern to the end of the line and put a filler pattern in
+between that can't match any more occurrences of the pattern.  In
+other words, to find the last non-9 digit in a number, you either have
+to use a pattern like ".*[^9]" or like "[^9]9*$" .  I initially went
+with the former, but then switched to the latter when I realized it
+was a bit simpler to not match the leading digits of the number --
+they didn't change and I'd just have to put them back again.  (As it
+turned out, the latter technique also worked out better for the special
+"widening" case that came up later.)
+
+    So combining this with a table-lookup, here's what we have so for
+for incrementing the "significant" digit of a number in the pattern
+space:
+    #  eg:  32699
+    s/$/;0123456789/
+    #  eg:  32699;0123456789
+    s/\([^9]\)\(9*\);.*\1\(.\).*/\3\2/
+    #  eg:  32799
+
+This first appends the lookup table, with a ; to separate it from the
+actual number.  Then the second s/// finds the last non-9 digit, using
+the semicolon to anchor it to the end with only 9's in between; looks
+up this digit in the table, extracts the following digit from the table
+(which will be one higher), and puts things back in the right order --
+the new one-higher digit followed by any nines at the end of the number.
+The lookup table is not put back, so will have to be added again next
+time.  Also, the initial portion of the number (the "32" in the above
+example) was not matched, so does not need to be put back.
+
+    The next problem is how to roll over any trailing 9's to an equiv-
+alent number of 0's.  32699 should go to 32700, not 32799!  Of course
+you can do one at a time with a s/// in a loop, but I was hoping to
+do that in fewer commands as well.  You can't do it with a y/9/0/ or a
+s/9/0/g type global command without either changing more 9's than you
+wish to, or having to involve the hold space, which I preferred to avoid.
+So to do it in one non-global s/// command, you have to basically
+replace a string of 9's of some arbitrary length with a string of 0's
+that is the same length.  I discovered that this is [almost] impossible
+to do in a lookup table without having to have a special case for every
+possible length.  For a while I was looking at trying to use a table
+like :9999999900000000 where say \2 is a string of 0 to 8 nines, and
+you want to extract the same number of zeros into a \( \) substring.
+You can almost do it by going a fixed offset from the end of the 9s
+match into the 0s table:  :\2........\(0*\)  But it doesn't quite work
+-- the zero's you need to match are inside the fixed ........ pattern.
+For example, if \2 is 999,
+
+        :9999999900000000
+        :xxx........
+
+you can see the 3 zero's you need to match are at the end of the 8
+dots, and if you try to put the \(\) inside the offset dots, you can
+no longer ensure that the offset is exactly eight characters.  I
+tried the variations -- matching the \2 on either end of the 9s, and
+putting the 0s in front of the 9s, but nothing worked.  The fixed
+offset either needs to cross the \2 pattern or the \(\) it returns.
+
+    Nov 24:  After thinking about the above again for this article,
+    I now do see a way to make it work, by using another level of
+    indirection!  Once you match the 3 nines, you can capture the
+    remaining nines in another \( \) back-ref (effectively subtracting
+    the length from 8), then use the offset from that into *another*
+    table.  E.g., where \2 is "999":
+        table:    :99999999:9999999900000000:
+        #    :aaabbbbb:bbbbb........ccc:
+        RE:    :\2\(9*\):\3.\{8\}\(0*\)
+    I would use this technique if I had to count much higher than
+    10,000 since the table will be much shorter, with only three
+    more characters per additional order of magnitude.
+
+    If I lost you in the above paragraphs, don't worry about it -- I
+was just describing some other ideas.  I ended up going with a longer
+version of the lookup table that has a separate section for every
+length, like "999990000099990000999000990090".  To return the right
+number of 0s, you just use a pattern like .*\2\(0*\) that finds the
+last possible 9s match and returns the following zeros.  Obviously
+the table has to be in this order; otherwise any number of 9s would
+match the 99999 at the end.  Also note that after the "90" section at
+the end, there is one more section you can't see -- no 9s followed
+by no 0s.  This is actually the case that matches 90% of the time.
+
+    Since the nines table in the sort/delimit/number script was
+"990090", you can see it was limited to counting up to 999 -- a
+number I thought practical considering the limitations in the
+efficiency of the sort and the size of many sed buffers.  Here's
+the example above, taking into account the additional table:
+
+    #  eg:  32699
+    s/$/;012345678999990000999000990090/
+    #  eg:  32699;012345678999990000999000990090
+    s/\([^9]\)\(9*\);[^9]*\1\(.\).*\2\(0*\).*/\3\4/
+    #  eg:  32700
+
+The first .* was changed to [^9]* to prevent the first lookup from
+running into the second table.  (I could have separated the tables with
+punctuation, but it was not necessary in this case.)  Other than that,
+it's simply a matter of adding the new table and lookup RE, with a
+.* separating the two lookups.
+
+    The last problem to tackle is how to insert a new decimal place
+when transitioning from 9..10, 99..100, 999..1000, etc.  Obviously
+there's no problem if the number is zero padded, or even blank padded,
+but that's not the way I wanted to do it.  We could simply s/^9*$/0&/
+first to prepend a zero if the number is about to roll over, but I
+didn't come this far only to add another s/// for this case.  Inserting
+a 1 at the beginning can be handled by the existing s/// if you think
+of it this way:  Instead of replacing a leading 0 with a 1, we want to
+replace a leading "null string" with a 1.  In other words, if the
+number is all 9s, we want the \([^9]\) above to match the "nothing" at
+the beginning of the number, and when we look this "nothing" up in the
+lookup table, we want to return a 1, same as if you look a 0 up in the
+table.  (Note that the starting case also naturally falls out of this
+logic:  no number at all is treated as 0 and turned into the number 1.)
+
+    Well, the pattern \([0-8]\{0,1\}\) does the first part of the job,
+matching a non-9 if one is available, else matching nothing.  (Note that
+this idea wouldn't work if we had a leading .* pushing it to the right,
+as it would then always match the null string at the end of the number.)
+Now we just need to arrange the lookup table in such a way that "" maps
+to 1 in addition to 0..8 mapping to 1..9.  The first thing to note is
+that the "" will always be found at the end of the table since it is
+being pushed to the right, so the 1 it maps to must also be at the end.
+At this point I'm going to skip going over all the variations I tried
+and just say that reversing the table as 9876543210 made the code come
+out the cleanest.  The pattern [^1]*\(.\)\1 is used to do the lookup.
+If \1 is 0 through 8, the \(.\) will match the preceding digit which
+is one higher.  If \1 is "", the [^1]* will push up to the 1 in the
+table, the \(.\) will match the 1, and the \1 will match the null gap
+after the 1.  So the same 1 will be matched whether \1 is "" or 0.
+It's certainly possible to have a forward-counting table instead
+(I almost went with 23456789012), but it comes out a few characters
+longer.  Here's the final product as it appeared in the script:
+
+    #  eg:  26 blue cat\Nbrown fox\Nred dog
+    s/\([0-9]*\)[ -~]*\n/\1;9876543210990090 /
+    #  eg:  26;9876543210990090 brown fox\Nred dog
+    s/\([0-8]\{0,1\}\)\(9*\);[^1]*\(.\)\1[0-9]*X*\2\(0*\)[^ ]*/\3\4/
+    #  eg:  27 brown fox\Nred dog
+
+    The first line, which adds the lookup table, is combined with some
+other code for the script -- it also deletes the first line of the
+pattern space, moving the counter there to the beginning of the next
+line.  I use the expression [ -~]* to mean "not-newlines", as you
+can't portably put a newline inside a character class.  Because the
+lookup table is inserted near the front of the pattern space, the
+"searches" are bounded (e.g., [^1]* and [0-9]*) so they don't cross
+the space character that marks the end of the table.  The X* is a
+work-around for a bug I discovered on SunOS 4.1.  The RE wouldn't match
+when a non-null c* type pattern immediately precedes a null \2 back-
+reference, so the X* forces a null pattern to precede it.  This kludge
+doesn't otherwise affect the RE, and can be removed on other platforms.
+
+    Well, that's it for the counter.  Next time, barring any objections,
+I'll try to go into the same excruciating detail for the insertion sort.
+Since it isn't fresh in my mind however, it may not turn out to be as
+verbose.
+
+Greg
+
+  # Input:  sorted lines in pattern space, with a leading newline
+  # Output: blank lines between sections; each section numbered from 1
+> : loop
+>     s/\([0-9]*\)[ -~]*\n/\1;9876543210990090 /
+>     s/\([0-8]\{0,1\}\)\(9*\);[^1]*\(.\)\1[0-9]*X*\2\(0*\)[^ ]*/\3\4/
+>     P
+>     /^[0-9]* \(.\).*\n\1/ !s/[ -~]*//
+>     /^\n/P
+> /./b loop

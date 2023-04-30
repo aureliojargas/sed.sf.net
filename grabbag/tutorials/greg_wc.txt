@@ -1,0 +1,86 @@
+Seders,
+
+Here is another useless but fun sed script.  It counts lines, words, and
+characters in a text file, just like the UNIX wc command.  The counting
+method is totally different from the one I posted previously.  It is
+much faster and easier to count in an "analog" format, only converting
+to digits when the numbers are output at the end (the last 12 lines).
+
+This analog format is simply 1-10 a's for the units position, 1-10 b's
+for the tens position, 1-10 c's for the hundreds, etc.  The number 317
+would be represented as hgfedccccbbaaaaaaaa, for example.  (You'll
+notice there is an extra letter in each position, as a place-holder.)
+This format makes it easy to add a count to the running total -- simply
+append the appropriate number of a's to the end, then normalize/reduce
+the total by changing every 10 a's to a "b", then every 10 b's to a "c",
+etc.  The three counts are initialized to 8 zero's ("hgfedcba"), with
+punctuation separating them.  (To see the running totals in analog
+format, add a p command after the h in the script.)
+
+So the rest of the script mainly deals with changing a line of words to
+a string of a's of the correct length, and likewise for characters, and
+juggling things around to move these "a" strings onto the ends of the
+appropriate counts in preparation to being added/reduced.  Since I use
+some global substitute commands to translate the input line to these
+strings, the hold space is needed to temporarily save the running total
+which I don't want altered by the s///g.  I'll skip the blow-by-blow
+unless someone wants that.  Do note that three of the [] character classes
+include both a tab and a space.  The numbers can certainly be output
+right-justified ("%8d" format) like in the real wc command; I leave
+this as an exercise if you want to tinker.
+
+This script actually came about as part of my "GSU Project" (Greg's Sed
+Unix) -- a silly effort to rewrite the basic functionality of many UNIX
+commands in sed -- for fun, and to demonstrate how powerful and under-
+appreciated this command is.  (The sort routine previously submitted also
+comes from GSU; until recently, that and wc were the crown jewels of the
+project.)  Carlos Duarte had a similar idea, it turns out.  His excellent
+article "Do It With Sed" includes many of the same UNIX commands I've done,
+including wc(1).  I urge you to take a look at some of his scripts if you
+have time.
+[See also later similar idea for Perl at http://language.perl.com/ppt/]
+
+Next time:  addition  ("pushing the frontiers of sed" :)
+
+Greg
+
+
+------------------------------------------------------------------------
+#!/bin/sed -f
+#  wc.sed - count lines, words, and characters in a text file
+#  Written by Greg Ubben on 25 March 1989
+
+1{
+        x
+        s/^/hgfedcba/
+        s/.*/,&,&;&/
+        x
+}
+s/^/ /
+H
+s/./a/g
+H
+g
+s/[     ]\{1,\}[^       - ]\{1,\}/a/g
+s/\(;[a-z]*\).\(a*\)/\2\1/
+s/[     - ]//g
+s/a/aa/
+:a
+        s/\(.\)\(.\)\2\2\2\2\2\2\2\2\2\2/\1\1\2/
+ta
+h
+$!d
+s/\([a-z]\)\1\1\1\1\1\1\1\1\1/9/g
+s/\([a-z]\)\1\1\1\1\1\1\1\1/8/g
+s/\([a-z]\)\1\1\1\1\1\1\1/7/g
+s/\([a-z]\)\1\1\1\1\1\1/6/g
+s/\([a-z]\)\1\1\1\1\1/5/g
+s/\([a-z]\)\1\1\1\1/4/g
+s/\([a-z]\)\1\1\1/3/g
+s/\([a-z]\)\1\1/2/g
+s/\([a-z]\)\1/1/g
+s/\([a-z]\)/0/g
+s/[,;]0*\([0-9]\)/ \1/g
+s/ //
+#----------------------------------------------------------------------
+
