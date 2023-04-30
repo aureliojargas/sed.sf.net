@@ -1,0 +1,171 @@
+/* Block tags for content -- general, then specific */
+
+body {
+  font-family: Verdana, 'Myriad Web', Syntax, sans-serif;
+  font-size: 80%;
+  color: black;
+  background: white url(/web/20210916192447im_/http://sed.sourceforge.net/grabbag/images/sinistro.gif) 0px repeat-y;
+  margin: 0px;
+  padding: 0px;
+  overflow-y: scroll;
+}
+
+.menu {
+  background: url(/web/20210916192447im_/http://sed.sourceforge.net/grabbag/images/angolo.gif) 0px 0px no-repeat;
+  position: absolute;
+  left: 0px;
+  width: 260px;
+  margin: 0px;
+  padding: 15px 0px 0px 1.6em;
+  display: block;
+}
+
+.menu li {
+  margin: 0px;
+  padding: 0px;
+  display: block;
+  list-style-type: none;
+}
+
+.titolo {
+  background: #94D5F6;
+  padding: 1.2em 0em 0.4em 1.6em;
+}
+
+.testo {
+  background: white url(/web/20210916192447im_/http://sed.sourceforge.net/grabbag/images/superiore.gif) 0px 0px repeat-x;
+  margin-left: 260px;
+  padding-left: 10px;
+  padding-top: 15px;
+}
+
+.sezioni {
+  color: white; 
+  background-color: #003366;
+  height: 3em;
+}
+
+.sezioni ul {
+  padding: 0.5em;
+  margin: 0px;
+  float: right;
+  word-spacing: 1em;
+}
+
+.sezioni li {
+  display: inline;
+  font-size: medium; 
+  font-weight: 700; 
+  list-style-type: none;
+}
+
+.sezioni a:link, .sezioni a:visited {
+  color: white;
+}
+
+h1 {
+  font-size: 150%; 
+  font-weight: 400; 
+  color: white; 
+  padding: 0px;
+  margin: 0px;
+}
+
+h1 span {
+  color: #FF9900;
+}
+
+.sezioni h1 {
+  float: left;
+  padding: 0.3em 0em 0em 0.5em;
+}
+
+/* Block tags for heading -- general, then specific */
+
+h2, h3 {
+  font-family: Tahoma, Verdana, 'Myriad Web', Syntax, sans-serif;
+  font-weight: 500;
+  background-color: white;
+  color: #003366;
+  margin: 0.5em 0px 0px 0px;
+  padding: 0px;
+  border: 0px;
+}
+h2 {
+  font-size: 200%;
+  margin-bottom: 1em;
+}
+h3 {
+  font-size: 150%;
+  margin-bottom: 0.33em;
+}
+
+/* Inline tags */
+
+a {
+  color: #006699;
+  text-decoration: none; 
+}
+a:hover {
+  text-decoration: underline; 
+}
+h1 a:hover {
+  text-decoration: none;
+}
+
+acronym {
+  font-size: 85%;
+}
+
+code, samp, file, tt, pre {
+  font-family: 'monotype.com', courier new, courier, monospace;
+  font-size: 120%;
+}
+
+/* Classes */
+
+.example {       
+  background-color: #FFCCFF;
+  color: black;
+  margin-top: 0.5em;
+}   
+
+.warning {       
+  font-weight: 700;
+  background-color: #FFFF99;
+  color: black;
+}   
+
+.update {
+  font-size: 80%;
+}
+
+.last {
+  margin-bottom: 1em;
+}
+
+.rating tt {
+  color: red;
+  background-color: white;
+}
+
+/*
+     FILE ARCHIVED ON 19:24:47 Sep 16, 2021 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 22:55:56 Apr 26, 2023.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 96.855
+  exclusion.robots: 0.098
+  exclusion.robots.policy: 0.087
+  RedisCDXSource: 19.16
+  esindex: 0.007
+  LoadShardBlock: 62.156 (3)
+  PetaboxLoader3.datanode: 51.964 (4)
+  load_resource: 145.827
+  PetaboxLoader3.resolve: 96.095
+*/
