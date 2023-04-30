@@ -1,0 +1,749 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+  <head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+    <title>Seder's grab bag - scripts</title>
+    <style type="text/css">@import url(/grabbag/seders.css);</style>
+  </head>
+
+  <body>
+    <div class="titolo">
+      <div class="sezioni">
+      <h1><a href="/grabbag/"><span>seder's</span> grab bag</a></h1>
+      <ul>
+        <li><a href="/grabbag/scripts/">scripts</a></li>
+        <li><a href="/grabbag/tutorials/">tutorials</a></li>
+        <li><a href="/grabbag/seders/">seders</a></li>
+        <li><a href="/grabbag/ssed/">ssed</a></li>
+        <li><a href="/grabbag/links/">links</a></li>
+      </ul>
+      </div>
+    </div>
+
+    <ul class="menu">
+      <li><a href="#fima">Filename manipulation</a></li>
+      <li><a href="#fico">File conversion</a></li>
+      <li><a href="#html"><acronym>HTML</acronym> utilities</a></li>
+      <li><a href="#txfo">Text formatting</a></li>
+      <li><a href="#beau">Beautifiers</a></li>
+      <li><a href="#tabu">Extraction and tabulation</a></li>
+      <li><a href="#misc">Miscellaneous</a></li>
+      <li><a href="#sdeb"><code>sed</code> debuggers (!)</a></li>
+    </ul>
+
+    <div class="testo">
+    <h2>Script Archive</h2>
+
+    <div class="warning">
+      It is sometimes necessary to remove comments (preceded by #), since this is not
+      universally legal syntax.
+    </div>
+
+    <p>I tried to classify these scripts according to their cleverness and interest when learning how
+     to use <code>sed</code>. Clever ones are not always faster; sometimes, more complicated
+     techniques are also slower. Sometimes, longer and more complex scripts are mostly boilerplate,
+     thus less interesting for the <code>sed</code> `student' and rated with fewer stars; readability also
+     and documentation influenced the rating.</p>
+
+    <p>
+      <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt> <span class="rating">(<tt>*</tt>)</span> = very basic, little to learn <br>
+      <tt>&nbsp;&nbsp;&nbsp;&nbsp;</tt> <span class="rating">(<tt>**</tt>)</span> = does some simple processing <br>
+      <tt>&nbsp;&nbsp;&nbsp;</tt> <span class="rating">(<tt>***</tt>)</span> = shows some nice techniques <br>
+      <tt>&nbsp;&nbsp;</tt> <span class="rating">(<tt>****</tt>)</span> = shows advanced techniques, such as lookup tables <br>
+      <tt>&nbsp;</tt> <span class="rating">(<tt>*****</tt>)</span> = that's <em>extreme</em> <code>sed</code>! 
+    </p>
+
+    <h3 id="fima">Filename manipulation</h3>
+
+    <dl>
+      <dt><a href="tolower.sed">Lowercase filenames (filter)</a> <span class="rating">(<tt>***</tt>)</span></dt>
+      <dt>
+       <a href="toupper.sed">Uppercase filenames (filter)</a> <span class="rating">(<tt>***</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Lowercase/uppercase list of filenames supplied from STDIN. Makes a list of
+          <samp>mv</samp> commands.
+         <div class="example">
+           <strong>Example:</strong>
+           <samp>find /mnt/zeus/docs | tolower.sed | sh -x</samp>
+         </div>
+        </div>
+      </dd>
+
+      <dt><a href="tolower2.sed">Lowercase filenames (application)</a>
+      <span class="rating">(<tt>***</tt>)</span></dt>
+      <dt><a href="toupper2.sed">Uppercase filenames (application)</a>
+      <span class="rating">(<tt>***</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Lowercase/uppercase list of filenames supplied as command line arguments. Again, makes a
+          list of <samp>mv</samp> commands. This version operates on files in the <em>current</em>
+          directory only.
+          <div class="example">
+            <strong>Example:</strong>
+            <samp>down *.HTM *.INC *.sed</samp>
+          </div>
+        </div>
+      </dd>
+
+      <dt><a href="fbasename.sed">Print basename of files</a> <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Remove the directory prefix from a file path, and print remaining element. Like Unix
+          <samp>basename</samp>, but reads data from a file or stdin. Could easily be adapted for
+          DOS conventions.
+        </div>
+      </dd>
+
+      <dt><a href="fdirname.sed">Print path of files</a> <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Remove the filename from a file path, and print remaining elements. Like Unix
+          <samp>dirname</samp>, but reads data from a file or stdin. Easily adapted to DOS
+          conventions.
+        </div>
+      </dd>
+    </dl>
+
+    <h3 id="fico">File conversion</h3>
+
+    <dl>
+      <dt><a href="crlf.tar.gz">Convert DOS files for UNIX and vice versa</a>
+      <span class="rating">(<tt>*</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Changes DOS end-of-lines to UNIX end-of-lines (to be ran under UNIX). Provided in a
+          single gzipped tar file to avoid that the server screws up the control characters.
+        </div>
+      </dd>
+
+      <dt><a href="splitdig.sed">Split digest</a> <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Recreates original email messages from a list digest. The author says this should work
+          `at least for digests generated by Majordomo and #listserv, and FAQs using <code>minimal
+          digest format.</code>'
+        </div>
+      </dd>
+
+      <dt><a href="rot13.sed"><tt>rot13</tt></a> <span class="rating">(<tt>*</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          The simplest symmetric cypher in the world...
+        </div>
+      </dd>
+
+      <dt><a href="tex2xml.sed">TeX to XML converter</a> <span class="rating">(<tt>*****</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Changes TeX-like tags (<tt>abc{...}</tt>) to XML-like tags
+          (<tt>&lt;abc&gt;...&lt;/abc&gt;</tt>). An interesting proof of concept script by <a href="mailto:bitterberg@gmx.de">Tilmann Bitterberg</a>, supporting nested tags and much more.
+        </div>
+      </dd>
+
+      <dt><a href="config.sed">Expand quoted strings</a> <span class="rating">(<tt>*****</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          This script takes a complex configuration file format (supporting almost every quoting
+          style in the Bourne shell) and encodes each value that the script defines with
+          "dangerous" characters properly escaped; full documentation is contained in the download.
+          This script by <a href="mailto:Nathan.Ryan@Colorado.EDU">Nathan D. Ryan</a> shows how to
+          do complex conversions with <code>sed</code>.
+        </div>
+      </dd>
+    </dl>
+
+    <h3 id="html"><acronym>HTML</acronym> utilities</h3>
+
+    <dl>
+      <dt><a href="txt2html.sed">Text -&gt; <acronym>HTML</acronym></a>
+      <span class="rating">(<tt>*</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Converts preformatted text to <acronym>HTML</acronym> ready for viewing.
+        </div>
+      </dd>
+
+      <dt><a href="italbold.sed">Insert boldface/italic tags</a>
+      <span class="rating">(<tt>***</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Takes input files with two different "toggle switches" such as the _underscore_ and
+          *asterisk*, and convert them into something like <cite>&lt;i&gt;italic&lt;/i&gt;</cite>
+          and <cite>&lt;b&gt;boldface&lt;/b&gt;</cite> in the output. A nice exercise would be to
+          merge this with <a href="untroff.sed">untroff.sed</a> and obtain a nice
+          troff-to-<acronym>HTML</acronym> sed script.
+        </div>
+      </dd>
+
+      <dt><a href="iso2html.sed">ISO8859-1 -&gt; <acronym>HTML</acronym></a>
+      <span class="rating">(<tt>*</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Convert ISO Latin 1 characters (eg: &eacute;, &pound;, &yen;, &frac12;) to their
+          equivalent <acronym>HTML</acronym> character entitities.
+        </div>
+      </dd>
+
+      <dt><a href="html2iso.sed"><acronym>HTML</acronym> -&gt; ISO8859-1</a>
+      <span class="rating">(<tt>*</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Convert <acronym>HTML</acronym> character entities to their ISO Latin 1 equivalent.
+        </div>
+      </dd>
+
+      <dt><a href="html_lc.sed">Lowercase <acronym>HTML</acronym> tags</a>
+      <span class="rating">(<tt>****</tt>)</span></dt>
+      <dt><a href="html_uc.sed">Uppercase <acronym>HTML</acronym> tags</a>
+      <span class="rating">(<tt>****</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Change case of <acronym>HTML</acronym> tags, preserving attributes.
+        </div>
+      </dd>
+
+      <dt><a href="indexhtml.sed">Index <acronym>HTML</acronym> links</a>
+      <span class="rating">(<tt>****</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          This script, by <a href="mailto:tilmann@bitterberg.de">Tilman Bitterberg</a>, adds an
+          index of links to an <acronym>HTML</acronym> file: similar to `<code>lynx -dump</code>', but
+          preserving the <acronym>HTML</acronym> tags in the file.
+        </div>
+      </dd>
+
+      <dt><a href="strip_html_comments.sed">Strip <acronym>HTML</acronym> comments</a>
+      <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Remove all commented material from <acronym>HTML</acronym>
+        </div>
+      </dd>
+
+      <dt><a href="list_urls.sed">Extract URLs from <acronym>HTML</acronym></a>
+      <span class="rating">(<tt>***</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Print all URLs (even commented ones) and associated ALT comments found in an
+          <acronym>HTML</acronym> file, formatted as: <samp>URL|comment</samp>.
+        </div>
+      </dd>
+
+      <dt><a href="get_html_title.sed">Extract title from <acronym>HTML</acronym></a>
+      <span class="rating">(<tt>***</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Print the <samp>TITLE</samp> (or the first <samp>H[0-7]</samp> heading located) of an
+          <acronym>HTML</acronym> document.
+        </div>
+      </dd>
+    </dl>
+
+    <h3 id="txfo">Text formatting</h3>
+
+    <dl>
+      <dt><a href="cflword1.sed">Capitalise words 1/5</a> <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>Capitalises the first letter of each word.</dd>
+
+      <dt><a href="cflword2.sed">Capitalise words 2/5</a> <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>A first approach to doing it faster.</dd>
+
+      <dt><a href="cflword3.sed">Capitalise words 3/5</a> <span class="rating">(<tt>***</tt>)</span></dt>
+
+      <dd>A cleaner implementation of the idea in <a href="cflword2.sed">cflword2.sed</a></dd>
+
+      <dt><a href="cflword4.sed">Capitalise words 4/5</a> <span class="rating">(<tt>***</tt>)</span></dt>
+
+      <dd>This gets weirdo!</dd>
+
+      <dt><a href="cflword5.sed">Capitalise words 5/5</a> <span class="rating">(<tt>****</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          And finally, we capitalise words with <a href="/grabbag/tutorials/lookup_tables.txt">lookup tables.</a>
+        </div>
+      </dd>
+    </dl>
+
+    <dl>
+      <dt><a href="fmt.sed">Formats text lines</a> <span class="rating">(<tt>***</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Formats text so that each line is shorter than 40 characters.
+        </div>
+      </dd>
+
+      <dt><a href="expand.sed">Expand tabs to spaces</a> <span class="rating">(<tt>****</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Another masterpiece by <a href="mailto:gsu@nsa.gov">Greg Ubben</a>. The link above works with all sed implementations,
+          while <a href="expand-new.sed">this version</a> only works with GNU sed
+          3.02.80 or <a href="/grabbag/ssed/">ssed</a>, but is more readable because it does
+          not contain control characters.
+        </div>
+      </dd>
+
+      <dt><a href="revchr_1.sed">Reverse text</a> <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>Reverses the order of characters on each line of input.</dd>
+
+      <dt><a href="revchr_2.sed">Reverse text</a> <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          A faster version.
+        </div>
+      </dd>
+
+      <dt><a href="revlines.sed">Reverse file</a> <span class="rating">(<tt>***</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Reverses the line order of a file, subject to the size of the hold buffer.
+        </div>
+      </dd>
+
+      <dt><a href="joinfile.sed">Join lines</a> <span class="rating">(<tt>*</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Joins all input on a single line.
+        </div>
+      </dd>
+
+      <dt><a href="undblspc.sed">Un-double-space lines</a> <span class="rating">(<tt>*</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Change double-spaced lines to single-spaced.
+        </div>
+      </dd>
+
+      <dt><a href="centre_1.sed">Centre lines 1/2</a> <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>Centres lines for an 80-column device. Easily adapted to different widths.</dd>
+
+      <dt><a href="centre_2.sed">Centre lines 2/2</a> <span class="rating">(<tt>*</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          A different and more CPU-intensive approach.
+        </div>
+      </dd>
+
+      <dt><a href="cat-s.sed">Squeeze blank lines</a> <span class="rating">(<tt>***</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Replace consecutive blank lines with one line, so that at most one empty line separates
+          two non-empty lines. Emulates <code>cat -s</code>.
+        </div>
+      </dd>
+    </dl>
+
+    <h3 id="beau">Beautifiers</h3>
+
+    <dl>
+      <dt><a href="masm2gas.sed">Intel assembler -&gt; UNIX assembler</a>
+      <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Converts Intel 386 assembly (<code>nasm</code>) code to Unix 386 assembly (<code>gas</code>) code.
+        </div>
+      </dd>
+
+      <dt><a href="remccoms1.sed">Strip C comments (1/4)</a> <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>This one is the first script in a series of scripts that do the same task in more and
+      more sophisticated ways. This handles multiline comments, but not multiple comments in a
+      line</dd>
+
+      <dt><a href="remccoms2.sh.txt">Strip C comments (2/4)</a> <span class="rating">(<tt>***</tt>)</span></dt>
+
+      <dd>This script, by <a href="mailto:stewart.ravenhall@ukonline.co.uk">Stewart Ravenhall</a>,
+      unlike the previous one handles comments surrounded by code.</dd>
+
+      <dt><a href="remccoms3.sed">Strip C/C++ comments (3/4)</a>
+      <span class="rating">(<tt>****</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          This script, by <a href="mailto:brian.hiles@rocketmail.com">Brian Hiles</a>, handles C
+          and C++ (<tt>//</tt>) comments and, unlike the previous ones, correctly skips comments
+          inside strings. It shows a very interesting trick to build a line piecewise in hold
+          space, which eases more complicated parsing tasks.
+        </div>
+      </dd>
+
+      <dt><a href="indentls.sed">Beautify directory listing (UNIX)</a>
+      <span class="rating">(<tt>***</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Indents the output of <code>ls -lR</code> according to the depth of each directory. Makes
+          output far easier to read.
+        </div>
+      </dd>
+
+      <dt><a href="dtree.sh.txt">Directory tree (UNIX)</a> <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Indents the output of <code>find -type d</code> into a nice tree format. Thanks to <a href="mailto:stewart.ravenhall@ukonline.co.uk">Stewart Ravenhall</a>.
+        </div>
+      </dd>
+
+      <dt><a href="commify1.sed">Commify numbers 1/3</a> <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>Formats numbers by placing commas before every 3 digits (eg: 1,200,573).</dd>
+
+      <dt><a href="commify2.sed">Commify numbers 2/3</a> <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>A more compact script for versions of sed which recognise Extended RE's.</dd>
+
+      <dt><a href="commify3.sed">Commify numbers 3/3</a> <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Compare with #1. This script expects 100% numeric input.
+        </div>
+      </dd>
+
+      <dt>File polisher (troff)</dt>
+
+      <dd>
+        <div class="last">
+          Very comprehensive suite of filters by Robert Marks which perform a large number
+          of beautifying operations on text files prior to processing by <code>troff</code>. These
+          scripts were used to produce camera-ready output for the <cite>Australian School of
+          Management</cite> between 1985 and 1995. You can download a <a href="polish.tar.gz">gzipped tar archive</a> of the scripts, or individual scripts: <a href="polish0.sed">polish0.sed</a>, <a href="polish1.sed">polish1.sed</a>, <a href="polish2.sed">polish2.sed</a>, <a href="polish3.sed">polish3.sed</a>, <a href="polish4.sed">polish4.sed</a>, <a href="polish5.sed">polish5.sed</a>, <a href="polish6.sed">polish6.sed</a>, <a href="polish7.sed">polish7.sed</a>, <a href="polish8.sed">polish8.sed</a>, <a href="polish9.sed">polish9.sed</a>, or visit <a href="http://www.agsm.unsw.edu.au/~bobm/odds+ends/scripts.html">Robert's Web site</a>.
+        </div>
+      </dd>
+
+      <dt><a href="hbanner.sh.txt">Horizontal banner</a> <span class="rating">(<tt>*</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Rotates the vertical output of banner to produce horizontal output. The script assumes a
+          screen size of 80x60. This could be overcome.
+        </div>
+      </dd>
+
+      <dt><a href="untroff.sed">Remove <tt>troff</tt> overstrikes</a>
+      <span class="rating">(<tt>***</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          A script to convert <code>troff</code> output to pure text, replacing boldfaces with
+          "<samp>*...*</samp>" and underlines with "<samp>_..._</samp>". Also shows how to justify
+          text using sed.
+        </div>
+      </dd>
+
+      <dt><a href="cat-n.sh.txt">Number lines</a> <span class="rating">(<tt>*</tt>)</span></dt>
+
+      <dd>A short script to display output lines preceded by line numbers. This is similar to the
+      UNIX <code>nl</code> command, or <code>cat -n</code>.</dd>
+
+      <dt><a href="cat-n.sed">Number lines</a> <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          This version demonstrates a technique for manually calculating numbers.
+        </div>
+      </dd>
+
+      <dt><a href="cat-b.sh.txt">Number non-empty lines</a> <span class="rating">(<tt>*</tt>)</span></dt>
+
+      <dd>A short script to display output lines, preceding non-empty lines with a line number.
+      Empty lines affect the count. This is not the same as <code>cat -bn</code>, which does not count
+      empty lines.</dd>
+
+      <dt><a href="cat-b.sed">Number non-empty lines</a> <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          This version demonstrates a technique for manually calculating numbers; it emulates
+          <code>cat -bn</code> exactly.
+        </div>
+      </dd>
+    </dl>
+
+    <h3 id="tabu">Information extraction / tabulation</h3>
+
+    <dl>
+      <dt><a href="subwords.sed">Find subwords</a> <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Search for dictionary words in a string.
+        </div>
+      </dd>
+
+      <dt><a href="cgrep.sh.txt">Extract regular expressions and print the
+      context</a> - by <a href="mailto:gsu@nsa.gov">Greg Ubben</a> <span class="rating">(<tt>****</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Extract from a file the lines that contain a regular expression, printing the lines
+          containing the pattern and those that surround them.
+        </div>
+      </dd>
+
+      <dt><a href="fullgrep.sh.txt">Extract regular expressions and print the
+      context</a> - thanks to <a href="mailto:hartmut.schaefer@zkb.ch">Hartmut Schaefer</a> <span class="rating">(<tt>***</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Print all the occurrences of a regular expression in a file.  Each occurrence is
+          printed on a separate line, isolated from the non-matching text (for example,
+	  the regex <tt>\&lt;[A-Za-z]*\&gt;</tt> will yield all the words in the file, one per
+	  line.
+        </div>
+      </dd>
+
+      <dt><a href="anagrams.sed">Find anagrams</a> <span class="rating">(<tt>****</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Search for anagrams in a list of words (one word per line).
+        </div>
+      </dd>
+
+      <dt><a href="indexer.sed">Indexer</a> <span class="rating">(<tt>****</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          This script collates a list of references to produce an index suitable for a book or
+          magazine. <a href="/grabbag/tutorials/indexer.txt">A detailed description of
+          the way it works</a>, along with alternative versions of the script, is available on the
+          <a href="/grabbag/tutorials/">tutorials page</a>. The script was used by the
+          <cite>Cornerstone</cite> magazine to create an index for a book after typesetting.
+        </div>
+      </dd>
+
+      <dt><a href="maketarg.sed">Show <code>make</code> targets</a> <span class="rating">(<tt>***</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Extracts targets for a file from a makefile.
+        </div>
+      </dd>
+
+      <dt><a href="sodelnum.sed">Sort/delimit/number a list of names</a>
+      <span class="rating">(<tt>*****</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Sort, partition and number a list of names. This script is not exactly the one described
+          on the <a href="/grabbag/tutorials/">tutorials page</a>, but it resembles it very
+          closely. A thorough analysis of the techniques used in this script is given by the author
+          of the original script in <a href="/grabbag/tutorials/lookup_tables.txt">Using
+          lookup tables with s///</a> and <a href="/grabbag/tutorials/lookup_table_counter.txt">A lookup-table counter</a>.
+        </div>
+      </dd>
+
+      <dt><a href="head.sed">Display beginning of file</a> <span class="rating">(<tt>*</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Display first 10 lines of a file. Like <code>head</code>.
+        </div>
+      </dd>
+    </dl>
+
+    <h3 id="misc">Miscellaneous</h3>
+
+    <dl>
+      <dt><a href="dc.sed">Desktop calculator</a> <span class="rating">(<tt>*****</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          This script from sed guru <a href="mailto:gsu@nsa.gov">Greg Ubben</a> is a full implementation of the Unix desktop
+          calculator <code>dc</code>. dc is an arbitrary precision, multi-base, stacking calculator. Here
+          is <a href="dc_intro.txt">a quick guide to it</a>, which Greg posted to
+          seders, and an <a href="dc_overview.htm">overview of how it works</a>.
+        </div>
+      </dd>
+
+      <dt><a href="add_decs.sed">Add decimals</a> <span class="rating">(<tt>****</tt>)</span></dt>
+
+      <dd>
+        <div>
+          This impressively short script adds a list of decimal numbers. It pulls this off by
+          transforming and concatenating units in each number into an analogue format, where a=1,
+          aa=2, aaa=3, etc, transforming the result back to decimal, and proceeding with the next
+          digit. Usage of <a href="/grabbag/tutorials/lookup_tables.txt">lookup
+          tables</a> permits to do this with only 9 commands, with a 3-command inner loop; to
+          understand the idea better you might want to peek at <a href="add_decs-nolt.sed">an implementation of the same algorithm without lookup
+          tables</a>.
+        </div>
+        <div class="last">
+           Note that this is <em>not</em> the script explained in <a href="mailto:gsu@nsa.gov">Greg Ubben</a>'s <a href="/grabbag/tutorials/greg_add.txt">Adding a list of decimal numbers</a> (on the <a href="/grabbag/tutorials/">tutorials page</a>); Greg's script is found directly in the
+          tutorial.
+        </div>
+      </dd>
+
+      <dt><a href="sierpinski1.sed">Sierpinski triangles 1/3</a> <span class="rating">(<tt>***</tt>)</span></dt>
+      <dt><a href="sierpinski2.sed">Sierpinski triangles 2/3</a> <span class="rating">(<tt>***</tt>)</span></dt>
+
+      <dd>
+          These scripts generate Sierpinski's triangle.  Pass them a line made
+          of many underscores and a single X, something like <tt>______X</tt>.
+      </dd>
+
+      <dt><a href="sierpinski3.sed">Sierpinski triangles 3/3, slow and portable</a> <span class="rating">(<tt>***</tt>)</span></dt>
+      <dt><a href="sierpinski4.sed">Sierpinski triangles 3/3, fast and less portable</a> <span class="rating">(<tt>***</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          To get below 10 commands to do the same, I had to find out the
+          real rule behind Sierpinski's triangle (the other two attemps were
+          somewhat empiric).  It turns out that Sierpinski's triangle is
+          actually Wolfram's rule-90 cellular automaton. :-)
+        </div>
+      </dd>
+
+      <dt><a href="incr_num.sed">Increment a number</a> <span class="rating">(<tt>****</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Interesting script to increment numbers. This algorithm is the fastest I know of that
+          does not use both buffers.
+        </div>
+      </dd>
+
+      <dt><a href="turing.sed">Turing Machine in sed</a> <span class="rating">(<tt>****</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          A totally useless but quite funny script by <a href="mailto:ccb@club-internet.fr">Christophe Blaess</a>: a Turing Machine is able to execute
+          any computable task (albeit slowly and painfully)... so <code>sed</code> can perform any computable
+          task!!! Here is a <a href="turing.txt">description</a> of the input file
+          format, including a sample automaton to increment binary numbers.
+        </div>
+      </dd>
+
+      <dt><a href="sokoban.sed"><tt>sed</tt> <i>sokoban</i></a> by
+       <a href="mailto:aurelio@conectiva.com.br">Aurelio Marinho Jargas</a>
+       <span class="rating">(<tt>*****</tt>)</span></dt>
+
+      <dd>
+        <div>
+          Yes, this is a full-featured 90-level <i>sokoban</i> game with color and animation!
+          Play with the arrow keys or with the classic <tt>vi</tt> keys <i>hjkl</i>
+          (left, down, up, right).
+        </div>
+      </dd>
+
+      <dt><a href="arkanoid.sed"><tt>sed</tt> <i>arkanoid</i></a> by
+       <a href="mailto:aurelio@conectiva.com.br">Aurelio Marinho Jargas</a>
+       <span class="rating">(<tt>*****</tt>)</span></dt>
+
+      <dd>
+        <div>
+          And yet another masterpiece from the author of the <tt>sed</tt> <i>sokoban</i> game.
+        </div>
+        <div class="warning">
+          You might like the shell script <a href="playsed.sh.txt"><tt>playsed</tt></a> which makes the ball move automatically.
+        </div>
+      </dd>
+
+      <dt><a href="tictactoe.sed"><tt>sed</tt> naughts and crosses</a> <span class="rating">(<tt>*****</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          And now, here's a naughts and crosses game too.
+        </div>
+      </dd>
+
+      <dt><a href="bf2c.sed">Brainf**k to C compiler</a> <span class="rating">(<tt>**</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          This scripts convert <a href="http://www.muppetlabs.com/~breadbox/bf">Brainf**k</a>
+          programming language to C, ready to be compiled to machine code.
+        </div>
+      </dd>
+
+      <dt><a href="cal.sh.txt">Display month calendar</a> <span class="rating">(<tt>*****</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Display a simple calendar for the current month, &agrave; la the UNIX command <code>cal</code>.
+          Only <code>date</code> is required, math is done directly in sed.
+        </div>
+      </dd>
+
+      <dt><a href="cal-year.sh.txt">Display year calendar</a> <span class="rating">(<tt>****</tt>)</span></dt>
+
+      <dd>
+        <div class="last">
+          Display a simple calendar for the current year, very roughly based on the above script.
+          This time date computation is done with dc rather than date.
+        </div>
+      </dd>
+    </dl>
+
+    <h3 id="sdeb"><code>sed</code> debuggers</h3>
+
+    <dl>
+      <dt><a href="sd.py.txt">Python sed debugger</a> by <a href="mailto:aurelio@conectiva.com.br">Aurelio Marinho Jargas</a></dt>
+
+      <dd>
+        <div>
+          A python script that reads a <code>sed</code> script from a file and generate another sed
+          script, this one with debug commands. So, it's NOT a <code>sed</code> interpreter, it
+          generates <code>sed</code> debug file in <code>sed</code>! You can debug your
+          <code>sed</code> files with your own version of <code>sed</code> (DOS, Linux, HP-UX,
+          ...). The debug file is saved with a <code>.sedd</code> extension.
+        </div>
+        <div class="last">
+          You can also use it as a script beautifier (to insert and standardize spacing)
+          with the <code>--indent</code> option which writes the beautified script on
+          standard output. Also, it can be used as an expert command analizer, with the
+          <code>--tokenize</code> option, that gives all command information you need
+        </div>
+      </dd>
+
+      <dt><a href="sd.ksh.txt">Korn shell debugger</a> by <a href="mailto:brian_hiles@rocketmail.com">Brian Hiles</a></dt>
+
+      <dd>
+        <div class="last">
+          This also instruments the debugged <code>sed</code> script. It implements spypoints on
+          conditional and unconditional criteria that can involve lines, regular expressions, or a
+          combination of both. A man page is embedded in the script.  You can also download an
+	  <a href="sd.sh.txt">older version which runs in the Bourne Shell</a>.
+        </div>
+      </dd>
+    </dl>
+
+    <p><span class="update">Updated 17 Nov 2003</span></p>
+    </div>
+  </body>
+</html>
