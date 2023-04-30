@@ -4,14 +4,14 @@ body {
   font-family: Verdana, 'Myriad Web', Syntax, sans-serif;
   font-size: 80%;
   color: black;
-  background: white url(/web/20210916192447im_/http://sed.sourceforge.net/grabbag/images/sinistro.gif) 0px repeat-y;
+  background: white url(/grabbag/images/sinistro.gif) 0px repeat-y;
   margin: 0px;
   padding: 0px;
   overflow-y: scroll;
 }
 
 .menu {
-  background: url(/web/20210916192447im_/http://sed.sourceforge.net/grabbag/images/angolo.gif) 0px 0px no-repeat;
+  background: url(/grabbag/images/angolo.gif) 0px 0px no-repeat;
   position: absolute;
   left: 0px;
   width: 260px;
@@ -33,7 +33,7 @@ body {
 }
 
 .testo {
-  background: white url(/web/20210916192447im_/http://sed.sourceforge.net/grabbag/images/superiore.gif) 0px 0px repeat-x;
+  background: white url(/grabbag/images/superiore.gif) 0px 0px repeat-x;
   margin-left: 260px;
   padding-left: 10px;
   padding-top: 15px;
@@ -148,24 +148,3 @@ code, samp, file, tt, pre {
   color: red;
   background-color: white;
 }
-
-/*
-     FILE ARCHIVED ON 19:24:47 Sep 16, 2021 AND RETRIEVED FROM THE
-     INTERNET ARCHIVE ON 22:55:56 Apr 26, 2023.
-     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
-
-     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
-     SECTION 108(a)(3)).
-*/
-/*
-playback timings (ms):
-  captures_list: 96.855
-  exclusion.robots: 0.098
-  exclusion.robots.policy: 0.087
-  RedisCDXSource: 19.16
-  esindex: 0.007
-  LoadShardBlock: 62.156 (3)
-  PetaboxLoader3.datanode: 51.964 (4)
-  load_resource: 145.827
-  PetaboxLoader3.resolve: 96.095
-*/
